@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sello — Sell in the DMs, without living in them</title>
+  <meta name="description" content="Sello is an AI sales assistant for Instagram and TikTok shops. It answers DMs, checks your stock and writes up orders, then hands the chat back to you when it's time to get paid." />
+  <meta name="theme-color" content="#F2A574" />
+  <meta property="og:title" content="Sello — Sell in the DMs, without living in them" />
+  <meta property="og:description" content="An AI sales assistant for Instagram and TikTok shops." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="assets/img/hero-dune.jpg" as="image" fetchpriority="high" />
+  <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      /* Above 1440px, scale the whole page up so big monitors look like the design. */
+      function fit() {
+        var w = root.clientWidth || window.innerWidth;
+        var z = w > 1440 ? w / 1440 : 1;
+        root.style.setProperty('--z', z);
+        root.classList.toggle('is-scaled', z > 1);
+      }
+      fit();
+      window.addEventListener('resize', fit);
+      /* Always open at the top with a clean address bar. */
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (location.hash) {
+        try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+        window.addEventListener('load', function () { window.scrollTo(0, 0); });
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- icon sprite (outline, 1.5px, after the Sello design system) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62L18.3 9.38a1 1 0 0 0-.78-.38H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 12 12"><path d="M6 0c.4 2.9 1.6 4.6 6 6-4.4 1.4-5.6 3.1-6 6-.4-2.9-1.6-4.6-6-6 4.4-1.4 5.6-3.1 6-6Z" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.2"/></symbol>
+      <symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5M9 8V2M15 8V2M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ================= NAV — floating pill ================= -->
+  <header class="nav" data-nav>
+    <div class="nav__pill">
+      <a class="nav__logo" href="#top" aria-label="Sello home">
+        <img class="logo-lockup" src="assets/logo/sello-lockup.svg" alt="Sello" width="96" height="27" />
+      </a>
+      <nav class="nav__links" aria-label="Main" data-glide>
+        <span class="nav__glider" aria-hidden="true"></span>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+    <div class="nav__sheet" id="mobile-menu" hidden>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--dark" href="#waitlist">Join the waitlist</a>
+    </div>
+  </header>
+
+  <!-- the waitlist button that lifts off the hero, floats, and lands in the final CTA -->
+  <a class="float-cta btn btn--dark" href="#waitlist" data-float-cta tabindex="-1" aria-hidden="true">Join the waitlist <svg class="btn__arrow"><use href="#i-arrow"/></svg></a>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top" data-hero>
+      <div class="hero__scene" aria-hidden="true">
+        <img class="hero__bg" src="assets/img/hero-dune.jpg" alt="" width="2200" height="1467" fetchpriority="high" />
+        <span class="hero__haze"></span>
+        <span class="grain"></span>
+      </div>
+
+      <div class="wrap hero__inner">
+        <div class="hero__copy">
+          <p class="pill pill--glass" data-rise><span class="pill__dot"></span>AI sales assistant for Instagram &amp; TikTok</p>
+          <h1 class="hero__title" data-split>Sell in the DMs, <em>without living in them.</em></h1>
+          <p class="hero__sub" data-rise>Sello answers your customers, checks your stock and writes up orders. When it’s time to get paid, it hands the chat back to you.</p>
+          <div class="hero__ctas" data-rise>
+            <a class="btn btn--dark" href="#waitlist" data-fly-origin>Join the waitlist <svg class="btn__arrow"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--glass" href="#how">See how it works</a>
+          </div>
+          <ul class="hero__channels" data-rise aria-label="Works with">
+            <li><i class="ch ch--ig ch--md"></i>Instagram</li>
+            <li><i class="ch ch--tt ch--md"></i>TikTok</li>
+            <li class="is-soon"><i class="ch ch--wa ch--md"></i>WhatsApp <span>soon</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="hero__stage" data-stage>
+        <div class="hero__stage-inner">
+        <div class="dash" data-app role="img" aria-label="Sello inbox replying to a customer about a pink bag, demo">
+          <div class="dash__top">
+            <span class="ws"><span class="ws__logo">K</span>Kemi’s Closet<svg class="i i--xs"><use href="#i-chev"/></svg></span>
+            <svg class="i dash__panelico"><use href="#i-panel"/></svg>
+            <span class="dash__search"><svg class="i i--xs"><use href="#i-search"/></svg>Search chats, orders, products</span>
+          </div>
+
+          <div class="dash__body">
+            <!-- sidebar -->
+            <aside class="side">
+              <ul class="side__nav">
+                <li><svg class="i"><use href="#i-home"/></svg>Home</li>
+                <li class="is-on"><svg class="i"><use href="#i-inbox"/></svg>Inbox<b class="count">3</b></li>
+                <li><svg class="i"><use href="#i-bag"/></svg>Orders</li>
+                <li><svg class="i"><use href="#i-users"/></svg>Customers</li>
+              </ul>
+              <p class="side__group">Shop <svg class="i i--xs"><use href="#i-chev"/></svg></p>
+              <ul class="side__nav">
+                <li><svg class="i"><use href="#i-box"/></svg>Products</li>
+                <li><svg class="i"><use href="#i-layers"/></svg>Stock<span class="tag tag--orange tag--xs">2 low</span></li>
+                <li><svg class="i"><use href="#i-truck"/></svg>Delivery zones</li>
+              </ul>
+              <p class="side__group">Channels <svg class="i i--xs"><use href="#i-chev"/></svg></p>
+              <ul class="side__nav">
+                <li><i class="ch ch--ig"></i>Instagram<span class="live-dot" title="Connected"></span></li>
+                <li><i class="ch ch--tt"></i>TikTok<span class="live-dot" title="Connected"></span></li>
+                <li class="is-muted"><i class="ch ch--wa"></i>WhatsApp<span class="tag tag--xs">Soon</span></li>
+              </ul>
+              <ul class="side__nav side__foot">
+                <li><svg class="i"><use href="#i-help"/></svg>Help</li>
+                <li><svg class="i"><use href="#i-sliders"/></svg>Settings</li>
+              </ul>
+            </aside>
+
+            <!-- main card -->
+            <section class="main">
+              <div class="main__head">
+                <p class="crumb">Inbox <span>›</span> <b>Ada O.</b></p>
+                <span class="status"><span class="pulse"></span><span data-app-status>Sello is replying</span></span>
+                <button class="btn btn--line btn--xs" type="button" tabindex="-1">Take over</button>
+              </div>
+              <div class="main__cols">
+                <ul class="convos">
+                  <li class="convo is-active">
+                    <span class="avatar" style="--a:#F6C7AE">AO</span>
+                    <span class="convo__text"><b>Ada O. <i class="ch ch--ig"></i></b><span data-convo-preview>Is this pink bag still…</span></span>
+                    <time>now</time>
+                  </li>
+                  <li class="convo">
+                    <span class="avatar" style="--a:#D6E2C8">TB</span>
+                    <span class="convo__text"><b>Tunde B. <i class="ch ch--tt"></i></b><span>Size 42 is in stock</span></span>
+                    <time>2m</time>
+                  </li>
+                  <li class="convo">
+                    <span class="avatar" style="--a:#F4DDA6">CN</span>
+                    <span class="convo__text"><b>Chioma N. <i class="ch ch--ig"></i></b><span>Asking for a discount</span></span>
+                    <span class="tag tag--orange tag--xs">Needs you</span>
+                  </li>
+                  <li class="convo">
+                    <span class="avatar" style="--a:#DCD1EC">ZA</span>
+                    <span class="convo__text"><b>Zainab A. <i class="ch ch--tt"></i></b><span>Abuja delivery is ₦6,000</span></span>
+                    <time>9m</time>
+                  </li>
+                  <li class="convo">
+                    <span class="avatar" style="--a:#C9E0E3">BS</span>
+                    <span class="convo__text"><b>Bisi S. <i class="ch ch--ig"></i></b><span>Order #1042</span></span>
+                    <span class="tag tag--green tag--xs">Paid</span>
+                  </li>
+                </ul>
+
+                <div class="thread">
+                  <div class="thread__scroll" data-thread></div>
+                  <div class="composer"><span data-composer>Sello is handling this chat</span><span class="composer__send"><svg class="i i--xs"><use href="#i-send"/></svg></span></div>
+                </div>
+
+                <aside class="panel">
+                  <p class="panel__label">Product</p>
+                  <div class="panel__product">
+                    <img src="assets/img/bag-pink.jpg" alt="" width="48" height="48" decoding="async" />
+                    <div><b>Pink quilted bag</b><span>₦38,000</span></div>
+                  </div>
+                  <div class="panel__stock"><span>In stock</span><span class="stock-num" data-stock><b>3</b> left</span></div>
+                  <div class="panel__bar"><i data-stock-bar></i></div>
+                  <p class="panel__label">Order</p>
+                  <dl class="panel__order">
+                    <div><dt>Item</dt><dd data-o="item">—</dd></div>
+                    <div><dt>Delivery</dt><dd data-o="delivery">—</dd></div>
+                    <div class="panel__total"><dt>Total</dt><dd data-o="total">—</dd></div>
+                  </dl>
+                  <div class="handoff-card" data-handoff>
+                    <p class="handoff-card__label">Ready to pay</p>
+                    <p class="handoff-card__amount">₦41,500</p>
+                    <span class="btn btn--orange btn--xs">Send payment link</span>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS (Calendly-style) ================= -->
+    <section class="how" id="how" aria-labelledby="how-title" data-how>
+      <div class="wrap">
+        <p class="pill" data-reveal><span class="pill__dot"></span>How Sello works</p>
+        <h2 class="h2" id="how-title" data-reveal><span class="soft">Set it up once.</span> Then get back to your day.</h2>
+
+        <div class="how__grid">
+          <ol class="how__list" data-reveal>
+            <li class="hitem is-active" data-step="0">
+              <button class="hitem__btn" type="button" aria-pressed="true">
+                <span class="hitem__bar" aria-hidden="true"><i></i></span>
+                <span class="hitem__head"><svg class="i hitem__icon"><use href="#i-camera"/></svg><span class="hitem__title">Tell Sello about your shop</span></span>
+                <span class="hitem__body"><span>Add your products, prices and delivery areas. Snap a photo and Sello fills in the details for you.</span></span>
+                <span class="hitem__arrow" aria-hidden="true"><svg class="i i--xs"><use href="#i-ur"/></svg></span>
+              </button>
+            </li>
+            <li class="hitem" data-step="1">
+              <button class="hitem__btn" type="button" aria-pressed="false">
+                <span class="hitem__bar" aria-hidden="true"><i></i></span>
+                <span class="hitem__head"><svg class="i hitem__icon"><use href="#i-plug"/></svg><span class="hitem__title">Connect Instagram and TikTok</span></span>
+                <span class="hitem__body"><span>Two taps. Sello reads new DMs as they arrive and replies in your shop’s voice.</span></span>
+                <span class="hitem__arrow" aria-hidden="true"><svg class="i i--xs"><use href="#i-ur"/></svg></span>
+              </button>
+            </li>
+            <li class="hitem" data-step="2">
+              <button class="hitem__btn" type="button" aria-pressed="false">
+                <span class="hitem__bar" aria-hidden="true"><i></i></span>
+                <span class="hitem__head"><svg class="i hitem__icon"><use href="#i-chat"/></svg><span class="hitem__title">Let Sello answer the questions</span></span>
+                <span class="hitem__body"><span>Prices, sizes, stock and delivery fees answered in seconds, at any hour.</span></span>
+                <span class="hitem__arrow" aria-hidden="true"><svg class="i i--xs"><use href="#i-ur"/></svg></span>
+              </button>
+            </li>
+            <li class="hitem" data-step="3">
+              <button class="hitem__btn" type="button" aria-pressed="false">
+                <span class="hitem__bar" aria-hidden="true"><i></i></span>
+                <span class="hitem__head"><svg class="i hitem__icon"><use href="#i-wallet"/></svg><span class="hitem__title">Step in to get paid</span></span>
+                <span class="hitem__body"><span>When a customer is ready, Sello writes up the order and taps you in. You confirm the payment.</span></span>
+                <span class="hitem__arrow" aria-hidden="true"><svg class="i i--xs"><use href="#i-ur"/></svg></span>
+              </button>
+            </li>
+          </ol>
+
+          <div class="how__stage" data-reveal aria-hidden="true">
+            <span class="how__glow"></span>
+            <span class="grain"></span>
+            <div class="how__ghosts"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+            <div class="hcard is-on" data-card="0">
+              <span class="hcard__tag">Catalogue</span>
+              <p class="hcard__title">Pink quilted bag</p>
+              <p class="hcard__meta"><span><svg class="i"><use href="#i-tag"/></svg>₦38,000</span><span><svg class="i"><use href="#i-box"/></svg>3 in stock</span></p>
+              <img class="hcard__thumb" src="assets/img/bag-pink.jpg" alt="" loading="lazy" decoding="async" />
+            </div>
+            <div class="hcard" data-card="1">
+              <span class="hcard__tag">Channels</span>
+              <p class="hcard__title">Instagram connected</p>
+              <p class="hcard__meta"><span><i class="ch ch--ig"></i>@kemis.closet</span><span><svg class="i"><use href="#i-chat"/></svg>Auto-reply on</span></p>
+              <span class="switch hcard__switch" data-switch><i></i></span>
+            </div>
+            <div class="hcard" data-card="2">
+              <span class="hcard__tag">Auto-reply</span>
+              <p class="hcard__title">“Size 42 is in stock.”</p>
+              <p class="hcard__meta"><span><svg class="i"><use href="#i-clock"/></svg>Replied in 4s</span><span><svg class="i"><use href="#i-chat"/></svg>Tunde B.</span></p>
+              <span class="hcard__avatars"><span class="avatar" style="--a:#D6E2C8">TB</span><span class="avatar" style="--a:#DCD1EC">ZA</span><span class="avatar" style="--a:#F4DDA6">FO</span></span>
+            </div>
+            <div class="hcard" data-card="3">
+              <span class="hcard__tag hcard__tag--orange">Ready to pay</span>
+              <p class="hcard__title">₦41,500 from Ada</p>
+              <p class="hcard__meta"><span><svg class="i"><use href="#i-bag"/></svg>Pink quilted bag</span><span><svg class="i"><use href="#i-truck"/></svg>Lekki</span></p>
+              <span class="btn btn--dark btn--xs hcard__btn">Send link</span>
+            </div>
+
+            <div class="hnote" data-note="0"><span class="loader"><i></i></span>24 products added from photos</div>
+            <div class="hnote" data-note="1"><i class="ch ch--tt"></i>TikTok connected too</div>
+            <div class="hnote" data-note="2"><svg class="i i--xs"><use href="#i-spark"/></svg>38 chats answered today</div>
+            <div class="hnote hnote--green" data-note="3"><svg class="i i--xs"><use href="#i-check"/></svg>Paid · Order #1043</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= THE EVERYDAY CHAOS ================= -->
+    <section class="chaos" aria-labelledby="chaos-title">
+      <div class="wrap">
+        <p class="pill" data-reveal><span class="pill__dot"></span>The everyday chaos</p>
+        <h2 class="h2" id="chaos-title" data-reveal><span class="soft">From “how much?”</span> to a ready order.</h2>
+
+        <div class="chaos__panel" data-split-demo data-reveal>
+          <div class="chaos__side chaos__side--raw">
+            <p class="chaos__label">They message</p>
+            <div class="chaos__ghosts" aria-hidden="true"><span>hello??</span><span>price pls</span><span>is it original</span><span>dm me</span><span>available?</span><span>u dey?</span></div>
+            <div class="chaos__wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="chaos__side chaos__side--clean">
+            <p class="chaos__label">Sello replies</p>
+            <svg class="chaos__line" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 140 C 120 140, 160 90, 300 100 S 480 150, 600 120" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <p class="chaos__meta"><span class="check"></span>Answered in <b data-secs>4s</b></p>
+          </div>
+          <span class="chaos__seam" aria-hidden="true"></span>
+          <span class="grain"></span>
+          <div class="chaos__bubble" data-bubble aria-live="polite">
+            <span class="bubble__raw" data-raw>dis bag still dey?</span>
+            <span class="bubble__clean" data-clean>Yes, 3 left at ₦38,000. Want it delivered?</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCROLL-FILL STATEMENT ================= -->
+    <section class="fill" aria-label="What Sello does">
+      <div class="wrap">
+        <p class="fill__text" data-fill>Sello answers every customer, keeps your stock honest and writes up each order, so you only step in when it’s time to get paid.</p>
+      </div>
+    </section>
+
+    <!-- ================= FEATURES (Lightspark-style rows) ================= -->
+    <section class="features" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <p class="pill" data-reveal><span class="pill__dot"></span>Features</p>
+        <h2 class="h2" id="features-title" data-reveal><span class="soft">Small things,</span> done properly.</h2>
+        <div class="frows">
+          <article class="frow frow--stock" data-frow data-stock-card>
+            <div class="frow__rule"><span class="mono">01</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>Stock that stays honest</h3><p>Sello knows what’s left, holds items while a customer pays and never promises something you’ve sold out of.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-hoops.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="stockcard">
+                <img src="assets/img/hoops2.jpg" alt="" loading="lazy" decoding="async" />
+                <div class="stockcard__info"><b>Twist hoops</b><span>₦14,000</span></div>
+                <span class="stockcard__count"><span class="roll" data-roll>3</span> left</span>
+                <span class="tag tag--orange stockcard__low">Low stock</span>
+              </div></div></div>
+              <ul class="frow__links"><li>Live stock counts</li><li>Holds while they pay</li><li>Low-stock alerts</li></ul>
+            </div>
+          </article>
+          <article class="frow frow--tone" data-frow>
+            <div class="frow__rule"><span class="mono">02</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>Sounds like you</h3><p>Pick how Sello talks, from polished to proper Naija. Customers get your shop’s voice, not a robot’s.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-sky.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="tone" role="group" aria-label="Choose a reply style">
+                <div class="tone__seg">
+                  <button type="button" class="is-on" data-tone="0" aria-pressed="true">Polished</button>
+                  <button type="button" data-tone="1" aria-pressed="false">Friendly</button>
+                  <button type="button" data-tone="2" aria-pressed="false">Naija</button>
+                  <i class="tone__thumb" aria-hidden="true"></i>
+                </div>
+                <p class="tone__msg" data-tone-msg aria-live="polite">Good afternoon. Yes, the pink bag is available for ₦38,000.</p>
+              </div></div></div>
+              <ul class="frow__links"><li>Polished</li><li>Friendly</li><li>Naija</li></ul>
+            </div>
+          </article>
+          <article class="frow frow--order" data-frow>
+            <div class="frow__rule"><span class="mono">03</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>Orders, written up</h3><p>Item, size, address and delivery fee pulled straight from the chat. No more scrolling up to find what they said.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-bag.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="printer">
+                <div class="printer__slot"></div>
+                <div class="printer__paper">
+                  <p class="mono">ORDER #1043</p>
+                  <p><span>Pink quilted bag</span><span>₦38,000</span></p>
+                  <p><span>Delivery · Lekki</span><span>₦3,500</span></p>
+                  <p class="printer__total"><span>Total</span><span>₦41,500</span></p>
+                </div>
+              </div></div></div>
+              <ul class="frow__links"><li>Item and size</li><li>Delivery address</li><li>Totals in naira</li></ul>
+            </div>
+          </article>
+          <article class="frow frow--handoff" data-frow>
+            <div class="frow__rule"><span class="mono">04</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>Knows when to call you</h3><p>Discounts, complaints, anything unusual. Sello pauses and hands the chat to you instead of guessing.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-dusk.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="handoff">
+                <div class="handoff__msg"><span class="avatar avatar--sm" style="--a:#F4DDA6">CN</span><p>Can you do ₦30k?</p></div>
+                <div class="handoff__ping"><span class="bell"><svg class="i i--xs"><use href="#i-bell"/></svg></span><span><b>Chioma wants a discount</b> Your call, Kemi</span></div>
+              </div></div></div>
+              <ul class="frow__links"><li>Discount requests</li><li>Complaints</li><li>Payments</li></ul>
+            </div>
+          </article>
+          <article class="frow frow--night" data-frow>
+            <div class="frow__rule"><span class="mono">05</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>Up at 2am, so you don’t have to be</h3><p>Late-night scrollers become morning orders. Sello answers whenever customers are shopping.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-shop.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="lock">
+                <p class="lock__time">2:14</p>
+                <p class="lock__date">Tuesday, 3 November</p>
+                <div class="lock__note"><img src="assets/logo/sello-mark.svg" alt="" /><span><b>Sello</b> Replied to Ife about the gold hoops</span><time>now</time></div>
+                <div class="lock__note lock__note--2"><img src="assets/logo/sello-mark.svg" alt="" /><span><b>Sello</b> New order ready · ₦12,500</span><time>2m</time></div>
+              </div></div></div>
+              <ul class="frow__links"><li>Replies around the clock</li><li>Quiet hours for you</li><li>Morning catch-up</li></ul>
+            </div>
+          </article>
+          <article class="frow frow--summary" data-frow>
+            <div class="frow__rule"><span class="mono">06</span></div>
+            <div class="frow__grid">
+              <div class="frow__text"><h3>A clear end-of-day summary</h3><p>What sold, who’s waiting and what’s running low, in one short note each evening.</p></div>
+              <div class="frow__media"><img class="frow__bg" src="assets/img/blur-serum.jpg" alt="" loading="lazy" decoding="async" /><div class="frow__tile"><div class="summary">
+                <p class="summary__head"><b>Today</b><span class="mono">MON</span></p>
+                <div class="summary__bars" aria-hidden="true">
+                  <i style="--h:.35"></i><i style="--h:.55"></i><i style="--h:.42"></i><i style="--h:.7"></i><i style="--h:.62"></i><i style="--h:.9"></i><i style="--h:.78"></i>
+                </div>
+                <p class="summary__row"><span>Chats answered</span><b>38</b></p>
+                <p class="summary__row"><span>Orders ready</span><b>9</b></p>
+              </div></div></div>
+              <ul class="frow__links"><li>What sold</li><li>Who’s waiting</li><li>What’s running low</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BUILT FOR THE SHOP (Solidroad stack) ================= -->
+    <section class="stack" aria-labelledby="stack-title" data-stack>
+      <img class="stack__bg" src="assets/img/blur-dark.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <span class="stack__glow" aria-hidden="true"></span>
+      <span class="grain" aria-hidden="true"></span>
+      <div class="wrap stack__grid">
+        <div class="stack__copy">
+          <div class="stack__bars" aria-hidden="true"><i class="is-on"><b></b></i><i><b></b></i><i><b></b></i></div>
+          <div class="stack__slides">
+            <div class="stack__slide is-on" data-slide="0">
+              <h2 class="stack__title" id="stack-title">Built for the shop that lives in your phone.</h2>
+              <p>Set it up from your phone in minutes. No laptop, no website and no tech team needed.</p>
+            </div>
+            <div class="stack__slide" data-slide="1">
+              <h2 class="stack__title">Works where your customers already are.</h2>
+              <p>Instagram and TikTok today, WhatsApp next. Sello plugs into the apps you already sell on.</p>
+            </div>
+            <div class="stack__slide" data-slide="2">
+              <h2 class="stack__title">You stay in charge.</h2>
+              <p>Sello never moves money. It hands the chat to you the moment a customer is ready to pay.</p>
+            </div>
+          </div>
+        </div>
+        <div class="stack__visual" aria-hidden="true">
+          <div class="stack__column"><div class="stack__column-track"><span class="orb orb--ghost"><i class="ch ch--wa ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--tt ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--ig ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--wa ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--tt ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--ig ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--wa ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--tt ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--ig ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--wa ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--tt ch--xl"></i></span><span class="orb orb--ghost"><i class="ch ch--ig ch--xl"></i></span></div></div>
+          <div class="capsule">
+            <span class="orb orb--sello"><img src="assets/logo/sello-mark.svg" alt="" /></span>
+            <span class="capsule__link"><i></i><i></i><i></i></span>
+            <span class="orb orb--channel" data-channel><i class="ch ch--ig ch--xl"></i></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq__grid">
+        <div class="faq__head">
+          <p class="pill" data-reveal><span class="pill__dot"></span>FAQ</p>
+          <h2 class="h2" id="faq-title" data-reveal><span class="soft">Questions,</span> answered.</h2>
+        </div>
+        <ul class="faq__list" data-faq>
+          <li class="qa is-open">
+            <h3><button type="button" aria-expanded="true" aria-controls="qa1" id="qa1-btn">Will customers know they’re talking to Sello?<i aria-hidden="true"></i></button></h3>
+            <div class="qa__panel" id="qa1" role="region" aria-labelledby="qa1-btn"><div><p>Yes, if you want them to. You choose whether replies are signed as your shop’s assistant. Either way, Sello only says what you’ve told it about your products, prices and delivery.</p></div></div>
+          </li>
+          <li class="qa">
+            <h3><button type="button" aria-expanded="false" aria-controls="qa2" id="qa2-btn">What happens when a customer wants to pay?<i aria-hidden="true"></i></button></h3>
+            <div class="qa__panel" id="qa2" role="region" aria-labelledby="qa2-btn"><div><p>Sello writes up the order and taps you in. You send the payment link or account details yourself, so money only ever moves when you say so.</p></div></div>
+          </li>
+          <li class="qa">
+            <h3><button type="button" aria-expanded="false" aria-controls="qa3" id="qa3-btn">Can I jump into a chat myself?<i aria-hidden="true"></i></button></h3>
+            <div class="qa__panel" id="qa3" role="region" aria-labelledby="qa3-btn"><div><p>Anytime. Tap “Take over” and Sello steps back from that conversation until you hand it over again.</p></div></div>
+          </li>
+          <li class="qa">
+            <h3><button type="button" aria-expanded="false" aria-controls="qa4" id="qa4-btn">Which apps does it work with?<i aria-hidden="true"></i></button></h3>
+            <div class="qa__panel" id="qa4" role="region" aria-labelledby="qa4-btn"><div><p>Instagram and TikTok to start. WhatsApp Business is next on the list.</p></div></div>
+          </li>
+          <li class="qa">
+            <h3><button type="button" aria-expanded="false" aria-controls="qa5" id="qa5-btn">How much will it cost?<i aria-hidden="true"></i></button></h3>
+            <div class="qa__panel" id="qa5" role="region" aria-labelledby="qa5-btn"><div><p>Early access is free. Pricing will be shared with the waitlist before launch, with a plan that works for small shops.</p></div></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= WAITLIST ================= -->
+    <section class="cta" id="waitlist" aria-labelledby="cta-title">
+      <div class="cta__light" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="22" /></filter>
+            <path id="leaf" d="M0 0c40-60 120-70 170-20-40 60-120 75-170 20Z" />
+          </defs>
+          <g filter="url(#soft)" fill="#7a2c0c">
+            <g class="sway sway--a">
+              <use href="#leaf" transform="translate(80 120) rotate(-20) scale(1.6)" opacity=".5" />
+              <use href="#leaf" transform="translate(260 60) rotate(15) scale(1.2)" opacity=".42" />
+              <use href="#leaf" transform="translate(170 300) rotate(35) scale(1.9)" opacity=".38" />
+              <use href="#leaf" transform="translate(-40 480) rotate(-10) scale(2.2)" opacity=".4" />
+              <use href="#leaf" transform="translate(320 640) rotate(50) scale(1.4)" opacity=".35" />
+            </g>
+            <g class="sway sway--b">
+              <use href="#leaf" transform="translate(1080 40) rotate(160) scale(1.7)" opacity=".42" />
+              <use href="#leaf" transform="translate(1260 260) rotate(200) scale(2)" opacity=".4" />
+              <use href="#leaf" transform="translate(1180 520) rotate(140) scale(1.5)" opacity=".36" />
+              <use href="#leaf" transform="translate(1420 700) rotate(190) scale(2.3)" opacity=".38" />
+              <use href="#leaf" transform="translate(960 220) rotate(120) scale(1.1)" opacity=".3" />
+            </g>
+            <g class="sway sway--c">
+              <use href="#leaf" transform="translate(620 -40) rotate(80) scale(1.3)" opacity=".26" />
+              <use href="#leaf" transform="translate(760 20) rotate(110) scale(1)" opacity=".22" />
+            </g>
+          </g>
+        </svg>
+        <span class="cta__glow"></span>
+      </div>
+      <div class="wrap cta__inner">
+        <p class="pill pill--glass" data-reveal><span class="pill__dot"></span>Early access</p>
+        <h2 class="cta__title" id="cta-title" data-reveal>Get your evenings back.</h2>
+        <p class="cta__lede" data-reveal>Join the waitlist and be one of the first shops to try Sello.</p>
+        <form class="waitlist" data-waitlist novalidate data-reveal>
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@yourshop.com" required />
+          <button class="btn btn--dark" type="submit" data-fly-target><span class="waitlist__label">Join the waitlist</span><span class="waitlist__done" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></button>
+          <p class="waitlist__msg" role="status" data-waitlist-msg></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-footer>
+    <div class="footer__dots" aria-hidden="true"></div>
+    <div class="wrap footer__top">
+      <div class="footer__brand">
+        <a class="nav__logo" href="#top" aria-label="Back to top"><img class="logo-lockup" src="assets/logo/sello-lockup-on-dark.svg" alt="Sello" width="96" height="27" /></a>
+        <p>The AI sales assistant for Instagram and TikTok shops.</p>
+        <a class="btn btn--orange btn--sm" href="#waitlist">Join the waitlist <svg class="btn__arrow"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <nav class="wrap footer__cols" aria-label="Footer">
+      <div class="fcol"><p>Product</p><a href="#how">How it works</a><a href="#features">Features</a><a href="#faq">FAQ</a><span class="fcol__n mono">01</span></div>
+      <div class="fcol"><p>Sello</p><a href="#waitlist">Join the waitlist</a><a href="#top">Back to top</a><span class="fcol__n mono">02</span></div>
+      <div class="fcol"><p>Built for</p><span>Fashion</span><span>Beauty</span><span>Hair</span><span>Jewellery</span><span>Skincare</span><span class="fcol__n mono">03</span></div>
+      <div class="fcol"><p>Channels</p><span>Instagram</span><span>TikTok</span><span>WhatsApp <em>soon</em></span><span class="fcol__n mono">04</span></div>
+    </nav>
+    <div class="wrap footer__word" aria-hidden="true">
+      <svg viewBox="114.0 8.0 210.9 75.1" preserveAspectRatio="xMidYMax meet"><path d="M142.3100128173828 81.05624389648438Q133.76405334472656 81.05624389648438 127.4746208190918 78.46364974975586Q121.18518829345703 75.87105560302734 116.0 70.3017807006836L126.85047912597656 59.355281829833984Q130.40328979492188 63.100135803222656 134.43621063232422 65.06858825683594Q138.46913146972656 67.03704071044922 143.5583038330078 67.03704071044922Q147.87928771972656 67.03704071044922 150.23182678222656 65.54869842529297Q152.58436584472656 64.06035614013672 152.58436584472656 61.46776580810547Q152.58436584472656 59.06721496582031 150.85597229003906 57.482852935791016Q149.12757873535156 55.89849090576172 146.29492950439453 54.69821739196777Q143.4622802734375 53.49794387817383 140.05349731445312 52.39369010925293Q136.64471435546875 51.28943634033203 133.2359390258789 49.705074310302734Q129.82716369628906 48.12071228027344 126.99451446533203 45.81618690490723Q124.161865234375 43.511661529541016 122.4334716796875 40.05487060546875Q120.705078125 36.598079681396484 120.705078125 31.5089168548584Q120.705078125 24.97942352294922 123.82579040527344 20.370370388031006Q126.94650268554688 15.761317253112793 132.51577758789062 13.264746189117432Q138.08505249023438 10.76817512512207 145.4787368774414 10.76817512512207Q152.87242126464844 10.76817512512207 159.11385345458984 13.264746189117432Q165.35528564453125 15.761317253112793 169.38819885253906 20.178325653076172L158.4416961669922 31.028806686401367Q155.36900329589844 27.956104278564453 152.20027923583984 26.419753074645996Q149.03155517578125 24.88340187072754 145.2866973876953 24.88340187072754Q141.73388671875 24.88340187072754 139.71742248535156 26.13168716430664Q137.70095825195312 27.379972457885742 137.70095825195312 29.68449878692627Q137.70095825195312 31.989025115966797 139.42935180664062 33.42935562133789Q141.15774536132812 34.869686126708984 143.99039459228516 35.97393798828125Q146.8230438232422 37.078189849853516 150.23182678222656 38.23045349121094Q153.64060974121094 39.38271713256836 157.00137329101562 40.9190673828125Q160.3621368408203 42.45541763305664 163.19478607177734 44.855966567993164Q166.02743530273438 47.25651550292969 167.75582885742188 50.90534973144531Q169.48422241210938 54.55418395996094 169.48422241210938 59.7393684387207Q169.48422241210938 69.91769409179688 162.3305892944336 75.48696899414062Q155.1769561767578 81.05624389648438 142.3100128173828 81.05624389648438ZM296.809326171875 81.05624389648438Q289.2236022949219 81.05624389648438 283.31825256347656 77.83950805664062Q277.41290283203125 74.62277221679688 273.95611572265625 69.0054874420166Q270.49932861328125 63.38820266723633 270.49932861328125 56.37860107421875Q270.49932861328125 49.36899948120117 273.90809631347656 43.84773635864258Q277.3168640136719 38.326473236083984 283.2702331542969 35.10973834991455Q289.2236022949219 31.893003463745117 296.7133026123047 31.893003463745117Q304.2030029296875 31.893003463745117 310.1083526611328 35.10973834991455Q316.0137023925781 38.326473236083984 319.4705047607422 43.84773635864258Q322.92730712890625 49.36899948120117 322.92730712890625 56.37860107421875Q322.92730712890625 63.38820266723633 319.5185241699219 69.0054874420166Q316.1097412109375 74.62277221679688 310.2043914794922 77.83950805664062Q304.2990417480469 81.05624389648438 296.809326171875 81.05624389648438ZM198.38682556152344 81.05624389648438Q190.51303100585938 81.05624389648438 184.4636459350586 77.93552780151367Q178.4142608642578 74.81481170654297 174.9574737548828 69.24554061889648Q171.5006866455078 63.67626953125 171.5006866455078 56.47462463378906Q171.5006866455078 49.36899948120117 174.86145782470703 43.84773635864258Q178.22222900390625 38.326473236083984 184.03155517578125 35.10973834991455Q189.84088134765625 31.893003463745117 197.1385498046875 31.893003463745117Q204.24417114257812 31.893003463745117 209.76543426513672 34.91769504547119Q215.2866973876953 37.942386627197266 218.40740966796875 43.27160453796387Q221.5281219482422 48.60082244873047 221.5281219482422 55.41838073730469Q221.5281219482422 56.85871124267578 221.38408660888672 58.3470516204834Q221.24005126953125 59.835391998291016 220.75994873046875 61.755828857421875L187.83180236816406 61.908626556396484Q188.07730102539062 62.65906524658203 188.40054321289062 63.34019088745117Q189.74485778808594 66.17283630371094 192.24142456054688 67.61316680908203Q194.7379913330078 69.05349731445312 198.38682556152344 69.05349731445312Q201.8436279296875 69.05349731445312 204.4842300415039 67.9012336730957Q207.1248321533203 66.74897003173828 209.2373046875 64.34841918945312L217.97531127929688 73.08641815185547Q214.51852416992188 77.02332305908203 209.57339477539062 79.0397834777832Q204.62826538085938 81.05624389648438 198.38682556152344 81.05624389648438ZM249.5665283203125 80.0V10.0H266.27435302734375V80.0ZM225.46502685546875 80.0V10.0H242.17283630371094V80.0ZM296.71331787109375 66.17283630371094Q299.4979553222656 66.17283630371094 301.5624237060547 64.97256278991699Q303.62689208984375 63.77228927612305 304.77915954589844 61.563785552978516Q305.9314270019531 59.355281829833984 305.9314270019531 56.47462272644043Q305.9314270019531 53.593963623046875 304.73114013671875 51.43346977233887Q303.5308532714844 49.27297592163086 301.514404296875 48.072702407836914Q299.4979553222656 46.87242889404297 296.71331787109375 46.87242889404297Q294.0246887207031 46.87242889404297 291.9122009277344 48.12071418762207Q289.7997131347656 49.36899948120117 288.6474609375 51.52949333190918Q287.4952087402344 53.68998718261719 287.4952087402344 56.57064437866211Q287.4952087402344 59.355281829833984 288.6474609375 61.563785552978516Q289.7997131347656 63.77228927612305 291.9122009277344 64.97256278991699Q294.0246887207031 66.17283630371094 296.71331787109375 66.17283630371094ZM187.78733825683594 51.123695373535156 206.0879669189453 50.9720344543457Q205.8431396484375 49.97376251220703 205.49246215820312 49.128944396972656Q204.43621826171875 46.5843620300293 202.4197540283203 45.240055084228516Q200.40328979492188 43.895748138427734 197.33059692382812 43.895748138427734Q194.161865234375 43.895748138427734 191.85733795166016 45.432098388671875Q189.5528106689453 46.968448638916016 188.30453491210938 49.75308609008789Q188.0115509033203 50.40665817260742 187.78733825683594 51.123695373535156Z" fill="currentColor"/></svg>
+    </div>
+    <div class="wrap footer__base"><p>© 2026 Sello. Built for sellers who do it all.</p><p class="mono footer__xy" data-xy>(0, 0)</p></div>
+  </footer>
+
+  <!-- Photos: Unsplash (free licence). -->
+  <script src="script.js"></script>
+</body>
+</html>
