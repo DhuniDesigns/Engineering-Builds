@@ -46,6 +46,18 @@ Hero that curves as you scroll · headline that fills line by line · odometer f
 
 ---
 
+## REA: Website Redesign (concept)
+
+A concept redesign of the Rural Electrification Agency of Nigeria website (rea.gov.ng), built from an audit of the current site. Inspired by Progress, Muncul, Cresta, 1Solar and Solarify, in REA's own green. Not affiliated with REA.
+
+Hero where wires draw from a real Bayelsa mini-grid to the rooftops it powers · word-by-word headline rise · sourced impact counters, pipeline bar and budget rings · 36-state + FCT Nigeria map with hover labels, state highlight and photo previews · photo programme cards that open on hover with a sliding filter pill · auto-playing "From request to switch-on" stepper · clip-path image reveals · parallax prefooter CTA · scroll progress bar and hide-on-scroll nav · magnetic primary button
+
+[Live demo](https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/) · [Source](rea-redesign/index.html)
+
+Photos: Wikimedia Commons (CC BY-SA 4.0), credited on the page. Nigeria state map: @svg-maps/nigeria (CC BY 4.0).
+
+---
+
 ## NYTA: Agency Site
 
 A website for NYTA, a Dubai influencer agency that connects brands with local talent.
