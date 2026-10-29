@@ -385,6 +385,47 @@ footer{padding:84px 0 30px}
 .concept{background:var(--rea-ink);color:#fff;padding:5px 12px;border-radius:999px}
 .photo-credits{margin-top:14px;font-size:12px;color:#8a968e;max-width:110ch}
 
+
+/* Financing partners */
+.fin-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px}
+.fin{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:10px;min-height:220px;transition:transform .45s var(--ease-out),border-color .3s,box-shadow .45s var(--ease-out)}
+.fin .who{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.fin b{font-family:var(--display);font-size:clamp(34px,3.4vw,46px);font-weight:500;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.fin p{font-size:15px;color:var(--muted);flex:1}
+.fin .tag{align-self:flex-start;font-size:12px;font-weight:600;color:var(--rea);background:var(--rea-mint);padding:5px 11px;border-radius:999px}
+.fin.big{grid-row:span 2;background:var(--rea-ink);border-color:var(--rea-ink);color:#fff;position:relative;overflow:hidden;justify-content:flex-end}
+.fin.big::before{content:"";position:absolute;width:520px;height:520px;right:-220px;top:-240px;border-radius:50%;background:radial-gradient(circle,rgba(0,100,56,.75),transparent 65%)}
+.fin.big>*{position:relative}
+.fin.big .who{color:rgba(255,255,255,.7)}
+.fin.big b{color:var(--volt);font-size:clamp(56px,6vw,88px)}
+.fin.big p{color:rgba(255,255,255,.78);flex:0;font-size:16px;max-width:34ch}
+.fin.big .tag{background:rgba(255,255,255,.12);color:#fff}
+@media (hover:hover) and (pointer:fine){.fin:not(.big):hover{transform:translateY(-4px);border-color:rgba(0,100,56,.35);box-shadow:0 26px 50px -34px rgba(0,60,34,.45)}}
+.fin-note{margin-top:22px;font-size:15px;color:var(--muted)}
+.fin-note a{color:var(--rea);font-weight:600}
+/* REUCS */
+.reucs{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;background:var(--rea-mint);border-radius:28px;padding:clamp(28px,5vw,64px)}
+.reucs-l{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.reucs-l h2{max-width:13ch}
+.reucs-l .lead{color:var(--ink-2)}
+.reucs-r{list-style:none;counter-reset:r;display:flex;flex-direction:column;gap:8px}
+.reucs-r li{counter-increment:r;background:var(--card);border-radius:18px;padding:18px 20px 18px 64px;position:relative;display:flex;flex-direction:column;gap:2px}
+.reucs-r li::before{content:counter(r);position:absolute;left:20px;top:18px;width:28px;height:28px;border-radius:50%;background:var(--rea);color:#fff;font-size:13px;font-weight:600;display:grid;place-items:center}
+.reucs-r b{font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:-.02em}
+.reucs-r span{font-size:14.5px;color:var(--muted)}
+@media (max-width:1100px){.fin-grid{grid-template-columns:1fr 1fr}.fin.big{grid-column:1/-1;grid-row:auto;min-height:260px}.reucs{grid-template-columns:1fr;gap:32px}}
+@media (max-width:720px){
+  .fin-grid{grid-template-columns:1fr}.fin{min-height:0;padding:22px}.reucs{border-radius:22px}
+  .reucs-r li{padding:16px 16px 16px 58px}.reucs-r li::before{left:16px;top:16px}
+  /* Programme filters become a swipeable row of pills */
+  .tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:2px 18px;margin:0 -18px 22px;background:none;border:0;border-radius:0;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs .pill{display:none}
+  .tabs button{flex:none;scroll-snap-align:start;min-height:44px;padding:0 18px;border:1px solid var(--line);background:var(--card);white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s}
+  .tabs button[aria-selected=true]{background:var(--rea);border-color:var(--rea);color:#fff}
+  .tabs button:active{transform:scale(.97)}
+}
+
 /* Reveal */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
 .rv.in{opacity:1;transform:none}
@@ -528,7 +569,7 @@ footer{padding:84px 0 30px}
       <span class="fallback">REA</span>
     </a>
     <nav class="links" aria-label="Main">
-      <a href="#about">About</a><a href="#programmes">Programmes</a><a href="#projects">Projects</a><a href="#how">How it works</a><a href="#news">Media</a>
+      <a href="#about">About</a><a href="#programmes">Programmes</a><a href="#projects">Projects</a><a href="#how">How it works</a><a href="#partners">Partners</a><a href="#news">Media</a>
     </nav>
     <div class="nav-cta">
       <a href="#get-involved" class="btn btn-rea">Request electrification <span class="arr">→</span></a>
@@ -541,6 +582,7 @@ footer{padding:84px 0 30px}
       <a href="#programmes"><span>Programmes</span><i>→</i></a>
       <a href="#projects"><span>Projects</span><i>→</i></a>
       <a href="#how"><span>How it works</span><i>→</i></a>
+      <a href="#partners"><span>Partners</span><i>→</i></a>
       <a href="#news"><span>Media</span><i>→</i></a>
       <a href="#faq"><span>FAQs</span><i>→</i></a>
     </div>
@@ -591,8 +633,8 @@ footer{padding:84px 0 30px}
     <div class="paths">
       <a href="#how" class="path rv">
         <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M10 21v-6h4v6"/></svg></span>
-        <h3>My community needs power</h3><p>Check if your community qualifies and how electrification works.</p></div>
-        <span class="go">Check eligibility <span>→</span></span>
+        <h3>My community needs power</h3><p>Submit a request through REA's channels, or find out how communities are selected for programmes.</p></div>
+        <span class="go">How requests work <span>→</span></span>
       </a>
       <a href="#programmes" class="path rv d1">
         <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span>
@@ -693,7 +735,7 @@ footer{padding:84px 0 30px}
       <a href="#programmes">Rural Electrification Fund</a>
       <a href="#programmes">Research & Innovation Hub</a>
       <a href="#programmes">Korean Energy Project</a>
-      <a href="#faq">REUCS cooperatives</a>
+      <a href="#reucs">REUCS cooperatives</a>
     </div>
   </div>
 </section>
@@ -704,7 +746,7 @@ footer{padding:84px 0 30px}
     <div class="sec-head">
       <span class="label rv">How it works</span>
       <h2 class="rv">From request to <span class="hl" style="white-space:nowrap">switch-on.</span></h2>
-      <div class="side rv d1"><p class="lead">Five stages take a community from no power to a working, community-owned supply. Here's what happens at each one, and who's involved.</p></div>
+      <div class="side rv d1"><p class="lead">Five stages take a community from no power to a working supply it helps look after. Here's what happens at each one, and who's involved.</p></div>
     </div>
     <div class="stepper rv" id="stepper">
       <div class="steps" role="tablist" aria-label="Electrification stages" id="steps"></div>
@@ -762,6 +804,46 @@ footer{padding:84px 0 30px}
   </div>
 </section>
 
+<!-- FINANCING PARTNERS -->
+<section id="partners" class="partners-sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label rv">Financing partners</span>
+      <h2 class="rv">The finance behind <span class="hl">every connection.</span></h2>
+      <div class="side rv d1"><p class="lead">Development banks and Nigerian lenders fund REA's programmes and the developers who build them.</p></div>
+    </div>
+    <div class="fin-grid">
+      <article class="fin big rv"><span class="who">World Bank</span><b>$750m</b><p>Backs DARES, the programme scaling mini-grids and solar home systems to 17.5 million Nigerians.</p><span class="tag">DARES · NEP</span></article>
+      <article class="fin rv d1"><span class="who">FCMB</span><b>₦100bn</b><p>Loan facility for DARES mini-grid developers, with up to ₦1bn revolving per eligible developer.</p><span class="tag">Local lender</span></article>
+      <article class="fin rv d2"><span class="who">Lotus Bank</span><b>₦100bn</b><p>Interest-free financing for DARES grantees to build mini-grids faster, agreed February 2026.</p><span class="tag">Local lender</span></article>
+      <article class="fin rv"><span class="who">African Development Bank</span><b>NEP</b><p>Co-financier of the Nigeria Electrification Project alongside the World Bank.</p><span class="tag">Development bank</span></article>
+      <article class="fin rv d1"><span class="who">GEF · UNDP · UNIDO</span><b>Grants</b><p>Back the Africa Mini-grids Programme, off-grid lighting (DSOLS) and the Global Cleantech Innovation Programme.</p><span class="tag">Grant partners</span></article>
+    </div>
+    <p class="fin-note rv">Are you a lender or investor? <a href="mailto:info@rea.gov.ng">Talk to REA about co-financing →</a></p>
+  </div>
+</section>
+
+<!-- REUCS -->
+<section id="reucs" style="padding-top:0">
+  <div class="wrap">
+    <div class="reucs rv">
+      <div class="reucs-l">
+        <span class="label">For communities · REUCS</span>
+        <h2>Power that stays on, <span class="hl">together.</span></h2>
+        <p class="lead">A Rural Electricity Users Cooperative Society (REUCS) gives a benefiting community a shared voice in its electricity project. REA runs community engagement to help communities form one.</p>
+        <a href="https://rea.gov.ng/contact" class="btn btn-rea">Ask about forming a REUCS <span class="arr">→</span></a>
+      </div>
+      <ol class="reucs-r">
+        <li><b>Learn to run it</b><span>Members are trained to own, operate, maintain and stay safe around their electricity facilities.</span></li>
+        <li><b>Use power productively</b><span>Guidance on productive use, saving energy and using it efficiently.</span></li>
+        <li><b>Protect the equipment</b><span>The community works together to guard against theft and vandalism.</span></li>
+        <li><b>Keep it affordable</b><span>REUCS partners with DisCos and power producers on fair tariffs and encourages prompt payment.</span></li>
+        <li><b>Solve problems together</b><span>A forum where stakeholders resolve the community's electricity issues.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <!-- NEWS -->
 <section id="news" style="padding-top:0">
   <div class="wrap">
@@ -803,11 +885,12 @@ footer{padding:84px 0 30px}
       </div>
     </div>
     <div class="rv d1">
-      <details open><summary>How can my community get electricity from REA?<span class="pm">+</span></summary><p>Check the eligibility requirements for the programme that fits your community, then apply when a window is open. REA also identifies communities through its national mapping exercise, which has covered more than 150,000 unserved or underserved communities.</p></details>
-      <details><summary>I'm a developer. How do I access grants?<span class="pm">+</span></summary><p>Programmes such as DARES and the Africa Mini-grids Programme support private developers to build mini-grids and deploy solar systems. Calls for proposals and tenders are published with deadlines and eligibility criteria.</p></details>
-      <details><summary>How do I know when a programme opens?<span class="pm">+</span></summary><p>Programmes open in funding windows. Subscribe to updates or follow REA's official channels to hear when the next call for applications is published.</p></details>
-      <details><summary>What is a REUCS?<span class="pm">+</span></summary><p>A Rural Electricity Users Cooperative Society. Benefiting communities form one so they share ownership of their electrification project and keep it running long after commissioning.</p></details>
-      <details><summary>How do I pay REA fees online?<span class="pm">+</span></summary><p>All payments to REA go through the official Remita biller page, linked in the bar at the top of every page.</p></details>
+      <details open><summary>How can I benefit from REA programmes?<span class="pm">+</span></summary><p>Individuals, communities, businesses and developers can benefit by applying through a programme's portal or by taking part in electrification initiatives in their area.</p></details>
+      <details><summary>How can my community get electricity through REA?<span class="pm">+</span></summary><p>Communities can submit a request through REA's official channels, or be selected for an ongoing programme based on need, feasibility and impact.</p></details>
+      <details><summary>Are REA electricity services free?<span class="pm">+</span></summary><p>Some projects are fully funded by government or donors. Others involve cost-sharing or private sector participation, depending on the programme.</p></details>
+      <details><summary>How long does it take to electrify a community?<span class="pm">+</span></summary><p>It depends on the project's size, location and funding — anywhere from a few months to over a year.</p></details>
+      <details><summary>How can I become a developer under REA programmes?<span class="pm">+</span></summary><p>Apply through programme-specific portals such as NEP or REF and meet that programme's eligibility criteria, generally technical capacity, financial capability and regulatory compliance.</p></details>
+      <details><summary>What is a REUCS?<span class="pm">+</span></summary><p>A Rural Electricity Users Cooperative Society. REA mobilises benefiting communities to form one, so members are trained to use, protect and pay for their electricity, and the project keeps running long after commissioning.</p></details>
     </div>
   </div>
 </section>
@@ -821,10 +904,10 @@ footer{padding:84px 0 30px}
       <h2 class="rv">Every market, clinic and classroom <span class="hl">deserves power.</span></h2>
       <p class="lead rv d1">Whether you're a community leader, a developer or a development partner, there's a clear next step.</p>
       <div class="cta-grid">
-        <a href="#how" class="cta-card primary rv">
+        <a href="https://rea.gov.ng/contact" class="cta-card primary rv">
           <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M10 21v-6h4v6"/></svg></span>
-          <h3>Request electrification</h3><p>For community leaders and local governments seeking power for their area.</p>
-          <span class="go">Start a request <span>→</span></span>
+          <h3>Request electrification</h3><p>Community leaders and local governments can submit a request through REA's official channels.</p>
+          <span class="go">Contact REA <span>→</span></span>
         </a>
         <a href="#programmes" class="cta-card rv d1">
           <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span>
@@ -859,7 +942,7 @@ footer{padding:84px 0 30px}
       <div><h4>Programmes</h4><ul><li><a href="https://nep.rea.gov.ng/">NEP / DARES</a></li><li><a href="https://rea.gov.ng/eep-i.html">Energizing Education</a></li><li><a href="https://spn.rea.gov.ng/">Solar Power Naija</a></li><li><a href="#programmes">All programmes</a></li></ul></div>
       <div><h4>Resources</h4><ul><li><a href="#news">News & press</a></li><li><a href="#news">Reports & policy</a></li><li><a href="#faq">FAQs</a></li><li><a href="https://rea.gov.ng/dataprivacy">Privacy policy</a></li></ul></div>
     </div>
-    <div class="partners"><em>With partners including</em><span>Federal Ministry of Power</span><span>World Bank</span><span>African Development Bank</span><span>GEF · UNDP</span><span>UNIDO</span></div>
+    <div class="partners"><em>With partners including</em><span>Federal Ministry of Power</span><span>World Bank</span><span>African Development Bank</span><span>GEF · UNDP</span><span>UNIDO</span><span>FCMB</span><span>Lotus Bank</span></div>
     <div class="legal"><span>© 2026 Rural Electrification Agency of Nigeria</span><span class="concept">Concept redesign by Hafsoh Bashar — not the official REA website</span></div>
     <p class="photo-credits">Photos via Wikimedia Commons (CC BY-SA 4.0): Rupumped (Mini-grid, Bayelsa), Kambai Akau (Chori Village, Kaduna), Fatimah Bello (Kwara State University), DanteOlolo, Onwuka Glory, ManLuk23, Ossy Mbagwu, Ayorinde Ogundele; Zmu'az4Z (CC BY 4.0). Project photos are illustrative.</p>
   </div>
@@ -1090,6 +1173,7 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
   addEventListener('resize', () => movePill(tabs.querySelector('[aria-selected=true]')));
   tabs.querySelectorAll('button').forEach(t => t.addEventListener('click', () => {
     tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === t)); movePill(t);
+    if (tabs.scrollWidth > tabs.clientWidth) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
     const f = t.dataset.f, cards = [...pg.children];
     cards.forEach(c => c.classList.add('out'));
     setTimeout(() => {
@@ -1100,9 +1184,9 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
 
   /* How it works: autoplay stepper */
   const steps = [
-    { t:'Check eligibility', p:'Communities, institutions and developers confirm they meet a programme’s requirements.', img:'Public_School,_Chori_Village.jpg', cr:'Kambai Akau', need:['Community name, LGA and state','Estimated households and businesses','Current power source, if any'], who:['Community leaders','Local government'] },
-    { t:'Apply or get mapped', p:'Apply when a window opens, or be identified through REA’s national community mapping.', img:'Rural_electrification,_Chori_Village.jpg', cr:'Kambai Akau', need:['Completed application','Contact for a community representative','Site location'], who:['Community','REA zonal office'] },
-    { t:'Assess & fund', p:'Sites are surveyed, demand is measured, and the right solution and funding are approved.', img:'Sun_empowers_solar_panels.jpg', cr:'Onwuka Glory', need:['Site access for surveyors','Demand and load data','Agreed delivery model'], who:['REA engineers','Development partners'] },
+    { t:'Request or get selected', p:'Communities submit a request through REA’s channels, or are selected for an ongoing programme based on need, feasibility and impact.', img:'Public_School,_Chori_Village.jpg', cr:'Kambai Akau', need:['Community name, LGA and state','Estimated households and businesses','A contact for the community'], who:['Community leaders','Local government','REA zonal office'] },
+    { t:'Developers apply', p:'Licensed developers apply through programme portals such as NEP or REF to build for selected communities.', img:'Rural_electrification,_Chori_Village.jpg', cr:'Kambai Akau', need:['Nigerian company registration','Technical proposal and financial model','Evidence of past projects'], who:['Developers','Financiers','REA'] },
+    { t:'Assess & fund', p:'Sites are surveyed, demand is measured, and the right solution and funding are approved.', img:'Sun_empowers_solar_panels.jpg', cr:'Onwuka Glory', need:['Site access for surveyors','Demand and load data','Community engagement'], who:['REA engineers','Development partners','Banks'] },
     { t:'Build', p:'Licensed private developers install mini-grids or solar systems under REA oversight.', img:'Solar_Pannel_Installer.jpg', cr:'ManLuk23', need:['Land or rooftop agreement','Local labour where possible','Safety and quality checks'], who:['Private developers','REA monitoring'] },
     { t:'Commission & sustain', p:'Power goes live and the community forms a cooperative (REUCS) to keep it running.', img:'Nigerian_Market_woman_at_work_waiting_for_customer.jpg', cr:'DanteOlolo', need:['REUCS cooperative formed','Tariff and metering agreed','Maintenance plan'], who:['Community (REUCS)','Developer','REA'] }
   ];
