@@ -344,7 +344,10 @@ header.nav.hide{transform:translateY(-100%)}
 details{border-bottom:1px solid var(--line)}
 summary{list-style:none;cursor:pointer;padding:26px 0;display:flex;justify-content:space-between;gap:20px;font-family:var(--display);font-size:21px;font-weight:500;letter-spacing:-.02em}
 summary::-webkit-details-marker{display:none}
-summary .pm{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;font-family:var(--sans);transition:transform .35s var(--ease-out),background-color .25s,border-color .25s,color .25s}
+summary .pm::before,summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.75px;border-radius:2px;background:currentColor;transform:translate(-50%,-50%)}
+summary .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+summary:focus:not(:focus-visible){outline:none}
+summary .pm{position:relative;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);flex:none;font-size:0;color:var(--ink);align-self:center;transition:transform .35s var(--ease-out),background-color .25s,border-color .25s,color .25s}
 details[open] summary .pm{transform:rotate(45deg);background:var(--rea);border-color:var(--rea);color:#fff}
 details p{padding:0 50px 26px 0;color:var(--muted)}
 .help{background:var(--rea-mint);border-radius:var(--r);padding:28px;margin-top:36px}
