@@ -68,13 +68,14 @@ section{padding:128px 0}
 /* Progress + utility + nav */
 .progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--volt);transform-origin:left;transform:scaleX(0);z-index:100}
 .concept-bar{background:var(--rea-ink);color:#e9f2ec;font-size:12.5px;text-align:center;padding:8px 16px;line-height:1.4}
+.concept-bar .short{display:none}
 .concept-bar a{color:var(--volt);text-decoration:underline;text-underline-offset:2px}
 .util{background:var(--rea);color:#d6eadd;font-size:13px}
 .util .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:16px}
 .util-l,.util-r{display:flex;gap:22px;align-items:center}
-.util a{transition:color .2s}.util a:hover{color:#fff}
+.util a{transition:color .2s;white-space:nowrap;padding:10px 0}.util a:hover{color:#fff}
 .lang{display:flex;gap:2px;background:rgba(0,0,0,.18);border-radius:999px;padding:3px}
-.lang button{padding:3px 11px;border-radius:999px;font-size:12px;font-weight:500;color:#d6eadd;transition:background-color .2s,color .2s}
+.lang button{min-height:32px;min-width:36px;padding:3px 11px;border-radius:999px;font-size:12px;font-weight:500;color:#d6eadd;transition:background-color .2s,color .2s}
 .lang button[aria-pressed=true]{background:#fff;color:var(--rea)}
 header.nav{position:sticky;top:0;z-index:50;background:rgba(245,247,243,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .45s var(--ease-out),box-shadow .3s}
 header.nav.scrolled{box-shadow:0 1px 0 var(--line)}
@@ -164,14 +165,14 @@ header.nav.hide{transform:translateY(-100%)}
 .big-stats p{font-size:14px;color:rgba(255,255,255,.62);margin-top:12px;max-width:22ch}
 .bento{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px;margin-top:14px}
 .tile{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.11);border-radius:var(--r);padding:26px}
-.tile .k{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.tile .k{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 .tile h3{font-size:22px;margin-top:8px;font-family:var(--display)}
 .pipe-bar{display:flex;height:50px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.07);margin-top:30px}
 .pipe-bar span{display:block;height:100%;transform-origin:left;transform:scaleX(0);transition:transform 1.6s var(--ease-io)}
 .pipe-bar .done{background:var(--volt);width:14.8%}
 .pipe-bar .build{background:repeating-linear-gradient(-45deg,#34a868 0 10px,#2b8f58 10px 20px);width:66.7%;transition-delay:.35s}
 .in .pipe-bar span{transform:scaleX(1)}
-.scale{display:flex;justify-content:space-between;font-size:11.5px;color:rgba(255,255,255,.5);margin-top:8px;font-variant-numeric:tabular-nums}
+.scale{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-top:8px;font-variant-numeric:tabular-nums}
 .legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;font-size:14px;color:rgba(255,255,255,.8)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:middle}
 .ring{display:flex;align-items:center;gap:20px;margin-top:22px}
@@ -192,6 +193,7 @@ header.nav.hide{transform:translateY(-100%)}
 .st.hov{fill:#e2e2e2}
 .st.sel{fill:#fbd8cc}
 .pin{cursor:pointer;outline:none}
+.pin .hit{fill:transparent}
 .pin .halo{fill:#f0471d;opacity:0;transform-box:fill-box;transform-origin:center}
 .pin.on .halo{animation:halo 2.2s infinite}
 .pin .dot{fill:#f0471d;transform-box:fill-box;transform-origin:center;transition:transform .35s var(--ease-out)}
@@ -241,7 +243,7 @@ header.nav.hide{transform:translateY(-100%)}
 .prog .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease-out)}
 .prog .more>div{overflow:hidden}
 .prog .more p{font-size:14.5px;color:rgba(255,255,255,.8);padding-top:10px;max-width:46ch}
-.prog .more a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--volt);margin-top:14px}
+.prog .more a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--volt);margin-top:8px;min-height:44px}
 .prog.feature .more{grid-template-rows:1fr}
 .prog .stat{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .prog .stat span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 14px;font-size:12.5px;color:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
@@ -277,7 +279,7 @@ header.nav.hide{transform:translateY(-100%)}
 .stage img.on{opacity:1;transform:none;filter:none}
 .stage::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,26,15,0) 40%,rgba(4,26,15,.85))}
 .stage-card{position:absolute;left:20px;right:20px;bottom:20px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:18px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.stage-card h4{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rea);margin-bottom:10px}
+.stage-card h4{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rea);margin-bottom:10px}
 .stage-card ul{list-style:none;display:grid;gap:7px;font-size:14px;color:var(--ink-2)}
 .stage-card li{display:flex;gap:9px;align-items:flex-start}
 .stage-card li::before{content:"";flex:none;width:16px;height:16px;margin-top:2px;border-radius:50%;background:var(--rea-mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%23006438' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
@@ -285,7 +287,7 @@ header.nav.hide{transform:translateY(-100%)}
 .who-chips span{font-size:13px;font-weight:500;background:var(--rea-mint);color:var(--rea);padding:5px 11px;border-radius:999px}
 .stage-card .swap{transition:opacity .25s,filter .25s}
 .stage-card .swap.fading{opacity:0;filter:blur(3px)}
-.credit{position:absolute;top:14px;right:14px;font-size:11px;color:rgba(255,255,255,.75);background:rgba(0,0,0,.28);padding:3px 8px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.credit{position:absolute;top:14px;right:14px;font-size:12px;color:rgba(255,255,255,.75);background:rgba(0,0,0,.28);padding:3px 8px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
 /* ---------- Featured ---------- */
 .features{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
@@ -354,7 +356,7 @@ details p{padding:0 50px 26px 0;color:var(--muted)}
 footer{padding:84px 0 30px}
 .foot{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
 .foot .brand img{height:72px}
-.foot h4{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.foot h4{font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
 .foot ul{list-style:none;display:grid;gap:10px;font-size:15px}
 .foot ul a{transition:color .2s}.foot ul a:hover{color:var(--rea)}
 .foot address{font-style:normal;font-size:15px;display:grid;gap:8px;margin-top:22px;color:var(--ink-2)}
@@ -363,7 +365,7 @@ footer{padding:84px 0 30px}
 .partners em{font-style:normal;font-size:13px;color:var(--muted);margin-right:6px}
 .legal{display:flex;justify-content:space-between;gap:20px;margin-top:26px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
 .concept{background:var(--rea-ink);color:#fff;padding:5px 12px;border-radius:999px}
-.photo-credits{margin-top:14px;font-size:11.5px;color:#8a968e;max-width:110ch}
+.photo-credits{margin-top:14px;font-size:12px;color:#8a968e;max-width:110ch}
 
 /* Reveal */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
@@ -436,6 +438,26 @@ footer{padding:84px 0 30px}
   .pitem .c{grid-column:2;justify-self:start;margin:0}
   .peek{display:none}
 }
+@media (max-width:720px){
+  .concept-bar .long{display:none}.concept-bar .short{display:inline}
+  .hero-chip{display:none}
+  .hero h1{font-size:clamp(36px,11.2vw,48px);margin:16px 0 18px}
+  .hero .lead{font-size:16px}
+  .hero-ctas{margin-top:24px}
+  .tile{min-width:0;padding:22px}
+  .ring{gap:16px}
+  .ring svg{width:92px;height:92px}
+  .ring .num{font-size:30px}
+  .big-stats .n{font-size:clamp(34px,10vw,44px)}
+  .prog .tag{font-size:12px}
+  .lead{font-size:16.5px}
+}
+@media (max-width:360px){
+  .util-r{margin-left:auto}
+  .hero-ctas .btn{width:100%;justify-content:space-between}
+  .btn{padding:0 20px}
+  .bento .tile{padding:20px}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
   .rv{opacity:1;transform:none}
@@ -445,7 +467,7 @@ footer{padding:84px 0 30px}
 <body>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
-<div class="concept-bar">Concept redesign by Hafsoh Bashar — not the official REA website. Visit <a href="https://rea.gov.ng">rea.gov.ng</a> for the real one.</div>
+<div class="concept-bar"><span class="long">Concept redesign by Hafsoh Bashar — not the official REA website. Visit <a href="https://rea.gov.ng">rea.gov.ng</a> for the real one.</span><span class="short">Concept redesign · not the official site · <a href="https://rea.gov.ng">rea.gov.ng</a></span></div>
 <div class="util">
   <div class="wrap">
     <div class="util-l">
@@ -486,7 +508,7 @@ footer{padding:84px 0 30px}
 <section class="hero" style="padding-top:0;padding-bottom:0" aria-label="Introduction">
   <div class="hero-frame" id="heroFrame">
     <div class="hero-media" id="heroMedia">
-      <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=2400" alt="Aerial view of a solar mini-grid beside a riverside community in Bayelsa State, Nigeria" fetchpriority="high">
+      <img decoding="async" id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=960" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=640 640w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=960 960w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=1400 1400w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=2000 2000w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=2600 2600w" sizes="100vw" alt="Aerial view of a solar mini-grid beside a riverside community in Bayelsa State, Nigeria" fetchpriority="high">
     </div>
     <div class="lights" id="lights" aria-hidden="true"><svg id="lightsSvg"></svg></div>
     <div class="hero-chip"><i></i>Solar mini-grid · Bayelsa State</div>
@@ -660,7 +682,7 @@ footer{padding:84px 0 30px}
     </div>
     <div class="features">
       <article class="feat rv">
-        <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=1600" alt="Solar panels installed on a Nigerian university campus" loading="lazy"></div>
+        <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panels_in_Kwara_state_university.jpg?width=1600 1600w" sizes="(max-width:1100px) 100vw, 60vw" alt="Solar panels installed on a Nigerian university campus" loading="lazy"></div>
         <span class="credit">Photo: Fatimah Bello · CC BY-SA</span>
         <div class="feat-body">
           <span class="tag">Energizing Education · Abuja · Sep 2026</span>
@@ -670,7 +692,7 @@ footer{padding:84px 0 30px}
       </article>
       <div class="feat-stack">
         <article class="feat rv d1">
-          <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=1400" alt="Electricity poles running through a rural Nigerian village" loading="lazy"></div>
+          <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Rural_electrification%2C_Chori_Village.jpg?width=1600 1600w" sizes="(max-width:1100px) 100vw, 60vw" alt="Electricity poles running through a rural Nigerian village" loading="lazy"></div>
           <span class="credit">Photo: Kambai Akau · CC BY-SA</span>
           <div class="feat-body">
             <span class="tag">Interconnected mini-grid · Kwara</span>
@@ -679,7 +701,7 @@ footer{padding:84px 0 30px}
           </div>
         </article>
         <article class="feat rv d2">
-          <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=1400" alt="A trader at her stall in a Nigerian market" loading="lazy" style="object-position:50% 30%"></div>
+          <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Nigerian_Market_woman_at_work_waiting_for_customer.jpg?width=1600 1600w" sizes="(max-width:1100px) 100vw, 60vw" alt="A trader at her stall in a Nigerian market" loading="lazy" style="object-position:50% 30%"></div>
           <span class="credit">Photo: DanteOlolo · CC BY-SA</span>
           <div class="feat-body">
             <span class="tag">Hybrid mini-grid · Cross River</span>
@@ -702,17 +724,17 @@ footer{padding:84px 0 30px}
     </div>
     <div class="news">
       <a class="post rv" href="#news">
-        <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=900" alt="Aerial view of a solar mini-grid in a Nigerian community" loading="lazy" style="object-position:70% 80%"><span class="read">Read story →</span></div>
+        <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Mini-Grid_Bayelsa.jpg?width=1600 1600w" sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 400px" alt="Aerial view of a solar mini-grid in a Nigerian community" loading="lazy" style="object-position:70% 80%"><span class="read">Read story →</span></div>
         <div class="meta"><b>Commissioning</b><span>September 2026</span></div>
         <h3>FG commissions 581 kWp interconnected mini-grid to power Oke-Oyi, Kwara State</h3>
       </a>
       <a class="post rv d1" href="#news">
-        <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=900" alt="A technician resting beside a newly installed solar panel on a roof" loading="lazy"><span class="read">Read story →</span></div>
+        <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Solar_Pannel_Installer.jpg?width=1600 1600w" sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 400px" alt="A technician resting beside a newly installed solar panel on a roof" loading="lazy"><span class="read">Read story →</span></div>
         <div class="meta"><b>Education</b><span>September 2026</span></div>
         <h3>FG commissions 3 MW solar hybrid power project at Yakubu Gowon University, Abuja</h3>
       </a>
       <a class="post rv d2" href="#news">
-        <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=900" alt="A Nigerian home with solar panels on its roof" loading="lazy"><span class="read">Read story →</span></div>
+        <div class="media"><img decoding="async" src="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=800" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=480 480w, https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=800 800w, https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=1200 1200w, https://commons.wikimedia.org/wiki/Special:FilePath/Sun_empowers_solar_panels.jpg?width=1600 1600w" sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 400px" alt="A Nigerian home with solar panels on its roof" loading="lazy"><span class="read">Read story →</span></div>
         <div class="meta"><b>Partnership</b><span>September 2026</span></div>
         <h3>REA and FHFL partner to embed clean energy in Nigeria's affordable housing drive</h3>
       </a>
@@ -745,7 +767,7 @@ footer{padding:84px 0 30px}
 <!-- PREFOOTER CTA -->
 <section class="cta" id="get-involved" style="padding-top:0;padding-bottom:0" aria-label="Get involved">
   <div class="cta-frame" id="ctaFrame">
-    <img id="ctaImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=2200" alt="" loading="lazy">
+    <img decoding="async" id="ctaImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=960" srcset="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=640 640w, https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=960 960w, https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=1400 1400w, https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=2000 2000w, https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_a_busy_tomato_market_in_Lagos_Nigeria.jpg?width=2600 2600w" sizes="100vw" alt="" loading="lazy">
     <div class="wrap">
       <span class="label rv">Get involved</span>
       <h2 class="rv">Every market, clinic and classroom <span class="hl">deserves power.</span></h2>
@@ -801,6 +823,8 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const IMG = (n, w) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(n)}?width=${w}`;
+  const SRCSET = (n, ws = [640, 960, 1400, 2000]) => ws.map(w => `${IMG(n, w)} ${w}w`).join(', ');
+
 
   /* Hero headline: word-by-word rise */
   const h = document.getElementById('heroTitle'); let wi = 0;
@@ -861,7 +885,11 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
     lit = true;
   };
   img.complete ? drawLights() : img.addEventListener('load', drawLights);
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(drawLights, 150); });
+  let rt, lastW = innerWidth; addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(drawLights, 150); });
+
+  document.addEventListener('visibilitychange', () => document.getAnimations().forEach(a => { if (a.effect?.target?.classList?.contains('spark')) document.hidden ? a.pause() : a.play(); }));
+  const heroIO = new IntersectionObserver(([e]) => document.getAnimations().forEach(a => { if (a.effect?.target?.classList?.contains('spark')) e.isIntersecting ? a.play() : a.pause(); }));
+  heroIO.observe(frame);
 
   /* Scroll: progress bar, hide/show nav, hero + CTA parallax */
   const prog = document.getElementById('progress'), nav = document.getElementById('nav');
@@ -957,13 +985,13 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
     const left = Math.max(12, Math.min(px - 125, cr.width - 262));
     peek.style.left = left + 'px'; peek.style.top = Math.max(12, py - 210) + 'px';
     peek.style.setProperty('--ox', (px - left) + 'px');
-    peekImg.src = IMG(p.img, 600); peekT.textContent = p.t; peekL.textContent = `${p.l} · ${p.c}`;
+    if (fine) peekImg.src = IMG(p.img, 600); peekT.textContent = p.t; peekL.textContent = `${p.l} · ${p.c}`;
     peek.classList.add('show');
   };
   projects.forEach(p => {
     const g = document.createElementNS(ns, 'g'); g.setAttribute('class', 'pin'); g.dataset.id = p.id;
     g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', `${p.t}, ${p.l}, ${p.c}`);
-    g.innerHTML = `<circle class="halo" cx="${p.x}" cy="${p.y}" r="14"/><circle class="ring" cx="${p.x}" cy="${p.y}" r="15"/><circle class="dot" cx="${p.x}" cy="${p.y}" r="8"/>`;
+    g.innerHTML = `<circle class="hit" cx="${p.x}" cy="${p.y}" r="46"/><circle class="halo" cx="${p.x}" cy="${p.y}" r="14"/><circle class="ring" cx="${p.x}" cy="${p.y}" r="15"/><circle class="dot" cx="${p.x}" cy="${p.y}" r="8"/>`;
     ['pointerenter', 'click', 'focus'].forEach(ev => g.addEventListener(ev, () => select(p.id)));
     pinsG.append(g);
     const b = document.createElement('button'); b.className = 'pitem'; b.dataset.id = p.id; b.setAttribute('role', 'listitem');
@@ -990,7 +1018,7 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
   const pg = document.getElementById('progs');
   progs.forEach(p => {
     const el = document.createElement('article'); el.className = 'prog' + (p.feature ? ' feature' : ''); el.dataset.cat = p.cat;
-    el.innerHTML = `<img src="${IMG(p.img, p.feature ? 1600 : 900)}" alt="" loading="lazy" style="object-position:${p.pos}">
+    el.innerHTML = `<img src="${IMG(p.img, 800)}" srcset="${SRCSET(p.img, [480, 800, 1200, 1600])}" sizes="${p.feature ? '(max-width:720px) 100vw, 50vw' : '(max-width:720px) 100vw, (max-width:1100px) 50vw, 25vw'}" alt="" loading="lazy" decoding="async" style="object-position:${p.pos}">
       <div class="prog-body"><span class="tag">${p.a}</span><h3>${p.t}</h3>
       ${p.stats ? `<div class="stat">${p.stats.map(s => `<span><b>${s[0]}</b>${s[1]}</span>`).join('')}</div>` : ''}
       <div class="more"><div><p>${p.d}</p><a href="${p.url}">Visit programme <span>→</span></a></div></div></div>`;
@@ -1020,7 +1048,7 @@ const NG_STATES=[{"id":"abia","n":"Abia","d":"m 291.0,491.6 0.6,0.7 4.8,-0.8 2.7
   ];
   const stepsEl = document.getElementById('steps'), stage = document.getElementById('stage'), need = document.getElementById('need'), who = document.getElementById('who'), credit = document.getElementById('stageCredit');
   const needWrap = document.getElementById('needWrap'), whoWrap = document.getElementById('whoWrap');
-  const imgs = steps.map((s, i) => { const im = document.createElement('img'); im.src = IMG(s.img, 1400); im.alt = s.t; im.loading = 'lazy'; stage.prepend(im); return im; });
+  const imgs = steps.map((s, i) => { const im = document.createElement('img'); im.src = IMG(s.img, 960); im.srcset = SRCSET(s.img, [640, 960, 1400]); im.sizes = '(max-width:1100px) 100vw, 55vw'; im.decoding = 'async'; im.alt = s.t; im.loading = 'lazy'; stage.prepend(im); return im; });
   const btns = steps.map((s, i) => {
     const b = document.createElement('button'); b.className = 'step'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', 'false');
     b.innerHTML = `<span class="n">${i + 1}</span><h3>${s.t}</h3><p>${s.p}</p><span class="bar"><b></b></span>`;
