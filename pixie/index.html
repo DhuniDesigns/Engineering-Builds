@@ -475,6 +475,12 @@ input,textarea{caret-color:#F0237E}
 .sw .blk{transition:translate .18s cubic-bezier(.2,0,0,1)}
 @media (hover:hover) and (pointer:fine){.sw:hover .blk{transform:none;translate:0 -3px}}
 @media (prefers-reduced-motion:reduce){.btn:not(:disabled):active,.gloss:not(:disabled):active,.pick:active,.pack:active,.ic:active{scale:1}}
+.upl{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;border:1px dashed rgba(255,255,255,.18);cursor:pointer;transition:background-color .15s ease}
+@media (hover:hover) and (pointer:fine){.upl:hover{background:rgba(255,255,255,.05)}}
+.upl-i{flex:0 0 44px;height:44px;border-radius:10px;background:rgba(255,255,255,.06);display:grid;place-items:center;overflow:hidden;color:#FF8CC6}
+.upl-i svg{width:22px;height:22px}.upl-i img{width:100%;height:100%;object-fit:cover}
+.upl-t b{display:block;font-size:13px;font-weight:500;color:#fff}.upl-t small{display:block;font-size:11.5px;color:var(--pop-muted)}
+.upl:focus-within{outline:2px solid #FF4FA3;outline-offset:2px}
 /* responsive */
 @media (max-width:1180px){.wb{grid-template-columns:64px 300px minmax(0,1fr)}}
 @media (max-width:900px){
@@ -865,20 +871,30 @@ function cleanSVG(text){const m=String(text).match(/<svg[\s\S]*<\/svg>/i);if(!m)
   [...svg.attributes].forEach(a=>{if(/^on/i.test(a.name))svg.removeAttribute(a.name)});
   svg.setAttribute('viewBox',svg.getAttribute('viewBox')||'0 0 400 300');svg.removeAttribute('width');svg.removeAttribute('height');svg.setAttribute('xmlns','http://www.w3.org/2000/svg');
   return new XMLSerializer().serializeToString(svg)}
-async function drawScene(subject,style){const ai=S.ai;if(!ai)throw{code:'not_granted'};const P=palette(S.kit.colour);
+async function aiCall(prompt,img){
+  if(S.aiKind==='sample'){const o={modelTier:'default'};if(img){if(!S.aiImages)throw{code:'no_images'};o.images=[img.blob]}return S.ai(prompt,o)}
+  if(S.aiKind==='api'){const r=await fetch('/api/draw',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt,image:img?img.dataUrl:undefined})});const j=await r.json().catch(()=>({}));if(!r.ok)throw{code:j.code||'error'};return j}
+  throw{code:'not_granted'}}
+let refImg=null;
+function loadRef(file){return new Promise((res,rej)=>{if(!file||!/^image\//.test(file.type))return rej('type');const u=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{const k=Math.min(1,768/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+    const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);const dataUrl=c.toDataURL('image/jpeg',.85);c.toBlob(b=>res({dataUrl,blob:b}),'image/jpeg',.85)};
+  im.onerror=()=>rej('read');im.src=u})}
+const DESCRIBE='Describe the visual illustration style of this image so another illustrator could match it: shapes, line weight, fills, shading, texture, perspective and level of detail. Ignore its colours and its subject. Reply with one paragraph under 60 words and nothing else.';
+async function drawScene(subject,style){if(!S.ai)throw{code:'not_granted'};const P=palette(S.kit.colour);
   const prompt=`You draw small flat vector illustrations for a brand kit.
 Brand: ${B.name||'a new brand'}${B.desc?' — '+B.desc:''}.
 Scene: ${subject}.
 Style: ${style}.
 Palette — use only these colours: background ${P.bg}, soft ${P.soft}, light ${P.a1}, mid ${P.a2}, primary ${P.a}, dark ${P.a3}, ink ${P.ink}, white #FFFFFF.
 Rules: reply with one <svg> element and nothing else, no markdown. Use xmlns="http://www.w3.org/2000/svg" and viewBox="0 0 400 300". The first child is <rect width="400" height="300" fill="${P.bg}"/>. No text, no <image>, no <script>, no filters, no external links. A simple centred composition with clear shapes, under 7000 characters.`;
-  const r=await ai(prompt,{modelTier:'default'});return cleanSVG(r.text)}
+  const r=await aiCall(prompt);return cleanSVG(r.text)}
 const drawing=new Set();let drawGen=0;
 async function drawMissing(){const st=S.kit.ill.style;if(!isAI(st)||!S.ai)return;const gen=++drawGen;S.aiSvgs[st]=S.aiSvgs[st]||[];
   for(let i=0;i<SCENES.length;i++){if(gen!==drawGen||S.kit.ill.style!==st)return;if(S.aiSvgs[st][i]||drawing.has(st+i))continue;
     drawing.add(st+i);if(S.tab==='ill')render(false);
     try{const svg=await drawScene(SCENE_DESC[SCENES[i][0]],styleDesc(st));S.aiSvgs[st][i]=svg;if(S.kit.ill.style===st)S.kit.ill.svgs[i]=svg;save()}
-    catch(e){drawing.delete(st+i);if(e&&e.code==='not_granted'){toast('AI drawing wasn’t allowed');if(S.tab==='ill')render(false);return}if(e&&e.code==='rate_limited'){toast('Drawing limit reached. Try again later.');if(S.tab==='ill')render(false);return}toast('One scene didn’t draw. Use regenerate to retry.')}
+    catch(e){drawing.delete(st+i);if(e&&(e.code==='not_granted'||e.code==='not_configured')){toast(e.code==='not_configured'?'AI drawing isn’t set up on this site yet':'AI drawing wasn’t allowed');if(S.tab==='ill')render(false);return}if(e&&e.code==='rate_limited'){toast('Drawing limit reached. Try again later.');if(S.tab==='ill')render(false);return}toast('One scene didn’t draw. Use regenerate to retry.')}
     drawing.delete(st+i);if(S.tab==='ill'&&S.mode==='work')render(false)}}
 async function redrawOne(i){const st=S.kit.ill.style;if(drawing.has(st+i))return;drawing.add(st+i);render(false);
   try{const svg=await drawScene(SCENE_DESC[SCENES[i][0]]+' (a fresh take, different from before)',styleDesc(st));S.aiSvgs[st]=S.aiSvgs[st]||[];S.aiSvgs[st][i]=svg;if(S.kit.ill.style===st)S.kit.ill.svgs[i]=svg;save()}
@@ -888,10 +904,11 @@ async function drawExtra(prompt){const id=newId(),st=S.kit.ill.style;const ex={i
   try{ex.svg=await drawScene(prompt,styleDesc(st));save()}catch(e){S.extra=S.extra.filter(x=>x.id!==id);toast(e&&e.code==='rate_limited'?'Drawing limit reached. Try again later.':'That scene didn’t draw. Try a simpler description.')}
   drawing.delete('x'+id);render(false)}
 function stylePop(anchor){const list=S.styles.map(s=>`<div class="sty"><span><b>${esc(s.name)}</b><small>${esc(s.prompt)}</small></span><button class="opt-x" data-del-style="${s.id}" aria-label="Delete ${esc(s.name)}">${svgI('sol:close-circle-linear')}</button></div>`).join('');
-  openPop(anchor,`<div class="lab">New illustration style</div>${list?`<div class="sty-l">${list}</div>`:''}
+  refImg=null;openPop(anchor,`<div class="lab">New illustration style</div>${list?`<div class="sty-l">${list}</div>`:''}
     <input class="pin" id="styName" placeholder="Name, e.g. Sticker" maxlength="24" aria-label="Style name">
-    <textarea class="pin" id="styPrompt" rows="3" maxlength="200" placeholder="Describe the look: chunky 90s stickers with thick outlines, or isometric 3D blocks…" aria-label="Style description"></textarea>
+    <textarea class="pin" id="styPrompt" rows="3" maxlength="200" placeholder="Describe the look, e.g. chunky 90s stickers with thick outlines. Or add a reference image below." aria-label="Style description"></textarea>
     <div class="ideas">${['Hand-drawn doodles','Isometric 3D','Retro stickers','Paper cut-out'].map(x=>`<button data-idea="${x}">${x}</button>`).join('')}</div>
+    ${S.aiImages?`<label class="upl" id="styUpl"><input type="file" accept="image/png,image/jpeg,image/webp" id="styImg" hidden><span class="upl-i" id="styThumb">${svgI('sol:gallery-wide-bold-duotone')}</span><span class="upl-t"><b id="styUplT">Match a reference image</b><small>Pixie copies its look, not its colours or subject</small></span></label>`:''}
     <button class="dbtn-w pri" id="styCreate">Create and draw 6 scenes</button>`,'','up',{kind:'style',cls:'cpop spop'})}
 function scenePop(anchor){openPop(anchor,`<div class="lab">Describe a scene</div><textarea class="pin" id="scPrompt" rows="3" maxlength="200" placeholder="A freelancer getting paid on their phone, coins floating up…" aria-label="Scene description"></textarea>
   <p class="pop-note">Drawn in the ${esc(styleName(S.kit.ill.style))} style with your colours.</p><button class="dbtn-w pri" id="scCreate">Draw it</button>`,'','up',{kind:'scene',cls:'cpop spop'})}
@@ -1131,9 +1148,11 @@ document.addEventListener('click',e=>{
   const ns=e.target.closest('[data-new-style]');if(ns){if(popCtx&&popCtx.anchor===ns){closePop();return}stylePop(ns);return}
   const asn=e.target.closest('[data-add-scene]');if(asn){if(popCtx&&popCtx.anchor===asn){closePop();return}scenePop(asn);return}
   const idea=e.target.closest('[data-idea]');if(idea){$('styName').value=idea.dataset.idea;$('styPrompt').value={'Hand-drawn doodles':'loose hand-drawn doodles with wobbly ink outlines and flat fills','Isometric 3D':'isometric 3D blocks and objects with three tones per surface','Retro stickers':'chunky retro stickers with thick dark outlines and a white sticker border','Paper cut-out':'layered paper cut-out shapes with soft drop shadows between layers'}[idea.dataset.idea];return}
-  if(e.target.closest('#styCreate')){const nm=$('styName').value.trim(),pr=$('styPrompt').value.trim();if(!nm||!pr){toast('Add a name and describe the look');return}
-    const id=newId();closePop();store.putStyle(id,{name:nm,prompt:pr,createdAt:Date.now()}).catch(()=>toast('Couldn’t save the style, using it for this kit only'));
-    if(!S.styles.find(s=>s.id===id))S.styles.push({id,name:nm,prompt:pr,createdAt:Date.now()});S.illStyle='c:'+id;generate({ill:1});render(true);save();drawMissing();return}
+  if(e.target.closest('#styCreate')){const btn=$('styCreate');const nm=$('styName').value.trim();let pr=$('styPrompt').value.trim();
+    if(!nm){$('styName').focus();toast('Give the style a name');return}if(!pr&&!refImg){$('styPrompt').focus();toast('Describe the look or add a reference image');return}
+    (async()=>{if(refImg){btn.disabled=true;btn.textContent='Studying your image…';try{const r=await aiCall(DESCRIBE,refImg);pr=(pr?pr+'. ':'')+String(r.text||'').trim().slice(0,400)}catch(err){btn.disabled=false;btn.textContent='Create and draw 6 scenes';toast(err&&err.code==='rate_limited'?'Drawing limit reached. Try again later.':'Couldn’t read that image. Try another, or describe the look.');return}}
+      const id=newId();closePop();store.putStyle(id,{name:nm,prompt:pr,createdAt:Date.now()}).catch(()=>toast('Couldn’t save the style, using it for this kit only'));
+      if(!S.styles.find(x=>x.id===id))S.styles.push({id,name:nm,prompt:pr,createdAt:Date.now()});S.illStyle='c:'+id;generate({ill:1});render(true);save();toast(`Drawing 6 scenes in ${nm}`);drawMissing()})();return}
   if(e.target.closest('#scCreate')){const pr=$('scPrompt').value.trim();if(!pr){toast('Describe the scene first');return}closePop();drawExtra(pr);return}
   const dsty=e.target.closest('[data-del-style]');if(dsty){const id=dsty.dataset.delStyle;store.delStyle(id).catch(()=>{});S.styles=S.styles.filter(s=>s.id!==id);if(S.illStyle==='c:'+id){S.illStyle=null;generate({ill:1})}closePop();render(false);save();return}
   const dx=e.target.closest('[data-del-extra]');if(dx){S.extra=S.extra.filter(x=>x.id!==dx.dataset.delExtra);render(false);save();return}
@@ -1172,11 +1191,14 @@ $('copyCss').addEventListener('click',()=>copy(cssVars(),'CSS variables copied')
 /* ================= logo ================= */
 const pm=PixieMark($('pmk')),em=PixieMark($('emMark'));$('emMark').addEventListener('click',()=>em.replay());
 document.addEventListener('click',e=>{if(e.target.closest('[data-continue]')){S.mode='work';showMode();renderAll(true);persist();return}if(e.target.closest('[data-home]')){S.mode='empty';closePop();showMode();persist();pm.replay();em.replay()}});
+document.addEventListener('change',e=>{if(e.target.id==='styImg'){const f=e.target.files&&e.target.files[0];loadRef(f).then(r=>{refImg=r;$('styThumb').innerHTML=`<img src="${r.dataUrl}" alt="Reference image">`;$('styUplT').textContent='Reference added · tap to change'}).catch(()=>toast('Use a PNG, JPG or WebP image'))}});
 /* boot */
 syncFields();renderRail();
 if(S.mode==='work'){generate({colour:1,type:1,icons:1,ill:1});applyFonts();renderAll(true)}
 showMode();store.init();
-(async()=>{try{if(window.claude&&claude.use){S.ai=await claude.use('sample');if(S.ai&&S.mode==='work'){if(S.tab==='ill')render(false);if(isAI(S.kit.ill&&S.kit.ill.style))drawMissing()}}}catch(e){S.ai=null}})();
+(async()=>{let ok=false;try{if(window.claude&&claude.use){const sm=await claude.use('sample');if(sm){S.ai=sm;S.aiKind='sample';ok=true;try{const l=await sm.limits();S.aiImages=!!(l&&l.images)}catch(e){S.aiImages=false}}}}catch(e){}
+  if(!ok&&/^https?:/.test(location.protocol)&&!/claude\.ai$/.test(location.hostname)){try{const r=await fetch('/api/draw',{cache:'no-store'});const j=await r.json();if(j&&j.configured){S.ai=true;S.aiKind='api';S.aiImages=true;ok=true}}catch(e){}}
+  if(ok&&S.mode==='work'){if(S.tab==='ill')render(false);if(isAI(S.kit.ill&&S.kit.ill.style))drawMissing()}})();
 
 </script>
 
