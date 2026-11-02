@@ -8,6 +8,18 @@ Each piece is plain HTML, CSS and JavaScript (no build step, no dependencies). O
 
 ---
 
+## Pixie: Brand kits for Figma
+
+Describe a brand and Pixie generates colours, type, icons and illustrations, checks every contrast pairing, and sends it all to Figma as variables. The pink pixel logo blinks, bursts into a sparkle and bounces back.
+
+![Pixie](media/pixie.svg)
+
+OKLCH palettes with WCAG checks · five icon packs with a recommended pick · prompt-your-own illustration styles · saved kits · animated SVG logo · Figma plugin (beta) that writes variables, text styles and components
+
+[Live app](https://pixie-brand-kits.vercel.app) · [Logo](https://pixie-brand-kits.vercel.app/logo/) · [Source](pixie/) · [Figma plugin](pixie/figma-plugin/)
+
+---
+
 ## Koffi: Website
 
 A coffee brand landing page about giving great coffee — and yourself — room to breathe. Hand-drawn illustration, a flipping logo mark, and lifted button states throughout.
