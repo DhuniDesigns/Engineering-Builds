@@ -46,6 +46,22 @@ Hero that curves as you scroll · headline that fills line by line · odometer f
 
 ---
 
+## Shuttlers: Homepage Redesign v2 (concept)
+
+The second version of the Shuttlers concept, built to pitch for a role there. It opens on a light 3D city map that shows exactly what Shuttlers does: a bus driving a real Lagos route from Ojota to Victoria Island, with a live trip card counting down to your stop. The first version above stays as it is. Not affiliated with Shuttlers.
+
+![Shuttlers homepage redesign v2](media/shuttlers-v2.jpg)
+
+Canvas-rendered 3D map hero (drag to rotate, tap a stop, follow-cam on mobile) · live trip card with ETA and stops left · route finder beside the statement with stop combobox, swap, date chips, Kobra-style OTP (demo code `246810`) and toasts · seat picker · stacked service cards with illustrated art · light city map · Pilot and safety section · real rider quotes from shuttlers.co in a marquee with hover lift · road-and-bus download CTA · real Shuttlers logo
+
+**Accessibility (proposed for this concept, all working on the page):** wheelchair-accessible route filter · audio and vibration "2 stops away" alerts · large-text and high-contrast modes (also follows the system contrast setting) · "need assistance at pick-up" request that shows in the Pilot app
+
+[Live site](https://shuttlers-concept-v2.vercel.app) · [Live demo](https://dhunidesigns.github.io/Engineering-Builds/shuttlers-v2/) · [Source](shuttlers-v2/index.html)
+
+Photos: Unsplash (credited on the page). Rider quotes: shuttlers.co.
+
+---
+
 ## REA: Website Redesign (concept)
 
 A concept redesign of the Rural Electrification Agency of Nigeria website (rea.gov.ng), built from an audit of the current site. Inspired by Progress, Muncul, Cresta, 1Solar and Solarify, in REA's own green. Not affiliated with REA.
