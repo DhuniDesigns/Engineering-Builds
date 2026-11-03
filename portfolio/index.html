@@ -589,7 +589,7 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
    var(--art) center/cover no-repeat}
 
 /* off the clock: a dense collage, like a desk of prints and stickers */
-.collage{height:auto!important;width:min(980px,calc(100vw - 24px));aspect-ratio:980/600}
+.collage{height:auto!important;width:min(980px,calc(100vw - 24px));aspect-ratio:980/620}
 .stk-in{box-shadow:0 1px 2px rgba(0,0,0,.25),0 14px 28px -10px rgba(0,0,0,.6)}
 .stk-print{background:#fbfaf7;padding:7px;border-radius:3px}
 .stk-print.dark{background:#141414;padding:6px}
@@ -830,6 +830,84 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .stk.set:hover .lc-spin{animation-duration:2.4s}
 .stk.set:hover .stk-lcube{box-shadow:none}
 @media (prefers-reduced-motion:reduce){.lc-spin{animation:none}}
+/* Lagos cube v2: deeper bevels, printed details, blocks pull apart on hover */
+.lc-stage{perspective:1400px}
+.lb{transition:transform .7s cubic-bezier(.34,1.56,.64,1)}
+.stk.set:hover .lb{transform:translate3d(calc(var(--ex) * 9px),calc(var(--ey) * 9px),calc(var(--ez) * 9px))}
+.lf{border-radius:4px;box-shadow:inset 0 0 0 .6px rgba(0,0,0,.22),inset 1.5px 1.5px 0 rgba(255,255,255,.28),inset -1.5px -1.5px 0 rgba(0,0,0,.14)}
+.lf .lab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%;height:100%;text-align:center}
+.lf .lab b{font:800 10px/1 var(--sans);letter-spacing:.08em;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.3)}
+.lf .lab small{font:600 5.5px/1 var(--sans);letter-spacing:.14em;color:rgba(255,255,255,.8)}
+.danfo .lab b{color:#1b1b1b;text-shadow:0 1px 0 rgba(255,255,255,.35);font-size:12px}
+.danfo .lab small{color:#3a2b00}
+.danfo .f-front{background:linear-gradient(180deg,transparent 78%,#151515 78% 86%,transparent 86%),linear-gradient(160deg,#ffdd6e,#f6c33b 55%,#dca21c)}
+.danfo .f-right{background:linear-gradient(180deg,transparent 78%,#111 78% 86%,transparent 86%),#c9961d}
+.hazard{position:absolute;inset:auto 0 0;height:22%;border-radius:0 0 3px 3px;background:repeating-linear-gradient(45deg,#1b1b1b 0 5px,#f6c33b 5px 10px);opacity:.85}
+.kraft .lab b{color:#2a1a0c;text-shadow:0 1px 0 rgba(255,255,255,.25);font-family:'Libre Caslon Text',Georgia,serif;font-size:13px;letter-spacing:.02em}
+.kraft .lab small{color:#4a3018;font-size:5px}
+.lc-tape{position:absolute;left:12%;right:12%;top:38%;height:22%;background:rgba(255,250,235,.55);box-shadow:0 0 0 .5px rgba(0,0,0,.08)}
+.ng .lab b,.ng .lab svg{color:#fff}
+.ng .f-left .lab b.ng{width:60%;height:70%;background:linear-gradient(90deg,#1f8a4c 33%,#fff 33% 66%,#1f8a4c 66%);border-radius:2px;box-shadow:0 0 0 .5px rgba(0,0,0,.2)}
+.vert .f-front .lab b{color:#9a9a94;text-shadow:0 1px 0 #fff;writing-mode:vertical-rl;letter-spacing:.3em;font-size:9px}
+.vert .f-front{background:linear-gradient(90deg,#e6e6e2,#fbfbf9 40%,#e9e9e5)}
+.blue .lab small{font-size:5px}
+.jollof .dot-l{width:40%;height:40%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffb0a8,#c4372d);box-shadow:0 1px 1px rgba(0,0,0,.3)}
+.lc-shadow{bottom:0;width:78%;height:16%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent);filter:blur(4px)}
+/* ===== v31: collage on a cutting mat ===== */
+.collage{aspect-ratio:980/620;border-radius:28px;isolation:isolate;
+  background:
+   linear-gradient(color-mix(in srgb,#ffd1e6 10%,transparent) 1px,transparent 1px) 0 0/40px 40px,
+   linear-gradient(90deg,color-mix(in srgb,#ffd1e6 10%,transparent) 1px,transparent 1px) 0 0/40px 40px,
+   linear-gradient(color-mix(in srgb,#ffd1e6 4%,transparent) 1px,transparent 1px) 0 0/8px 8px,
+   linear-gradient(90deg,color-mix(in srgb,#ffd1e6 4%,transparent) 1px,transparent 1px) 0 0/8px 8px,
+   radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--surface) 100%,#ff8fd2 6%),var(--surface));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--fg) 7%,transparent),inset 0 1px 0 rgba(255,255,255,.04)}
+.collage::before{content:"";position:absolute;inset:10px 22px auto;height:8px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,color-mix(in srgb,#ffd1e6 30%,transparent) 0 1px,transparent 1px 8px),repeating-linear-gradient(90deg,color-mix(in srgb,#ffd1e6 45%,transparent) 0 1px,transparent 1px 40px);
+  -webkit-mask:linear-gradient(#000 0 40%,transparent 40%),linear-gradient(90deg,#000,#000);mask:none;opacity:.6}
+.collage::after{content:"DHUNI · OFF THE CLOCK · 1:1";position:absolute;right:22px;bottom:12px;font:600 9px/1 ui-monospace,Menlo,monospace;letter-spacing:.16em;color:color-mix(in srgb,#ffd1e6 45%,transparent);pointer-events:none}
+:root[data-mode="light"] .collage{background:
+   linear-gradient(rgba(233,72,159,.09) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(233,72,159,.09) 1px,transparent 1px) 0 0/40px 40px,
+   linear-gradient(rgba(233,72,159,.04) 1px,transparent 1px) 0 0/8px 8px,linear-gradient(90deg,rgba(233,72,159,.04) 1px,transparent 1px) 0 0/8px 8px,#eceae5}
+:root[data-mode="light"] .collage::after{color:rgba(160,40,110,.45)}
+/* washi tape on prints */
+.stk-print.tape::before{content:"";position:absolute;top:-10px;left:50%;width:74px;height:22px;translate:-50% 0;rotate:-4deg;z-index:2;
+  background:repeating-linear-gradient(135deg,rgba(255,143,210,.78) 0 6px,rgba(255,190,228,.78) 6px 12px);box-shadow:0 1px 2px rgba(0,0,0,.18);
+  -webkit-mask:linear-gradient(90deg,transparent 0 2px,#000 2px calc(100% - 2px),transparent calc(100% - 2px));mask:linear-gradient(90deg,transparent 0 2px,#000 2px calc(100% - 2px),transparent calc(100% - 2px))}
+/* polaroid prints with a handwritten caption */
+.stk-print.pol{padding:7px 7px 30px;flex-direction:column}
+.stk-print.pol img,.stk-print.pol svg{height:100%;min-height:0;flex:1;width:100%;object-fit:cover;display:block;border-radius:1px}
+.cap{position:absolute;left:0;right:0;bottom:7px;text-align:center;font:500 15px/1 var(--script);color:#2c2c2c}
+/* notebook note with a pin */
+.stk-note{background:#fffdf6;border-radius:2px;padding:16px 14px 12px 22px;align-items:flex-start;justify-content:flex-start;color:#2a2a2a;overflow:visible}
+.stk-note .lines{position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,transparent 15px,rgba(233,72,72,.35) 15px 16px,transparent 16px),repeating-linear-gradient(transparent 0 21px,rgba(60,90,200,.16) 21px 22px);pointer-events:none}
+.stk-note p{position:relative;margin:4px 0 0;font:500 19px/22px var(--script)}
+.stk-note u{text-decoration-color:#ff5fb2;text-decoration-thickness:2px;text-underline-offset:3px}
+.stk-note .pin{position:absolute;top:-7px;left:50%;width:16px;height:16px;translate:-50% 0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff9ccf,#d42f86 60%,#8e1556);box-shadow:0 3px 4px rgba(0,0,0,.4)}
+/* Interview with the Vampire card */
+.stk-iwtv{background:radial-gradient(120% 80% at 50% 0%,#5a0f1c,#26060c 70%);border-radius:6px;flex-direction:column;justify-content:flex-start;gap:8px;padding:16px 12px 12px;color:#f3e1c7;
+  box-shadow:inset 0 0 0 1px rgba(214,174,104,.55),inset 0 0 0 5px #26060c,inset 0 0 0 6px rgba(214,174,104,.35),0 14px 28px -10px rgba(0,0,0,.7)}
+.stk-iwtv small{font:600 7px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:#d6ae68}
+.stk-iwtv b{font:italic 400 20px/1.02 'Libre Caslon Text',Georgia,serif;text-align:center;color:#f6e6cf;text-shadow:0 0 12px rgba(255,60,60,.25)}
+.stk-iwtv b span{font-size:12px;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#d6ae68}
+.stk-iwtv svg{width:54px;color:#0d0204;filter:drop-shadow(0 0 1px rgba(214,174,104,.6));margin-top:auto}
+.stk-iwtv em{font:500 13px/1 var(--script);color:#e8c6a0;font-style:normal}
+/* palette swatch card */
+.stk-pal{background:#fbfaf7;border-radius:10px;flex-direction:column;align-items:stretch;justify-content:space-between;padding:10px;gap:8px}
+.stk-pal .sw{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stk-pal .sw span{display:flex;flex-direction:column;gap:2px}
+.stk-pal .sw i{height:48px;border-radius:6px;background:var(--c);box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)}
+.stk-pal .sw b{font:600 8px/1 ui-monospace,Menlo,monospace;color:#222;margin-top:2px}
+.stk-pal .sw small{font-size:8px;color:#888}
+.stk-pal em{font:500 13px/1 var(--script);color:#555;font-style:normal;text-align:center}
+/* Rufus & Bee */
+.stk-rufus{border-radius:50%;background:radial-gradient(circle at 50% 35%,#fff7dc,#f8e2a2);flex-direction:column;gap:2px;color:#3a2410;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px rgba(120,80,20,.25),0 12px 24px -8px rgba(0,0,0,.6)}
+.stk-rufus svg{width:46px;height:auto;margin-top:-4px}
+.stk-rufus b{font:700 15px/1 'Libre Caslon Text',Georgia,serif}
+.stk-rufus b i{font-style:italic;font-weight:400;color:#c4892a}
+.stk-rufus small{font-size:7px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.stk-print.beach svg{border-radius:1px}
+@media (max-width:640px){.collage{border-radius:18px}.collage::after{display:none}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -884,6 +962,7 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
   <a data-social="x" data-tip="X (Twitter)" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07l-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg></a>
   <a data-social="linkedin" data-tip="LinkedIn" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M9.429 8.969h3.714v1.85c.535-1.064 1.907-2.02 3.968-2.02c3.951 0 4.889 2.118 4.889 6.004V22h-4v-6.312c0-2.213-.535-3.461-1.897-3.461c-1.889 0-2.674 1.345-2.674 3.46V22h-4zM2.57 21.83h4V8.799h-4zM7.143 4.55a2.53 2.53 0 0 1-.753 1.802a2.57 2.57 0 0 1-1.82.748a2.6 2.6 0 0 1-1.818-.747A2.55 2.55 0 0 1 2 4.55c0-.677.27-1.325.753-1.803A2.58 2.58 0 0 1 4.571 2c.682 0 1.336.269 1.819.747s.753 1.126.753 1.803" clip-rule="evenodd"/></svg></a>
   <a data-social="github" data-tip="GitHub" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="none"><g clip-path="url(#SVGXv8lpc2Y)"><path fill="currentColor" fill-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12" clip-rule="evenodd"/></g><defs><clipPath id="SVGXv8lpc2Y"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg></a>
+  <a data-social="email" data-tip="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a>
 </nav>
 
 <template id="t-dot"><span class="dot" aria-hidden="true"></span></template>
@@ -1178,26 +1257,30 @@ resume(){
 
 /* ---- Lagos cube: interlocking blocks in real CSS 3D (after "Brokerage Bundles") ---- */
 function lagosCube(){
-  const U=30;
-  // [x,y,z,w,h,d, colour, label on the front, label face, extra class]  (units; y goes down, z comes toward you)
+  const U=36;
+  const PLANE=`<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-6z"/></svg>`;
+  const BUS=`<svg viewBox="0 0 32 18" width="26" height="15"><rect x="1" y="2" width="28" height="12" rx="3" fill="#1b1b1b"/><rect x="4" y="4.5" width="5" height="4" rx="1" fill="#ffe08a"/><rect x="10.5" y="4.5" width="5" height="4" rx="1" fill="#ffe08a"/><rect x="17" y="4.5" width="5" height="4" rx="1" fill="#ffe08a"/><rect x="23.5" y="4.5" width="3.5" height="7" rx="1" fill="#ffe08a"/><circle cx="8" cy="15" r="2.6" fill="#1b1b1b" stroke="#f6c33b" stroke-width="1.4"/><circle cx="23" cy="15" r="2.6" fill="#1b1b1b" stroke="#f6c33b" stroke-width="1.4"/></svg>`;
+  // [x,y,z,w,h,d, colour, {face: html}, extra class]  units; y goes down, z comes toward you
   const B=[
-    [0,0,0,2,1,3,"#f6c33b","DANFO","front","danfo"],
-    [2,0,0,1,1,1,"#e85a4f","","",""],
-    [2,0,1,1,1,2,"#c99a6b","EKO","right","kraft"],
-    [0,1,0,1,2,3,"#1f8a4c","LOS","front",""],
-    [1,1,1,1,2,2,"#f1f1ee","LAGOS","front","vert"],
-    [2,1,1,1,2,2,"#4f86e8","+234","right",""],
-    [1,1,0,2,2,1,"#9aa0a8","","",""],
+    [0,0,0,2,1,3,"#f6c33b",{front:`${BUS}<b>DANFO</b><small>CMS · OSHODI</small>`,top:`<em class="hazard"></em>`},"danfo"],
+    [2,0,0,1,1,1,"#e85a4f",{top:`<b class="dot-l"></b>`},"jollof"],
+    [2,0,1,1,1,2,"#c99a6b",{right:`<b>EKO</b><small>Ò NÍ BÀJẸ́</small>`,top:`<em class="lc-tape"></em>`},"kraft"],
+    [0,1,0,1,2,3,"#1f8a4c",{front:`${PLANE}<b>LOS</b>`,left:`<b class="ng"></b>`},"ng"],
+    [1,1,1,1,2,2,"#f1f1ee",{front:`<b>LAGOS</b>`},"vert"],
+    [2,1,1,1,2,2,"#4f86e8",{right:`<b>+234</b><small>Lagos, Nigeria</small>`},"blue"],
+    [1,1,0,2,2,1,"#9aa0a8",{},""],
   ];
-  const face=(cls,w,h,t,c,lab)=>`<i class="lf ${cls}" style="width:${w}px;height:${h}px;transform:${t};--c:${c}">${lab?`<b>${lab}</b>`:""}</i>`;
-  const box=([x,y,z,w,h,d,c,lab,on,extra])=>{ const g=1.5; x=x*U+g;y=y*U+g;z=z*U+g;w=w*U-2*g;h=h*U-2*g;d=d*U-2*g;
-    return `<span class="lb ${extra}">`+
-      face("f-front",w,h,`translate3d(${x}px,${y}px,${z+d}px)`,c,on==="front"?lab:"")+
-      face("f-right",d,h,`translate3d(${x+w}px,${y}px,${z+d}px) rotateY(90deg)`,c,on==="right"?lab:"")+
-      face("f-left",d,h,`translate3d(${x}px,${y}px,${z}px) rotateY(-90deg)`,c,"")+
-      face("f-top",w,d,`translate3d(${x}px,${y}px,${z}px) rotateX(90deg)`,c,on==="top"?lab:"")+
+  const face=(cls,w,h,t,c,lab)=>`<i class="lf ${cls}" style="width:${w}px;height:${h}px;transform:${t};--c:${c}">${lab?`<span class="lab">${lab}</span>`:""}</i>`;
+  const box=([x,y,z,w,h,d,c,L,extra])=>{
+    const ex=(x+w/2-1.5), ey=(y+h/2-1.5), ez=(z+d/2-1.5), g=1.2;
+    x=x*U+g;y=y*U+g;z=z*U+g;w=w*U-2*g;h=h*U-2*g;d=d*U-2*g;
+    return `<span class="lb ${extra}" style="--ex:${ex};--ey:${ey};--ez:${ez}">`+
       face("f-back",w,h,`translate3d(${x+w}px,${y}px,${z}px) rotateY(180deg)`,c,"")+
-      face("f-bottom",w,d,`translate3d(${x}px,${y+h}px,${z}px) rotateX(90deg)`,c,"")+`</span>`; };
+      face("f-bottom",w,d,`translate3d(${x}px,${y+h}px,${z}px) rotateX(90deg)`,c,"")+
+      face("f-left",d,h,`translate3d(${x}px,${y}px,${z}px) rotateY(-90deg)`,c,L.left)+
+      face("f-top",w,d,`translate3d(${x}px,${y}px,${z}px) rotateX(90deg)`,c,L.top)+
+      face("f-right",d,h,`translate3d(${x+w}px,${y}px,${z+d}px) rotateY(90deg)`,c,L.right)+
+      face("f-front",w,h,`translate3d(${x}px,${y}px,${z+d}px)`,c,L.front)+`</span>`; };
   return `<div class="lc-stage"><div class="lc-spin"><div class="lc" style="--u:${U}px">${B.map(box).join("")}</div></div><span class="lc-shadow"></span></div>`;
 }
 
@@ -1578,7 +1661,6 @@ setNowPlaying(NOW_PLAYING);
 if(NOW_PLAYING_ENDPOINT){ const pull=()=>fetch(NOW_PLAYING_ENDPOINT).then(r=>r.json()).then(d=>{ if(d&&d.title) setNowPlaying(d); }).catch(()=>{}); pull(); setInterval(pull,60000); }
 
 /* ---- hobbies: stickers float at the page edges and gather into the collage as it scrolls into view ---- */
-const STICKER_W=980, STICKER_H=600;
 const ph=(cap,p1,p2,p3,px,py)=>`<div class="ph" style="--p1:${p1};--p2:${p2};--p3:${p3};--px:${px||"50%"};--py:${py||"40%"}"><span>${cap}</span></div>`;
 const blobMini=()=>{ const s=document.querySelector("header svg.bl"); return s?s.outerHTML.replace(/<defs>[\s\S]*?<\/defs>/,"").replace(/ id="[^"]*"/g,"").replace(/<g class="bl-(zz|dots)"[\s\S]*?<\/g>/g,"").replace(/class="bl"/,'class="bl-mini"').replace(/ data-state="[^"]*"/,""):""; };
 const SIG=`<svg class="sig" viewBox="0 0 84 34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 24c6-14 10-18 12-14s-6 16-2 14 8-16 12-12-2 12 2 10 6-8 9-7-1 6 2 6 7-5 10-4M44 20c4-2 10-6 14-4s-3 8 1 7 9-6 13-5"/></svg>`;
@@ -1596,36 +1678,45 @@ const CAT_STK=`<svg viewBox="0 0 140 140"><g stroke="#2b1d14" stroke-width="3" s
 <circle cx="55" cy="50" r="1.4" fill="#fff"/><circle cx="81" cy="50" r="1.4" fill="#fff"/><path d="M66 63l4 4 4-4z" fill="#ff8fb1"/></svg>`;
 const STRIP=(a,b,c)=>`<div class="holes"></div><img src="${a}" alt=""><img src="${b}" alt=""><img src="${c}" alt=""><div class="holes"></div>`;
 const TICKET=`<div class="tk-l"><small>Admit one</small><b>Film night</b><span>Fri · Row F · Seat 12</span></div><div class="tk-r"><small>№</small><b>0427</b></div>`;
-// slot = where it sits in the collage (px on a 980×600 board, centre point)
+const BAT=`<svg viewBox="0 0 64 28" fill="currentColor"><path d="M32 8c2-4 3-6 3-6l1 5c4-1 8 0 11 3 3-3 9-5 15-3-5 2-7 6-7 10-3-2-7-2-9 1-1-3-4-4-6-3-3 0-5 3-6 6-1-3-3-6-6-6-2-1-5 0-6 3-2-3-6-3-9-1 0-4-2-8-7-10 6-2 12 0 15 3 3-3 7-4 11-3l1-5s1 2 3 6z"/></svg>`;
+const BEE=`<svg viewBox="0 0 60 48"><ellipse cx="22" cy="12" rx="11" ry="8" fill="#fff" opacity=".85" stroke="#2b1d14" stroke-width="2"/><ellipse cx="38" cy="12" rx="11" ry="8" fill="#fff" opacity=".85" stroke="#2b1d14" stroke-width="2"/><ellipse cx="30" cy="30" rx="18" ry="13" fill="#f6c33b" stroke="#2b1d14" stroke-width="2.4"/><path d="M24 18v24M34 18v24" stroke="#2b1d14" stroke-width="5"/><circle cx="44" cy="27" r="2" fill="#2b1d14"/><path d="M11 33l-6 3" stroke="#2b1d14" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+const SUN=`<svg viewBox="0 0 200 130" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb37a"/><stop offset=".55" stop-color="#ffd7a8"/><stop offset=".56" stop-color="#3fa7c9"/><stop offset="1" stop-color="#1f6f97"/></linearGradient></defs><rect width="200" height="130" fill="url(#skyG)"/><circle cx="140" cy="62" r="22" fill="#fff4d6"/><path d="M0 84q25-8 50 0t50 0 50 0 50 0v46H0z" fill="#2e8fb5"/><path d="M0 98q25-7 50 0t50 0 50 0 50 0v32H0z" fill="#62c1dc" opacity=".8"/><path d="M0 112q40-10 90-2t110-4v24H0z" fill="#f2d6a2"/><path d="M34 112c2-26 6-44 14-58" stroke="#5a3a1c" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M48 54c-12-2-22 4-26 10 10-6 20-6 26-10zm0 0c4-10 14-14 24-12-10 2-18 8-24 12zm0 0c10-4 22 0 26 8-8-6-18-8-26-8zm0 0c-6-8-18-10-26-6 10 0 20 2 26 6z" fill="#2f7a3b"/></svg>`;
+const NOTE=`<div class="lines"></div><p>make it work,<br>then make it<br><u>feel right.</u></p><i class="pin"></i>`;
+const PAL=()=>`<div class="sw">${[["#732ceb","Compound"],["#ff8fd2","Dhuni"],["#f6c33b","Danfo"],["#1f8a4c","Eko"]].map(([c,n])=>`<span style="--c:${c}"><i></i><b>${c.toUpperCase()}</b><small>${n}</small></span>`).join("")}</div><em>pixie · palette 01</em>`;
+const IWTV=`<small>Now watching</small><b>Interview<br><span>with the</span><br>Vampire</b>${BAT}<em>bingeing, again</em>`;
+const RUFUS=`${BEE}<b>Rufus <i>&amp;</i> Bee</b><small>Lagos · weekend treat</small>`;
+const cap=t=>`<span class="cap">${t}</span>`;
+// slot = where it sits on the mat (px on a 980×620 board, centre point)
+const STICKER_W=980, STICKER_H=620;
 const STICKERS=[
-  {id:"q", kind:"quote",w:166,h:188,slot:{x:236,y:146,rot:-2},html:()=>`Make it work, then make it feel right.${SPARK}`},
-  {id:"cube",kind:"lcube",w:140,h:140,slot:{x:92,y:118,rot:0},html:()=>lagosCube()},
-  {id:"pixie",kind:"label",w:150,h:66,slot:{x:330,y:68,rot:9},html:`<i></i>pixie`},
-  {id:"selfie",kind:"print dark",w:196,h:244,slot:{x:420,y:196,rot:-5},html:()=>`<img src="${IMG.meSelfie}" alt="">`},
-  {id:"tiara",kind:"cut",w:112,h:70,slot:{x:452,y:60,rot:8},html:()=>`<img src="${IMG.tiara}" alt="">`},
-  {id:"hawkins",kind:"print",w:168,h:222,slot:{x:604,y:162,rot:5},html:()=>`<img src="${IMG.hawkins}" alt="">`},
-  {id:"orange",kind:"print",w:262,h:236,slot:{x:812,y:176,rot:3},html:()=>`<img src="${IMG.meOrange}" alt="">`},
-  {id:"cd",kind:"cd",w:112,h:112,slot:{x:934,y:76,rot:0},html:`<div class="disc"></div><span class="cd-tag">on repeat</span>`},
-  {id:"spark",kind:"doodle",w:58,h:76,slot:{x:530,y:36,rot:0},html:SPARK},
-  {id:"art",kind:"print",w:186,h:186,slot:{x:132,y:350,rot:-6},html:()=>`<img src="${IMG.artGirl}" alt="">`},
-  {id:"kiss",kind:"round",w:126,h:126,slot:{x:262,y:262,rot:0},html:()=>`<img src="${IMG.meKiss}" alt="">`},
-  {id:"strip",kind:"strip",w:104,h:290,slot:{x:330,y:404,rot:4},html:()=>STRIP(IMG.meLaugh,IMG.artPainting,IMG.meSmile)},
-  {id:"card",kind:"card",w:168,h:214,slot:{x:462,y:414,rot:-5},html:()=>`<div class="grid8">${Array.from({length:32},(_,i)=>`<b style="--o:${[1,.55,.8,.35,1,.7][i%6]}"></b>`).join("")}</div><span class="tt">Dhuni Designs<br>Studio Card</span><small>Design engineering · Lagos</small>${SIG}`},
-  {id:"outfit",kind:"print dark",w:170,h:236,slot:{x:600,y:396,rot:2},html:()=>`<img src="${IMG.meOutfit}" alt="">`},
-  {id:"live",kind:"live",w:118,h:118,slot:{x:560,y:262,rot:-7},html:()=>`<video src="${VID.meLive}" poster="${POSTER.meLive}" muted loop playsinline autoplay></video><span class="lv">LIVE</span>`},
-  {id:"flat",kind:"print",w:168,h:270,slot:{x:860,y:410,rot:4},html:()=>`<img src="${IMG.flatlay}" alt="">`},
-  {id:"ticket",kind:"ticket",w:224,h:92,slot:{x:724,y:322,rot:-8},html:TICKET},
-  {id:"camera",kind:"print",w:212,h:132,slot:{x:744,y:494,rot:-3},html:()=>`<img src="${IMG.camera}" alt="">`},
-  {id:"cuff",kind:"cut",w:104,h:88,slot:{x:952,y:300,rot:10},html:()=>`<img src="${IMG.cuff}" alt="">`},
-  {id:"necklace",kind:"cut",w:122,h:94,slot:{x:112,y:226,rot:-8},html:()=>`<img src="${IMG.necklace}" alt="">`},
-  {id:"framer",kind:"app framer",w:54,h:54,slot:{x:212,y:452,rot:-6},html:()=>ICON_FRAMER},
-  {id:"msg1",kind:"msg",w:300,h:92,slot:{x:168,y:548,rot:-3},html:()=>`<span class="av"><img src="${IMG.meAvatar}" alt=""></span><div><p><b>Hafsoh</b><small>just now</small></p><p>shipped the billing flow today, polishing the details next</p><span class="heart">❤︎</span></div>`},
-  {id:"cat",kind:"catstk",w:132,h:132,slot:{x:398,y:540,rot:-6},html:CAT_STK},
-  {id:"blob",kind:"blobcut",w:96,h:88,slot:{x:70,y:470,rot:-8},html:()=>blobMini()},
-  {id:"claude",kind:"app claude",w:58,h:58,slot:{x:684,y:446,rot:-10},html:()=>ICON_CLAUDE},
-  {id:"figma",kind:"app",w:58,h:58,slot:{x:930,y:562,rot:8},html:()=>ICON_FIGMA},
-  {id:"xcard",kind:"xcard",w:236,h:138,slot:{x:622,y:550,rot:-3},html:()=>xCard()},
-  {id:"squig",kind:"doodle",w:104,h:42,slot:{x:836,y:590,rot:0},html:SQUIG},
+  {id:"cube",kind:"lcube",w:176,h:176,slot:{x:112,y:126,rot:0},html:()=>lagosCube()},
+  {id:"note",kind:"note",w:150,h:150,slot:{x:262,y:118,rot:-4},html:NOTE},
+  {id:"selfie",kind:"print dark tape",w:190,h:236,slot:{x:410,y:190,rot:-4},html:()=>`<img src="${IMG.meSelfie}" alt="">`},
+  {id:"tiara",kind:"cut",w:104,h:64,slot:{x:432,y:60,rot:8},html:()=>`<img src="${IMG.tiara}" alt="">`},
+  {id:"hawkins",kind:"print pol",w:160,h:224,slot:{x:580,y:168,rot:5},html:()=>`<img src="${IMG.hawkins}" alt="">${cap("Hawkins, finally")}`},
+  {id:"orange",kind:"print tape",w:250,h:226,slot:{x:796,y:176,rot:3},html:()=>`<img src="${IMG.meOrange}" alt="">`},
+  {id:"cd",kind:"cd",w:104,h:104,slot:{x:684,y:66,rot:0},html:`<div class="disc"></div><span class="cd-tag">on repeat</span>`},
+  {id:"iwtv",kind:"iwtv",w:150,h:212,slot:{x:922,y:214,rot:6},html:IWTV},
+  {id:"spark",kind:"doodle",w:56,h:72,slot:{x:516,y:38,rot:0},html:SPARK},
+  {id:"art",kind:"print",w:176,h:176,slot:{x:112,y:346,rot:-6},html:()=>`<img src="${IMG.artGirl}" alt="">`},
+  {id:"kiss",kind:"round",w:118,h:118,slot:{x:234,y:262,rot:0},html:()=>`<img src="${IMG.meKiss}" alt="">`},
+  {id:"strip",kind:"strip",w:100,h:280,slot:{x:318,y:410,rot:4},html:()=>STRIP(IMG.meLaugh,IMG.artPainting,IMG.meSmile)},
+  {id:"pal",kind:"pal",w:168,h:196,slot:{x:452,y:418,rot:-5},html:PAL},
+  {id:"live",kind:"live",w:112,h:112,slot:{x:540,y:270,rot:-7},html:()=>`<video src="${VID.meLive}" poster="${POSTER.meLive}" muted loop playsinline autoplay></video><span class="lv">LIVE</span>`},
+  {id:"outfit",kind:"print pol",w:162,h:236,slot:{x:600,y:410,rot:2},html:()=>`<img src="${IMG.meOutfit}" alt="">${cap("all black, always")}`},
+  {id:"ticket",kind:"ticket",w:220,h:88,slot:{x:722,y:322,rot:-8},html:TICKET},
+  {id:"flat",kind:"print tape",w:160,h:250,slot:{x:872,y:428,rot:4},html:()=>`<img src="${IMG.flatlay}" alt="">`},
+  {id:"cuff",kind:"cut",w:96,h:80,slot:{x:206,y:460,rot:-10},html:()=>`<img src="${IMG.cuff}" alt="">`},
+  {id:"claude",kind:"app claude",w:54,h:54,slot:{x:706,y:450,rot:-10},html:()=>ICON_CLAUDE},
+  {id:"rufus",kind:"rufus",w:124,h:124,slot:{x:96,y:548,rot:-8},html:RUFUS},
+  {id:"beach",kind:"print pol beach",w:170,h:150,slot:{x:236,y:556,rot:4},html:()=>`${SUN}${cap("beach days")}`},
+  {id:"cat",kind:"catstk",w:124,h:124,slot:{x:394,y:556,rot:-6},html:CAT_STK},
+  {id:"blob",kind:"blobcut",w:84,h:76,slot:{x:364,y:42,rot:8},html:()=>blobMini()},
+  {id:"xcard",kind:"xcard",w:228,h:132,slot:{x:636,y:556,rot:-3},html:()=>xCard()},
+  {id:"camera",kind:"print",w:196,h:124,slot:{x:792,y:530,rot:-3},html:()=>`<img src="${IMG.camera}" alt="">`},
+  {id:"necklace",kind:"cut",w:112,h:86,slot:{x:918,y:584,rot:6},html:()=>`<img src="${IMG.necklace}" alt="">`},
+  {id:"figma",kind:"app",w:54,h:54,slot:{x:964,y:332,rot:8},html:()=>ICON_FIGMA},
+  {id:"framer",kind:"app framer",w:50,h:50,slot:{x:540,y:350,rot:-6},html:()=>ICON_FRAMER},
 ];
 let stickerLayer=null, stickerEls=[], stkRaf=0;
 const clamp=v=>v<0?0:v>1?1:v, smooth=t=>t*t*(3-2*t);
@@ -1698,11 +1789,11 @@ const _blSet=blSet; blSet=function(st){ if(st!=="idle"){ blEyes.classList.remove
 })();
 
 /* ---- floating dock: X, LinkedIn, GitHub ---- */
-const SOCIAL = { x:LINKS.x, linkedin:LINKS.linkedin, github:LINKS.github };
+const SOCIAL = { x:LINKS.x, linkedin:LINKS.linkedin, github:LINKS.github, email:"mailto:"+EMAIL };
 const dock=document.getElementById("dock"), dockLinks=[...dock.querySelectorAll("a")];
 dockLinks.forEach(a=>{
   const url=SOCIAL[a.dataset.social];
-  if(url){ a.href=url; a.target="_blank"; a.rel="noopener"; }
+  if(url){ a.href=url; if(url.startsWith("mailto:")) a.setAttribute("data-mail",""); else { a.target="_blank"; a.rel="noopener"; } }
   else { a.setAttribute("role","link"); a.tabIndex=0;
     const soon=ev=>{ ev.preventDefault(); toast(a.dataset.tip+" link coming soon"); };
     a.addEventListener("click",soon); a.addEventListener("keydown",ev=>{ if(ev.key==="Enter") soon(ev); }); }
