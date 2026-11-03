@@ -715,6 +715,79 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .dock a:active{translate:0 1px;box-shadow:none}
 .dock a:active::before{box-shadow:inset 0 2px 3px rgba(0,0,0,.5),0 0 0 1.5px #000}
 .dock a.mag{scale:1.08;translate:0 -2px}.dock a.near{scale:1;translate:0 0}
+/* ===== v28: real-life collage, hover pop, 3D cards, smoother glide ===== */
+.glide-hl{transition:transform .22s cubic-bezier(.23,1,.32,1),width .22s cubic-bezier(.23,1,.32,1),height .22s cubic-bezier(.23,1,.32,1),opacity .15s;will-change:transform}
+.glide > *:not(.glide-hl){transition:scale .22s cubic-bezier(.23,1,.32,1),color .15s,background-color .15s}
+.glide > .lift{scale:1.06}
+
+/* collage stickers lift out when you hover them */
+.stk.set{pointer-events:auto;cursor:default}
+.stk.set:hover{z-index:60}
+.stk-in{transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .45s cubic-bezier(.23,1,.32,1)}
+.stk.set:hover .stk-in{transform:translateY(-8px) scale(1.12) rotate(var(--unrot,0deg));box-shadow:0 2px 4px rgba(0,0,0,.25),0 30px 50px -14px rgba(0,0,0,.7)}
+.stk.set:hover .stk-doodle,.stk.set:hover .stk-cube,.stk.set:hover .stk-catstk,.stk.set:hover .stk-blobcut,.stk.set:hover .stk-cut{box-shadow:none}
+.stk-print{padding:6px}
+.stk-print img{object-position:center}
+.stk-round{padding:5px;background:#fbfaf7}
+.stk-round img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+/* die-cut stickers: a white edge that follows the cut-out */
+.stk-cut{background:none;box-shadow:none}
+.stk-cut img{width:100%;height:100%;object-fit:cover;border-radius:22px;display:block;border:4px solid #fff;box-shadow:0 10px 22px -8px rgba(0,0,0,.6)}
+.stk-catstk,.stk-blobcut{background:none;box-shadow:none}
+.stk-catstk svg,.stk-blobcut svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 0 #fff) drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 10px 12px rgba(0,0,0,.45))}
+.stk-strip{background:#151515;border-radius:3px;flex-direction:column;justify-content:space-between;padding:0 14px;gap:5px}
+.stk-strip img{width:100%;flex:1;min-height:0;object-fit:cover;border-radius:2px;display:block}
+.stk-strip .holes{height:12px;width:calc(100% + 28px);flex:none;background:radial-gradient(circle,#fbfaf7 0 2.4px,transparent 3px) 0 50%/12px 12px repeat-x;opacity:.85}
+.stk-ticket{background:#f4ead5;border-radius:8px;padding:0;align-items:stretch;justify-content:stretch;color:#3a2410;overflow:hidden;
+  -webkit-mask:radial-gradient(circle at 70% 0,transparent 8px,#000 8.5px) top/100% 51% no-repeat,radial-gradient(circle at 70% 100%,transparent 8px,#000 8.5px) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle at 70% 0,transparent 8px,#000 8.5px) top/100% 51% no-repeat,radial-gradient(circle at 70% 100%,transparent 8px,#000 8.5px) bottom/100% 51% no-repeat}
+.tk-l{flex:7;padding:12px 14px;display:flex;flex-direction:column;gap:3px;background:linear-gradient(90deg,#e94b3c 0 6px,transparent 6px)}
+.tk-l small,.tk-r small{font-size:8px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.tk-l b{font:italic 400 22px/1 'Libre Caslon Text',Georgia,serif;color:#b0281c}
+.tk-l span{font-size:10px;letter-spacing:.04em}
+.tk-r{flex:3;border-left:2px dashed rgba(58,36,16,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.tk-r b{font:600 18px/1 var(--sans);letter-spacing:.02em}
+.stk-live{border-radius:20px;padding:4px;background:#fff;overflow:hidden}
+.stk-live video{width:100%;height:100%;object-fit:cover;border-radius:16px;display:block}
+.stk-live .lv{position:absolute;top:10px;left:10px;font:700 8px/1 var(--sans);letter-spacing:.12em;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,.45);color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.stk-in{position:relative}
+.stk-cd .disc{background:
+   radial-gradient(circle,#0e0e0e 0 7px,rgba(255,255,255,.85) 7.5px 8.5px,rgba(200,208,218,.6) 9px 18px,rgba(255,255,255,.7) 18.5px,transparent 19.5px),
+   repeating-radial-gradient(circle,rgba(255,255,255,.08) 0 .6px,transparent .7px 1.6px),
+   var(--np-art,conic-gradient(from 20deg,#d8dce3,#f6c8e7 45deg,#cfe4ff 95deg,#fbf3c4 140deg,#d8dce3 180deg,#c3ecdf 225deg,#efcaff 275deg,#fde0c8 320deg,#d8dce3)) center/cover;
+  animation:spin 8s linear infinite}
+.stk-cd{overflow:visible}
+.cd-tag{position:absolute;bottom:-6px;right:-14px;font:500 15px/1 var(--script);color:#fff;background:#e94b3c;padding:5px 9px 6px;border-radius:999px;rotate:-8deg;box-shadow:0 6px 12px -4px rgba(0,0,0,.5)}
+.stk-msg .av img{width:100%;height:100%;object-fit:cover}
+.reel .fr .fill{object-fit:cover}
+
+/* Say hi cards */
+.idcards{display:flex;gap:16px;perspective:1100px;flex-wrap:wrap;justify-content:center;padding:8px 0 4px}
+.idc{flex:1 1 260px;max-width:300px;aspect-ratio:1.72;display:block;border-radius:14px;outline-offset:6px}
+.idc-in{position:relative;display:block;width:100%;height:100%;border-radius:14px;overflow:hidden;transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow .4s;box-shadow:0 1px 1px rgba(0,0,0,.25),0 18px 30px -14px rgba(0,0,0,.6)}
+.idc.hot .idc-in{box-shadow:0 2px 2px rgba(0,0,0,.25),0 40px 60px -20px rgba(0,0,0,.75)}
+.idc-glare{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;mix-blend-mode:soft-light;
+  background:radial-gradient(60% 70% at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.9),transparent 70%)}
+.idc.hot .idc-glare{opacity:1}
+.idc-x .idc-in{color:#3c3d40;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,transparent 1px 3px),linear-gradient(125deg,#e6e7e9,#c6c8cc 38%,#eef0f2 52%,#babcc1 78%,#d9dbde)}
+.idc-mark{position:absolute;right:-6%;top:6%;width:62%;height:88%;color:rgba(255,255,255,.75);filter:drop-shadow(-1px -1px 0 rgba(0,0,0,.08)) drop-shadow(1px 2px 1px rgba(0,0,0,.08))}
+.idc-mark svg{width:100%;height:100%;fill:currentColor}
+.idc-av{position:absolute;left:14px;top:14px;width:44px;height:44px;border-radius:7px;object-fit:cover;box-shadow:0 2px 6px rgba(0,0,0,.25);transform:translateZ(30px)}
+.idc-name{position:absolute;left:14px;bottom:52px;font:500 17px/1 var(--sans);color:#2a2b2e;transform:translateZ(20px)}
+.idc-at{position:absolute;left:14px;bottom:36px;font-size:11px;color:#77797e}
+.idc-role{position:absolute;left:14px;bottom:12px;font-size:11px;color:#8a8c91}
+.idc-mail .idc-in{background:#f7f6f1;color:#2633a8;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E")}
+.idc-ascii{position:absolute;inset:0;margin:0;padding:4px 6px;font:700 7.2px/9.6px ui-monospace,Menlo,monospace;letter-spacing:.2px;color:#3443c2;opacity:.85;white-space:pre;overflow:hidden}
+.idc-title{position:absolute;left:0;right:0;top:40%;text-align:center;font:700 21px/1 var(--sans);letter-spacing:-.02em;color:#2633a8;transform:translateZ(26px)}
+.idc-mailto{position:absolute;left:0;right:0;top:58%;display:flex;justify-content:center;align-items:center;gap:5px;font-size:10.5px;color:#222;transform:translateZ(18px)}
+.idc-mailto svg{width:12px;height:12px}
+.say{font-size:15px;text-align:center;color:var(--text);margin-top:6px}
+@media (hover:none){.idc-in{animation:bob 7s ease-in-out infinite}.idc:nth-child(2) .idc-in{animation-delay:-3s}}
+@media (max-width:640px){.idc{flex-basis:100%;max-width:300px}}
+.links.glide .dot{transform:none}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -783,7 +856,7 @@ const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
-const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut1:"img/shuttlers-redesign.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp" };
+const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut1:"img/shuttlers-redesign.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", aotDash:"img/aot-dashboard.webp", aotPhones:"img/aot-phones.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp" };
 
 /* ---- selected works: each has its own detail page ---- */
 const projects = [
@@ -979,7 +1052,10 @@ home(){
         <div class="shelf-wrap" id="shelf"><div class="books" id="books">${shelf()}</div><div class="shelf-board"></div></div>
         <div class="row shelf-meta" id="book-meta"><span class="name">${esc(BOOKS[0].status)}</span><span class="meta">${esc(BOOKS[0].title)}</span></div></section>
       <hr class="rule">
-      <section class="block"><p class="label">Off the clock</p><div class="collage" id="collage" aria-label="Hobbies"></div></section>
+      <section class="block"><p class="label">Off the clock</p><div class="collage" id="collage" aria-label="Hobbies: photos, films, music, jewellery and clothes I love"></div></section>
+      <hr class="rule">
+      <section class="block"><p class="label">Say hi</p>${idCards()}
+        <p class="say">Reach out on <a class="u ext" href="${LINKS.x}" target="_blank" rel="noopener">X</a> or by <a class="u" href="mailto:${EMAIL}" data-mail>email</a>. I’m open to work.</p></section>
     </div>
   </div>`;
 },
@@ -1040,28 +1116,63 @@ resume(){
 }
 };
 
+/* ---- Say hi: two 3D cards that tilt toward the cursor (after shwn.design) ---- */
+function asciiField(cols,rows){
+  const ramp=" .:-=+*#%$"; let out="";
+  for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){
+    const ex=Math.min(x,cols-1-x)/cols*2, ey=Math.min(y,rows-1-y)/rows*2, e=Math.min(ex*1.6,ey);   // 0 at the edge, 1 in the middle
+    const n=(Math.sin(x*12.9898+y*78.233)*43758.5453)%1, v=Math.max(0,1-e*2.6)+Math.abs(n)*.18;
+    out+=e>.42?" ":ramp[Math.min(ramp.length-1,Math.floor(v*ramp.length))];
+  } out+="\n"; }
+  return out;
+}
+const X_MARK=`<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M8 6h30l28 39 33-39h14L72 54l42 60H84L54 72 18 114H4l44-51z"/></svg>`;
+const idCards=()=>`<div class="idcards">
+  <a class="idc idc-x" href="${LINKS.x}" target="_blank" rel="noopener" aria-label="Hafsoh on X, @basharhafsoh">
+    <span class="idc-in"><span class="idc-mark">${X_MARK}</span>
+      <img class="idc-av" src="${IMG.meAvatar}" alt=""><span class="idc-name">Hafsoh.</span><span class="idc-at">@basharhafsoh</span>
+      <span class="idc-role">design engineer.</span><span class="idc-glare"></span></span></a>
+  <a class="idc idc-mail" href="mailto:${EMAIL}" data-mail aria-label="Email ${EMAIL}">
+    <span class="idc-in"><pre class="idc-ascii" aria-hidden="true">${asciiField(58,15)}</pre>
+      <span class="idc-title">design engineer</span><span class="idc-mailto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zm2 .9v.3l7 4.6 7-4.6v-.3z" fill="currentColor"/></svg>${EMAIL}</span>
+      <span class="idc-glare"></span></span></a>
+</div>`;
+function initCards(){
+  if(matchMedia("(hover:none)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(".idc").forEach(c=>{
+    if(c.dataset.tilt) return; c.dataset.tilt=1; const inn=c.querySelector(".idc-in");
+    let raf=0,tx=0,ty=0,cx=0,cy=0,on=false;
+    const step=()=>{ cx+=(tx-cx)*.16; cy+=(ty-cy)*.16;
+      inn.style.transform=`rotateX(${-cy*16}deg) rotateY(${cx*20}deg) translateZ(${on?24:0}px)`;
+      inn.style.setProperty("--gx",(50+cx*60)+"%"); inn.style.setProperty("--gy",(50+cy*60)+"%");
+      raf=(Math.abs(tx-cx)>.002||Math.abs(ty-cy)>.002)?requestAnimationFrame(step):0; };
+    c.addEventListener("pointermove",e=>{ const r=c.getBoundingClientRect(); tx=(e.clientX-r.left)/r.width-.5; ty=(e.clientY-r.top)/r.height-.5; on=true; c.classList.add("hot"); if(!raf) raf=requestAnimationFrame(step); });
+    c.addEventListener("pointerleave",()=>{ tx=0; ty=0; on=false; c.classList.remove("hot"); if(!raf) raf=requestAnimationFrame(step); });
+  });
+}
+
 /* ---- glide: one highlight slides between the items you hover, and each grows a touch ---- */
 function initGlide(){
+  if(matchMedia("(hover:none)").matches) return;
   document.querySelectorAll(".glide").forEach(g=>{
     if(g.dataset.glide) return; g.dataset.glide=1;
     const hl=document.createElement("span"); hl.className="glide-hl"; hl.setAttribute("aria-hidden","true"); g.prepend(hl);
-    const items=()=>[...g.children].filter(c=>c!==hl && !c.classList.contains("dot"));
-    let on=false;
-    g.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return;
-      const it=items().find(c=>c.contains(e.target)); if(!it) return;
-      const gr=g.getBoundingClientRect(), r=it.getBoundingClientRect(), pad=it.matches(".chip,.tool")?0:6;
-      if(!on){ hl.style.transition="none"; }
-      hl.style.width=(r.width+pad*2)+"px"; hl.style.height=(r.height+pad)+"px";
-      hl.style.transform=`translate(${r.left-gr.left-pad}px,${r.top-gr.top-pad/2}px)`;
-      if(!on){ hl.offsetWidth; hl.style.transition=""; on=true; } hl.classList.add("on");
-      items().forEach(c=>c.classList.toggle("lift",c===it));
-    });
-    g.addEventListener("pointerleave",()=>{ on=false; hl.classList.remove("on"); items().forEach(c=>c.classList.remove("lift")); });
+    const items=[...g.children].filter(c=>c!==hl && !c.classList.contains("dot"));
+    let cur=null;
+    const go=it=>{ if(it===cur) return;
+      const fresh=!cur; if(cur) cur.classList.remove("lift"); cur=it; it.classList.add("lift");
+      const pad=it.matches(".chip,.tool")?0:6;
+      const x=it.offsetLeft-pad, y=it.offsetTop-pad/2, w=it.offsetWidth+pad*2, h=it.offsetHeight+pad;
+      if(fresh){ hl.style.transition="none"; }
+      hl.style.width=w+"px"; hl.style.height=h+"px"; hl.style.transform=`translate3d(${x}px,${y}px,0)`;
+      if(fresh){ hl.offsetWidth; hl.style.transition=""; } hl.classList.add("on"); };
+    items.forEach(it=>it.addEventListener("pointerenter",()=>go(it)));
+    g.addEventListener("pointerleave",()=>{ if(cur) cur.classList.remove("lift"); cur=null; hl.classList.remove("on"); });
   });
 }
 /* ---- interaction reel: recorded micro-interactions and floating builds, drifting slowly across the page ---- */
-const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4" };
-const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg" };
+const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4" };
+const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg" };
 // Each column is a stack of frames. vid = a recording, img = a static build that floats in its frame.
 // To add your own static images later: {label:"…", tag:"…", src:"img/your-file.webp"}.
 const REEL=[
@@ -1069,6 +1180,8 @@ const REEL=[
   [{label:"Download app",tag:"Button",vid:"download",bg:"#fff",light:1},{label:"Unlock level",tag:"Reward",vid:"unlock",bg:"#fff",light:1}],
   [{label:"Sello",tag:"Website",img:"sello",k:1.7,href:"https://sello-vert.vercel.app"},{label:"Multi-currency wallet",tag:"Card",vid:"walletCard",k:1.7,bg:"#fff",light:1,contain:1}],
   [{label:"Wallet",tag:"Fintech app",vid:"wallet",tall:1,k:1.02,phone:1}],
+  [{label:"Guild join",tag:"Community app",vid:"guild",tall:1,k:1.05,bg:"#fff",light:1}],
+  [{label:"AOT",tag:"Dashboard",img:"aotDash",fill:1,k:1.5},{label:"AOT",tag:"Mobile app",img:"aotPhones",fill:1,k:1.5}],
   [{label:"Pixie",tag:"Web app",img:"pixie",k:1.5,href:"https://pixie-brand-kits.vercel.app"},{label:"NYTA",tag:"Agency site",img:"nyta",k:1.5,href:"https://nytaagency.vercel.app"}],
   [{label:"Shuttlers",tag:"Concept",img:"shut2",k:1.5,href:"https://shuttlers-concept-v2.vercel.app"},{label:"Shuttlers v1",tag:"Concept",img:"shut1",k:1.5,href:"https://shuttlers-concept.vercel.app"}],
   [{label:"Koffi",tag:"Brand site",img:"koffi",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/koffi-website/"},{label:"REA",tag:"Redesign",img:"rea",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"}],
@@ -1078,6 +1191,7 @@ function frame(f,n,dup){
   const out=f.href&&/^https?:/.test(f.href), tag=f.href?"a":"div";
   const attrs=f.href?` href="${f.href}"${out?' target="_blank" rel="noopener"':""}${dup?' tabindex="-1"':""}`:"";
   const media = f.vid ? (f.phone?`<span class="float phone" style="--d:${-n*1.1}s">${vtag(f)}</span>`:vtag(f,f.contain?"fill contain":"fill"))
+              : f.fill ? `<img class="fill" src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" "+esc(f.tag)}" loading="lazy" draggable="false">`
               : `<span class="float fshot" style="--d:${-n*1.1}s"><img src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" homepage"}" loading="lazy" draggable="false"></span>`;
   return `<${tag} class="fr${f.tall?" tall":""}${f.light?" light":""}"${attrs} style="--k:${f.k||1.36}${f.bg?`;--fb:${f.bg}`:""}">
     ${media}<span class="fr-l"><span>${esc(f.label)}</span><span class="fr-t"><span>${esc(f.tag)}</span>${f.href?`<span class="fr-go">${out?"Visit ↗":"View →"}</span>`:""}</span></span></${tag}>`;
@@ -1112,7 +1226,7 @@ function render(){
   initTabs(); initHello(); hidePeek();
   if(!document.documentElement.hasAttribute("data-booting")) document.querySelectorAll(".sel").forEach((el,k)=>setTimeout(()=>el.classList.add("on"),900+k*260));
   document.title = p ? `${p.name} · Dhuni Designs` : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
-  initStrip(); initReel(); initGlide();
+  initStrip(); initReel(); initGlide(); initCards();
   mountStickers();
   loadCovers();
 }
@@ -1365,6 +1479,7 @@ function setNowPlaying(np){
   document.getElementById("np").innerHTML=`<span class="fg">${esc(np.title)}</span> by <span class="fg">${esc(np.artist)}</span>`;
   const lab=document.querySelector(".now small"); if(lab) lab.textContent = np.nowPlaying===false ? "Last played" : "Now playing";
   const v=document.querySelector(".vinyl"); if(!v) return;
+  if(np.artwork) root.style.setProperty("--np-art",`url("${np.artwork.replace(/"/g,"")}")`); else root.style.removeProperty("--np-art");
   if(np.artwork){ v.style.setProperty("--art",`url("${np.artwork.replace(/"/g,"")}")`); v.classList.add("has-art"); } else v.classList.remove("has-art");
 }
 setNowPlaying(NOW_PLAYING);
@@ -1379,33 +1494,45 @@ const CUBE=`<svg viewBox="0 0 80 86"><path d="M40 4 76 22v42L40 82 4 64V22z" fil
 const SPARK=`<svg viewBox="0 0 70 90" fill="none" stroke="#3341e0" stroke-width="2.2" stroke-linejoin="round"><path d="M38 6c2 18 6 30 26 38-20 6-24 18-26 40-3-22-8-34-30-40 22-6 27-20 30-38z"/><path d="M10 10l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" stroke-width="1.6"/><path d="M60 72l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" stroke-width="1.4"/></svg>`;
 const CAT=`<svg viewBox="0 0 130 70" fill="none" stroke="#7ed6a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 52c-8-2-12-10-10-20l-4-16 14 8c8-4 22-4 30 0l14-8-4 16c4 12-2 22-14 24-8 1-18 1-26-4z"/><circle cx="38" cy="34" r="2.4"/><circle cx="58" cy="34" r="2.4"/><path d="M46 42l2 2 2-2M48 44v3"/><path d="M8 38h16M10 46l14-3M86 38H70M84 46l-14-3"/><path d="M70 58c14 4 30 0 40-10"/></svg>`;
 const SQUIG=`<svg viewBox="0 0 110 44" fill="none" stroke="#ff4fa8" stroke-width="2.4" stroke-linecap="round"><path d="M4 38C20 36 26 18 40 22s8 16 22 12S80 6 106 6"/></svg>`;
-// slot = where it sits in the collage (px on a 980×600 board, centre point); side = it waits at the page edge first
+const CAT_STK=`<svg viewBox="0 0 140 140"><g stroke="#2b1d14" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M104 118c22-4 30-26 18-40" fill="none" stroke="#e2903f" stroke-width="12"/><path d="M104 118c22-4 30-26 18-40" fill="none"/>
+<path d="M38 120c-10-26-6-52 14-64l-6-30 22 18c8-2 16-2 24 0l22-18-6 30c20 12 24 38 14 64z" fill="#f4a85a"/>
+<path d="M58 62c4 6 20 6 24 0M70 70v6M64 80c4 3 8 3 12 0" fill="none"/>
+<path d="M52 92c10 4 26 4 36 0M48 104c12 5 32 5 44 0" fill="none" stroke="#e2903f" stroke-width="4"/>
+<ellipse cx="57" cy="52" rx="4" ry="5.5" fill="#2b1d14" stroke="none"/><ellipse cx="83" cy="52" rx="4" ry="5.5" fill="#2b1d14" stroke="none"/>
+<path d="M44 118c0-8 8-12 14-8M96 118c0-8-8-12-14-8" fill="none"/><path d="M26 58h18M28 66l16-3M114 58H96M112 66l-16-3" fill="none" stroke-width="2"/></g>
+<circle cx="55" cy="50" r="1.4" fill="#fff"/><circle cx="81" cy="50" r="1.4" fill="#fff"/><path d="M66 63l4 4 4-4z" fill="#ff8fb1"/></svg>`;
+const STRIP=(a,b,c)=>`<div class="holes"></div><img src="${a}" alt=""><img src="${b}" alt=""><img src="${c}" alt=""><div class="holes"></div>`;
+const TICKET=`<div class="tk-l"><small>Admit one</small><b>Film night</b><span>Fri · Row F · Seat 12</span></div><div class="tk-r"><small>№</small><b>0427</b></div>`;
+// slot = where it sits in the collage (px on a 980×600 board, centre point)
 const STICKERS=[
-  {id:"q", kind:"quote",w:172,h:196,side:"l",sy:.12,srot:-8,slot:{x:262,y:150,rot:0},html:()=>`Make it work, then make it feel right.${SPARK}`},
-  {id:"cube",kind:"cube",w:78,h:84,slot:{x:128,y:150,rot:0},html:CUBE},
-  {id:"p1",kind:"print dark",w:196,h:246,slot:{x:478,y:190,rot:-5},html:ph("Your photo","#d9a27c","#203a4f","#6f8da3","50%","45%")},
-  {id:"nyta",kind:"print",w:136,h:150,slot:{x:600,y:150,rot:6},html:()=>`<img src="${IMG.nyta}" alt="">`},
-  {id:"sello",kind:"print",w:300,h:196,side:"r",sy:.14,srot:10,slot:{x:776,y:172,rot:3},html:()=>`<img src="${IMG.sello}" alt="">`},
-  {id:"pixie",kind:"label",w:172,h:78,side:"r",sy:.34,srot:-6,slot:{x:368,y:112,rot:9},html:`<i></i>pixie`},
-  {id:"cd",kind:"cd",w:104,h:104,side:"r",sy:.52,srot:0,slot:{x:906,y:96,rot:0},html:`<div class="disc"></div>`},
-  {id:"spark",kind:"doodle",w:62,h:80,slot:{x:540,y:44,rot:0},html:SPARK},
-  {id:"p2",kind:"print dark",w:206,h:258,side:"l",sy:.40,srot:-12,slot:{x:150,y:360,rot:-7},html:ph("Your photo","#e4b38f","#5b3a6e","#a07a8f","45%","35%")},
-  {id:"round",kind:"round",w:124,h:124,slot:{x:262,y:262,rot:0},html:ph("You","#efc3a1","#3b2f2a","#9a7563","50%","42%")},
-  {id:"koffi",kind:"print",w:176,h:170,slot:{x:352,y:388,rot:3},html:()=>`<img src="${IMG.koffi}" alt="">`},
-  {id:"rea",kind:"print",w:176,h:236,slot:{x:650,y:318,rot:-2},html:()=>`<img src="${IMG.rea}" alt="">`},
-  {id:"card",kind:"card",w:178,h:226,side:"l",sy:.66,srot:8,slot:{x:432,y:404,rot:-4},html:()=>`<div class="grid8">${Array.from({length:32},(_,i)=>`<b style="--o:${[1,.55,.8,.35,1,.7][i%6]}"></b>`).join("")}</div><span class="tt">Dhuni Designs<br>Studio Card</span><small>Design engineering · Lagos</small>${SIG}`},
-  {id:"selfie",kind:"round",w:220,h:220,side:"r",sy:.70,srot:6,slot:{x:572,y:380,rot:0},html:ph("Your photo","#f0c5a4","#24303f","#7c6a5f","48%","40%")},
-  {id:"claude",kind:"app claude",w:66,h:66,slot:{x:704,y:448,rot:-10},html:()=>ICON_CLAUDE},
-  {id:"p3",kind:"print dark",w:272,h:226,slot:{x:800,y:404,rot:-2},html:ph("Your photo · Lagos","#f4d08a","#2f5a6b","#c98a5b","60%","30%")},
-  {id:"phone",kind:"phone",w:124,h:258,side:"r",sy:.88,srot:-8,slot:{x:906,y:322,rot:12},html:()=>`<img src="${POSTER.wallet}" alt="">`},
-  {id:"msg2",kind:"msg",w:356,h:96,slot:{x:716,y:560,rot:4},html:()=>`<span class="av">${blobMini()}</span><div><p><b>Dhuni</b><small>@basharhafsoh</small></p><p>building Sello in public, one screen at a time</p></div>`},
-  {id:"blob",kind:"blob",w:176,h:196,slot:{x:664,y:458,rot:3},html:()=>`<span>I design</span>${blobMini()}<span>then I build</span>`},
-  {id:"pass",kind:"pass",w:168,h:236,slot:{x:944,y:440,rot:0},html:`<small>Engineering Builds<br>one interaction a day<br>Web edition</small><span class="mk"></span><b>HAFSOH B.</b>`},
-  {id:"framer",kind:"app framer",w:62,h:62,slot:{x:396,y:500,rot:-6},html:()=>ICON_FRAMER},
-  {id:"figma",kind:"app",w:62,h:62,slot:{x:880,y:566,rot:8},html:()=>ICON_FIGMA},
-  {id:"msg1",kind:"msg",w:330,h:96,side:"l",sy:.24,srot:4,slot:{x:250,y:520,rot:-4},html:()=>`<span class="av">${blobMini()}</span><div><p><b>Hafsoh</b><small>just now</small></p><p>shipped the billing flow today, polishing the details next</p><span class="heart">❤︎</span></div>`},
-  {id:"cat",kind:"doodle",w:124,h:66,slot:{x:478,y:548,rot:0},html:CAT},
-  {id:"squig",kind:"doodle",w:104,h:42,slot:{x:956,y:600,rot:0},html:SQUIG},
+  {id:"q", kind:"quote",w:166,h:188,slot:{x:236,y:146,rot:-2},html:()=>`Make it work, then make it feel right.${SPARK}`},
+  {id:"cube",kind:"cube",w:74,h:80,slot:{x:104,y:120,rot:0},html:CUBE},
+  {id:"pixie",kind:"label",w:150,h:66,slot:{x:330,y:68,rot:9},html:`<i></i>pixie`},
+  {id:"selfie",kind:"print dark",w:196,h:244,slot:{x:420,y:196,rot:-5},html:()=>`<img src="${IMG.meSelfie}" alt="">`},
+  {id:"tiara",kind:"cut",w:112,h:70,slot:{x:452,y:60,rot:8},html:()=>`<img src="${IMG.tiara}" alt="">`},
+  {id:"hawkins",kind:"print",w:168,h:222,slot:{x:604,y:162,rot:5},html:()=>`<img src="${IMG.hawkins}" alt="">`},
+  {id:"orange",kind:"print",w:262,h:236,slot:{x:812,y:176,rot:3},html:()=>`<img src="${IMG.meOrange}" alt="">`},
+  {id:"cd",kind:"cd",w:112,h:112,slot:{x:934,y:76,rot:0},html:`<div class="disc"></div><span class="cd-tag">on repeat</span>`},
+  {id:"spark",kind:"doodle",w:58,h:76,slot:{x:530,y:36,rot:0},html:SPARK},
+  {id:"art",kind:"print",w:186,h:186,slot:{x:132,y:350,rot:-6},html:()=>`<img src="${IMG.artGirl}" alt="">`},
+  {id:"kiss",kind:"round",w:126,h:126,slot:{x:262,y:262,rot:0},html:()=>`<img src="${IMG.meKiss}" alt="">`},
+  {id:"strip",kind:"strip",w:104,h:290,slot:{x:330,y:404,rot:4},html:()=>STRIP(IMG.meLaugh,IMG.artPainting,IMG.meSmile)},
+  {id:"card",kind:"card",w:168,h:214,slot:{x:462,y:414,rot:-5},html:()=>`<div class="grid8">${Array.from({length:32},(_,i)=>`<b style="--o:${[1,.55,.8,.35,1,.7][i%6]}"></b>`).join("")}</div><span class="tt">Dhuni Designs<br>Studio Card</span><small>Design engineering · Lagos</small>${SIG}`},
+  {id:"outfit",kind:"print dark",w:170,h:236,slot:{x:600,y:396,rot:2},html:()=>`<img src="${IMG.meOutfit}" alt="">`},
+  {id:"live",kind:"live",w:118,h:118,slot:{x:560,y:262,rot:-7},html:()=>`<video src="${VID.meLive}" poster="${POSTER.meLive}" muted loop playsinline autoplay></video><span class="lv">LIVE</span>`},
+  {id:"flat",kind:"print",w:168,h:270,slot:{x:860,y:410,rot:4},html:()=>`<img src="${IMG.flatlay}" alt="">`},
+  {id:"ticket",kind:"ticket",w:224,h:92,slot:{x:724,y:322,rot:-8},html:TICKET},
+  {id:"camera",kind:"print",w:212,h:132,slot:{x:744,y:494,rot:-3},html:()=>`<img src="${IMG.camera}" alt="">`},
+  {id:"cuff",kind:"cut",w:104,h:88,slot:{x:952,y:300,rot:10},html:()=>`<img src="${IMG.cuff}" alt="">`},
+  {id:"necklace",kind:"cut",w:122,h:94,slot:{x:640,y:548,rot:6},html:()=>`<img src="${IMG.necklace}" alt="">`},
+  {id:"framer",kind:"app framer",w:54,h:54,slot:{x:212,y:452,rot:-6},html:()=>ICON_FRAMER},
+  {id:"msg1",kind:"msg",w:300,h:92,slot:{x:168,y:548,rot:-3},html:()=>`<span class="av"><img src="${IMG.meAvatar}" alt=""></span><div><p><b>Hafsoh</b><small>just now</small></p><p>shipped the billing flow today, polishing the details next</p><span class="heart">❤︎</span></div>`},
+  {id:"cat",kind:"catstk",w:132,h:132,slot:{x:398,y:540,rot:-6},html:CAT_STK},
+  {id:"blob",kind:"blobcut",w:104,h:96,slot:{x:520,y:556,rot:5},html:()=>blobMini()},
+  {id:"claude",kind:"app claude",w:58,h:58,slot:{x:684,y:446,rot:-10},html:()=>ICON_CLAUDE},
+  {id:"figma",kind:"app",w:58,h:58,slot:{x:930,y:562,rot:8},html:()=>ICON_FIGMA},
+  {id:"squig",kind:"doodle",w:104,h:42,slot:{x:836,y:590,rot:0},html:SQUIG},
 ];
 let stickerLayer=null, stickerEls=[], stkRaf=0;
 const clamp=v=>v<0?0:v>1?1:v, smooth=t=>t*t*(3-2*t);
@@ -1436,7 +1563,7 @@ function placeStickers(){
     } else {
       x=tx; y=ty+(1-q)*40; rot=s.slot.rot+(1-q)*(i%2?8:-8); k=sc*(.75+.25*q);
     }
-    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`; el.style.opacity=q<=0?0:Math.min(1,q*3);
+    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`; el.style.opacity=q<=0?0:Math.min(1,q*3); el.classList.toggle("set",q>.97);
   });
 }
 const queueStickers=()=>{ if(!stkRaf) stkRaf=requestAnimationFrame(placeStickers); };
