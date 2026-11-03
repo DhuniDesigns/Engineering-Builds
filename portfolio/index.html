@@ -788,6 +788,23 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 @media (hover:none){.idc-in{animation:bob 7s ease-in-out infinite}.idc:nth-child(2) .idc-in{animation-delay:-3s}}
 @media (max-width:640px){.idc{flex-basis:100%;max-width:300px}}
 .links.glide .dot{transform:none}
+/* ===== v29 ===== */
+.stk-xcard{background:none;box-shadow:none;perspective:900px}
+.stk-xcard .idc{width:100%;height:100%;max-width:none;flex:none;aspect-ratio:auto}
+.stk-xcard .idc-in{box-shadow:0 1px 2px rgba(0,0,0,.3),0 16px 30px -10px rgba(0,0,0,.65)}
+.stk-xcard .idc-av{width:38px;height:38px;left:12px;top:12px}
+.stk-xcard .idc-name{font-size:15px;bottom:46px;left:12px}.stk-xcard .idc-at{bottom:32px;left:12px;font-size:10px}.stk-xcard .idc-role{bottom:11px;left:12px;font-size:10px}
+.stk.set:hover .stk-xcard{box-shadow:none}
+/* builds and playground cards with a floating video */
+.grid.wide .card .card-media > video.cv{position:absolute;left:50%;top:calc(50% + 6px);translate:-50% -50%;max-width:78%;max-height:calc(100% - 32px);width:auto;height:auto;border-radius:12px;display:block;
+  box-shadow:0 1px 1px rgba(0,0,0,.2),0 22px 40px -16px rgba(0,0,0,.65);animation:bob 8s ease-in-out infinite;animation-delay:calc(var(--i,0) * -1.3s);transition:scale .5s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover){.grid.wide .card:hover .card-media > video.cv{scale:1.04}}
+.cs .shot video.cv-hero{width:100%;height:100%;object-fit:contain;display:block;background:#efeeea}
+/* footer: quieter */
+.foot{font-size:13px;color:var(--muted)}
+.now small{font-size:11px}
+.now span{font-size:14px}
+@media (max-width:640px){.tabs{gap:4px;flex-wrap:nowrap}.tab{font-size:16px;padding:8px 12px;white-space:nowrap}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -868,7 +885,7 @@ const projects = [
              ["How it was built","Designed in Figma, built with Claude and deployed on Vercel: a marketing site plus an app with an inbox, orders and stock."]]},
   {id:"pixie", name:"Pixie", meta:"Web app and Figma plugin", tagline:"Describe a brand in a sentence and Pixie builds the kit: colours, type, icons and illustrations, sent straight to Figma as variables.",
    role:"Product design and front-end build", time:"3 weeks", platform:"Web app and Figma plugin", tools:"Figma, Claude, Vercel",
-   site:"https://pixie-brand-kits.vercel.app", github:"https://github.com/DhuniDesigns/Engineering-Builds/tree/main/pixie", shot:"pixie",
+   site:"https://pixie-brand-kits.vercel.app", siteLabel:"Open the app", github:"https://github.com/DhuniDesigns/Engineering-Builds/tree/main/pixie", shot:"pixie",
    sections:[["The problem","Every new brand starts with the same chore: picking a palette, checking contrast, pairing type and setting it all up as variables by hand."],
              ["What I designed","Three steps: describe your brand, lock what you love and regenerate the rest, then send it to Figma. Every colour pairing is checked for contrast before it ships."],
              ["How it was built","A web app and a Figma plugin built with Claude. It grew out of building Remi’s palette by hand."]]},
@@ -877,6 +894,11 @@ const projects = [
    sections:[["The problem","In a shared home one person usually fronts the bills, then chases everyone for their share across a group chat."],
              ["What I designed","One home for every shared bill. Each bill is split the way the house agrees, everyone sees what they owe, and reminders do the chasing."],
              ["Brand","A confident violet, #732CEB, carried over from Remi, the project Compound replaced."]]},
+  {id:"aot", name:"AOT", meta:"Web and mobile app", tagline:"Market intelligence for investing in Africa: daily recaps, market signals and an investment score for every opportunity.",
+   role:"Product design and UI", time:"Concept project", platform:"Web dashboard and mobile app", tools:"Figma", shot:"aotDash",
+   sections:[["The problem","Investors looking at African markets piece together news, policy changes and market data from dozens of sources before they can judge a single opportunity."],
+             ["What I designed","A daily recap, live market signals and top markets on the home screen. Each opportunity gets an investment score out of ten, with demand, ROI, margin, break-even, capital and risk laid out on one page."],
+             ["Visual direction","A dark interface with one mint accent for growth and amber for risk, so the numbers that matter stand out first."]]},
   {id:"remi", name:"Remi", meta:"Mobile app", tagline:"A money helper for Nigerian freelancers who are paid in dollars and pounds but spend in naira.",
    role:"Product design and branding", time:"3 weeks", platform:"Mobile app", tools:"Figma, Claude",
    sections:[["The problem","Freelancers paid from abroad juggle exchange rates, transfer fees and tax with spreadsheets and guesswork, and rarely know what a month really earned them."],
@@ -884,12 +906,14 @@ const projects = [
              ["Brand","A confident violet with Montserrat and Outfit. Building its palette by hand is what led me to make Pixie."]]},
   {id:"4am-club", name:"4AM Club", meta:"App and Website", tagline:"An AI routine coach that helps people build mornings that actually stick.",
    role:"Product design, UI and prototyping", time:"6 weeks", platform:"Mobile app, web app and website", tools:"Figma, Framer, Claude",
+   demo:"https://dhunidesigns.github.io/Engineering-Playground/4am-subscription/", github:"https://github.com/DhuniDesigns/Engineering-Playground/tree/main/4am-subscription", vid:"billing",
    sections:[["The problem","Most routine apps nag, and people quit them within a week."],
              ["What I designed","An AI coach that adapts the plan to how your week is going, with a shop for the things that help and a simple subscription."],
              ["Prototype","I built the subscription and billing flow as a coded prototype: the plan card expands into a draggable carousel of plans."]]},
   {id:"lvl-up", name:"LVL UP", meta:"Mobile app", tagline:"A micro-learning app that helps women aged 24 to 50 learn job-ready skills in minutes a day.",
    role:"Product design, brand identity and build", time:"8 weeks", platform:"Mobile app", tools:"Figma, Claude, Paystack",
    github:"https://github.com/DhuniDesigns/lvl-up",
+   demo:"https://dhunidesigns.github.io/Engineering-Playground/lvlup-onboarding/", vid:"pgLvl",
    sections:[["The problem","Career courses assume hours of free time. The women I designed for had minutes, between work and family."],
              ["What I designed","Short lessons with clear progress, a warm brand that feels encouraging rather than corporate, and payments through Paystack with local currency switching."],
              ["How it was built","Built end to end with Claude from my Figma flows."]]},
@@ -910,12 +934,14 @@ const BUILD_ITEMS={
     {name:"REA", meta:"Government site redesign", img:"rea", href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"},
     {name:"NYTA", meta:"Agency site", img:"nyta", href:"https://nytaagency.vercel.app"}],
   apps:[
-    {name:"Pixie", meta:"Web app and Figma plugin", img:"pixie", href:"https://pixie-brand-kits.vercel.app"},
-    {name:"Sello", meta:"Seller inbox app", img:"sello", href:"https://sello-vert.vercel.app"},
-    {name:"LVL UP", meta:"Micro-learning app", art:"lvl-up", href:"https://github.com/DhuniDesigns/lvl-up"},
-    {name:"4AM Club", meta:"Billing flow prototype", art:"4am-club", href:"#4am-club"}],
+    {name:"Pixie", meta:"Web app and Figma plugin", img:"pixie", href:"#pixie"},
+    {name:"Sello", meta:"Seller inbox app", img:"sello", href:"#sello"},
+    {name:"LVL UP", meta:"Micro-learning app", vid:"pgLvl", href:"#lvl-up"},
+    {name:"4AM Club", meta:"Subscription and billing", vid:"billing", href:"#4am-club"},
+    {name:"AOT", meta:"Market intelligence app", img:"aotPhones", href:"#aot"},
+    {name:"Compound", meta:"Shared bills app", art:"compound", href:"#compound"}],
   "design-systems":[
-    {name:"Pixie", meta:"Brand kits as Figma variables", img:"pixie", href:"https://pixie-brand-kits.vercel.app"},
+    {name:"Pixie", meta:"Brand kits as Figma variables", img:"pixie", href:"#pixie"},
     {name:"Remi", meta:"Palette and type system", art:"remi", href:"#remi"}]
 };
 const builds = [
@@ -924,13 +950,23 @@ const builds = [
   {name:"Design system", meta:"Figma & Claude", tab:"design-systems"},
   {name:"Brand Identity", meta:"Coming soon", soon:true},
 ];
+const PG_LIVE="https://dhunidesigns.github.io/Engineering-Playground/", PG_SRC="https://github.com/DhuniDesigns/Engineering-Playground/tree/main/";
 const PLAY=[
-  {name:"Blueprint loader", meta:"Canvas, motion"},
-  {name:"Lyric text", meta:"Type, motion"},
-  {name:"Book turn", meta:"3D, interaction"},
-  {name:"Spring link preview", meta:"Physics, hover"},
-  {name:"Theme bloom", meta:"Clip-path, theming"},
-  {name:"Sticker gather", meta:"Scroll, motion"}];
+  {name:"4AM subscription flow", meta:"Shared-element motion", vid:"billing", href:PG_LIVE+"4am-subscription/"},
+  {name:"Guild join", meta:"Spring physics", vid:"guild", href:PG_LIVE+"guild-join/"},
+  {name:"LVL UP onboarding", meta:"Streaming text, pager", vid:"pgLvl", href:PG_LIVE+"lvlup-onboarding/"},
+  {name:"Ride dispatch dashboard", meta:"Live route, tablet", vid:"pgRide", href:PG_LIVE+"ride-dashboard/"},
+  {name:"Travel waitlist", meta:"Card stack, form states", vid:"pgTravel", href:PG_LIVE+"travel-waitlist/"},
+  {name:"Signature pad", meta:"Canvas drawing", vid:"pgSign", href:PG_LIVE+"signature-pad/"},
+  {name:"Video agency hero", meta:"Card fan, marquee", vid:"pgHero", href:PG_LIVE+"video-agency-hero/"},
+  {name:"WEME glow up", meta:"Playful hero motion", vid:"pgWeme", href:PG_LIVE+"weme/"},
+  {name:"Apex footer", meta:"Physics shapes", vid:"pgFooter", href:PG_LIVE+"apex-footer/"},
+  {name:"Apex pricing", meta:"Plan toggle", vid:"pgPricing", href:PG_LIVE+"apex-pricing/"},
+  {name:"Download app", meta:"Button morph", vid:"download"},
+  {name:"Unlock level", meta:"Reward reveal", vid:"unlock"},
+  {name:"Wallet", meta:"Balance reveal", vid:"wallet"},
+  {name:"Multi-currency wallet", meta:"Card stack", vid:"walletCard"},
+];
 const jobs = [
   {co:"Malkain Designs", url:"https://www.malkain.com", where:"New Jersey, US · Remote", role:"Product Designer", when:"Jan 2026 – Now",
    short:"I lead design for client web and mobile products, from first sketch to launch, and prototype them in code so clients test the real thing early.",
@@ -959,7 +995,7 @@ const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const coName = j => j.url ? `<a class="co" href="${j.url}" target="_blank" rel="noopener">${esc(j.co)}<span aria-hidden="true">↗</span></a>` : `<span class="fg">${esc(j.co)}</span>`;
 const ext = (href,label) => `<a class="pill-link" href="${href}" target="_blank" rel="noopener">${label}<span aria-hidden="true">↗</span></a>`;
 const card = it => { const out=/^https?:/.test(it.href);
-  const media = it.img ? `<img src="${IMG[it.img]}" alt="${esc(it.name)} homepage" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
+  const media = it.vid ? `<video class="cv" src="${VID[it.vid]}" poster="${POSTER[it.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(it.name)} preview"></video>` : it.img ? `<img src="${IMG[it.img]}" alt="${esc(it.name)} preview" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
   return `<a class="card" href="${it.href}"${out?' target="_blank" rel="noopener"':""}><span class="card-media">${media}</span><div class="row"><span class="name">${esc(it.name)}${out?' <span class="arr" aria-hidden="true">↗</span>':""}</span><span class="meta">${esc(it.meta)}</span></div></a>`; };
 const grid = items => `<div class="grid wide">${items.map(card).join("")}</div>`;
 
@@ -1053,9 +1089,7 @@ home(){
         <div class="row shelf-meta" id="book-meta"><span class="name">${esc(BOOKS[0].status)}</span><span class="meta">${esc(BOOKS[0].title)}</span></div></section>
       <hr class="rule">
       <section class="block"><p class="label">Off the clock</p><div class="collage" id="collage" aria-label="Hobbies: photos, films, music, jewellery and clothes I love"></div></section>
-      <hr class="rule">
-      <section class="block"><p class="label">Say hi</p>${idCards()}
-        <p class="say">Reach out on <a class="u ext" href="${LINKS.x}" target="_blank" rel="noopener">X</a> or by <a class="u" href="mailto:${EMAIL}" data-mail>email</a>. I’m open to work.</p></section>
+
     </div>
   </div>`;
 },
@@ -1066,14 +1100,15 @@ builds(){
 },
 playground(){
   return `<div class="col">${crumb("Playground")}
-    <h1>Design Explorations</h1>
-    <p class="lede">Take a look at some component designs, prototypes and concepts I’ve worked on.</p>
-  </div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,href:"#home"})))}`;
+    <h1>Playground</h1>
+    <p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p>
+    <div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div>
+  </div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,href:x.href||"#playground"})))}`;
 },
 project(p){
   const order = SELECTED.includes(p.id) ? SELECTED.map(id=>projects.find(x=>x.id===id)) : projects, i = order.indexOf(p), next = order[(i+1)%order.length];
-  const hero = p.shot ? `<img src="${IMG[p.shot]}" alt="${esc(p.name)} homepage">` : ART[p.id];
-  const links = [p.site&&ext(p.site,"Visit website"), p.github&&ext(p.github,"GitHub")].filter(Boolean).join("");
+  const hero = p.vid ? `<video class="cv-hero" src="${VID[p.vid]}" poster="${POSTER[p.vid]}" muted loop playsinline autoplay aria-label="${esc(p.name)} prototype"></video>` : p.shot ? `<img src="${IMG[p.shot]}" alt="${esc(p.name)} preview">` : ART[p.id];
+  const links = [p.site&&ext(p.site,p.siteLabel||"Visit website"), p.demo&&ext(p.demo,"Try the demo"), p.github&&ext(p.github,"GitHub")].filter(Boolean).join("");
   return `<div class="col">${crumb(p.name)}
     <h1>${esc(p.name)}</h1>
     <p class="lede">${esc(p.tagline)}</p>
@@ -1127,6 +1162,7 @@ function asciiField(cols,rows){
   return out;
 }
 const X_MARK=`<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M8 6h30l28 39 33-39h14L72 54l42 60H84L54 72 18 114H4l44-51z"/></svg>`;
+const xCard=()=>`<a class="idc idc-x" href="${LINKS.x}" target="_blank" rel="noopener" aria-label="Hafsoh on X, @basharhafsoh"><span class="idc-in"><span class="idc-mark">${X_MARK}</span><img class="idc-av" src="${IMG.meAvatar}" alt=""><span class="idc-name">Hafsoh.</span><span class="idc-at">@basharhafsoh</span><span class="idc-role">design engineer.</span><span class="idc-glare"></span></span></a>`;
 const idCards=()=>`<div class="idcards">
   <a class="idc idc-x" href="${LINKS.x}" target="_blank" rel="noopener" aria-label="Hafsoh on X, @basharhafsoh">
     <span class="idc-in"><span class="idc-mark">${X_MARK}</span>
@@ -1171,8 +1207,8 @@ function initGlide(){
   });
 }
 /* ---- interaction reel: recorded micro-interactions and floating builds, drifting slowly across the page ---- */
-const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4" };
-const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg" };
+const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4", pgLvl:"vid/pg-lvlup.mp4", pgRide:"vid/pg-ride.mp4", pgTravel:"vid/pg-travel.mp4", pgSign:"vid/pg-signature.mp4", pgHero:"vid/pg-video-agency-hero.mp4", pgWeme:"vid/pg-weme.mp4", pgFooter:"vid/pg-apex-footer.mp4", pgPricing:"vid/pg-apex-pricing.mp4" };
+const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg", pgLvl:"vid/pg-lvlup.jpg", pgRide:"vid/pg-ride.jpg", pgTravel:"vid/pg-travel.jpg", pgSign:"vid/pg-signature.jpg", pgHero:"vid/pg-video-agency-hero.jpg", pgWeme:"vid/pg-weme.jpg", pgFooter:"vid/pg-apex-footer.jpg", pgPricing:"vid/pg-apex-pricing.jpg" };
 // Each column is a stack of frames. vid = a recording, img = a static build that floats in its frame.
 // To add your own static images later: {label:"…", tag:"…", src:"img/your-file.webp"}.
 const REEL=[
@@ -1199,6 +1235,12 @@ function frame(f,n,dup){
 const bento=dup=>{ let n=0; return `<div class="bento"${dup?' aria-hidden="true"':""}>${REEL.map(col=>`<div class="bcol">${col.map(f=>frame(f,n++,dup)).join("")}</div>`).join("")}</div>`; };
 const reel=()=>`<div class="reel" id="reel" role="region" aria-label="Interactions and builds, drifting slowly. Hover to pause."><div class="reel-track">${bento()}${bento(true)}</div></div>`;
 let reelIO;
+let cardIO;
+function initVideos(){
+  if(cardIO) cardIO.disconnect(); const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  cardIO=new IntersectionObserver(es=>es.forEach(e=>{ const v=e.target; if(e.isIntersecting&&!reduce){ const p=v.play(); if(p&&p.catch)p.catch(()=>{}); } else v.pause(); }),{threshold:.15});
+  document.querySelectorAll("#app video.cv,#app video.cv-hero").forEach(v=>{ v.muted=true; cardIO.observe(v); });
+}
 function initReel(){
   const r=document.getElementById("reel"); if(!r) return;
   const tr=r.querySelector(".reel-track"); const w=tr.scrollWidth/2;
@@ -1226,7 +1268,7 @@ function render(){
   initTabs(); initHello(); hidePeek();
   if(!document.documentElement.hasAttribute("data-booting")) document.querySelectorAll(".sel").forEach((el,k)=>setTimeout(()=>el.classList.add("on"),900+k*260));
   document.title = p ? `${p.name} · Dhuni Designs` : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
-  initStrip(); initReel(); initGlide(); initCards();
+  initStrip(); initReel(); initGlide(); initVideos();
   mountStickers();
   loadCovers();
 }
@@ -1290,7 +1332,7 @@ document.addEventListener("click", e=>{
   if(st){ if(st.getAttribute("aria-selected")==="true") return;
     activeTab = st.dataset.setTab; document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b===st));
     moveInd(); sfx.tab();
-    const bg=document.getElementById("build-grid"); if(bg) bg.innerHTML=grid(BUILD_ITEMS[activeTab]);
+    const bg=document.getElementById("build-grid"); if(bg){ bg.innerHTML=grid(BUILD_ITEMS[activeTab]); initVideos(); }
     document.querySelectorAll(".grid > *").forEach((c,k)=>{c.classList.remove("rise");c.offsetWidth;c.style.setProperty("--i",k);c.classList.add("rise");});
     return; }
   const em=e.target.closest("[data-copy-email]"); if(em){ copyEmail(em); return; }
@@ -1525,13 +1567,14 @@ const STICKERS=[
   {id:"ticket",kind:"ticket",w:224,h:92,slot:{x:724,y:322,rot:-8},html:TICKET},
   {id:"camera",kind:"print",w:212,h:132,slot:{x:744,y:494,rot:-3},html:()=>`<img src="${IMG.camera}" alt="">`},
   {id:"cuff",kind:"cut",w:104,h:88,slot:{x:952,y:300,rot:10},html:()=>`<img src="${IMG.cuff}" alt="">`},
-  {id:"necklace",kind:"cut",w:122,h:94,slot:{x:640,y:548,rot:6},html:()=>`<img src="${IMG.necklace}" alt="">`},
+  {id:"necklace",kind:"cut",w:122,h:94,slot:{x:112,y:226,rot:-8},html:()=>`<img src="${IMG.necklace}" alt="">`},
   {id:"framer",kind:"app framer",w:54,h:54,slot:{x:212,y:452,rot:-6},html:()=>ICON_FRAMER},
   {id:"msg1",kind:"msg",w:300,h:92,slot:{x:168,y:548,rot:-3},html:()=>`<span class="av"><img src="${IMG.meAvatar}" alt=""></span><div><p><b>Hafsoh</b><small>just now</small></p><p>shipped the billing flow today, polishing the details next</p><span class="heart">❤︎</span></div>`},
   {id:"cat",kind:"catstk",w:132,h:132,slot:{x:398,y:540,rot:-6},html:CAT_STK},
-  {id:"blob",kind:"blobcut",w:104,h:96,slot:{x:520,y:556,rot:5},html:()=>blobMini()},
+  {id:"blob",kind:"blobcut",w:96,h:88,slot:{x:70,y:470,rot:-8},html:()=>blobMini()},
   {id:"claude",kind:"app claude",w:58,h:58,slot:{x:684,y:446,rot:-10},html:()=>ICON_CLAUDE},
   {id:"figma",kind:"app",w:58,h:58,slot:{x:930,y:562,rot:8},html:()=>ICON_FIGMA},
+  {id:"xcard",kind:"xcard",w:236,h:138,slot:{x:622,y:550,rot:-3},html:()=>xCard()},
   {id:"squig",kind:"doodle",w:104,h:42,slot:{x:836,y:590,rot:0},html:SQUIG},
 ];
 let stickerLayer=null, stickerEls=[], stkRaf=0;
@@ -1540,7 +1583,7 @@ function mountStickers(){
   unmountStickers(); if(!document.getElementById("collage")) return;
   stickerLayer=document.createElement("div"); stickerLayer.className="stickers"+(root.hasAttribute("data-booting")?" hold":""); stickerLayer.setAttribute("aria-hidden","true");
   stickerLayer.innerHTML=STICKERS.map(s=>`<div class="stk" style="width:${s.w}px;height:${s.h}px"><div class="stk-in ${s.kind.split(" ").map((c,j)=>j?c:"stk-"+c).join(" ")}">${typeof s.html==="function"?s.html():s.html}</div></div>`).join("");
-  document.body.appendChild(stickerLayer); stickerEls=[...stickerLayer.children]; placeStickers();
+  document.body.appendChild(stickerLayer); stickerEls=[...stickerLayer.children]; placeStickers(); initCards();
 }
 function unmountStickers(){ if(stickerLayer){ stickerLayer.remove(); stickerLayer=null; stickerEls=[]; } }
 function placeStickers(){
