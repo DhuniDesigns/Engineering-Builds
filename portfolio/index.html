@@ -1053,6 +1053,7 @@ function boot(){
     blocks.forEach(b=>show(b,true)); cv.animate([{opacity:1},{opacity:0}],{duration:200}).onfinish=()=>cv.remove();
     ["pointerdown","keydown"].forEach(ev=>removeEventListener(ev,finish)); afterBoot(); }
   ["pointerdown","keydown"].forEach(ev=>addEventListener(ev,finish,{once:true}));
+  setTimeout(finish, 2500);   // safety net: never leave the page hidden (e.g. a background tab that pauses animation frames)
 
   function frame(now){
     if(!t0) t0=now; const t=now-t0; c.clearRect(0,0,W,H);
