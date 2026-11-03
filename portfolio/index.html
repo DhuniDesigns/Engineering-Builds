@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Dancing+Script:wght@500&family=Overlock:ital,wght@1,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500;600&family=Dancing+Script:wght@500&family=Overlock:ital,wght@1,700&display=swap">
 <style>
 /* Layout: one 600px reading column, centred; galleries break out to 1000px (grids) or bleed to the right edge (home strip). Dark-first, light on toggle. */
 :root{
@@ -298,33 +298,46 @@ body{padding-block-end:120px}
 
 /* ---- bookshelf: spines standing on a shelf ---- */
 .shelf-wrap{position:relative;padding-top:24px;overflow-x:clip}
-.books{display:flex;align-items:flex-end;gap:2px;height:230px;padding-inline:4px;perspective:900px}
-/* a book = spine + cover; hovering pulls it out and turns it so the cover faces you */
-.book{--h:180px;--w:32px;--cw:calc(var(--h) * .68);--bg:#3a3a3a;--ink:#f2efe8;position:relative;flex:none;width:var(--w);height:var(--h);
+.books{display:flex;align-items:flex-end;gap:1px;height:240px;padding-inline:6px;perspective:1100px}
+/* a book = spine + cover. Spine is lit like a rounded cloth/paper spine; hover turns the book so its cover faces you */
+.book{--h:180px;--w:32px;--cw:calc(var(--h) * .67);--bg:#3a3a3a;--ink:#f2efe8;--sf:var(--sans);position:relative;flex:none;width:var(--w);height:var(--h);
   padding:0;border:0;background:none;cursor:pointer;transform-style:preserve-3d;
-  transition:width .55s cubic-bezier(.23,1,.32,1),transform .55s cubic-bezier(.23,1,.32,1),opacity .3s}
-.book .spine,.book .cover{position:absolute;bottom:0;height:100%;backface-visibility:hidden;border-radius:2px 2px 1px 1px;transition:transform .55s cubic-bezier(.23,1,.32,1),opacity .3s}
-.book .spine{left:0;width:var(--w);background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;padding:10px 0;overflow:hidden;
-  box-shadow:inset 2px 0 0 rgba(255,255,255,.14),inset -3px 0 0 rgba(0,0,0,.24),inset 0 -6px 0 rgba(0,0,0,.12);transform-origin:right center}
-.book .spine span{font-size:11px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:calc(var(--h) - 34px)}
-.book .spine span.au{font-size:9px;opacity:.7;margin-top:8px;max-height:60px}
-.book .cover{left:var(--w);width:var(--cw);transform-origin:left center;transform:rotateY(90deg);opacity:0;overflow:hidden;
-  background:var(--bg);color:var(--ink);box-shadow:0 18px 30px -14px rgba(0,0,0,.6),inset 3px 0 0 rgba(0,0,0,.18)}
-.book .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.book .cover .face{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px 12px;text-align:left}
-.book .cover .face b{font:500 15px/1.15 var(--sans);text-wrap:balance}
-.book .cover .face small{font-size:10px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
-.book .cover .face::before{content:"";position:absolute;inset:8px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);border-radius:1px;pointer-events:none}
-.book.lean{transform:rotate(9deg) translateX(10px)}
-.book.cur::after{content:"";position:absolute;top:-1px;left:calc(var(--w) / 2);width:7px;height:22px;margin-left:-3.5px;background:#ff5b4a;clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);z-index:2;transition:opacity .2s}
-.books:has(.book.open) .book:not(.open){opacity:.5}
-.book.open{width:var(--cw);transform:translateY(-10px);z-index:3}
-.book.open.lean{transform:translateY(-10px)}
-.book.open .spine{transform:rotateY(-90deg) translateX(calc(var(--w) * -.0))}
+  transition:width .6s cubic-bezier(.23,1,.32,1),transform .6s cubic-bezier(.23,1,.32,1),opacity .3s}
+.book .spine,.book .cover{position:absolute;bottom:0;height:100%;backface-visibility:hidden;transition:transform .6s cubic-bezier(.23,1,.32,1),opacity .35s}
+.book .spine{left:0;width:var(--w);background-color:var(--bg);color:var(--ink);border-radius:1.5px 1.5px 1px 1px;overflow:hidden;transform-origin:right center;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 0 10px;
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.34) 0,rgba(0,0,0,.06) 9%,rgba(255,255,255,.16) 24%,rgba(255,255,255,.05) 42%,rgba(0,0,0,.04) 66%,rgba(0,0,0,.3) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.18) 0,transparent 3%,transparent 96%,rgba(0,0,0,.25) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  box-shadow:0 1px 0 rgba(0,0,0,.4),0 10px 18px -12px rgba(0,0,0,.7)}
+.book .spine .t{writing-mode:vertical-rl;font:var(--sw,500) var(--ss,12px)/1 var(--sf);letter-spacing:var(--sl,.02em);text-transform:var(--su,none);
+  white-space:normal;text-wrap:balance;text-align:center;word-break:keep-all;hyphens:none;line-height:1.05;overflow:hidden;max-height:calc(var(--h) - 58px);min-height:0;flex:0 1 auto;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.book .spine .a{writing-mode:vertical-rl;font:400 8px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;opacity:.7;max-height:46px;overflow:hidden;white-space:nowrap;flex:none}
+.book .spine .pub{width:9px;height:9px;border-radius:50%;border:1px solid currentColor;opacity:.55;flex:none;margin-top:6px}
+.book .spine .rule{width:60%;height:1px;background:currentColor;opacity:.4;margin:6px 0}
+.book .cover{left:var(--w);width:var(--cw);transform-origin:left center;transform:rotateY(90deg);opacity:0;border-radius:1px 3px 3px 1px;overflow:hidden;
+  background:var(--bg);color:var(--ink);box-shadow:0 22px 34px -16px rgba(0,0,0,.75),0 2px 4px rgba(0,0,0,.25)}
+.book .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.book .cover img.ok{opacity:1}
+.book .cover .face{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:16px 13px;text-align:left}
+.book .cover .face b{font:700 16px/1.12 var(--sf);text-wrap:balance;text-transform:var(--su,none);letter-spacing:var(--sl,0)}
+.book .cover .face small{font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+/* hinge shadow, gloss, and the page block you'd see on a real jacket */
+.book .cover::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,rgba(0,0,0,.38) 0,rgba(0,0,0,.1) 3%,rgba(255,255,255,.12) 5%,transparent 9%),
+             linear-gradient(115deg,rgba(255,255,255,.18) 0,transparent 36%,transparent 70%,rgba(0,0,0,.18) 100%)}
+.book .cover::after{content:"";position:absolute;top:3px;bottom:3px;right:0;width:4px;z-index:3;
+  background:repeating-linear-gradient(90deg,#f3efe6 0 1px,#d8d2c4 1px 2px);box-shadow:-1px 0 0 rgba(0,0,0,.25)}
+.book.lean{transform:rotate(8deg) translateX(9px)}
+.book.cur .spine::after{content:"";position:absolute;top:-1px;left:4px;width:6px;height:26px;background:#e0443a;clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
+.books:has(.book.open) .book:not(.open){opacity:.55}
+.book.open{width:var(--cw);transform:translateY(-12px);z-index:3}
+.book.open.lean{transform:translateY(-12px)}
+.book.open .spine{transform:rotateY(-90deg)}
 .book.open .cover{transform:rotateY(0deg) translateX(calc(var(--w) * -1));opacity:1}
-.book.open::after{opacity:0}
+.shelf-board{height:12px;border-radius:2px;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 70%,#fff 6%),var(--surface) 30%,color-mix(in srgb,var(--surface) 55%,#000));box-shadow:0 14px 22px -12px rgba(0,0,0,.7)}
 @media (prefers-reduced-motion:reduce){.book.open .spine{transform:none;opacity:0}}
-.shelf-board{height:10px;border-radius:2px;background:linear-gradient(var(--surface),color-mix(in srgb,var(--surface) 60%,#000));box-shadow:0 10px 18px -10px rgba(0,0,0,.6)}
 .shelf-meta{margin-top:16px}
 
 /* ---- hobbies: stickers on the sides that gather into a collage ---- */
@@ -511,23 +524,42 @@ const PRODUCTS={
 
 /* ---- bookshelf: first book is the one you're reading. Swap the SAMPLE titles for your own. ---- */
 const BOOKS=[
-  {title:"Wife of the Gods",author:"Kwei Quartey",status:"Currently reading",h:176,w:36,bg:"#7a4a2a",ink:"#f6e7cf"},
-  {title:"Refactoring UI",author:"Wathan & Schoger",status:"Read",h:150,w:30,bg:"#e9e4da",ink:"#1d1d1d",sample:true},
-  {title:"The Design of Everyday Things",author:"Don Norman",status:"Read",h:196,w:40,bg:"#c8432b",ink:"#fff5ee",sample:true},
-  {title:"Don't Make Me Think",author:"Steve Krug",status:"Read",h:168,w:30,bg:"#f2c94c",ink:"#2b2205",sample:true},
-  {title:"Shape Up",author:"Ryan Singer",status:"Read",h:140,w:26,bg:"#1f3b2d",ink:"#d9efe2",sample:true},
-  {title:"Things Fall Apart",author:"Chinua Achebe",status:"Read",h:184,w:34,bg:"#2d2a26",ink:"#efe6d4",sample:true},
-  {title:"Steal Like an Artist",author:"Austin Kleon",status:"Read",h:158,w:28,bg:"#f5f1e8",ink:"#111",sample:true},
-  {title:"Purple Hibiscus",author:"Chimamanda Ngozi Adichie",status:"Read",h:190,w:32,bg:"#5b2a6e",ink:"#f3e7f8",sample:true},
-  {title:"Atomic Habits",author:"James Clear",status:"Read",h:172,w:38,bg:"#ece7df",ink:"#9a6b2f",sample:true},
-  {title:"Grid Systems",author:"Josef Müller-Brockmann",status:"Read",h:200,w:30,bg:"#151515",ink:"#f15a24",sample:true,lean:true},
+  {title:"Wife of the Gods",sf:"'Libre Caslon Text',Georgia,serif",sw:700,ss:"13px",su:"none",sl:".01em",author:"Kwei Quartey",status:"Currently reading",h:176,w:36,bg:"#7a4a2a",ink:"#f6e7cf"},
+  {title:"Refactoring UI",sf:"Outfit,ui-sans-serif,system-ui,sans-serif",sw:600,ss:"11px",su:"none",sl:"0",author:"Wathan & Schoger",status:"Read",h:150,w:30,bg:"#e9e4da",ink:"#1d1d1d",sample:true},
+  {title:"The Design of Everyday Things",sf:"'Libre Caslon Text',Georgia,serif",sw:400,ss:"12px",su:"none",sl:"0",author:"Don Norman",status:"Read",h:196,w:40,bg:"#c8432b",ink:"#fff5ee",sample:true},
+  {title:"Don't Make Me Think",sf:"Oswald,'Arial Narrow',sans-serif",sw:600,ss:"13px",su:"uppercase",sl:".04em",author:"Steve Krug",status:"Read",h:168,w:30,bg:"#f2c94c",ink:"#2b2205",sample:true},
+  {title:"Shape Up",sf:"Outfit,ui-sans-serif,system-ui,sans-serif",sw:500,ss:"11px",su:"uppercase",sl:".08em",author:"Ryan Singer",status:"Read",h:140,w:26,bg:"#1f3b2d",ink:"#d9efe2",sample:true},
+  {title:"Things Fall Apart",sf:"'Libre Caslon Text',Georgia,serif",sw:700,ss:"13px",su:"uppercase",sl:".06em",author:"Chinua Achebe",status:"Read",h:184,w:34,bg:"#2d2a26",ink:"#efe6d4",sample:true},
+  {title:"Steal Like an Artist",sf:"Oswald,'Arial Narrow',sans-serif",sw:600,ss:"12px",su:"uppercase",sl:".03em",author:"Austin Kleon",status:"Read",h:158,w:28,bg:"#f5f1e8",ink:"#111",sample:true},
+  {title:"Purple Hibiscus",sf:"'Libre Caslon Text',Georgia,serif",sw:400,ss:"13px",su:"none",sl:".01em",author:"Chimamanda Ngozi Adichie",status:"Read",h:190,w:32,bg:"#5b2a6e",ink:"#f3e7f8",sample:true},
+  {title:"Atomic Habits",sf:"Oswald,'Arial Narrow',sans-serif",sw:500,ss:"13px",su:"uppercase",sl:".08em",author:"James Clear",status:"Read",h:172,w:38,bg:"#ece7df",ink:"#9a6b2f",sample:true},
+  {title:"Grid Systems",sf:"Outfit,ui-sans-serif,system-ui,sans-serif",sw:700,ss:"11px",su:"none",sl:"-.01em",author:"Josef Müller-Brockmann",status:"Read",h:200,w:30,bg:"#151515",ink:"#f15a24",sample:true,lean:true},
 ];
-// Real covers: give a book an `isbn` (or a `cover` URL) and its jacket loads on the deployed site.
-// Inside Claude's preview outside images are blocked, so the designed cover underneath shows instead.
-const coverImg=b=>{ const src=b.cover||(b.isbn?`https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`:""); return src?`<img src="${src}" alt="" loading="lazy" onerror="this.remove()">`:""; };
-const shelf=()=>BOOKS.map((b,i)=>`<button class="book${i===0?" cur":""}${b.lean?" lean":""}" data-book="${i}" aria-label="${esc(b.title)} by ${esc(b.author)}" style="--h:${b.h}px;--w:${b.w}px;--bg:${b.bg};--ink:${b.ink}">
-  <span class="spine" aria-hidden="true"><span>${esc(b.title)}</span><span class="au">${esc(b.author.split(" ").slice(-1)[0])}</span></span>
-  <span class="cover" aria-hidden="true"><span class="face"><b>${esc(b.title)}</b><small>${esc(b.author)}</small></span>${coverImg(b)}</span></button>`).join("");
+// Real covers: on the live site each book's jacket is looked up on Open Library by title and author.
+// A book can also carry its own `cover` URL or `isbn`. Inside Claude's preview outside images are blocked,
+// so the designed cover underneath shows instead.
+const LIVE=!/claudeusercontent|claude\.ai/.test(location.host) && location.protocol.startsWith("http");
+const shelf=()=>BOOKS.map((b,i)=>`<button class="book${i===0?" cur":""}${b.lean?" lean":""}" data-book="${i}" aria-label="${esc(b.title)} by ${esc(b.author)}" style="--h:${b.h}px;--w:${b.w}px;--bg:${b.bg};--ink:${b.ink};--sf:${b.sf};--sw:${b.sw};--ss:${b.ss};--su:${b.su};--sl:${b.sl}">
+  <span class="spine" aria-hidden="true"><span class="t">${esc(b.title)}</span><span class="rule"></span><span class="a">${esc(b.author.split(" ").slice(-1)[0])}</span><span class="pub"></span></span>
+  <span class="cover" aria-hidden="true"><span class="face"><b>${esc(b.title)}</b><small>${esc(b.author)}</small></span><img alt="" loading="lazy" data-cover="${i}"></span></button>`).join("");
+const coverCache={}; try{ Object.assign(coverCache, JSON.parse(localStorage.getItem("dd-covers")||"{}")); }catch(_){}
+async function coverFor(b){
+  if(b.cover) return b.cover;
+  if(b.isbn) return `https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`;
+  const key=b.title+"|"+b.author; if(key in coverCache) return coverCache[key];
+  const q=`https://openlibrary.org/search.json?title=${encodeURIComponent(b.title)}&author=${encodeURIComponent(b.author)}&limit=3&fields=cover_i`;
+  const d=await (await fetch(q)).json(); const id=(d.docs||[]).map(x=>x.cover_i).find(Boolean);
+  const url=id?`https://covers.openlibrary.org/b/id/${id}-L.jpg`:"";
+  coverCache[key]=url; try{ localStorage.setItem("dd-covers",JSON.stringify(coverCache)); }catch(_){}
+  return url;
+}
+function loadCovers(){
+  if(!LIVE) return;
+  document.querySelectorAll("img[data-cover]").forEach(async img=>{
+    try{ const url=await coverFor(BOOKS[+img.dataset.cover]); if(!url) return;
+      img.onload=()=>img.classList.add("ok"); img.onerror=()=>img.remove(); img.src=url; }catch(_){}
+  });
+}
 
 const ART={
   sello:PRODUCTS.sello.art,
@@ -543,7 +575,7 @@ home(){
     <p class="crumb label" style="margin-top:80px"><span class="hello" id="hello" aria-label="Hello"><span>Hello</span></span></p>
     <div class="intro">
       <p>I’m Hafsoh, a product designer at a creative agency, where I lead design for client products from first sketch to launch. Over the years I’ve designed multiple web and mobile products across fintech, AI, wellness and education.</p>
-      <p>I Built <a class="hl" data-prod="sello" href="#sello">Sello</a>,  <a class="hl" data-prod="pixie" href="#playground">Pixie</a> <span>&amp; </span><a class="hl" data-prod="sello" href="#sello">Sello</a>. I design and simplify flows in Figma and build in Framer and code, so you can explore my work, play in the Playground, or learn more about me.</p>
+      <p>I Built <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>,  <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a> <span>&amp; </span><a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>. I design and simplify flows in Figma and build in Framer and code, so you can explore my work, play in the Playground, or learn more about me.</p>
       <div class="open"><span>Open to product design and <span class="sel" id="sel" aria-label="design engineering">${[..."design engineering"].map((ch,i)=>`<span class="ch" aria-hidden="true" style="--i:${i}">${ch===" "?"&nbsp;":ch}</span>`).join("")}<i></i><i></i><i></i><i></i></span> roles.</span>${contactLinks}</div>
     </div>
     <div class="strip-wrap"><div class="strip" id="strip" tabindex="0" aria-label="Gallery, scroll sideways">
@@ -637,6 +669,7 @@ function render(){
   document.title = p ? `${p.name} · Dhuni Designs` : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
   initStrip();
   mountStickers();
+  loadCovers();
 }
 window.addEventListener("hashchange", ()=>{ sfx.page(); render(); });
 
@@ -997,25 +1030,25 @@ function boot(){
   if(!blocks.length){ root.removeAttribute("data-booting"); afterBoot(); return; }
   const colR=document.querySelector("header.col").getBoundingClientRect(), colX=[colR.left-.5, colR.right+.5];
   const rows=[...new Set(blocks.map(b=>Math.round(b.y)))].filter((y,i,a)=>i===0||y-a[i-1]>6);
-  const ink="#ffbfdb";   // light pink
+  const ink="#ffd1e6";   // light pink, drawn at 30%
 
   blocks.forEach(b=>{ b.el.style.opacity="0"; });
   root.removeAttribute("data-booting");
 
   const cv=document.createElement("canvas"); cv.className="boot-canvas"; cv.setAttribute("aria-hidden","true"); document.body.appendChild(cv);
   const dpr=Math.min(devicePixelRatio||1,2); cv.width=W*dpr; cv.height=H*dpr; cv.style.width=W+"px"; cv.style.height=H+"px";
-  const c=cv.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0); c.lineWidth=1.2; c.strokeStyle=ink; c.shadowColor="rgba(255,180,214,.9)"; c.shadowBlur=7;
+  const c=cv.getContext("2d"); c.setTransform(dpr,0,0,dpr,0,0); c.lineWidth=1.2; c.strokeStyle=ink; c.shadowColor="rgba(255,190,220,.6)"; c.shadowBlur=5;
 
   const ease=t=>t<0?0:t>1?1:1-Math.pow(1-t,3), io=t=>t<0?0:t>1?1:t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-  const STEP=Math.min(34, 420/blocks.length), TRACE=300, GUIDE=280;
-  const traceEnd=140+(blocks.length-1)*STEP+TRACE, REVEAL=traceEnd-90, RSTEP=Math.min(28,340/blocks.length);
-  const END=REVEAL+(blocks.length-1)*RSTEP+380;
-  blocks.forEach((b,i)=>{ b.t0=140+i*STEP; b.r0=REVEAL+i*RSTEP; b.shown=false; });
+  const STEP=Math.min(18, 220/blocks.length), TRACE=220, GUIDE=200;
+  const traceEnd=60+(blocks.length-1)*STEP+TRACE, REVEAL=traceEnd-80, RSTEP=Math.min(16,200/blocks.length);
+  const END=REVEAL+(blocks.length-1)*RSTEP+280;
+  blocks.forEach((b,i)=>{ b.t0=60+i*STEP; b.r0=REVEAL+i*RSTEP; b.shown=false; });
 
   let t0=0, raf=0, done=false;
   function rr(b){ const r=Math.min(b.rad,b.h/2,b.w/2); c.beginPath(); c.roundRect ? c.roundRect(b.x+.5,b.y+.5,b.w-1,b.h-1,r) : c.rect(b.x+.5,b.y+.5,b.w-1,b.h-1); }
   function show(b,instant){ if(b.shown) return; b.shown=true; b.el.style.opacity="";
-    if(!instant) b.el.animate([{opacity:0,filter:"blur(4px)",transform:"translateY(6px)"},{opacity:1,filter:"blur(0)",transform:"none"}],{duration:360,easing:"cubic-bezier(.2,.7,.2,1)"}); }
+    if(!instant) b.el.animate([{opacity:0,filter:"blur(4px)",transform:"translateY(6px)"},{opacity:1,filter:"blur(0)",transform:"none"}],{duration:300,easing:"cubic-bezier(.2,.7,.2,1)"}); }
   function finish(){ if(done) return; done=true; cancelAnimationFrame(raf);
     blocks.forEach(b=>show(b,true)); cv.animate([{opacity:1},{opacity:0}],{duration:200}).onfinish=()=>cv.remove();
     ["pointerdown","keydown"].forEach(ev=>removeEventListener(ev,finish)); afterBoot(); }
@@ -1023,22 +1056,22 @@ function boot(){
 
   function frame(now){
     if(!t0) t0=now; const t=now-t0; c.clearRect(0,0,W,H);
-    const fadeAll=1-io((t-REVEAL)/380);
+    const fadeAll=1-io((t-REVEAL)/260);
     // 1. column guides
-    c.setLineDash([3,4]); c.globalAlpha=.5*fadeAll;
+    c.setLineDash([3,4]); c.globalAlpha=.3*fadeAll;
     const g=ease(t/GUIDE)*H/2;
     colX.forEach(x=>{ c.beginPath(); c.moveTo(x,H/2-g); c.lineTo(x,H/2+g); c.stroke(); });
     // 2. row guides
-    rows.forEach((y,i)=>{ const p=ease((t-70-i*18)/GUIDE)*W/2; if(p<=0) return;
+    rows.forEach((y,i)=>{ const p=ease((t-30-i*10)/GUIDE)*W/2; if(p<=0) return;
       c.beginPath(); c.moveTo(W/2-p,y+.5); c.lineTo(W/2+p,y+.5); c.stroke(); });
     // 3 + 4. outlines sweep round, then hand over to the real block
     blocks.forEach(b=>{
       const p=ease((t-b.t0)/TRACE); if(p<=0) return;
-      const out=1-io((t-b.r0)/260); if(t>=b.r0) show(b);
+      const out=1-io((t-b.r0)/200); if(t>=b.r0) show(b);
       if(out<=0) return;
       const cx=b.x+b.w/2, cy=b.y+b.h/2, R=Math.hypot(b.w,b.h);
       c.save(); c.beginPath(); c.moveTo(cx,cy); c.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+Math.PI*2*p); c.closePath(); c.clip();
-      c.setLineDash([4,3]); c.globalAlpha=.8*out; rr(b); c.stroke(); c.restore();
+      c.setLineDash([4,3]); c.globalAlpha=.3*out; rr(b); c.stroke(); c.restore();
     });
     c.globalAlpha=1;
     if(t>=END) return finish();
