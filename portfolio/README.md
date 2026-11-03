@@ -4,17 +4,12 @@ The personal portfolio of **Hafsoh Bashar**, product designer and design enginee
 
 Blueprint loader · animated 3D cloud mascot · theme switch that blooms out of the icon · lyric-style "design engineering" · product previews on hover · bookshelf where books turn to show their covers · hobby stickers that gather as you scroll · synthesised UI sounds · live Apple Music "Now playing"
 
-## Apple Music
+## Now playing (Apple Music via Last.fm)
 
-`api/now-playing.js` returns your most recently played track. Add these in Vercel (Project → Settings → Environment Variables), then redeploy:
+`api/now-playing.js` returns the track you're playing, with its album cover, from Last.fm.
 
-| Name | What it is |
-| --- | --- |
-| `APPLE_TEAM_ID` | your Apple Developer Team ID |
-| `APPLE_KEY_ID` | the Key ID of a MusicKit key |
-| `APPLE_PRIVATE_KEY` | the whole contents of that key's `.p8` file |
-| `APPLE_MUSIC_USER_TOKEN` | the token `/connect-apple-music.html` shows after you sign in |
-
-Once connected, delete `connect-apple-music.html` and `api/dev-token.js`.
+1. Create a free Last.fm account, and connect Apple Music to it with a scrobbler: NepTunes on Mac, or QuietScrobble on iPhone.
+2. Create an API key at https://www.last.fm/api/account/create
+3. In Vercel (Project → Settings → Environment Variables) add `LASTFM_API_KEY` and `LASTFM_USER`, then redeploy.
 
 © 2026 Hafsoh Bashar
