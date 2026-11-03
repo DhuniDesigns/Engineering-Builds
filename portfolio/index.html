@@ -918,6 +918,7 @@ const NOW_PLAYING={ title:"Gratitude", artist:"Asake", artwork:"" };   // artwor
 const NOW_PLAYING_ENDPOINT=/claudeusercontent|claude\.ai/.test(location.host)?"":"/api/now-playing";   // live on the deployed site
 function setNowPlaying(np){
   document.getElementById("np").innerHTML=`<span class="fg">${esc(np.title)}</span> by <span class="fg">${esc(np.artist)}</span>`;
+  const lab=document.querySelector(".now small"); if(lab) lab.textContent = np.nowPlaying===false ? "Last played" : "Now playing";
   const v=document.querySelector(".vinyl"); if(!v) return;
   if(np.artwork){ v.style.setProperty("--art",`url("${np.artwork.replace(/"/g,"")}")`); v.classList.add("has-art"); } else v.classList.remove("has-art");
 }
