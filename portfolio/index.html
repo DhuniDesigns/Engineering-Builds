@@ -908,6 +908,29 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .stk-rufus small{font-size:7px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
 .stk-print.beach svg{border-radius:1px}
 @media (max-width:640px){.collage{border-radius:18px}.collage::after{display:none}}
+
+/* ===== v32: mobile pass ===== */
+.job .role .where{font:inherit;color:var(--muted);opacity:.8;display:inline;gap:0}
+.shelf-inner{display:flex;flex-direction:column;width:max-content;min-width:100%}
+.shelf-inner .books{width:auto;min-width:100%}
+.shelf-inner .shelf-board{width:100%;min-width:0}
+@media (max-width:640px){
+  body{padding-block:56px 110px}
+  header.col{margin-bottom:0}
+  .crumb.label[style]{margin-top:48px!important}
+  .intro{gap:18px}
+  .open{row-gap:6px}
+  .sel i{width:4px;height:4px}
+  .sections{gap:32px}
+  .dock{padding:4px;gap:2px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .dock a{width:36px;height:36px}
+  .dock a svg{width:16px;height:16px}
+  footer.col{margin-top:72px;gap:24px}
+  .reel{margin-top:36px}
+  .row{gap:12px}
+  .row .meta{font-size:14px}
+}
+@media (max-width:640px){.books{height:206px}.shelf-wrap{padding-top:12px}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1186,10 +1209,10 @@ home(){
         <ul class="list">${PLAY.slice(0,3).map(x=>row(x.name,x.meta,"#playground")).join("")}</ul></section>
       <hr class="rule">
       <section class="block"><p class="label">Experience</p>
-        <div class="jobs">${jobs.map(j=>`<div class="job"><div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><div class="job-sub"><span class="role">${esc(j.role)}</span><span class="where">${pin}${esc(j.where)}</span></div></div><p>${esc(j.short)}</p></div>`).join("")}</div></section>
+        <div class="jobs">${jobs.map(j=>`<div class="job"><div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><span class="role">${esc(j.role)} <span class="where">· ${esc(j.where)}</span></span></div><p>${esc(j.short)}</p></div>`).join("")}</div></section>
       <hr class="rule">
       <section class="block"><p class="label">Bookshelf</p>
-        <div class="shelf-wrap" id="shelf"><div class="books" id="books">${shelf()}</div><div class="shelf-board"></div></div>
+        <div class="shelf-wrap" id="shelf"><div class="shelf-inner"><div class="books" id="books">${shelf()}</div><div class="shelf-board"></div></div></div>
         <div class="row shelf-meta" id="book-meta"><span class="name">${esc(BOOKS[0].status)}</span><span class="meta">${esc(BOOKS[0].title)}</span></div></section>
       <hr class="rule">
       <section class="block"><p class="label">Off the clock</p><div class="collage" id="collage" aria-label="Hobbies: photos, films, music, jewellery and clothes I love"></div></section>
@@ -1248,7 +1271,7 @@ resume(){
         <div class="tool-row glide">${TOOLS.map(([n,ic,mono])=>`<span class="tool${mono?" mono":""}" title="${n}" aria-label="${n}">${ic}</span>`).join("")}</div></section>
       <hr class="rule">
       <section class="block" style="gap:32px">
-        ${jobs.map((j,k)=>`<div class="job">${k===0?'<p class="label">Experience</p>':''}<div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><div class="job-sub"><span class="role">${esc(j.role)}</span><span class="where">${pin}${esc(j.where)}</span></div></div><ul class="bullets">${j.bullets.map(b=>`<li>${esc(b)}</li>`).join("")}</ul></div>`).join("")}
+        ${jobs.map((j,k)=>`<div class="job">${k===0?'<p class="label">Experience</p>':''}<div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><span class="role">${esc(j.role)} <span class="where">· ${esc(j.where)}</span></span></div><ul class="bullets">${j.bullets.map(b=>`<li>${esc(b)}</li>`).join("")}</ul></div>`).join("")}
       </section>
     </div>
   </div>`;
