@@ -1376,21 +1376,23 @@ function placeStickers(){
   stkRaf=0; const col=document.getElementById("collage"); if(!col||!stickerLayer) return;
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const r=col.getBoundingClientRect(), W=innerWidth, H=innerHeight, sc=r.width/STICKER_W;
-  const gutter=(W-Math.min(600,W-32))/2, sideOK=gutter>=120 && !reduce;
-  const p=reduce?1:clamp((H*1.05-r.top)/(H*.85)), n=STICKERS.length, lag=.022;
-  let side=0;
+  // nothing shows until the bookshelf scrolls into view; the collage is complete when it sits mid-screen
+  const shelf=document.getElementById("shelf"), sTop=shelf?shelf.getBoundingClientRect().top:r.top;
+  const dStart=sTop-H, dEnd=r.top+r.height/2-H/2;
+  const p=reduce?1:clamp(-dStart/Math.max(1,dEnd-dStart)), n=STICKERS.length, lag=.02;
+  const wide=W>=900 && !reduce;
   STICKERS.forEach((s,i)=>{
     const q=smooth(clamp((p-i*lag)/(1-(n-1)*lag)));
     const tx=r.left+s.slot.x*sc-s.w/2, ty=r.top+s.slot.y*sc-s.h/2;
-    const el=stickerEls[i]; let x,y,rot,k,o;
-    if(s.side && sideOK){
-      const sx=s.side==="l" ? -s.w*.34+(side%2)*22 : W-s.w*.66-(side%2)*22, sy=Math.min(s.sy,.96)*H-s.h/2; side++;
-      const s0=Math.min(.72,96/Math.max(s.w,s.h)+.18);
-      x=sx+(tx-sx)*q; y=sy+(ty-sy)*q; rot=s.srot+(s.slot.rot-s.srot)*q; k=s0+(sc-s0)*q; o=1;
+    const el=stickerEls[i]; let x,y,rot,k;
+    if(wide){
+      const left=s.side? s.side==="l" : s.slot.x<STICKER_W/2;
+      const sx=left ? -s.w-40-(i%3)*30 : W+40+(i%3)*30, sy=ty+((i*37)%120-60);
+      const e=1-q; x=tx+(sx-tx)*e; y=ty+(sy-ty)*e; rot=s.slot.rot+(left?-14:14)*e; k=sc;
     } else {
-      x=tx; y=ty+(1-q)*40; rot=s.slot.rot+(1-q)*(i%2?8:-8); k=sc*(.75+.25*q); o=q;
+      x=tx; y=ty+(1-q)*40; rot=s.slot.rot+(1-q)*(i%2?8:-8); k=sc*(.75+.25*q);
     }
-    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`; el.style.opacity=o;
+    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`; el.style.opacity=q<=0?0:Math.min(1,q*3);
   });
 }
 const queueStickers=()=>{ if(!stkRaf) stkRaf=requestAnimationFrame(placeStickers); };
