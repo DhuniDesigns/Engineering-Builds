@@ -541,7 +541,7 @@ const BOOKS=[
 const LIVE=!/claudeusercontent|claude\.ai/.test(location.host) && location.protocol.startsWith("http");
 const shelf=()=>BOOKS.map((b,i)=>`<button class="book${i===0?" cur":""}${b.lean?" lean":""}" data-book="${i}" aria-label="${esc(b.title)} by ${esc(b.author)}" style="--h:${b.h}px;--w:${b.w}px;--bg:${b.bg};--ink:${b.ink};--sf:${b.sf};--sw:${b.sw};--ss:${b.ss};--su:${b.su};--sl:${b.sl}">
   <span class="spine" aria-hidden="true"><span class="t">${esc(b.title)}</span><span class="rule"></span><span class="a">${esc(b.author.split(" ").slice(-1)[0])}</span><span class="pub"></span></span>
-  <span class="cover" aria-hidden="true"><span class="face"><b>${esc(b.title)}</b><small>${esc(b.author)}</small></span><img alt="" loading="lazy" data-cover="${i}"></span></button>`).join("");
+  <span class="cover" aria-hidden="true"><span class="face"><b>${esc(b.title)}</b><small>${esc(b.author)}</small></span><img alt="" decoding="async" data-cover="${i}"></span></button>`).join("");
 const coverCache={}; try{ Object.assign(coverCache, JSON.parse(localStorage.getItem("dd-covers")||"{}")); }catch(_){}
 async function coverFor(b){
   if(b.cover) return b.cover;
