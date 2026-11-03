@@ -805,6 +805,31 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .now small{font-size:11px}
 .now span{font-size:14px}
 @media (max-width:640px){.tabs{gap:4px;flex-wrap:nowrap}.tab{font-size:16px;padding:8px 12px;white-space:nowrap}}
+/* Lagos cube */
+.stk-lcube{background:none;box-shadow:none;overflow:visible}
+.lc-stage{position:relative;width:100%;height:100%;display:grid;place-items:center}
+.lc-spin{position:relative;width:0;height:0;transform-style:preserve-3d;transform:rotateX(-24deg) rotateY(-34deg);animation:lc-sway 9s ease-in-out infinite}
+.lc{position:absolute;transform-style:preserve-3d;transform:translate3d(calc(var(--u) * -1.5),calc(var(--u) * -1.5),calc(var(--u) * -1.5))}
+.lb{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.lf{position:absolute;left:0;top:0;transform-origin:0 0;display:grid;place-items:center;backface-visibility:visible;border-radius:2px;
+  background:var(--c);box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.35)}
+.lf.f-top{background:color-mix(in srgb,var(--c) 78%,#fff)}
+.lf.f-right{background:color-mix(in srgb,var(--c) 80%,#000)}
+.lf.f-left,.lf.f-back{background:color-mix(in srgb,var(--c) 70%,#000)}
+.lf.f-bottom{background:color-mix(in srgb,var(--c) 55%,#000)}
+.lf.f-front{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 92%,#fff),var(--c) 55%,color-mix(in srgb,var(--c) 88%,#000))}
+.lf b{font:800 9px/1 var(--sans);letter-spacing:.06em;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.danfo .f-front{background:linear-gradient(180deg,transparent 64%,#151515 64% 76%,transparent 76%),linear-gradient(160deg,#ffd75a,#f6c33b 55%,#e0a920)}
+.danfo .f-right{background:linear-gradient(180deg,transparent 64%,#111 64% 76%,transparent 76%),#c99a20}
+.danfo .lf b{color:#1b1b1b;text-shadow:none;margin-top:-6px;font-size:10px}
+.kraft .lf{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E")}
+.kraft .lf b{color:#2a1a0c;text-shadow:none;font-family:'Libre Caslon Text',Georgia,serif;font-weight:700;font-size:10px}
+.vert .f-front b{color:#8f8f8a;text-shadow:none;writing-mode:vertical-rl;letter-spacing:.24em;font-weight:700;font-size:8px}
+.lc-shadow{position:absolute;left:50%;bottom:4%;width:70%;height:14%;translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);filter:blur(3px);z-index:-1}
+@keyframes lc-sway{0%,100%{transform:rotateX(-24deg) rotateY(-30deg)}50%{transform:rotateX(-30deg) rotateY(-52deg)}}
+.stk.set:hover .lc-spin{animation-duration:2.4s}
+.stk.set:hover .stk-lcube{box-shadow:none}
+@media (prefers-reduced-motion:reduce){.lc-spin{animation:none}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1150,6 +1175,31 @@ resume(){
   </div>`;
 }
 };
+
+/* ---- Lagos cube: interlocking blocks in real CSS 3D (after "Brokerage Bundles") ---- */
+function lagosCube(){
+  const U=30;
+  // [x,y,z,w,h,d, colour, label on the front, label face, extra class]  (units; y goes down, z comes toward you)
+  const B=[
+    [0,0,0,2,1,3,"#f6c33b","DANFO","front","danfo"],
+    [2,0,0,1,1,1,"#e85a4f","","",""],
+    [2,0,1,1,1,2,"#c99a6b","EKO","right","kraft"],
+    [0,1,0,1,2,3,"#1f8a4c","LOS","front",""],
+    [1,1,1,1,2,2,"#f1f1ee","LAGOS","front","vert"],
+    [2,1,1,1,2,2,"#4f86e8","+234","right",""],
+    [1,1,0,2,2,1,"#9aa0a8","","",""],
+  ];
+  const face=(cls,w,h,t,c,lab)=>`<i class="lf ${cls}" style="width:${w}px;height:${h}px;transform:${t};--c:${c}">${lab?`<b>${lab}</b>`:""}</i>`;
+  const box=([x,y,z,w,h,d,c,lab,on,extra])=>{ const g=1.5; x=x*U+g;y=y*U+g;z=z*U+g;w=w*U-2*g;h=h*U-2*g;d=d*U-2*g;
+    return `<span class="lb ${extra}">`+
+      face("f-front",w,h,`translate3d(${x}px,${y}px,${z+d}px)`,c,on==="front"?lab:"")+
+      face("f-right",d,h,`translate3d(${x+w}px,${y}px,${z+d}px) rotateY(90deg)`,c,on==="right"?lab:"")+
+      face("f-left",d,h,`translate3d(${x}px,${y}px,${z}px) rotateY(-90deg)`,c,"")+
+      face("f-top",w,d,`translate3d(${x}px,${y}px,${z}px) rotateX(90deg)`,c,on==="top"?lab:"")+
+      face("f-back",w,h,`translate3d(${x+w}px,${y}px,${z}px) rotateY(180deg)`,c,"")+
+      face("f-bottom",w,d,`translate3d(${x}px,${y+h}px,${z}px) rotateX(90deg)`,c,"")+`</span>`; };
+  return `<div class="lc-stage"><div class="lc-spin"><div class="lc" style="--u:${U}px">${B.map(box).join("")}</div></div><span class="lc-shadow"></span></div>`;
+}
 
 /* ---- Say hi: two 3D cards that tilt toward the cursor (after shwn.design) ---- */
 function asciiField(cols,rows){
@@ -1549,7 +1599,7 @@ const TICKET=`<div class="tk-l"><small>Admit one</small><b>Film night</b><span>F
 // slot = where it sits in the collage (px on a 980×600 board, centre point)
 const STICKERS=[
   {id:"q", kind:"quote",w:166,h:188,slot:{x:236,y:146,rot:-2},html:()=>`Make it work, then make it feel right.${SPARK}`},
-  {id:"cube",kind:"cube",w:74,h:80,slot:{x:104,y:120,rot:0},html:CUBE},
+  {id:"cube",kind:"lcube",w:140,h:140,slot:{x:92,y:118,rot:0},html:()=>lagosCube()},
   {id:"pixie",kind:"label",w:150,h:66,slot:{x:330,y:68,rot:9},html:`<i></i>pixie`},
   {id:"selfie",kind:"print dark",w:196,h:244,slot:{x:420,y:196,rot:-5},html:()=>`<img src="${IMG.meSelfie}" alt="">`},
   {id:"tiara",kind:"cut",w:112,h:70,slot:{x:452,y:60,rot:8},html:()=>`<img src="${IMG.tiara}" alt="">`},
