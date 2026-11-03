@@ -8,6 +8,14 @@ Each piece is plain HTML, CSS and JavaScript (no build step, no dependencies). O
 
 ---
 
+## Dhuni Designs: Portfolio
+
+Hafsoh's own portfolio: a blueprint loader, an animated 3D cloud mascot, a theme switch that blooms out of its icon, a bookshelf where books turn to show their covers, and a live Apple Music "Now playing".
+
+[Live site](https://dhuni-designs.vercel.app) · [Source](portfolio/)
+
+---
+
 ## Pixie: Brand kits for Figma
 
 Describe a brand and Pixie generates colours, type, icons and illustrations, checks every contrast pairing, and sends it all to Figma as variables. The pink pixel logo blinks, bursts into a sparkle and bounces back.
