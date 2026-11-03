@@ -523,7 +523,7 @@ a.co span{font-size:.8em;opacity:.55;display:inline-block;transition:transform .
 .fr.tall{height:calc(var(--u) * 2 + var(--g))}
 .fr-l{position:absolute;inset:12px 14px auto;display:flex;justify-content:space-between;gap:8px;z-index:3;pointer-events:none;
   font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--lc,var(--muted))}
-.fr-l span:last-child{opacity:.75}
+.fr-l > span:last-child > span:first-child{opacity:.75}
 .fr.light{--lc:#8a8a86}
 .fr video,.fr .fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .fr .float{position:absolute;left:50%;top:54%;translate:-50% -50%;display:block;border-radius:10px;overflow:hidden;
@@ -671,6 +671,21 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .site-link .fav{align-self:center;display:inline-block}
 .contact .u.ext,.contact .u{white-space:nowrap}
 .site-link{gap:0}.site-link .fav{margin-right:6px}
+
+/* reel labels sit at the bottom, small; the tag swaps to Visit on hover */
+.fr-l{inset:auto 14px 11px;font-size:10px;letter-spacing:.07em;align-items:flex-end}
+.fr-l > span:first-child{color:var(--lc-strong,var(--fg));opacity:.82}
+.fr.light{--lc:#9b9b96;--lc-strong:#3a3a38}
+.fr-t{position:relative;display:inline-grid;justify-items:end;opacity:1!important}
+.fr-t > span{grid-area:1/1;transition:opacity .25s,translate .35s cubic-bezier(.23,1,.32,1)}
+.fr-go{opacity:0;translate:0 5px;color:var(--lc-strong,var(--fg))}
+@media (hover:hover){a.fr:hover .fr-t > span:first-child{opacity:0;translate:0 -5px}a.fr:hover .fr-go{opacity:1;translate:0 0}}
+.fr .float{top:46%}
+.fr .float.phone{height:80%}
+.fr::after{content:"";position:absolute;inset:auto 0 0;height:44px;z-index:2;pointer-events:none;background:linear-gradient(transparent,color-mix(in srgb,var(--fb,var(--surface)) 92%,transparent))}
+.fr video.contain{padding:8px 10px 34px}
+.fr video.fill:not(.contain){height:calc(100% - 0px)}
+@media (max-width:640px){.fr-l{inset:auto 10px 9px;font-size:9px}.fr::after{height:34px}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -738,7 +753,7 @@ const ICON_VERCEL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 22
 const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>`;
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code.";
-const LINKS={ site:"https://dhunidesigns.com", github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
+const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
 const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut1:"img/shuttlers-redesign.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp" };
 
 /* ---- selected works: each has its own detail page ---- */
@@ -1026,7 +1041,7 @@ const REEL=[
   [{label:"Sello",tag:"Website",img:"sello",k:1.7,href:"https://sello-vert.vercel.app"},{label:"Multi-currency wallet",tag:"Card",vid:"walletCard",k:1.7,bg:"#fff",light:1,contain:1}],
   [{label:"Wallet",tag:"Fintech app",vid:"wallet",tall:1,k:1.02,phone:1}],
   [{label:"Pixie",tag:"Web app",img:"pixie",k:1.5,href:"https://pixie-brand-kits.vercel.app"},{label:"NYTA",tag:"Agency site",img:"nyta",k:1.5,href:"https://nytaagency.vercel.app"}],
-  [{label:"Shuttlers",tag:"Concept",img:"shut2",tall:1,k:1.36,href:"https://shuttlers-concept-v2.vercel.app"}],
+  [{label:"Shuttlers",tag:"Concept",img:"shut2",k:1.5,href:"https://shuttlers-concept-v2.vercel.app"},{label:"Shuttlers v1",tag:"Concept",img:"shut1",k:1.5,href:"https://shuttlers-concept.vercel.app"}],
   [{label:"Koffi",tag:"Brand site",img:"koffi",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/koffi-website/"},{label:"REA",tag:"Redesign",img:"rea",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"}],
 ];
 const vtag=(f,cls)=>`<video${cls?` class="${cls}"`:""} src="${VID[f.vid]}" poster="${POSTER[f.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(f.label)} interaction"></video>`;
@@ -1036,7 +1051,7 @@ function frame(f,n,dup){
   const media = f.vid ? (f.phone?`<span class="float phone" style="--d:${-n*1.1}s">${vtag(f)}</span>`:vtag(f,f.contain?"fill contain":"fill"))
               : `<span class="float fshot" style="--d:${-n*1.1}s"><img src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" homepage"}" loading="lazy" draggable="false"></span>`;
   return `<${tag} class="fr${f.tall?" tall":""}${f.light?" light":""}"${attrs} style="--k:${f.k||1.36}${f.bg?`;--fb:${f.bg}`:""}">
-    <span class="fr-l"><span>${esc(f.label)}</span><span>${esc(f.tag)}</span></span>${media}${f.href?`<span class="go">${out?"Visit ↗":"View →"}</span>`:""}</${tag}>`;
+    ${media}<span class="fr-l"><span>${esc(f.label)}</span><span class="fr-t"><span>${esc(f.tag)}</span>${f.href?`<span class="fr-go">${out?"Visit ↗":"View →"}</span>`:""}</span></span></${tag}>`;
 }
 const bento=dup=>{ let n=0; return `<div class="bento"${dup?' aria-hidden="true"':""}>${REEL.map(col=>`<div class="bcol">${col.map(f=>frame(f,n++,dup)).join("")}</div>`).join("")}</div>`; };
 const reel=()=>`<div class="reel" id="reel" role="region" aria-label="Interactions and builds, drifting slowly. Hover to pause."><div class="reel-track">${bento()}${bento(true)}</div></div>`;
