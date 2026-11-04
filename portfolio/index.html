@@ -1048,11 +1048,6 @@ const projects = [
    sections:[["The problem","Every new brand starts with the same chore: picking a palette, checking contrast, pairing type and setting it all up as variables by hand."],
              ["What I designed","Three steps: describe your brand, lock what you love and regenerate the rest, then send it to Figma. Every colour pairing is checked for contrast before it ships."],
              ["How it was built","A web app and a Figma plugin built with Claude. It grew out of building Remi’s palette by hand."]]},
-  {id:"compound", name:"Compound", meta:"Mobile app", tagline:"A shared-bills app for flatmates: rent, power, internet and groceries in one place, split fairly and settled without the awkward chats.",
-   role:"Product design and branding", time:"In progress", platform:"Mobile app", tools:"Figma, Claude",
-   sections:[["The problem","In a shared home one person usually fronts the bills, then chases everyone for their share across a group chat."],
-             ["What I designed","One home for every shared bill. Each bill is split the way the house agrees, everyone sees what they owe, and reminders do the chasing."],
-             ["Brand","A confident violet, #732CEB, carried over from Remi, the project Compound replaced."]]},
   {id:"remi", name:"Remi", meta:"Mobile app", tagline:"A money helper for Nigerian freelancers who are paid in dollars and pounds but spend in naira.",
    role:"Product design and branding", time:"3 weeks", platform:"Mobile app", tools:"Figma, Claude",
    sections:[["The problem","Freelancers paid from abroad juggle exchange rates, transfer fees and tax with spreadsheets and guesswork, and rarely know what a month really earned them."],
@@ -1084,7 +1079,7 @@ const projects = [
              ["Brand","Flash photography, polaroids and flyer energy, in a voice that sounds like a friend asking ‘wya?’."]]},
 ];
 /* ---- builds: real things, grouped by the Builds page tabs ---- */
-const SELECTED=["sello","pixie","compound"];
+const SELECTED=["sello","pixie"];
 const BUILD_ITEMS={
   websites:[
     {name:"Sello", meta:"Marketing site", img:"sello", href:"https://sello-vert.vercel.app"},
@@ -1096,9 +1091,8 @@ const BUILD_ITEMS={
   apps:[
     {name:"Pixie", meta:"Web app and Figma plugin", img:"pixie", href:"#pixie"},
     {name:"Sello", meta:"Seller inbox app", img:"sello", href:"#sello"},
-    {name:"LVL UP", meta:"Micro-learning app", vid:"pgLvl", href:"#lvl-up"},
-    {name:"4AM Club", meta:"Subscription and billing", vid:"billing", href:"#4am-club"},
-    {name:"Compound", meta:"Shared bills app", art:"compound", href:"#compound"},
+    {name:"LVL UP", meta:"Micro-learning app", img:"heroLvl", href:"#lvl-up"},
+    {name:"4AM Club", meta:"Routine builder", img:"hero4am", href:"#4am-club"},
     {name:"Phoenix", meta:"Journaling app", img:"heroPhoenix", href:"#phoenix"}],
   "design-systems":[
     {name:"Pixie", meta:"Brand kits as Figma variables", img:"pixie", href:"#pixie"},
