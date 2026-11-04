@@ -1019,7 +1019,7 @@ const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
-const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut1:"img/shuttlers-redesign.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", aotDash:"img/aot-dashboard.webp", aotPhones:"img/aot-phones.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp" };
+const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut1:"img/shuttlers-redesign.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", aotDash:"img/aot-dashboard.webp", aotPhones:"img/aot-phones.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", travel:"img/travel-app.webp", rideLight:"img/ride-light.webp", rideDark:"img/ride-dark.webp", blog:"img/blog-app.webp", tasks:"img/tasks-dash.webp", talents:"img/talents-site.webp", walletModes:"img/wallet-modes.webp", delModal:"img/delete-modal.webp", helpMenu:"img/help-menu.webp", football:"img/football-ai.webp" };
 
 /* ---- selected works: each has its own detail page ---- */
 const projects = [
@@ -1045,6 +1045,29 @@ const projects = [
    sections:[["The problem","Investors looking at African markets piece together news, policy changes and market data from dozens of sources before they can judge a single opportunity."],
              ["What I designed","A daily recap, live market signals and top markets on the home screen. Each opportunity gets an investment score out of ten, with demand, ROI, margin, break-even, capital and risk laid out on one page."],
              ["Visual direction","A dark interface with one mint accent for growth and amber for risk, so the numbers that matter stand out first."]]},
+  {id:"travel", name:"Travel and hotels", meta:"Mobile app", tagline:"A booking app for flights, hotels and activities, built around big photos and a filter that gets out of the way.",
+   role:"Product design and UI", time:"Concept project", platform:"Mobile app", tools:"Figma", shot:"travel",
+   sections:[["What I designed","A home screen that leads with the rooms themselves, a detail page with transport, amenities and reservation info in one scroll, and a filter sheet for price, ratings, amenities and accessibility."],
+             ["Details","Saved stays sit one tap away, prices show per day, and Book now stays pinned to the bottom."]]},
+  {id:"ride", name:"Ride dispatch", meta:"Tablet dashboard", tagline:"A dispatch dashboard for booking rides, couriers and freight across Lagos, in light and dark mode.",
+   role:"Product design, UI and prototype", time:"Concept project", platform:"Tablet web app", tools:"Figma, Claude", shot:"rideLight", demo:"https://dhunidesigns.github.io/Engineering-Playground/ride-dashboard/", github:"https://github.com/DhuniDesigns/Engineering-Playground/tree/main/ride-dashboard",
+   sections:[["What I designed","Live ride progress across landmarks, a map with the driver and route, available drivers with price offers, and ride details with an additional note."],
+             ["Prototype","I built it in code: the car drives the route, progress fills as it moves, and booking a driver updates the whole screen."]]},
+  {id:"football-ai", name:"Football AI", meta:"AI chat app", tagline:"An AI assistant for football fans and players: ask about stats, compare players or get a training plan.",
+   role:"Product design and UI", time:"Concept project", platform:"Mobile app", tools:"Figma", shot:"football",
+   sections:[["What I designed","Suggested questions to start, answers with player cards and stats, drill cards for training plans, and spaces that keep recent conversations together."]]},
+  {id:"tasks", name:"Task board", meta:"Project dashboard", tagline:"A project dashboard for teams: totals at a glance and a board for to-do, in-progress and completed tasks.",
+   role:"Product design and UI", time:"Concept project", platform:"Web app", tools:"Figma", shot:"tasks",
+   sections:[["What I designed","Stat cards for total, completed and in-progress tasks and team activity, then a three-column board with progress, due dates and assignees on every card."]]},
+  {id:"news-app", name:"News app", meta:"Mobile reader", tagline:"A calm news reader with the latest story up top and categories as stacked photo cards.",
+   role:"Product design and UI", time:"Concept project", platform:"Mobile app", tools:"Figma", shot:"blog",
+   sections:[["What I designed","Home, search and menu screens: a featured story, categories you can browse by image, and bookmarks and settings in a simple menu."]]},
+  {id:"wallet", name:"Wallet", meta:"Fintech app", tagline:"A multi-currency wallet with cards in dollars, euros and pounds, savings goals and transactions, in light and dark.",
+   role:"Product design, UI and motion", time:"Concept project", platform:"Mobile app", tools:"Figma", shot:"walletModes", vid:"wallet",
+   sections:[["What I designed","Stacked currency cards with a hidden balance you can reveal, transfers and add money up front, a savings ring, and recent transactions."]]},
+  {id:"talents", name:"Talent agency", meta:"Website", tagline:"A talent agency site where the roster is the hero: hover a creator to see their category and following.",
+   role:"Web design", time:"Concept project", platform:"Website", tools:"Figma, Framer", shot:"talents",
+   sections:[["What I designed","An image-led roster that lifts the creator you hover and shows their niche and followers, so brands can browse at a glance."]]},
   {id:"remi", name:"Remi", meta:"Mobile app", tagline:"A money helper for Nigerian freelancers who are paid in dollars and pounds but spend in naira.",
    role:"Product design and branding", time:"3 weeks", platform:"Mobile app", tools:"Figma, Claude",
    sections:[["The problem","Freelancers paid from abroad juggle exchange rates, transfer fees and tax with spreadsheets and guesswork, and rarely know what a month really earned them."],
@@ -1078,14 +1101,21 @@ const BUILD_ITEMS={
     {name:"Shuttlers v2", meta:"Homepage concept", img:"shut2", href:"https://shuttlers-concept-v2.vercel.app"},
     {name:"Koffi", meta:"Brand website", img:"koffi", href:"https://dhunidesigns.github.io/Engineering-Builds/koffi-website/"},
     {name:"REA", meta:"Government site redesign", img:"rea", href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"},
-    {name:"NYTA", meta:"Agency site", img:"nyta", href:"https://nytaagency.vercel.app"}],
+    {name:"NYTA", meta:"Agency site", img:"nyta", href:"https://nytaagency.vercel.app"},
+    {name:"Talent agency", meta:"Talent roster site", img:"talents", href:"#talents"}],
   apps:[
     {name:"Pixie", meta:"Web app and Figma plugin", img:"pixie", href:"#pixie"},
     {name:"Sello", meta:"Seller inbox app", img:"sello", href:"#sello"},
     {name:"LVL UP", meta:"Micro-learning app", vid:"pgLvl", href:"#lvl-up"},
     {name:"4AM Club", meta:"Subscription and billing", vid:"billing", href:"#4am-club"},
     {name:"AOT", meta:"Market intelligence app", img:"aotPhones", href:"#aot"},
-    {name:"Compound", meta:"Shared bills app", art:"compound", href:"#compound"}],
+    {name:"Compound", meta:"Shared bills app", art:"compound", href:"#compound"},
+    {name:"Travel and hotels", meta:"Booking app", img:"travel", href:"#travel"},
+    {name:"Ride dispatch", meta:"Tablet dashboard", img:"rideLight", href:"#ride"},
+    {name:"Football AI", meta:"AI chat app", img:"football", href:"#football-ai"},
+    {name:"Task board", meta:"Project dashboard", img:"tasks", href:"#tasks"},
+    {name:"News app", meta:"Mobile reader", img:"blog", href:"#news-app"},
+    {name:"Wallet", meta:"Fintech app, light and dark", img:"walletModes", href:"#wallet"}],
   "design-systems":[
     {name:"Pixie", meta:"Brand kits as Figma variables", img:"pixie", href:"#pixie"},
     {name:"Remi", meta:"Palette and type system", art:"remi", href:"#remi"}]
@@ -1112,6 +1142,10 @@ const PLAY=[
   {name:"Unlock level", meta:"Reward reveal", vid:"unlock"},
   {name:"Wallet", meta:"Balance reveal", vid:"wallet"},
   {name:"Multi-currency wallet", meta:"Card stack", vid:"walletCard"},
+  {name:"Dropdown", meta:"Select menu", vid:"dropdown"},
+  {name:"Delete account", meta:"Destructive modal", img:"delModal"},
+  {name:"Help and feedback", meta:"Menu and form", img:"helpMenu"},
+  {name:"Wallet themes", meta:"Light and dark", img:"walletModes"},
 ];
 const jobs = [
   {co:"Malkain Designs", url:"https://www.malkain.com", where:"New Jersey, US · Remote", role:"Product Designer", when:"2026 – Now",
@@ -1249,7 +1283,7 @@ playground(){
     <h1>Playground</h1>
     <p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p>
     <div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div>
-  </div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,href:x.href||"#playground"})))}`;
+  </div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#playground"})))}`;
 },
 project(p){
   const order = SELECTED.includes(p.id) ? SELECTED.map(id=>projects.find(x=>x.id===id)) : projects, i = order.indexOf(p), next = order[(i+1)%order.length];
@@ -1382,20 +1416,22 @@ function initGlide(){
   });
 }
 /* ---- interaction reel: recorded micro-interactions and floating builds, drifting slowly across the page ---- */
-const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4", pgLvl:"vid/pg-lvlup.mp4", pgRide:"vid/pg-ride.mp4", pgTravel:"vid/pg-travel.mp4", pgSign:"vid/pg-signature.mp4", pgHero:"vid/pg-video-agency-hero.mp4", pgWeme:"vid/pg-weme.mp4", pgFooter:"vid/pg-apex-footer.mp4", pgPricing:"vid/pg-apex-pricing.mp4" };
-const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg", pgLvl:"vid/pg-lvlup.jpg", pgRide:"vid/pg-ride.jpg", pgTravel:"vid/pg-travel.jpg", pgSign:"vid/pg-signature.jpg", pgHero:"vid/pg-video-agency-hero.jpg", pgWeme:"vid/pg-weme.jpg", pgFooter:"vid/pg-apex-footer.jpg", pgPricing:"vid/pg-apex-pricing.jpg" };
+const VID={ billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4", pgLvl:"vid/pg-lvlup.mp4", pgRide:"vid/pg-ride.mp4", pgTravel:"vid/pg-travel.mp4", pgSign:"vid/pg-signature.mp4", pgHero:"vid/pg-video-agency-hero.mp4", pgWeme:"vid/pg-weme.mp4", pgFooter:"vid/pg-apex-footer.mp4", pgPricing:"vid/pg-apex-pricing.mp4", dropdown:"vid/dropdown.mp4" };
+const POSTER={ billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg", pgLvl:"vid/pg-lvlup.jpg", pgRide:"vid/pg-ride.jpg", pgTravel:"vid/pg-travel.jpg", pgSign:"vid/pg-signature.jpg", pgHero:"vid/pg-video-agency-hero.jpg", pgWeme:"vid/pg-weme.jpg", pgFooter:"vid/pg-apex-footer.jpg", pgPricing:"vid/pg-apex-pricing.jpg", dropdown:"vid/dropdown.jpg" };
 // Each column is a stack of frames. vid = a recording, img = a static build that floats in its frame.
 // To add your own static images later: {label:"…", tag:"…", src:"img/your-file.webp"}.
 const REEL=[
   [{label:"Subscription flow",tag:"4AM Club",vid:"billing",tall:1,k:1.18,bg:"#efeeea",light:1,href:"#4am-club"}],
   [{label:"Download app",tag:"Button",vid:"download",bg:"#fff",light:1},{label:"Unlock level",tag:"Reward",vid:"unlock",bg:"#fff",light:1}],
-  [{label:"Sello",tag:"Website",img:"sello",k:1.7,href:"https://sello-vert.vercel.app"},{label:"Multi-currency wallet",tag:"Card",vid:"walletCard",k:1.7,bg:"#fff",light:1,contain:1}],
+  [{label:"Travel and hotels",tag:"Mobile app",img:"travel",fill:1,k:1.7,href:"#travel"},{label:"Multi-currency wallet",tag:"Card",vid:"walletCard",k:1.7,bg:"#fff",light:1,contain:1}],
   [{label:"Wallet",tag:"Fintech app",vid:"wallet",tall:1,k:1.02,phone:1}],
+  [{label:"Ride dispatch",tag:"Dashboard",img:"rideLight",fill:1,k:1.6,href:"#ride"},{label:"Ride dispatch",tag:"Dark mode",img:"rideDark",fill:1,k:1.6,href:"#ride"}],
   [{label:"Guild join",tag:"Community app",vid:"guild",tall:1,k:1.05,bg:"#fff",light:1}],
-  [{label:"AOT",tag:"Dashboard",img:"aotDash",fill:1,k:1.5},{label:"AOT",tag:"Mobile app",img:"aotPhones",fill:1,k:1.5}],
-  [{label:"Pixie",tag:"Web app",img:"pixie",k:1.5,href:"https://pixie-brand-kits.vercel.app"},{label:"NYTA",tag:"Agency site",img:"nyta",k:1.5,href:"https://nytaagency.vercel.app"}],
-  [{label:"Shuttlers",tag:"Concept",img:"shut2",k:1.5,href:"https://shuttlers-concept-v2.vercel.app"},{label:"Shuttlers v1",tag:"Concept",img:"shut1",k:1.5,href:"https://shuttlers-concept.vercel.app"}],
-  [{label:"Koffi",tag:"Brand site",img:"koffi",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/koffi-website/"},{label:"REA",tag:"Redesign",img:"rea",k:1.5,href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"}],
+  [{label:"Football AI",tag:"Mobile app",img:"football",fill:1,k:1.8,href:"#football-ai"},{label:"Dropdown",tag:"Select",vid:"dropdown",k:0.9,bg:"#fff",light:1,contain:1}],
+  [{label:"AOT",tag:"Dashboard",img:"aotDash",fill:1,k:1.5,href:"#aot"},{label:"AOT",tag:"Mobile app",img:"aotPhones",fill:1,k:1.5,href:"#aot"}],
+  [{label:"Task board",tag:"Dashboard",img:"tasks",fill:1,k:1.5,href:"#tasks"},{label:"Delete account",tag:"Modal",img:"delModal",fill:1,k:1.15}],
+  [{label:"News app",tag:"Mobile app",img:"blog",tall:1,k:1.45,fill:1,href:"#news-app"}],
+  [{label:"Help menu",tag:"Feedback",img:"helpMenu",fill:1,k:1.8},{label:"Wallet",tag:"Light and dark",img:"walletModes",fill:1,k:1.8}],
 ];
 const vtag=(f,cls)=>`<video${cls?` class="${cls}"`:""} src="${VID[f.vid]}" poster="${POSTER[f.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(f.label)} interaction"></video>`;
 function frame(f,n,dup){
