@@ -963,6 +963,26 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 @media (max-width:640px){.open > span:first-child{font-size:15px;line-height:2!important}.sel,.sel:first-of-type{margin:0 2px!important}}
 @media (max-width:360px){.open > span:first-child{font-size:14px}}
 .sel{line-height:1.3!important;vertical-align:baseline}
+
+/* v35: preview cards — media centred in its own area, label row never collides */
+.grid.wide .card{display:flex;flex-direction:column;justify-content:flex-end}
+.grid.wide .card .card-media{position:absolute;inset:18px 18px 64px;display:flex;align-items:center;justify-content:center;overflow:visible}
+.grid.wide .card .card-media > img,.grid.wide .card .card-media > video.cv,.grid.wide .card .card-media > .pv-art{position:static;translate:none;max-width:100%;max-height:100%;width:auto;height:auto;margin:auto}
+.grid.wide .card .card-media > img{width:84%;aspect-ratio:auto;object-fit:contain}
+.grid.wide .card .row{position:absolute;left:20px;right:20px;bottom:20px;gap:12px}
+.grid.wide .card .row .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.grid.wide .card .row .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1;min-width:0}
+@media (max-width:640px){
+  .grid{row-gap:14px;margin-top:32px}
+  .card,.grid.wide .card{height:300px;border-radius:18px}
+  .grid.wide .card .card-media{inset:14px 14px 52px}
+  .grid.wide .card .card-media > img{width:100%}
+  .grid.wide .card .row{left:16px;right:16px;bottom:16px}
+  .grid.wide .card .row .name{font-size:15px}
+  .grid.wide .card .row .meta{font-size:12.5px}
+  .lede{font-size:15px}
+}
+@media (max-width:640px){.grid.wide .card .row .meta{flex-shrink:0;max-width:48%}.grid.wide .card .row .name{flex:1}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1086,16 +1106,16 @@ const BUILD_ITEMS={
     {name:"Shuttlers", meta:"Homepage concept", img:"shut1", href:"https://shuttlers-concept.vercel.app"},
     {name:"Shuttlers v2", meta:"Homepage concept", img:"shut2", href:"https://shuttlers-concept-v2.vercel.app"},
     {name:"Koffi", meta:"Brand website", img:"koffi", href:"https://dhunidesigns.github.io/Engineering-Builds/koffi-website/"},
-    {name:"REA", meta:"Government site redesign", img:"rea", href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"},
+    {name:"REA", meta:"Gov site redesign", img:"rea", href:"https://dhunidesigns.github.io/Engineering-Builds/rea-redesign/"},
     {name:"NYTA", meta:"Agency site", img:"nyta", href:"https://nytaagency.vercel.app"}],
   apps:[
-    {name:"Pixie", meta:"Web app and Figma plugin", img:"pixie", href:"#pixie"},
+    {name:"Pixie", meta:"Web app + plugin", img:"pixie", href:"#pixie"},
     {name:"Sello", meta:"Seller inbox app", img:"sello", href:"#sello"},
     {name:"LVL UP", meta:"Micro-learning app", img:"heroLvl", href:"#lvl-up"},
     {name:"4AM Club", meta:"Routine builder", img:"hero4am", href:"#4am-club"},
     {name:"Phoenix", meta:"Journaling app", img:"heroPhoenix", href:"#phoenix"}],
   "design-systems":[
-    {name:"Pixie", meta:"Brand kits as Figma variables", img:"pixie", href:"#pixie"},
+    {name:"Pixie", meta:"Figma variables", img:"pixie", href:"#pixie"},
     {name:"Remi", meta:"Palette and type system", art:"remi", href:"#remi"}]
 };
 const builds = [
@@ -1106,20 +1126,20 @@ const builds = [
 ];
 const PG_LIVE="https://dhunidesigns.github.io/Engineering-Playground/", PG_SRC="https://github.com/DhuniDesigns/Engineering-Playground/tree/main/";
 const PLAY=[
-  {name:"4AM subscription flow", meta:"Shared-element motion", vid:"billing", href:PG_LIVE+"4am-subscription/"},
+  {name:"4AM billing", meta:"Card motion", vid:"billing", href:PG_LIVE+"4am-subscription/"},
   {name:"Guild join", meta:"Spring physics", vid:"guild", href:PG_LIVE+"guild-join/"},
-  {name:"LVL UP onboarding", meta:"Streaming text, pager", vid:"pgLvl", href:PG_LIVE+"lvlup-onboarding/"},
-  {name:"Ride dispatch dashboard", meta:"Live route, tablet", vid:"pgRide", href:PG_LIVE+"ride-dashboard/"},
-  {name:"Travel waitlist", meta:"Card stack, form states", vid:"pgTravel", href:PG_LIVE+"travel-waitlist/"},
+  {name:"LVL UP onboarding", meta:"Pager", vid:"pgLvl", href:PG_LIVE+"lvlup-onboarding/"},
+  {name:"Ride dispatch", meta:"Live route", vid:"pgRide", href:PG_LIVE+"ride-dashboard/"},
+  {name:"Travel waitlist", meta:"Form states", vid:"pgTravel", href:PG_LIVE+"travel-waitlist/"},
   {name:"Signature pad", meta:"Canvas drawing", vid:"pgSign", href:PG_LIVE+"signature-pad/"},
-  {name:"Video agency hero", meta:"Card fan, marquee", vid:"pgHero", href:PG_LIVE+"video-agency-hero/"},
-  {name:"WEME glow up", meta:"Playful hero motion", vid:"pgWeme", href:PG_LIVE+"weme/"},
+  {name:"Agency hero", meta:"Card fan", vid:"pgHero", href:PG_LIVE+"video-agency-hero/"},
+  {name:"WEME", meta:"Hero motion", vid:"pgWeme", href:PG_LIVE+"weme/"},
   {name:"Apex footer", meta:"Physics shapes", vid:"pgFooter", href:PG_LIVE+"apex-footer/"},
   {name:"Apex pricing", meta:"Plan toggle", vid:"pgPricing", href:PG_LIVE+"apex-pricing/"},
   {name:"Download app", meta:"Button morph", vid:"download"},
   {name:"Unlock level", meta:"Reward reveal", vid:"unlock"},
   {name:"Wallet", meta:"Balance reveal", vid:"wallet"},
-  {name:"Multi-currency wallet", meta:"Card stack", vid:"walletCard"},
+  {name:"Currency wallet", meta:"Card stack", vid:"walletCard"},
   {name:"Dropdown", meta:"Select menu", vid:"dropdown"},
 ];
 const jobs = [
