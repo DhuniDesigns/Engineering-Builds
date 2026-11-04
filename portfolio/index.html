@@ -952,6 +952,17 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .reel{margin-top:88px!important}
 .reel + .sections{margin-top:96px}
 @media (max-width:640px){.reel{margin-top:56px!important}.reel + .sections{margin-top:64px}}
+
+/* v34: tighter selection frames, roles stay on one line */
+.sel,.sel:first-of-type{margin:0 3px!important;padding:0 2px!important;margin-block:0!important}
+.sel::before{inset:-1px 0}
+.sel i{width:4px!important;height:4px!important}
+.sel i:nth-of-type(1){left:-2px;top:-3px}.sel i:nth-of-type(2){right:-2px;top:-3px}.sel i:nth-of-type(3){left:-2px;bottom:-3px}.sel i:nth-of-type(4){right:-2px;bottom:-3px}
+.open > span:first-child{line-height:1.9!important}
+.roles{white-space:nowrap}
+@media (max-width:640px){.open > span:first-child{font-size:15px;line-height:2!important}.sel,.sel:first-of-type{margin:0 2px!important}}
+@media (max-width:360px){.open > span:first-child{font-size:14px}}
+.sel{line-height:1.3!important;vertical-align:baseline}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1218,7 +1229,7 @@ home(){
     <div class="intro">
       <p>I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code. I lead client products at a creative agency, from first sketch to launch, across fintech, AI, wellness and education.</p>
       <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant for Instagram and TikTok sellers, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, which turns a brand idea into Figma variables.</p>
-      <div class="open"><span>Open to ${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")} roles.</span>${contactLinks}</div>
+      <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles.</span>${contactLinks}</div>
     </div>
     ${reel()}
     <div class="sections">
