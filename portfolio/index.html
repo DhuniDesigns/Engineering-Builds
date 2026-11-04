@@ -934,6 +934,19 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .collage,:root[data-mode="light"] .collage{background:none!important;box-shadow:none!important;border-radius:0}
 .collage::before,.collage::after{display:none!important}
 .dock a[data-social="email"] svg{width:20px;height:20px}
+
+/* ===== v33: bigger reel, selection frames never touch ===== */
+.reel{--u:282px;--g:18px}
+@media (max-width:900px){.reel{--u:240px;--g:14px}}
+@media (max-width:640px){.reel{--u:214px;--g:12px}.fr-l{font-size:9.5px}}
+.fr .float.fshot{width:74%}
+.fr.tall .float.fshot{width:84%}
+.open > span:first-child{line-height:2.1}
+.sel{margin:0 7px;padding:1px 5px}
+.sel:first-of-type{margin-left:5px}
+@media (max-width:640px){.open > span:first-child{line-height:2.3}.sel{margin:0 6px}}
+.sel{margin-block:5px}
+@media (max-width:640px){.sel{margin-block:7px}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
