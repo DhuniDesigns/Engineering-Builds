@@ -983,6 +983,10 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
   .lede{font-size:15px}
 }
 @media (max-width:640px){.grid.wide .card .row .meta{flex-shrink:0;max-width:48%}.grid.wide .card .row .name{flex:1}}
+
+/* shared-element flight from a Builds card into the details hero */
+img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;pointer-events:none;will-change:left,top,width,height}
+.cs .shot.landing{visibility:hidden}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1477,6 +1481,34 @@ function render(){
   loadCovers();
 }
 window.addEventListener("hashchange", ()=>{ sfx.page(); render(); });
+/* Builds → details: the card's preview lifts off and lands as the page's hero (shared-element morph) */
+document.addEventListener("click",e=>{
+  const card=e.target.closest("a.card"); if(!card||e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||e.button!==0) return;
+  const href=card.getAttribute("href")||""; if(!href.startsWith("#")) return;
+  const id=href.slice(1); if(!projects.find(x=>x.id===id)) return;
+  const src=card.querySelector(".card-media img"); if(!src) return;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  e.preventDefault();
+  const from=src.getBoundingClientRect(), fromR=getComputedStyle(src).borderRadius;
+  const ghost=src.cloneNode(); ghost.removeAttribute("loading"); ghost.className="fly";
+  Object.assign(ghost.style,{left:from.left+"px",top:from.top+"px",width:from.width+"px",height:from.height+"px",borderRadius:fromR});
+  document.body.appendChild(ghost);
+  history.pushState(null,"",href); sfx.page(); render();
+  const shot=document.querySelector(".cs .shot"); const tgt=shot&&shot.querySelector("img,video");
+  if(!shot){ ghost.remove(); return; }
+  shot.classList.add("landing"); shot.classList.remove("rise");
+  requestAnimationFrame(()=>{
+    const to=shot.getBoundingClientRect(), toR=getComputedStyle(shot).borderRadius;
+    const anim=ghost.animate([
+      {left:from.left+"px",top:from.top+"px",width:from.width+"px",height:from.height+"px",borderRadius:fromR,boxShadow:"0 20px 40px -16px rgba(0,0,0,.6)"},
+      {offset:.55,boxShadow:"0 40px 70px -24px rgba(0,0,0,.7)"},
+      {left:to.left+"px",top:to.top+"px",width:to.width+"px",height:to.height+"px",borderRadius:toR,boxShadow:"0 0 0 rgba(0,0,0,0)"}
+    ],{duration:620,easing:"cubic-bezier(.22,.8,.2,1)",fill:"forwards"});
+    const done=()=>{ shot.classList.remove("landing"); ghost.animate([{opacity:1},{opacity:0}],{duration:160,fill:"forwards"}).onfinish=()=>ghost.remove(); };
+    anim.onfinish=done; anim.oncancel=done;
+  });
+});
+window.addEventListener("popstate",()=>{ document.querySelectorAll("img.fly").forEach(g=>g.remove()); render(); });
 
 /* Builds: pill slides to the chosen tab */
 function moveInd(instant){
