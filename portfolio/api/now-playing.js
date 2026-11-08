@@ -10,7 +10,8 @@ async function itunesCover(artist, album, title) {
   const k = `${artist}|${album}|${title}`;
   if (coverCache.has(k)) return coverCache.get(k);
   let art = "";
-  for (const [term, entity] of [[`${artist} ${album}`, "album"], [`${artist} ${title}`, "song"]]) {
+  const alb = album.replace(/\s*[-–]\s*(EP|Single)$/i, "");
+  for (const [term, entity] of [[`${artist} ${title}`, "song"], [`${artist} ${alb}`, "album"]]) {
     if (!term.trim() || art) continue;
     try {
       const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=${entity}&limit=1`);
