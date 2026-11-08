@@ -60,6 +60,8 @@ button{font:inherit;color:inherit}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.05em;white-space:nowrap;border:0;background:none;padding:0;cursor:pointer;color:var(--ink)}
 .pmk{width:28px;height:28px;display:block;cursor:pointer}
 .crumb{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);min-width:0;white-space:nowrap}
+.crumb .st-save{padding:6px 12px 6px 10px;font-size:12.5px;gap:6px;margin-left:2px}
+.crumb .st-save svg{width:14px;height:14px}
 .crumb b{color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis}
 .draft{font:500 12px/1 var(--sans);color:var(--draft);background:var(--draft-bg);border:1px solid color-mix(in srgb,var(--draft) 25%,transparent);padding:5px 9px;border-radius:99px}
 .hd-sp{flex:1}
@@ -144,6 +146,12 @@ button{font:inherit;color:inherit}
 .cv-l b{font-weight:600;font-size:14px;letter-spacing:-.01em}
 .cv-l span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cv-r{display:flex;gap:6px;align-items:center}
+.bc-chip{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 8px;border:0;border-radius:99px;background:var(--win);color:var(--ink);font:500 13px var(--sans);cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px var(--line-2),0 1px 2px rgba(0,0,0,.05);transition:transform .16s var(--ease-out),box-shadow .2s}
+.bc-chip:hover{box-shadow:0 0 0 1px var(--ink-2),0 1px 2px rgba(0,0,0,.05)}.bc-chip:active{transform:scale(.97)}
+.bc-chip i{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);flex:none}
+.bc-chip i.add{background:conic-gradient(#ff6b6b,#ffd166,#06d6a0,#4cc9f0,#7b61ff,#ff6bd6,#ff6b6b);position:relative}
+.bc-chip i.add::after{content:"+";position:absolute;inset:3px;border-radius:50%;background:var(--win);display:grid;place-items:center;font:600 13px/1 var(--sans);color:var(--ink)}
+@media (max-width:640px){.bc-chip{padding:0 8px}.bc-chip:not(.set){font-size:0;gap:0}}
 .gloss{position:relative;width:36px;height:36px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--ink-2);
   background:radial-gradient(120% 120% at 50% 15%,var(--gloss-a) 0%,var(--gloss-b) 100%);box-shadow:inset 0 0 0 1px var(--gloss-line),inset 0 -3px 5px rgba(0,0,0,.05),0 2px 6px -2px rgba(0,0,0,.18);transition:transform .16s var(--ease-out),box-shadow .2s ease}
 .gloss:active{transform:scale(.94)}
@@ -504,14 +512,14 @@ input,textarea{caret-color:#F0237E}
   <div class="win">
     <header class="hd">
       <button class="brand" data-home aria-label="Pixie home"><span class="pmk" id="pmk"></span>pixie</button>
-      <div class="crumb" id="crumbWrap"><span>Kits</span><span>/</span><b id="crumbName">Remi</b><span class="st" id="kitState" data-s="draft">Draft</span></div>
+      <div class="crumb" id="crumbWrap"><span>Kits</span><span>/</span><b id="crumbName">Remi</b><span class="st" id="kitState" data-s="draft">Draft</span><button class="btn btn-line st-save" id="saveBtn" aria-keyshortcuts="Control+S Meta+S"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.714 22 12C22 11.6585 22 11.4878 21.9848 11.3142C21.9142 10.5049 21.586 9.71257 21.0637 9.09034C20.9516 8.95687 20.828 8.83317 20.5806 8.58578L15.4142 3.41944C15.1668 3.17206 15.0431 3.04835 14.9097 2.93631C14.2874 2.414 13.4951 2.08581 12.6858 2.01515C12.5122 2 12.3415 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355Z"/><path d="M17 21.8731V21C17 19.1144 17 18.1716 16.4142 17.5858C15.8284 17 14.8856 17 13 17H11C9.11438 17 8.17157 17 7.58579 17.5858C7 18.1716 7 19.1144 7 21V21.8731"/><path d="M7 8H13"/></g></svg><span class="lbl-t">Save</span></button></div>
       <div class="hd-sp"></div>
       <div class="themes" role="group" aria-label="Theme">
         <button data-theme-set="light" aria-label="Light"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 2V4"/><path d="M12 20V22"/><path d="M4 12L2 12"/><path d="M22 12L20 12"/><path d="M19.7778 4.22266L17.5558 6.25424"/><path d="M4.22217 4.22266L6.44418 6.25424"/><path d="M6.44434 17.5557L4.22211 19.7779"/><path d="M19.7778 19.7773L17.5558 17.5551"/></g></svg></button>
         <button data-theme-set="dark" aria-label="Dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/></svg></button>
         <button data-theme-set="system" aria-label="System"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M2 10C2 6.22876 2 4.34315 3.17157 3.17157C4.34315 2 6.22876 2 10 2H14C17.7712 2 19.6569 2 20.8284 3.17157C22 4.34315 22 6.22876 22 10V11C22 13.8284 22 15.2426 21.1213 16.1213C20.2426 17 18.8284 17 16 17H8C5.17157 17 3.75736 17 2.87868 16.1213C2 15.2426 2 13.8284 2 11V10Z"/><path d="M16 22H8"/><path d="M12 17L12 22"/><path d="M22 13H2"/></g></svg></button>
       </div>
-      <div class="hd-a"><button class="btn btn-line" id="kitsBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M18 10L13 10"/><path d="M19.9998 6.23751C19.9989 5.94017 19.9946 5.76263 19.9743 5.60842C19.7971 4.26222 18.7378 3.2029 17.3916 3.02567C17.1966 3 16.9644 3 16.5 3H10"/><path d="M2 6.94975C2 6.06722 2 5.62595 2.06935 5.25839C2.37464 3.64031 3.64031 2.37464 5.25839 2.06935C5.62595 2 6.06722 2 6.94975 2C7.33642 2 7.52976 2 7.71557 2.01738C8.51665 2.09229 9.27652 2.40704 9.89594 2.92051C10.0396 3.03961 10.1763 3.17633 10.4497 3.44975L11 4C11.8158 4.81578 12.2237 5.22367 12.7121 5.49543C12.9804 5.64471 13.2651 5.7626 13.5604 5.84678C14.0979 6 14.6747 6 15.8284 6H16.2021C17.9811 6 19.159 6 19.9998 6.23751C20.4031 6.35144 20.7288 6.52002 21.0062 6.76946C21.0849 6.84024 21.1598 6.91514 21.2305 6.99383C22 7.84935 22 9.16554 22 11.7979V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V6.94975Z"/></g></svg><span class="lbl-t">Saved kits</span><span class="cnt" id="kitCount" hidden></span></button><button class="btn btn-line" id="saveBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.714 22 12C22 11.6585 22 11.4878 21.9848 11.3142C21.9142 10.5049 21.586 9.71257 21.0637 9.09034C20.9516 8.95687 20.828 8.83317 20.5806 8.58578L15.4142 3.41944C15.1668 3.17206 15.0431 3.04835 14.9097 2.93631C14.2874 2.414 13.4951 2.08581 12.6858 2.01515C12.5122 2 12.3415 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355Z"/><path d="M17 21.8731V21C17 19.1144 17 18.1716 16.4142 17.5858C15.8284 17 14.8856 17 13 17H11C9.11438 17 8.17157 17 7.58579 17.5858C7 18.1716 7 19.1144 7 21V21.8731"/><path d="M7 8H13"/></g></svg><span class="lbl-t">Save</span></button><button class="btn btn-line" data-new-kit aria-label="New brand kit"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"/></g></svg><span class="lbl-t">New kit</span></button></div>
+      <div class="hd-a"><button class="btn btn-line" id="kitsBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M18 10L13 10"/><path d="M19.9998 6.23751C19.9989 5.94017 19.9946 5.76263 19.9743 5.60842C19.7971 4.26222 18.7378 3.2029 17.3916 3.02567C17.1966 3 16.9644 3 16.5 3H10"/><path d="M2 6.94975C2 6.06722 2 5.62595 2.06935 5.25839C2.37464 3.64031 3.64031 2.37464 5.25839 2.06935C5.62595 2 6.06722 2 6.94975 2C7.33642 2 7.52976 2 7.71557 2.01738C8.51665 2.09229 9.27652 2.40704 9.89594 2.92051C10.0396 3.03961 10.1763 3.17633 10.4497 3.44975L11 4C11.8158 4.81578 12.2237 5.22367 12.7121 5.49543C12.9804 5.64471 13.2651 5.7626 13.5604 5.84678C14.0979 6 14.6747 6 15.8284 6H16.2021C17.9811 6 19.159 6 19.9998 6.23751C20.4031 6.35144 20.7288 6.52002 21.0062 6.76946C21.0849 6.84024 21.1598 6.91514 21.2305 6.99383C22 7.84935 22 9.16554 22 11.7979V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V6.94975Z"/></g></svg><span class="lbl-t">Saved kits</span><span class="cnt" id="kitCount" hidden></span></button><button class="btn btn-line" data-new-kit aria-label="New brand kit"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"/></g></svg><span class="lbl-t">New kit</span></button></div>
       <button class="btn btn-dark" id="openSend"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12H20M14 18L20 12L14 6"/></svg><span>Send to Figma</span></button>
     </header>
     <section class="empty" id="empty" hidden aria-label="Start">
@@ -544,13 +552,14 @@ input,textarea{caret-color:#F0237E}
             </div>
           </section>
           <section class="sec">
+            <div class="sec-h"><div><h3>Your brand colour and fonts</h3><p class="sec-d">Optional. Add them now or any time, and Pixie rebuilds the kit around them.</p></div></div>
+            <div class="rows own-rows" id="ownRows"></div>
+          </section>
+          <section class="sec">
             <div class="sec-h"><div><h3>Personality</h3><p class="sec-d">Shapes the colour, type pairing, icon style and illustrations together.</p></div></div>
             <div class="rows" id="persRows"></div>
           </section>
-          <section class="sec">
-            <div class="sec-h"><div><h3>Bring your own</h3><p class="sec-d">Already have a colour or fonts? The kit is built around them.</p></div><button class="toggle" id="ownT" role="switch" aria-checked="false" aria-label="Bring your own colour and fonts"></button></div>
-            <div class="rows own-rows" id="ownRows" hidden></div>
-          </section>
+
         </div>
         <div class="brief-foot">
           <button class="btn btn-dark gen" id="genBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><path stroke-width="1.5" d="M3.84453 7.92226C2.71849 6.79623 2.71849 4.97056 3.84453 3.84453C4.97056 2.71849 6.79623 2.71849 7.92226 3.84453L20.1555 16.0777C21.2815 17.2038 21.2815 19.0294 20.1555 20.1555C19.0294 21.2815 17.2038 21.2815 16.0777 20.1555L3.84453 7.92226Z"/><path stroke-width="1.5" d="M6 10L10 6"/><path d="M16.1 2.30719C16.261 1.8976 16.8385 1.8976 16.9994 2.30719L17.4298 3.40247C17.479 3.52752 17.5776 3.62651 17.7022 3.67583L18.7934 4.1078C19.2015 4.26934 19.2015 4.849 18.7934 5.01054L17.7022 5.44252C17.5776 5.49184 17.479 5.59082 17.4298 5.71587L16.9995 6.81115C16.8385 7.22074 16.261 7.22074 16.1 6.81116L15.6697 5.71587C15.6205 5.59082 15.5219 5.49184 15.3973 5.44252L14.3061 5.01054C13.898 4.849 13.898 4.26934 14.3061 4.1078L15.3973 3.67583C15.5219 3.62651 15.6205 3.52752 15.6697 3.40247L16.1 2.30719Z"/><path d="M19.9672 9.12945C20.1281 8.71987 20.7057 8.71987 20.8666 9.12945L21.0235 9.5288C21.0727 9.65385 21.1713 9.75284 21.2959 9.80215L21.6937 9.95965C22.1018 10.1212 22.1018 10.7009 21.6937 10.8624L21.2959 11.0199C21.1713 11.0692 21.0727 11.1682 21.0235 11.2932L20.8666 11.6926C20.7057 12.1022 20.1281 12.1022 19.9672 11.6926L19.8103 11.2932C19.7611 11.1682 19.6625 11.0692 19.5379 11.0199L19.14 10.8624C18.732 10.7009 18.732 10.1212 19.14 9.95965L19.5379 9.80215C19.6625 9.75284 19.7611 9.65385 19.8103 9.5288L19.9672 9.12945Z"/><path d="M5.1332 15.3072C5.29414 14.8976 5.87167 14.8976 6.03261 15.3072L6.18953 15.7065C6.23867 15.8316 6.33729 15.9306 6.46188 15.9799L6.85975 16.1374C7.26783 16.2989 7.26783 16.8786 6.85975 17.0401L6.46188 17.1976C6.33729 17.2469 6.23867 17.3459 6.18953 17.471L6.03261 17.8703C5.87167 18.2799 5.29414 18.2799 5.1332 17.8703L4.97628 17.471C4.92714 17.3459 4.82852 17.2469 4.70393 17.1976L4.30606 17.0401C3.89798 16.8786 3.89798 16.2989 4.30606 16.1374L4.70393 15.9799C4.82852 15.9306 4.92714 15.8316 4.97628 15.7065L5.1332 15.3072Z"/></g></svg>Generate a new variation</button>
@@ -561,7 +570,7 @@ input,textarea{caret-color:#F0237E}
         <div class="stage-in">
           <div class="cv-top">
             <div class="cv-l"><span class="cv-ic" id="cvIc"></span><b id="cvT">Colour</b><span id="cvS"></span></div>
-            <div class="cv-r"><button class="gloss tip" id="lockBtn" data-tip="Lock" aria-pressed="false" aria-label="Lock module"></button><button class="gloss tip" id="regenBtn" data-tip="Regenerate" aria-label="Regenerate module"></button></div>
+            <div class="cv-r"><button class="bc-chip" id="bcChip" data-own="hex" aria-haspopup="dialog" aria-expanded="false"></button><button class="gloss tip" id="lockBtn" data-tip="Lock" aria-pressed="false" aria-label="Lock module"></button><button class="gloss tip" id="regenBtn" data-tip="Regenerate" aria-label="Regenerate module"></button></div>
           </div>
           <section class="card snap" aria-label="Brand snapshot">
             <div>
@@ -830,7 +839,7 @@ async function saveKit(){if(S.mode!=='work')return;if(!S.kitId)S.kitId=newId();c
   catch(e){done();btn.disabled=false;toast(e&&e.code==='quota_exceeded'?'Storage is full. Delete a saved kit and try again.':'Couldn’t save. Try again.')}}
 async function autoSave(){if(S.mode==='work'&&S.dirty&&(B.name||'').trim()&&S.kit.colour)await saveKit()}
 async function openKit(id){const d=S.kits.find(k=>k.id===id);if(!d)return;if(S.kitId!==id)await autoSave();
-  Object.assign(S,{brief:{...EXAMPLE_BLANK,...d.brief},own:!!d.own,seed:d.seed,lock:d.lock,strict:d.strict!==false,ratio:d.ratio||null,iconOver:d.iconOver||{},illStyle:d.illStyle||null,aiSvgs:d.aiSvgs||{},extra:d.extra||[],kitId:id,dirty:false,mode:'work',tab:'colour',kit:{}});
+  Object.assign(S,{brief:{...EXAMPLE_BLANK,...d.brief},own:true,seed:d.seed,lock:d.lock,strict:d.strict!==false,ratio:d.ratio||null,iconOver:d.iconOver||{},illStyle:d.illStyle||null,aiSvgs:d.aiSvgs||{},extra:d.extra||[],kitId:id,dirty:false,mode:'work',tab:'colour',kit:{}});
   B=S.brief;syncFields();generate({colour:1,type:1,icons:1,ill:1});applyFonts();closeKits();showMode();renderAll(true);persist();
   if(isAI(S.kit.ill.style))drawMissing()}
 async function startNew(example){await autoSave();Object.assign(S,fresh(example?EXAMPLE:EXAMPLE_BLANK),{mode:'work',kit:{}});B=S.brief;syncFields();
@@ -839,7 +848,7 @@ async function startNew(example){await autoSave();Object.assign(S,fresh(example?
 
 function renderStatus(){const st=$('kitState');if(!st)return;
   st.textContent=!S.kitId?'Draft':S.dirty?'Unsaved changes':'Saved';st.dataset.s=!S.kitId?'draft':S.dirty?'dirty':'saved';
-  $('saveBtn').disabled=S.mode!=='work'||(S.kitId&&!S.dirty);$('kitCount').textContent=S.kits.length||'';$('kitCount').hidden=!S.kits.length}
+  $('saveBtn').hidden=S.mode!=='work'||(!!S.kitId&&!S.dirty);$('saveBtn').disabled=false;$('kitCount').textContent=S.kits.length||'';$('kitCount').hidden=!S.kits.length}
 function showMode(){const e=S.mode==='empty';$('empty').hidden=!e;$('wb').hidden=e;$('crumbWrap').hidden=e;$('saveBtn').hidden=e;$('openSend').disabled=e;
   if(e){renderEmpty()}renderStatus()}
 function kitCard(k,i){return`<div class="kc rise" style="--i:${i}"><div class="kc-art" style="--kc:${k.preview?k.preview[2]:'#999'}">${(k.preview||[]).map(h=>`<i style="background:${h}"></i>`).join('')}</div>
@@ -929,7 +938,7 @@ const IC={lock:'sol:lock-keyhole-minimalistic-linear',unlock:'sol:lock-keyhole-m
 
 const EXAMPLE={name:'Remi',desc:'Money and tax helper for freelancers paid in dollars and pounds',aud:'Nigerian freelancers and remote workers',energy:40,era:66,tone:50,hex:'#732CEB',fh:'Montserrat',fb:'Outfit'};
 const EXAMPLE_BLANK={name:'',desc:'',aud:'',energy:40,era:66,tone:50,hex:'',fh:'',fb:''};
-const fresh=b=>({brief:{...b},own:!!(b.hex||b.fh||b.fb),seed:{colour:0,type:0,icons:0,ill:[0,0,0,0,0,0]},lock:{colour:false,type:false,icons:false,ill:[false,false,false,false,false,false]},strict:true,ratio:null,iconOver:{},illStyle:null,aiSvgs:{},extra:[],kitId:null,dirty:false,tab:'colour'});
+const fresh=b=>({brief:{...b},own:true,seed:{colour:0,type:0,icons:0,ill:[0,0,0,0,0,0]},lock:{colour:false,type:false,icons:false,ill:[false,false,false,false,false,false]},strict:true,ratio:null,iconOver:{},illStyle:null,aiSvgs:{},extra:[],kitId:null,dirty:false,tab:'colour'});
 const S={...fresh(EXAMPLE),mode:'empty',kit:{},incl:{colour:true,type:true,icons:true,ill:true},kits:[],styles:[],ai:null};
 const PERSIST=['brief','own','seed','lock','strict','ratio','iconOver','illStyle','aiSvgs','extra','kitId','dirty','tab','incl','mode'];
 try{const sv=JSON.parse(localStorage.getItem('pixie-work')||'null');if(sv&&sv.brief)PERSIST.forEach(k=>{if(k in sv)S[k]=sv[k]})}catch(e){}
@@ -959,13 +968,14 @@ function applyFonts(){const t=S.kit.type;ensureFont(t.heading);ensureFont(t.body
 
 /* ================= brief UI ================= */
 function nearest(key){const v=B[key];return PERS[key].opts.reduce((a,o)=>Math.abs(o[1]-v)<Math.abs(a[1]-v)?o:a)}
+function updChip(){const c=$('bcChip');if(!c)return;c.innerHTML=B.hex?`<i style="background:${B.hex}"></i>${B.hex.toUpperCase()}`:`<i class="add"></i>Add brand colour`;c.dataset.tip=B.hex?'Change your brand colour':'Build the kit around your colour';c.classList.toggle('set',!!B.hex)}
 function renderBrief(){
   $('persRows').innerHTML=Object.entries(PERS).map(([k,p])=>`<button class="row" data-pers="${k}" aria-haspopup="listbox" aria-expanded="false"><span class="tile ${p.g}">${svgI(p.icon,'#fff',2)}</span><span><b>${p.label}</b><span class="v">${nearest(k)[0]}</span></span>${svgI(IC.sel)}</button>`).join('');
   const k=S.kit;const hexTile=B.hex?`<span class="tile" style="background:${B.hex}"></span>`:`<span class="tile auto"></span>`;
   $('ownRows').innerHTML=`<button class="row" data-own="hex" aria-haspopup="dialog" aria-expanded="false">${hexTile}<span><b>Brand colour</b><span class="v">${B.hex||'Auto · from the brief'}</span></span>${svgI(IC.sel)}</button>
     <button class="row" data-own="fh" aria-haspopup="listbox" aria-expanded="false"><span class="tile g4" style="font-family:${B.fh?`'${B.fh}'`:'var(--sans)'};font-weight:700">Aa</span><span><b>Heading font</b><span class="v">${B.fh||'Auto · '+(k.type?k.type.heading:'')}</span></span>${svgI(IC.sel)}</button>
     <button class="row" data-own="fb" aria-haspopup="listbox" aria-expanded="false"><span class="tile g5" style="font-family:${B.fb?`'${B.fb}'`:'var(--sans)'}">Aa</span><span><b>Body font</b><span class="v">${B.fb||'Auto · '+(k.type?k.type.body:'')}</span></span>${svgI(IC.sel)}</button>`;
-  $('ownRows').hidden=!S.own;$('ownT').setAttribute('aria-checked',S.own);
+  updChip();
   renderKw()}
 function renderKw(){const text=(B.desc+' '+B.aud+' '+B.name).toLowerCase();const hits=KW.map(([re],i)=>re.test(text)?KWL[i]:null).filter(Boolean);
   const src=S.own&&B.hex?'<span class="kchip"><i></i>Your colour</span>':'';
@@ -1170,7 +1180,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&e.target.id==='trStrict'){e.preventDefault();e.target.click()}});
 document.addEventListener('input',e=>{if(e.target.id==='trStroke'){const v=+e.target.value;S.iconOver.stroke=v;S.kit.icons.stroke=v;e.target.style.setProperty('--v',(v-1)/1.5*100+'%');$('trStrokeV').textContent=v;
   clearTimeout(window.__sk);window.__sk=setTimeout(refreshIcons,16);save()}});
-$('ownT').addEventListener('click',()=>{S.own=!S.own;generate({colour:1,type:1,ill:1});applyFonts();renderAll(false);save()});
+
 let deb;[['bName','name'],['bDesc','desc'],['bAud','aud']].forEach(([id,k])=>$(id).addEventListener('input',e=>{B[k]=e.target.value;
   $('crumbName').textContent=B.name||'Untitled';$('snapName').textContent=B.name||'Your brand';$('snapDesc').textContent=B.desc||'Describe what your brand does to steer the kit.';renderKw();
   clearTimeout(deb);deb=setTimeout(()=>{generate({colour:1,ill:1});render(false);renderKw();save()},450)}));
