@@ -1099,7 +1099,7 @@ const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
-const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp" };
+const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", beach:"img/beach.webp", food:"img/food.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp" };
 
 /* ---- selected works: each has its own detail page ---- */
 const projects = [
@@ -1882,12 +1882,12 @@ const STICKERS=[
   {id:"cuff",kind:"cut",w:96,h:80,slot:{x:206,y:460,rot:-10},html:()=>`<img src="${IMG.cuff}" alt="">`},
   {id:"claude",kind:"app claude",w:54,h:54,slot:{x:706,y:450,rot:-10},html:()=>ICON_CLAUDE},
   {id:"rufus",kind:"rufus",w:124,h:124,slot:{x:96,y:548,rot:-8},html:RUFUS},
-  {id:"beach",kind:"print pol beach",w:170,h:150,slot:{x:236,y:556,rot:4},html:()=>`${SUN}${cap("beach days")}`},
+  {id:"beach",kind:"print pol beach",w:164,h:182,slot:{x:236,y:548,rot:4},html:()=>`<img src="${IMG.beach}" alt="">${cap("beach days")}`},
   {id:"cat",kind:"catstk",w:124,h:124,slot:{x:394,y:556,rot:-6},html:CAT_STK},
   {id:"blob",kind:"blobcut",w:84,h:76,slot:{x:364,y:42,rot:8},html:()=>blobMini()},
   {id:"xcard",kind:"xcard",w:228,h:132,slot:{x:636,y:556,rot:-3},html:()=>xCard()},
   {id:"camera",kind:"print",w:196,h:124,slot:{x:792,y:530,rot:-3},html:()=>`<img src="${IMG.camera}" alt="">`},
-  {id:"necklace",kind:"cut",w:112,h:86,slot:{x:918,y:584,rot:6},html:()=>`<img src="${IMG.necklace}" alt="">`},
+  {id:"food",kind:"round",w:120,h:120,slot:{x:918,y:572,rot:0},html:()=>`<img src="${IMG.food}" alt="">`},
   {id:"figma",kind:"app",w:54,h:54,slot:{x:964,y:332,rot:8},html:()=>ICON_FIGMA},
   {id:"framer",kind:"app framer",w:50,h:50,slot:{x:540,y:350,rot:-6},html:()=>ICON_FRAMER},
 ];
