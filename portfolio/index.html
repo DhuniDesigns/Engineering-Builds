@@ -1012,6 +1012,24 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .lightbox.on img{scale:1}
 .lb-cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;color:#ddd;font-size:14px}
 .lb-x{position:absolute;top:16px;right:18px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:24px;line-height:1}
+
+/* v37: long-form case studies (no meta grid) */
+.cs{gap:56px}
+.cs-fig{margin:0;display:flex;flex-direction:column;gap:10px}
+.cs-fig figcaption{font-size:13px;line-height:1.5;color:var(--muted)}
+.cs-sec{gap:14px}
+.cs-sec h2{font:500 18px/1.3 var(--sans);color:var(--fg);margin:0}
+.cs-sec p{line-height:1.65;margin:0}
+.cs-sec p + p{margin-top:2px}
+.cs-sub{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.cs-sub h3{font:500 15px/1.35 var(--sans);color:var(--fg);margin:0}
+.cs-sec .cs-fig{margin-top:10px}
+.cs-vid{background:#efeeea}
+.cs-img img{width:100%;height:100%;object-fit:cover}
+.cs-connect{gap:8px}
+.cs-connect h2{font:500 18px/1.3 var(--sans);color:var(--fg);margin:0}
+.cs-links{margin-top:20px}
+@media (max-width:640px){.cs{gap:44px}.cs-sec h2,.cs-connect h2{font-size:17px}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1088,17 +1106,13 @@ const projects = [
   {id:"sello", name:"Sello", meta:"App and Website", tagline:"An AI sales assistant that answers Instagram and TikTok DMs, checks stock and writes up orders, then hands the chat back to the seller to get paid.",
    role:"Product design, brand and front-end build", time:"4 weeks", platform:"Web app and marketing site", tools:"Figma, Claude, Vercel",
    site:"https://sello-vert.vercel.app", github:"https://github.com/DhuniDesigns/Sello", shot:"sello",
-   sections:[["The problem","Small sellers on Instagram and TikTok lose sales in their DMs. They answer the same five questions all day, keep stock in their heads, and orders slip through long chat threads."],
-             ["What I designed","I mapped a seller’s real day and gave Sello only the repetitive part. It replies, checks stock and drafts the order, then hands the chat back the moment a person is needed, usually to get paid. The seller can take over any conversation with one tap."],
-             ["How it was built","Designed in Figma, built with Claude and deployed on Vercel: a marketing site plus an app with an inbox, orders and stock."]]},
+   heroCap:"The Sello marketing site. The live inbox sits right under the headline, so sellers see the product before they read about it.",
+   sections:[["The problem", "Small sellers on Instagram and TikTok lose sales in their DMs. They answer the same five questions all day, keep stock in their heads, and orders slip through long chat threads."], ["Who it’s for", "Sellers who run their whole business from Instagram and TikTok DMs: no shop website, no stock system, just a phone and a lot of chats."], ["What I designed", {"p": "I mapped a seller’s real day and gave Sello only the repetitive part.", "sub": [{"h": "Sello handles the busywork", "p": "It answers the common questions, checks stock and drafts the order, all inside the chat the customer already started."}, {"h": "A person steps in when it matters", "p": "The moment a human is needed, usually to get paid, Sello hands the chat back to the seller with the order already written up."}, {"h": "Take over any chat with one tap", "p": "Sellers stay in control: any conversation can be taken over instantly, so the AI never gets between them and a customer."}]}], ["How it was built", "Designed in Figma, built with Claude and deployed on Vercel: a marketing site plus an app with an inbox, orders and stock."], ["Where it’s at", "Sello is live as a demo. I designed and built it in public, sharing the process on LinkedIn and X."]]},
   {id:"pixie", name:"Pixie", meta:"Web app and Figma plugin", tagline:"Pixie turns a one-line brand description into a ready-to-use Figma brand kit: colours, fonts, icons and illustrations, all accessible and all connected.",
    role:"Product design and front-end build", time:"3 weeks", platform:"Web app and Figma plugin", tools:"Figma, Claude, Vercel",
    site:"https://pixie-brand-kits.vercel.app", siteLabel:"Open the app", github:"https://github.com/DhuniDesigns/Engineering-Builds/tree/main/pixie", shot:"pixie",
-   sections:[["What it does","Pixie gives your brand its look in about a minute. Tell it your brand’s name and what it does, and it picks your colours, fonts, icons and illustrations, all made to match. It checks that your text is easy to read on every colour, then one click sends everything straight into Figma, ready to design with."],
-             ["Who it’s for",["Founders and small businesses who need a brand look but can’t afford a designer or agency yet.","Designers and freelancers who start lots of projects and want to skip hours of setting up colours, type and styles in Figma.","Developers building side projects who want their app to look put together without learning colour theory."]],
-             ["The problem","Every new brand starts with the same chore: picking a palette, checking contrast, pairing type and setting it all up as variables by hand."],
-             ["How it works",["Describe your brand in a sentence.","Lock what you love and regenerate the rest.","Send the kit to Figma as connected variables, with every colour pairing checked for contrast."]],
-             ["How it was built","A web app and a Figma plugin built with Claude. It grew out of building Remi’s palette by hand."]]},
+   heroCap:"Pixie’s start screen: describe your brand and the kit is built in about a minute.",
+   sections:[["What it does", "Pixie gives your brand its look in about a minute. Tell it your brand’s name and what it does, and it picks your colours, fonts, icons and illustrations, all made to match.\n\nIt checks that your text is easy to read on every colour, then one click sends everything straight into Figma, ready to design with."], ["Who it’s for", ["Founders and small businesses who need a brand look but can’t afford a designer or agency yet.", "Designers and freelancers who start lots of projects and want to skip hours of setting up colours, type and styles in Figma.", "Developers building side projects who want their app to look put together without learning colour theory."]], ["The problem", "Every new brand starts with the same chore: picking a palette, checking contrast, pairing type and setting it all up as variables by hand."], ["How it works", {"sub": [{"h": "1. Describe your brand", "p": "One sentence about the brand and what it does is enough to start."}, {"h": "2. Lock what you love", "p": "Keep the colours or fonts you like and regenerate the rest until the kit feels right."}, {"h": "3. Send it to Figma", "p": "Everything lands in Figma as connected variables, with every colour pairing already checked for contrast."}]}], ["How it was built", "A web app and a Figma plugin built with Claude. It grew out of building Remi’s palette by hand."]]},
   {id:"remi", name:"Remi", meta:"Mobile app", tagline:"A money helper for Nigerian freelancers who are paid in dollars and pounds but spend in naira.",
    role:"Product design and branding", time:"3 weeks", platform:"Mobile app", tools:"Figma, Claude",
    sections:[["The problem","Freelancers paid from abroad juggle exchange rates, transfer fees and tax with spreadsheets and guesswork, and rarely know what a month really earned them."],
@@ -1107,28 +1121,22 @@ const projects = [
   {id:"4am-club", name:"4AM Club", meta:"App and Website", tagline:"A lifestyle and wellness app that helps people build discipline and lasting habits through structured routines, accountability and AI-powered guidance.",
    role:"UI/UX, mobile app, web app, content and email templates", time:"8 weeks", platform:"Mobile app, web app and website", tools:"Figma, Framer, Claude",
    demo:"https://dhunidesigns.github.io/Engineering-Playground/4am-subscription/", github:"https://github.com/DhuniDesigns/Engineering-Playground/tree/main/4am-subscription", shot:"hero4am", vid:"billing",
-   sections:[["Overview","4AM Club tackles the common struggle of staying consistent with daily routines. It combines intelligent planning, habit tracking and community accountability with personalised AI coaching across fitness, spirituality, budgeting and overall wellness."],
-             ["The challenge",["Inconsistency and drop-off: people start strong but lose motivation after a short while.","Overwhelming habit systems: many wellness apps show too many features at once.","Lack of personalisation: generic reminders don’t adapt to individual goals, lifestyles and constraints.","Low accountability: tracking habits alone lacks the social pressure long-term discipline needs.","Fragmented tools: people juggle separate apps for fitness, budgeting and wellness."]],
-             ["The solution",["A structured routine framework that breaks goals into achievable daily actions.","AI coaching that personalises routines, feedback and motivation.","Community and accountability: challenges, progress sharing and group routines.","Fitness, spirituality, budgeting and wellness brought into one experience.","A clear, simple MVP to reduce friction and help habits stick."]],
-             ["The result",["A focused MVP that supports consistent habits without overwhelming people.","Stronger engagement through personalised routines and social accountability.","A foundation that can grow into coaching, commerce and deeper AI insights.","4AM Club positioned as a lifestyle and wellness platform, not just a habit tracker."]],
-             ["Prototype","I built the subscription and billing flow as a coded prototype: the plan card expands into a draggable carousel of plans."]]},
+   heroCap:"4AM Club: the routine builder that kills excuses and builds discipline.",
+   sections:[["Overview", "4AM Club tackles the common struggle of staying consistent with daily routines. It combines intelligent planning, habit tracking and community accountability with personalised AI coaching across fitness, spirituality, budgeting and overall wellness."], ["The challenge", ["Inconsistency and drop-off: people start strong but lose motivation after a short while.", "Overwhelming habit systems: many wellness apps show too many features at once.", "Lack of personalisation: generic reminders don’t adapt to individual goals, lifestyles and constraints.", "Low accountability: tracking habits alone lacks the social pressure long-term discipline needs.", "Fragmented tools: people juggle separate apps for fitness, budgeting and wellness."]], ["The solution", {"sub": [{"h": "Routines that break goals into daily actions", "p": "A structured routine framework turns big goals into small, achievable things to do today."}, {"h": "An AI coach that adapts", "p": "AI coaching personalises routines, feedback and motivation to each person’s goals and week."}, {"h": "A community that won’t let you quit", "p": "Challenges, progress sharing and group routines add the accountability solo tracking lacks."}, {"h": "One app instead of five", "p": "Fitness, spirituality, budgeting and wellness live in one experience, kept to a clear, simple MVP."}]}], ["Prototype: subscription and billing", {"p": "I built the subscription and billing flow as a coded prototype. The current plan card lifts and expands into a draggable carousel of plans, and the chosen plan lands back in billing with a new transaction.", "media": {"vid": "billing", "cap": "The plan card expands into a swipeable carousel, then settles back as the new plan."}}], ["The result", ["A focused MVP that supports consistent habits without overwhelming people.", "Stronger engagement through personalised routines and social accountability.", "A foundation that can grow into coaching, commerce and deeper AI insights.", "4AM Club positioned as a lifestyle and wellness platform, not just a habit tracker."]]]},
   {id:"lvl-up", name:"LVL UP", meta:"Mobile app", tagline:"A swipe-first learning app that turns education into short, bingeable lessons, powered by AI personalisation.",
    role:"UI/UX, mobile app and brand identity", time:"4 weeks", platform:"Mobile app", tools:"Figma, Claude, Paystack",
    github:"https://github.com/DhuniDesigns/lvl-up", demo:"https://dhunidesigns.github.io/Engineering-Playground/lvlup-onboarding/", shot:"heroLvl", vid:"pgLvl",
-   sections:[["Overview","LVL UP is built for bingeable courses. Lessons are short, vertical and stack like a social feed, so you take in one idea at a time, keep momentum with streaks and finish whole courses. An AI coach picks what you see next, turns highlights into flashcards and checks your understanding in seconds. Save clips, build playlists or follow guided Paths from beginner to confident."],
-             ["The challenge",["Traditional e-learning feels long, static and hard to finish.","Learners struggle to stay consistent without quick feedback or momentum.","Too much information at once hurts retention and motivation.","Personalising learning paths at scale without adding complexity."]],
-             ["The solution","Learning reimagined as swipe-first: content broken into short, focused lessons that keep you moving. Streaks and saved clips hold momentum, guided Paths give structure without rigidity, and the AI coach orders lessons, makes flashcards and runs quick knowledge checks."],
-             ["The result",["Higher engagement through short-form, feed-based learning.","Better course completion by reducing cognitive load.","Personalised learning journeys that don’t overwhelm.","A scalable foundation for more subjects, creators and AI-driven insights."]]]},
+   heroCap:"Choose a focus area, start your first short lesson, save clips to your Library and tap Community for feedback.",
+   sections:[["Overview", "LVL UP is built for bingeable courses. Lessons are short, vertical and stack like a social feed, so you take in one idea at a time, keep momentum with streaks and finish whole courses.\n\nAn AI coach picks what you see next, turns highlights into flashcards and checks your understanding in seconds. Save clips, build playlists or follow guided Paths from beginner to confident."], ["The challenge", ["Traditional e-learning feels long, static and hard to finish.", "Learners struggle to stay consistent without quick feedback or momentum.", "Too much information at once hurts retention and motivation.", "Personalising learning paths at scale without adding complexity."]], ["The solution", {"sub": [{"h": "Swipe-first lessons", "p": "Content is broken into short, focused lessons that keep you moving, one idea at a time."}, {"h": "Momentum you can see", "p": "Streaks and saved clips hold momentum, and guided Paths give structure without rigidity."}, {"h": "An AI coach in every lesson", "p": "The coach orders lessons, makes flashcards from highlights and runs quick knowledge checks."}]}], ["Prototype: onboarding", {"p": "I built the onboarding in code: lesson cards shuffle, an AI tutor writes a summary word by word, and the community orbits around the app icon.", "media": {"vid": "pgLvl", "cap": "Splash, card shuffle, streaming AI summary and the orbiting community."}}], ["The result", ["Higher engagement through short-form, feed-based learning.", "Better course completion by reducing cognitive load.", "Personalised learning journeys that don’t overwhelm.", "A scalable foundation for more subjects, creators and AI-driven insights."]]]},
   {id:"phoenix", name:"Phoenix", meta:"Mobile app and website", tagline:"BFF Journal: a calm, AI-assisted journaling and habit app that helps women grow intentionally through reflection, consistency and emotional awareness.",
    role:"Brand identity, mobile design, website design and content", time:"4 weeks", platform:"Mobile app and website", tools:"Figma, Framer", shot:"heroPhoenix",
-   sections:[["Overview","Phoenix is a self-growth and reflection app that supports women in building consistent habits, processing emotions and keeping intentional routines in a safe, private space. It brings guided journaling, mood logging and an AI companion together so people can reflect, stay consistent and grow at their own pace, without switching between apps for habits, notes and check-ins. It’s a gentle but structured companion: progress without pressure, clarity without overwhelm."],
-             ["The challenge",["Many habit and productivity apps feel rigid, overwhelming or performance-driven.","Traditional journaling apps lack guidance, so consistency is hard to keep.","People often struggle to reflect on emotions without prompts or structure.","Balancing emotional safety with actionable growth took careful tone and interaction design."]]]},
+   heroCap:"Focus on what matters every day, with gentle discipline.",
+   sections:[["Overview", "Phoenix (BFF Journal) is a self-growth and reflection app that supports women in building consistent habits, processing emotions and keeping intentional routines in a safe, private space.\n\nIt brings guided journaling, mood logging and an AI companion together, so people can reflect, stay consistent and grow at their own pace without switching between apps for habits, notes and check-ins. It’s a gentle but structured companion: progress without pressure, clarity without overwhelm."], ["The challenge", ["Many habit and productivity apps feel rigid, overwhelming or performance-driven.", "Traditional journaling apps lack guidance, so consistency is hard to keep.", "People often struggle to reflect on emotions without prompts or structure.", "Balancing emotional safety with actionable growth took careful tone and interaction design."]]]},
   {id:"out-and-about", name:"Out & About", meta:"Website", tagline:"A city guide to Abuja’s nights out: clubs, bars, comedy and cheap-drink spots in one place.",
    role:"Product design and brand direction", time:"5 weeks", platform:"Website and admin", tools:"Figma, Sanity",
    site:"https://out-and-about-delta.vercel.app", shot:"outabout", siteLabel:"Visit website",
-   sections:[["The problem","Abuja’s nightlife lives across scattered Instagram pages and word of mouth, so ‘what are we doing tonight?’ takes an hour of asking around."],
-             ["What I designed","Browsable categories, honest reviews with stickers and memes, meetup groups for bar-hopping, and an affordable-drinks finder."],
-             ["Brand","Flash photography, polaroids and flyer energy, in a voice that sounds like a friend asking ‘wya?’."]]},
+   heroCap:"The Out & About homepage: your city has more activities than you think.",
+   sections:[["The problem", "Abuja’s nightlife lives across scattered Instagram pages and word of mouth, so ‘what are we doing tonight?’ takes an hour of asking around."], ["What I designed", {"sub": [{"h": "Browse by what you’re in the mood for", "p": "Categories for clubs, bars, food, cafes and outdoors, right under the headline."}, {"h": "Reviews that sound like your friends", "p": "Honest reviews with stickers and memes instead of star ratings alone."}, {"h": "Go out together", "p": "Meetup groups for bar-hopping, and an affordable-drinks finder for nights on a budget."}]}], ["Brand", "Flash photography, polaroids and flyer energy, in a voice that sounds like a friend asking ‘wya?’."], ["How it was built", "I designed the product and brand in Figma; a developer friend built and shipped the site."]]},
 ];
 /* ---- builds: real things, grouped by the Builds page tabs ---- */
 const SELECTED=["sello","pixie"];
@@ -1225,6 +1233,13 @@ function workTab(t){
   if(t==="brand") return `<div class="col"><div class="empty-tab"><b>Brand identity work is on the way.</b><span>Logos, palettes and type systems for my projects will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
   return grid(BUILD_ITEMS[t]||BUILD_ITEMS.apps);
 }
+/* case-study sections: [heading, body]. body = text (blank line = new paragraph), a list of bullets,
+   or {p, list, media:{img|vid, cap}, sub:[{h, p, list, media}]} */
+const csText = t => t.split(/\n\n/).map(x=>`<p>${esc(x)}</p>`).join("");
+const csMedia = m => !m ? "" : `<figure class="cs-fig">${m.vid?`<div class="shot cs-vid"><video class="cv-hero" src="${VID[m.vid]}" poster="${POSTER[m.vid]}" muted loop playsinline autoplay aria-label="${esc(m.cap||"Prototype recording")}"></video></div>`:`<div class="shot cs-img"><img src="${IMG[m.img]}" alt="${esc(m.cap||"")}" loading="lazy"></div>`}${m.cap?`<figcaption>${esc(m.cap)}</figcaption>`:""}</figure>`;
+const csBody = b => typeof b==="string" ? csText(b) : Array.isArray(b) ? `<ul class="bullets cs-list">${b.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`
+  : `${b.p?csText(b.p):""}${b.list?csBody(b.list):""}${b.media?csMedia(b.media):""}${(b.sub||[]).map(x=>`<div class="cs-sub"><h3>${esc(x.h)}</h3>${x.p?csText(x.p):""}${x.list?csBody(x.list):""}${csMedia(x.media)}</div>`).join("")}`;
+const csSection = ([h,b]) => `<section class="block cs-sec"><h2>${esc(h)}</h2>${csBody(b)}</section>`;
 const grid = items => `<div class="grid wide">${items.map(card).join("")}</div>`;
 
 /* ---- products shown when you hover them in the bio ---- */
@@ -1331,17 +1346,12 @@ project(p){
   return `<div class="col">${crumb(p.name,["My work","#work/"+wt])}
     <h1>${esc(p.name)}</h1>
     <p class="lede">${esc(p.tagline)}</p>
-    <dl class="meta-grid">
-      <div><dt>Role</dt><dd>${esc(p.role)}</dd></div>
-      <div><dt>Timeline</dt><dd>${esc(p.time)}</dd></div>
-      <div><dt>Platform</dt><dd>${esc(p.platform)}</dd></div>
-      <div><dt>Tools</dt><dd>${esc(p.tools)}</dd></div>
-    </dl>
     ${links?`<div class="cs-links">${links}</div>`:""}
     <div class="cs">
-      <div class="shot">${hero}</div>${p.vid&&p.shot?`<div class="shot shot-vid"><video class="cv-hero" src="${VID[p.vid]}" poster="${POSTER[p.vid]}" muted loop playsinline autoplay aria-label="${esc(p.name)} prototype"></video></div>`:""}
-      ${p.sections.map(([h,t])=>`<section class="block"><p class="label">${esc(h)}</p>${Array.isArray(t)?`<ul class="bullets cs-list">${t.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:`<p>${esc(t)}</p>`}</section>`).join("")}
+      <figure class="cs-fig"><div class="shot">${hero}</div>${p.heroCap?`<figcaption>${esc(p.heroCap)}</figcaption>`:""}</figure>
+      ${p.sections.map(csSection).join("")}
       <div class="next"><hr class="rule"><a class="row" href="#${next.id}"><span class="meta">Next project</span><span class="name">${esc(next.name)} <span aria-hidden="true">→</span></span></a></div>
+      <section class="block cs-connect"><h2>Let’s talk</h2><p>Want to know more about ${esc(p.name)}, or work together? Reach me by <a class="u" href="mailto:${EMAIL}" data-mail>email</a> or on <a class="u" href="${LINKS.x}" target="_blank" rel="noopener">X</a>.</p></section>
     </div>
   </div>`;
 },
