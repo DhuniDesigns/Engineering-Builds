@@ -987,6 +987,31 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 /* shared-element flight from a Builds card into the details hero */
 img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;pointer-events:none;will-change:left,top,width,height}
 .cs .shot.landing{visibility:hidden}
+
+/* v36: My work tabs, app screenshots, empty tab, lightbox */
+.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-inline:-4px;padding-inline:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{white-space:nowrap;flex:none}
+.tab-intro{margin-top:32px}
+.tab-intro + .grid{margin-top:32px}
+.shots-grid{columns:2;column-gap:16px;margin:50px auto 0;width:min(1000px,calc(100vw - 32px))}
+.ss{display:block;width:100%;break-inside:avoid;margin:0 0 16px;padding:12px 12px 14px;border-radius:20px;background:var(--surface);text-align:left;cursor:zoom-in;transition:transform .2s ease-out}
+.ss img{display:block;width:100%;height:auto;border-radius:12px;background:#fff}
+.ss .row{margin-top:12px;padding-inline:4px}
+.ss .row .name{font-size:15px}.ss .row .meta{font-size:13px}
+@media (hover:hover){.ss:hover{transform:translateY(-3px)}}
+.ss:active{transform:scale(.985)}
+@media (max-width:640px){.shots-grid{columns:1;margin-top:32px}.ss{border-radius:16px;padding:10px 10px 12px}}
+.empty-tab{margin-top:40px;padding:48px 24px;border-radius:20px;background:var(--surface);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.empty-tab b{color:var(--fg);font-weight:500}
+.empty-tab span{font-size:15px;max-width:34ch}
+.empty-tab a{margin-top:8px;font-size:15px}
+.lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:rgba(8,8,8,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .25s;cursor:zoom-out}
+.lightbox.on{opacity:1}
+.lightbox img{max-width:min(1400px,100%);max-height:calc(100vh - 110px);width:auto;height:auto;border-radius:14px;scale:.96;transition:scale .35s cubic-bezier(.23,1,.32,1)}
+.lightbox.on img{scale:1}
+.lb-cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;color:#ddd;font-size:14px}
+.lb-x{position:absolute;top:16px;right:18px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:24px;line-height:1}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1056,7 +1081,7 @@ const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
-const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp" };
+const IMG={ sello:"img/sello.webp", pixie:"img/pixie.webp", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp" };
 
 /* ---- selected works: each has its own detail page ---- */
 const projects = [
@@ -1125,8 +1150,23 @@ const BUILD_ITEMS={
 const builds = [
   {name:"Websites", meta:"Framer & Claude", tab:"websites"},
   {name:"Apps", meta:"Figma & Claude", tab:"apps"},
-  {name:"Design system", meta:"Figma & Claude", tab:"design-systems"},
-  {name:"Brand Identity", meta:"Coming soon", soon:true},
+  {name:"Playground", meta:"Motion studies", tab:"playground"},
+  {name:"App screenshots", meta:"UI screens", tab:"screens"},
+  {name:"Brand identity", meta:"Coming soon", tab:"brand", soon:true},
+];
+/* app screenshots: shown at their own proportions, tap to open full size */
+const SCREENS=[
+  {name:"Travel and hotels", meta:"Mobile app", img:"ssTravel"},
+  {name:"Ride dispatch", meta:"Tablet dashboard", img:"ssRideL"},
+  {name:"Ride dispatch", meta:"Dark mode", img:"ssRideD"},
+  {name:"AOT", meta:"Market intelligence dashboard", img:"ssAotD"},
+  {name:"AOT", meta:"Mobile app", img:"ssAotP"},
+  {name:"Football AI", meta:"AI chat app", img:"ssFootball"},
+  {name:"Task board", meta:"Project dashboard", img:"ssTasks"},
+  {name:"News app", meta:"Mobile reader", img:"ssNews"},
+  {name:"Wallet", meta:"Light and dark", img:"ssWallet"},
+  {name:"Help and feedback", meta:"Menu and form", img:"ssHelp"},
+  {name:"Delete account", meta:"Destructive modal", img:"ssDelete"},
 ];
 const PG_LIVE="https://dhunidesigns.github.io/Engineering-Playground/", PG_SRC="https://github.com/DhuniDesigns/Engineering-Playground/tree/main/";
 const PLAY=[
@@ -1159,14 +1199,15 @@ const jobs = [
 ];
 const SKILLS=[["Design",["Product design","UX research","Interaction design","Design systems","Tokens and theming","Prototyping","Brand identity"]],
               ["Build",["HTML and CSS","JavaScript","Motion and micro-interactions","AI-assisted workflows"]]];
-const tabs = [["websites","Websites"],["apps","Apps"],["design-systems","Design Systems"]];
+const tabs = [["websites","Websites"],["apps","Apps"],["playground","Playground"],["screens","App screenshots"],["brand","Brand identity"]];
+const WORK_TABS=tabs.map(t=>t[0]);
 let activeTab = "websites";
 
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 const row = (name, meta, href, soon) => href
   ? `<li><a class="row" href="${href}"><span class="name">${esc(name)}</span><span class="meta${soon?" soon":""}">${esc(meta)}</span></a></li>`
   : `<li><div class="row"><span class="name">${esc(name)}</span><span class="meta${soon?" soon":""}">${esc(meta)}</span></div></li>`;
-const crumb = here => `<div class="crumb"><a href="#home">Home</a> / <span class="fg">${esc(here)}</span></div>`;
+const crumb = (here,mid) => `<div class="crumb"><a href="#home">Home</a> / ${mid?`<a href="${mid[1]}">${esc(mid[0])}</a> / `:""}<span class="fg">${esc(here)}</span></div>`;
 const dot = `<span class="dot" aria-hidden="true"></span>`;
 const contactLinks = `<span class="links"><a class="hl" style="--c:#3ddc84" href="#resume">Resume</a>${dot}<a class="hl" style="--c:#5b9dff" href="mailto:${EMAIL}" data-mail>Email</a></span>`;
 const lyric = (text,id) => `<span class="sel"${id?` id="${id}"`:""} aria-label="${text}">${[...text].map((ch,i)=>`<span class="ch" aria-hidden="true" style="--i:${i}">${ch===" "?"&nbsp;":ch}</span>`).join("")}<i></i><i></i><i></i><i></i></span>`;
@@ -1176,6 +1217,12 @@ const ext = (href,label) => `<a class="pill-link" href="${href}" target="_blank"
 const card = it => { const out=/^https?:/.test(it.href);
   const media = it.vid ? `<video class="cv" src="${VID[it.vid]}" poster="${POSTER[it.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(it.name)} preview"></video>` : it.img ? `<img src="${IMG[it.img]}" alt="${esc(it.name)} preview" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
   return `<a class="card" href="${it.href}"${out?' target="_blank" rel="noopener"':""}><span class="card-media">${media}</span><div class="row"><span class="name">${esc(it.name)}${out?' <span class="arr" aria-hidden="true">↗</span>':""}</span><span class="meta">${esc(it.meta)}</span></div></a>`; };
+function workTab(t){
+  if(t==="playground") return `<div class="col tab-intro"><p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p><div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div></div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#work/playground"})))}`;
+  if(t==="screens") return `<div class="shots-grid">${SCREENS.map((x,i)=>`<button class="ss" data-ss="${i}" aria-label="Open ${esc(x.name)}, ${esc(x.meta)}"><img src="${IMG[x.img]}" alt="${esc(x.name)} ${esc(x.meta)}" loading="lazy"><span class="row"><span class="name">${esc(x.name)}</span><span class="meta">${esc(x.meta)}</span></span></button>`).join("")}</div>`;
+  if(t==="brand") return `<div class="col"><div class="empty-tab"><b>Brand identity work is on the way.</b><span>Logos, palettes and type systems for my projects will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
+  return grid(BUILD_ITEMS[t]||BUILD_ITEMS.apps);
+}
 const grid = items => `<div class="grid wide">${items.map(card).join("")}</div>`;
 
 /* ---- products shown when you hover them in the bio ---- */
@@ -1245,7 +1292,7 @@ home(){
   return `<div class="col">
     <p class="crumb label" style="margin-top:80px"><span class="hello" id="hello" aria-label="Hello"><span>Hello</span></span></p>
     <div class="intro">
-      <p>I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code. I lead client products at a creative agency, from first sketch to launch, across fintech, AI, wellness and education.</p>
+      <p>I’m Hafsoh, a product designer in Lagos who designs in Figma and ships in code. I lead client products at a creative agency, from first sketch to launch, across fintech, AI, wellness and education. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a>: websites, apps, motion studies and app screens.</p>
       <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant for Instagram and TikTok sellers, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, which turns a brand idea into Figma variables.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles.</span>${contactLinks}</div>
     </div>
@@ -1254,11 +1301,8 @@ home(){
       <section class="block"><p class="label">Selected works</p>
         <ul class="list" data-peek>${SELECTED.map(id=>projects.find(p=>p.id===id)).map(p=>row(p.name,p.meta,"#"+p.id)).join("")}</ul></section>
       <hr class="rule">
-      <section class="block"><p class="label">Builds</p>
-        <ul class="list">${builds.map(b=>row(b.name,b.meta,b.tab?"#builds":null,b.soon).replace('href="#builds"',`href="#builds" data-tab="${b.tab}"`)).join("")}</ul></section>
-      <hr class="rule">
-      <section class="block"><div class="head"><p class="label">Playground</p><a class="u" href="#playground">see all</a></div>
-        <ul class="list">${PLAY.slice(0,3).map(x=>row(x.name,x.meta,"#playground")).join("")}</ul></section>
+      <section class="block"><div class="head"><p class="label">My work</p><a class="u" href="#work">see all</a></div>
+        <ul class="list">${builds.map(b=>row(b.name,b.meta,"#work/"+b.tab,b.soon)).join("")}</ul></section>
       <hr class="rule">
       <section class="block"><p class="label">Experience</p>
         <div class="jobs">${jobs.map(j=>`<div class="job"><div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><span class="role">${esc(j.role)} <span class="where">· ${esc(j.where)}</span></span></div><p>${esc(j.short)}</p></div>`).join("")}</div></section>
@@ -1272,23 +1316,17 @@ home(){
     </div>
   </div>`;
 },
-builds(){
-  return `<div class="col">${crumb("Builds")}
+work(){
+  return `<div class="col">${crumb("My work")}
     <div class="tabs" role="tablist">${tabs.map(([id,l])=>`<button class="tab" role="tab" data-set-tab="${id}" aria-selected="${id===activeTab}">${l}</button>`).join("")}</div>
-  </div><div id="build-grid">${grid(BUILD_ITEMS[activeTab])}</div>`;
-},
-playground(){
-  return `<div class="col">${crumb("Playground")}
-    <h1>Playground</h1>
-    <p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p>
-    <div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div>
-  </div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#playground"})))}`;
+  </div><div id="build-grid">${workTab(activeTab)}</div>`;
 },
 project(p){
   const order = SELECTED.includes(p.id) ? SELECTED.map(id=>projects.find(x=>x.id===id)) : projects, i = order.indexOf(p), next = order[(i+1)%order.length];
   const hero = (p.vid && !p.shot) ? `<video class="cv-hero" src="${VID[p.vid]}" poster="${POSTER[p.vid]}" muted loop playsinline autoplay aria-label="${esc(p.name)} prototype"></video>` : p.shot ? `<img src="${IMG[p.shot]}" alt="${esc(p.name)} preview">` : ART[p.id];
   const links = [p.site&&ext(p.site,p.siteLabel||"Visit website"), p.demo&&ext(p.demo,"Try the demo"), p.github&&ext(p.github,"GitHub")].filter(Boolean).join("");
-  return `<div class="col">${crumb(p.name)}
+  const wt = BUILD_ITEMS.websites.some(x=>x.href==="#"+p.id) ? "websites" : "apps";
+  return `<div class="col">${crumb(p.name,["My work","#work/"+wt])}
     <h1>${esc(p.name)}</h1>
     <p class="lede">${esc(p.tagline)}</p>
     <dl class="meta-grid">
@@ -1463,24 +1501,36 @@ function initReel(){
 document.addEventListener("visibilitychange",()=>{ document.querySelectorAll("#reel video").forEach(v=>{ if(document.hidden) v.pause(); }); });
 
 const app = document.getElementById("app");
+let lastRoute=null, pendingY=null;
+try{ history.scrollRestoration="manual"; }catch(_){}
 function render(){
-  const id = (location.hash||"#home").slice(1) || "home";
+  let h=(location.hash||"#home").slice(1)||"home";
+  if(h==="builds"||h==="playground"){ const nh="#work/"+(h==="playground"?"playground":activeTab); history.replaceState(history.state,"",nh); h=nh.slice(1); }
+  let id=h; if(h==="work"||h.startsWith("work/")){ const t=h.split("/")[1]; if(WORK_TABS.includes(t)) activeTab=t; id="work"; }
+  lastRoute=location.hash;
   const p = projects.find(x=>x.id===id);
   const html = p ? views.project(p) : (views[id]||views.home)();
   app.innerHTML = `<div class="view">${html}</div>`;
+  const y=pendingY; pendingY=null;
   window.scrollTo({top:0});
+  if(y) requestAnimationFrame(()=>{ window.scrollTo({top:y}); requestAnimationFrame(()=>window.scrollTo({top:y})); });
   // stagger the page in, block by block
   let i=0; app.querySelectorAll(".view > .col > *, .view > .grid > *, .sections > *, .intro > *, .cs > *").forEach(el=>{
     if(el.matches(".sections,.intro,.cs")) return;
     el.classList.add("rise"); el.style.setProperty("--i", Math.min(i++,14)); });
   initTabs(); initHello(); hidePeek();
   if(!document.documentElement.hasAttribute("data-booting")) document.querySelectorAll(".sel").forEach((el,k)=>setTimeout(()=>el.classList.add("on"),900+k*260));
-  document.title = p ? `${p.name} · Dhuni Designs` : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
+  document.title = p ? `${p.name} · Dhuni Designs` : id==="work" ? "My work · Dhuni Designs" : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
   initStrip(); initReel(); initGlide(); initVideos();
   mountStickers();
   loadCovers();
 }
-window.addEventListener("hashchange", ()=>{ sfx.page(); render(); });
+/* routing: remember where you were on each page, so Back lands you there again */
+function route(){ if(location.hash===lastRoute) return; sfx.page(); render(); }
+window.addEventListener("hashchange", route);
+window.addEventListener("popstate",e=>{ document.querySelectorAll("img.fly").forEach(g=>g.remove()); pendingY=(e.state&&e.state.y)||0; route(); });
+document.addEventListener("click",e=>{ const a=e.target.closest('a[href^="#"]'); if(!a||e.metaKey||e.ctrlKey) return;
+  try{ history.replaceState({...(history.state||{}),y:scrollY},""); }catch(_){} },true);
 /* Builds → details: the card's preview lifts off and lands as the page's hero (shared-element morph) */
 document.addEventListener("click",e=>{
   const card=e.target.closest("a.card"); if(!card||e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||e.button!==0) return;
@@ -1493,7 +1543,7 @@ document.addEventListener("click",e=>{
   const ghost=src.cloneNode(); ghost.removeAttribute("loading"); ghost.className="fly";
   Object.assign(ghost.style,{left:from.left+"px",top:from.top+"px",width:from.width+"px",height:from.height+"px",borderRadius:fromR});
   document.body.appendChild(ghost);
-  history.pushState(null,"",href); sfx.page(); render();
+  history.pushState({y:0},"",href); sfx.page(); render();
   const shot=document.querySelector(".cs .shot"); const tgt=shot&&shot.querySelector("img,video");
   if(!shot){ ghost.remove(); return; }
   shot.classList.add("landing"); shot.classList.remove("rise");
@@ -1508,7 +1558,7 @@ document.addEventListener("click",e=>{
     anim.onfinish=done; anim.oncancel=done;
   });
 });
-window.addEventListener("popstate",()=>{ document.querySelectorAll("img.fly").forEach(g=>g.remove()); render(); });
+
 
 /* Builds: pill slides to the chosen tab */
 function moveInd(instant){
@@ -1561,14 +1611,22 @@ function loop(){
   raf = (peekOn||Math.abs(tx-px)>.5) ? requestAnimationFrame(loop) : 0;
 }
 
+/* app screenshot lightbox */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-ss]"); if(b){ const x=SCREENS[+b.dataset.ss]; const lb=document.createElement("div"); lb.className="lightbox"; lb.setAttribute("role","dialog"); lb.setAttribute("aria-label",x.name);
+    lb.innerHTML=`<img src="${IMG[x.img]}" alt="${esc(x.name)} ${esc(x.meta)}"><span class="lb-cap">${esc(x.name)} · ${esc(x.meta)}</span><button class="lb-x" aria-label="Close">×</button>`;
+    document.body.appendChild(lb); requestAnimationFrame(()=>lb.classList.add("on")); sfx.click(); return; }
+  const lb=e.target.closest(".lightbox"); if(lb){ lb.classList.remove("on"); setTimeout(()=>lb.remove(),250); }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") document.querySelectorAll(".lightbox").forEach(l=>{l.classList.remove("on");setTimeout(()=>l.remove(),250);}); });
 /* clicks: tabs, email copy, pdf, sound ticks */
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-tab]"); if(t) activeTab = t.dataset.tab;
   const st = e.target.closest("[data-set-tab]");
   if(st){ if(st.getAttribute("aria-selected")==="true") return;
     activeTab = st.dataset.setTab; document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b===st));
     moveInd(); sfx.tab();
-    const bg=document.getElementById("build-grid"); if(bg){ bg.innerHTML=grid(BUILD_ITEMS[activeTab]); initVideos(); }
+    const bg=document.getElementById("build-grid"); if(bg){ bg.innerHTML=workTab(activeTab); initVideos(); }
+    history.replaceState({y:0},"","#work/"+activeTab); lastRoute=location.hash;
     document.querySelectorAll(".grid > *").forEach((c,k)=>{c.classList.remove("rise");c.offsetWidth;c.style.setProperty("--i",k);c.classList.add("rise");});
     return; }
   const em=e.target.closest("[data-copy-email]"); if(em){ copyEmail(em); return; }
