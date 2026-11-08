@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sello Inbox</title>
+<meta name="description" content="Sello's main feature: an AI replies to your DMs, shows why it said what it said, and lets you fix a wrong reply in two taps. Designed and built by Hafsoh Bashar.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f9f9f9; --card:#fff; --line:#efefef; --ink:#111; --ink2:#171717; --mute:#6b6b70; --mute2:#8a8a8a;
+  --brand:#f3642a; --brand2:#f66c34; --brandBg:#fee9e1; --brandLine:#f9b79c; --blue:#437eed;
+  --pill:#f0f0f0; --red:#f81e1e; --redBg:#ffe9e5; --redLine:#ffc2c2;
+  --ease:cubic-bezier(.32,.72,0,1); --spring:cubic-bezier(.34,1.4,.64,1);
+  --page:#e9e7e4; --pageInk:#1b1b1b; --pageMute:#6d6a66;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#141312;--pageInk:#f2efe9;--pageMute:#9b968f}}
+:root[data-theme="dark"]{--page:#141312;--pageInk:#f2efe9;--pageMute:#9b968f}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--page);font-family:Inter,system-ui,sans-serif;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:64px;padding:24px 16px;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit;border:0;outline:0;background:none}
+.bri{font-family:"Bricolage Grotesque",Inter,sans-serif}
+
+/* ---------- page caption ---------- */
+.side{max-width:300px;color:var(--pageInk)}
+.side .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);font-weight:600}
+.side h1{font-family:"Bricolage Grotesque",Inter,system-ui,sans-serif;font-weight:600;font-size:40px;line-height:1.02;margin:10px 0 14px;letter-spacing:-.02em}
+.side p{color:var(--pageMute);font-size:14px;line-height:1.55}
+.side ol{list-style:none;margin:22px 0 0;display:grid;gap:10px;counter-reset:s}
+.side li{counter-increment:s;display:flex;gap:10px;font-size:13.5px;line-height:1.45;color:var(--pageInk)}
+.side li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:7px;background:var(--brand);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;margin-top:-1px}
+.side .by{margin-top:26px;font-size:12px;color:var(--pageMute)}
+.side .by a{color:inherit}
+.side .reset{margin-top:14px;font-size:12px;color:var(--pageInk);border:1px solid color-mix(in srgb,var(--pageInk) 20%,transparent);border-radius:999px;padding:7px 12px}
+
+/* ---------- device ---------- */
+.device{--s:1;width:417px;height:876px;flex:none;border-radius:64px;background:#0d0d0d;padding:12px;box-shadow:0 0 0 2px #2a2a2a inset,0 40px 80px -30px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.2);transform:scale(var(--s));transform-origin:center;position:relative}
+.device::before{content:"";position:absolute;right:-3px;top:180px;width:3px;height:90px;border-radius:0 3px 3px 0;background:#1d1d1d}
+.device::after{content:"";position:absolute;left:-3px;top:150px;width:3px;height:56px;border-radius:3px 0 0 3px;background:#1d1d1d;box-shadow:0 80px 0 #1d1d1d}
+.screen{position:relative;width:393px;height:852px;border-radius:52px;overflow:hidden;overflow:clip;background:var(--bg);isolation:isolate}
+.island{position:absolute;top:11px;left:50%;translate:-50% 0;width:122px;height:35px;border-radius:20px;background:#000;z-index:60}
+.status{position:absolute;inset:0 0 auto;height:54px;display:flex;align-items:center;justify-content:space-between;padding:4px 34px 0 46px;font-weight:600;font-size:16px;z-index:55;pointer-events:none}
+.status .ic{display:flex;gap:6px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;translate:-50% 0;width:134px;height:5px;border-radius:3px;background:#111;z-index:70;pointer-events:none}
+@media (max-width:520px){
+  body{padding:0;gap:0;display:block}
+  .side{display:none}
+  .device{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none;transform:none;background:var(--bg)}
+  .device::before,.device::after,.island,.status,.homebar{display:none}
+  .screen{width:100%;height:100%;border-radius:0}
+  .view{padding-top:env(safe-area-inset-top)}
+}
+
+/* ---------- views ---------- */
+.view{position:absolute;inset:0;padding-top:54px;display:flex;flex-direction:column;background:var(--bg);transition:transform .46s var(--ease),filter .46s var(--ease)}
+#chat{transform:translateX(100%);z-index:5;box-shadow:-20px 0 40px -20px rgba(0,0,0,.12)}
+.screen.in-chat #chat{transform:none}
+.screen.in-chat #inbox{transform:translateX(-22%);filter:brightness(.94)}
+
+/* inbox header */
+.hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 6px;height:58px}
+.hd h2{font-family:"Bricolage Grotesque",Inter,system-ui,sans-serif;font-weight:600;font-size:24px;letter-spacing:-.01em}
+.ibtn{width:40px;height:40px;border-radius:999px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;transition:transform .15s}
+.ibtn:active{transform:scale(.92)}
+.search{position:relative;flex:1;display:flex;align-items:center;justify-content:flex-end}
+.search .field{position:absolute;right:0;height:40px;width:40px;border-radius:999px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;overflow:hidden;transition:width .4s var(--ease)}
+.search.open .field{width:100%}
+.search .field input{flex:1;min-width:0;padding:0 4px 0 14px;font-size:14px;opacity:0;transition:opacity .2s}
+.search.open .field input{opacity:1}
+.search:not(.open) .field input{flex:0 0 0;padding:0;width:0}
+.search .sbtn{flex:none;width:38px;height:38px;display:grid;place-items:center}
+.hd h2{transition:opacity .2s}
+.hd.searching h2{opacity:0}
+
+.tabs{position:relative;display:flex;margin:0 16px;border-bottom:1px solid #e9e9e9}
+.tabs button{flex:1;height:40px;font-size:13px;color:var(--mute2);transition:color .2s}
+.tabs button[aria-selected="true"]{color:var(--brand);font-weight:500}
+.tabs .bar{position:absolute;bottom:-1px;left:0;width:50%;height:2px;background:var(--brand);border-radius:2px;transition:transform .4s var(--ease)}
+.tabs.orders .bar{transform:translateX(100%)}
+
+.pills{display:flex;gap:6px;padding:12px 16px 10px}
+.pills button{flex:1;height:30px;border-radius:999px;background:var(--pill);font-size:11px;color:#9a9a9a;white-space:nowrap;transition:background .2s,color .2s,box-shadow .2s}
+.pills button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px var(--line)}
+.pills .n{display:inline-block;min-width:1ch}
+.pills .n.bump{animation:bump .5s var(--spring)}
+@keyframes bump{40%{transform:scale(1.4);color:var(--brand)}}
+
+.list{flex:1;overflow-y:auto;padding:0 16px 110px;scrollbar-width:none}
+.list::-webkit-scrollbar{display:none}
+.card{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;margin-bottom:8px;transition:transform .15s,box-shadow .2s;animation:rise .4s var(--ease) both}
+.card:active{transform:scale(.985)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+.card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.badge{font-size:10px;font-weight:500;padding:3px 6px;border-radius:6px;background:rgba(199,199,199,.2);color:var(--brand);transition:color .3s}
+.badge.replied{color:var(--blue)}
+.time{font-size:11px;color:rgba(17,17,17,.5)}
+.who{display:flex;gap:10px;align-items:center}
+.av{width:40px;height:40px;border-radius:999px;object-fit:cover;flex:none;background:#eee}
+.who b{display:block;font-weight:500;font-size:14px;color:var(--ink)}
+.who span{display:block;font-size:12px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px}
+.empty{text-align:center;color:var(--mute2);font-size:13px;padding:60px 20px}
+mark{background:#ffe1d3;color:inherit;border-radius:3px}
+
+/* orders */
+.ord .top{margin-bottom:6px}
+.chip{font-size:10px;color:#555;background:var(--pill);border-radius:6px;padding:3px 7px}
+.ord .dots{width:28px;height:28px;margin:-6px -6px -6px 0;display:grid;place-items:center;border-radius:8px}
+.ord .row{display:flex;justify-content:space-between;align-items:baseline}
+.ord .row b{font-weight:500;font-size:14px}
+.ord .row strong{font-weight:600;font-size:15px}
+.ord .it{font-size:12px;color:var(--mute);margin-top:3px}
+.ord .mt{font-size:11px;color:var(--mute2);margin-top:3px}
+.ord .act{margin-top:10px;width:100%;height:32px;border-radius:999px;background:#111;color:#fff;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s,background .3s}
+.ord .act:active{transform:scale(.97)}
+.ord .act.done{background:#e8f4ec;color:#1f8a4c}
+.ord.flash{animation:flash 1.4s ease}
+@keyframes flash{0%,60%{box-shadow:0 0 0 2px var(--brand)}}
+
+/* nav */
+.nav{position:absolute;left:50%;bottom:26px;translate:-50% 0;width:188px;height:50px;border-radius:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-around;padding:0 8px;z-index:4}
+.nav button{width:38px;height:38px;border-radius:999px;display:grid;place-items:center;color:#fff;opacity:.9;transition:transform .15s}
+.nav button:active{transform:scale(.9)}
+.nav button.on{background:#fff;color:#111;opacity:1}
+
+/* chat */
+.ch{display:flex;align-items:center;gap:10px;padding:10px 16px;height:62px}
+.ch .back{border-radius:12px}
+.ch .av{width:34px;height:34px}
+.ch .nm{flex:1;min-width:0}
+.ch .nm b{display:block;font-family:"Bricolage Grotesque",Inter,system-ui,sans-serif;font-weight:600;font-size:16px}
+.ch .nm span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mute2);margin-top:1px}
+.ch .nm .dot{width:6px;height:6px;border-radius:9px;background:var(--brand);display:none}
+.ch.paused .nm .dot{display:block}
+.msgs{flex:1;overflow-y:auto;padding:8px 16px 16px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{display:none}
+.m{max-width:78%;animation:pop .32s var(--ease) both}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}}
+.m.c{align-self:flex-start;transform-origin:left bottom}
+.m.s,.m.me{align-self:flex-end;transform-origin:right bottom}
+.bub{font-size:14px;line-height:18px;padding:11px 13px;border-radius:16px;white-space:pre-line}
+.c .bub{background:#fff;color:var(--ink2);border:1px solid var(--line);border-bottom-left-radius:5px}
+.s .bub{background:var(--brandBg);color:var(--brand);border:1px solid var(--brandLine);border-bottom-right-radius:5px;transition:opacity .3s}
+.me .bub{background:#1d1d1d;color:#fff;border-bottom-right-radius:5px}
+.lbl{display:flex;justify-content:flex-end;align-items:baseline;gap:4px;font-size:12px;color:var(--ink);margin-bottom:5px}
+.lbl small{font-size:10px;color:var(--mute2)}
+.lbl em{font-style:normal;color:var(--brand)}
+.why{display:block;margin:6px 0 0 auto;font-size:12px;color:var(--brand);text-decoration:underline;text-underline-offset:2px;padding:2px 0}
+.att{display:flex;align-items:center;gap:4px;margin-top:2px}
+.s.fixed .bub{opacity:.6}
+.seg.x{text-decoration:line-through;text-decoration-thickness:1.5px}
+.seg.hl{background:rgba(243,100,42,.14);border-radius:4px;box-shadow:0 0 0 2px rgba(243,100,42,.14)}
+.sys{align-self:center;font-size:11px;color:var(--mute2);background:#f0f0f0;border-radius:999px;padding:5px 10px;animation:pop .3s var(--ease) both}
+.typing{align-self:flex-end;background:var(--brandBg);border:1px solid var(--brandLine);border-radius:16px 16px 5px 16px;padding:12px 14px;display:flex;gap:4px;animation:pop .25s var(--ease) both}
+.typing i{width:6px;height:6px;border-radius:9px;background:var(--brand);opacity:.35;animation:dot 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{30%{opacity:1;transform:translateY(-3px)}}
+
+.foot{padding:0 16px 30px;display:grid;gap:8px}
+.handoff{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:#f0f0f0;border:1px dashed #e0e0e0;border-radius:16px;padding:12px 14px;font-size:13px;color:#333;transition:transform .15s}
+.handoff:active{transform:scale(.98)}
+.handoff span{flex:1}
+.handoff .go{font-size:12px;color:var(--brand);font-weight:500;white-space:nowrap}
+.handoff.out{animation:out .35s var(--ease) forwards}
+@keyframes out{to{opacity:0;transform:translateY(10px);height:0;padding:0;margin:-8px 0 0;border-width:0}}
+.paused-note{font-size:12px;color:var(--mute);text-align:center}
+.composer{background:#fff;border-radius:20px;padding:12px 12px 10px;box-shadow:0 0 0 1px var(--line)}
+.composer input{width:100%;font-size:14px;padding:2px 2px 12px}
+.composer input::placeholder{color:#a3a3a3}
+.composer .tools{display:flex;align-items:center;gap:6px}
+.composer .tools .sp{flex:1}
+.tbtn{width:32px;height:32px;border-radius:999px;display:grid;place-items:center;color:#333;transition:transform .15s}
+.tbtn:active{transform:scale(.9)}
+.send{background:#1d1d1d;color:#fff}
+
+/* overlay + sheet */
+.scrim{position:absolute;inset:0;z-index:20;background:rgba(45,45,45,.1);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:16px;right:16px;bottom:24px;z-index:21;background:#fff;border-radius:24px;padding:22px 16px 16px;box-shadow:0 20px 50px -10px rgba(0,0,0,.18);transform:translateY(calc(100% + 40px));transition:transform .46s var(--ease),height .34s var(--ease);overflow:hidden;touch-action:none}
+.sheet.on{transform:none}
+.sheet.drag{transition:none}
+.grab{position:absolute;top:8px;left:50%;translate:-50% 0;width:36px;height:4px;border-radius:4px;background:#bababa}
+.sh-h{display:flex;align-items:flex-start;gap:10px}
+.sh-h h3{flex:1;font-family:"Bricolage Grotesque",Inter,system-ui,sans-serif;font-weight:600;font-size:17px;line-height:1.2}
+.sh-h .x,.sh-h .bk{width:28px;height:28px;border-radius:999px;display:grid;place-items:center;margin:-3px -4px 0 0;transition:background .2s}
+.sh-h .bk{margin:-3px 0 0 -6px}
+.sh-h .x:hover,.sh-h .bk:hover{background:#f3f3f3}
+.sub{font-size:12px;line-height:1.45;color:var(--mute2);margin-top:4px}
+.step{animation:stepIn .32s var(--ease) both}
+.step.back{animation-name:stepBack}
+@keyframes stepIn{from{opacity:0;transform:translateX(24px)}}
+@keyframes stepBack{from{opacity:0;transform:translateX(-24px)}}
+.src{display:grid;gap:4px;margin:16px 0}
+.srow{display:flex;align-items:center;gap:10px;padding:6px 0}
+.tile{width:32px;height:32px;border-radius:9px;background:#f9f9f9;display:grid;place-items:center;flex:none}
+.tile img{width:22px;height:22px;object-fit:contain}
+.srow .tx{flex:1;min-width:0}
+.srow b{display:block;font-weight:500;font-size:13px}
+.srow small{display:block;font-size:11px;color:var(--mute2);margin-top:2px}
+.view-l{font-size:12px;color:var(--brand);text-decoration:underline;text-underline-offset:2px;padding:4px}
+.detail{margin:-2px 0 4px 42px;background:#fafafa;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;display:grid;gap:6px;animation:rise .3s var(--ease) both}
+.detail .r{display:flex;justify-content:space-between;color:var(--mute)}
+.detail .r b{font-weight:500;color:var(--ink)}
+.detail .r.me b{color:var(--brand)}
+.btns{display:flex;gap:8px}
+.b{flex:1;height:40px;border-radius:999px;font-size:13px;font-weight:500;transition:transform .15s,opacity .2s}
+.b:active{transform:scale(.97)}
+.b.fix{background:var(--redBg);border:1px solid var(--redLine);color:var(--red)}
+.b.dark{background:#111;color:#fff}
+.b:disabled{opacity:.3;pointer-events:none}
+.opts{display:grid;gap:8px;margin:16px 0}
+.opt{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;text-align:left;background:#f0f0f0;border-radius:14px;padding:8px 10px;transition:background .2s,box-shadow .2s}
+.opt[aria-checked="true"]{background:#fff4ef;box-shadow:0 0 0 1px #fbc9b3 inset}
+.radio{width:28px;height:28px;border-radius:8px;background:#fff;display:grid;place-items:center;flex:none}
+.radio i{width:18px;height:18px;border-radius:99px;border:1.5px solid #d4d4d4;display:grid;place-items:center;transition:all .25s var(--spring)}
+.opt[aria-checked="true"] .radio i{background:var(--brand2);border-color:var(--brand2)}
+.radio svg{opacity:0;transform:scale(.4);transition:all .25s var(--spring)}
+.opt[aria-checked="true"] .radio svg{opacity:1;transform:none}
+.opt b{display:block;font-weight:500;font-size:13px}
+.opt small{display:block;font-size:11px;color:var(--mute2);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.chips button{height:36px;padding:0 14px;border-radius:999px;background:#f0f0f0;font-size:13px;transition:all .2s}
+.chips button[aria-pressed="true"]{background:#111;color:#fff}
+.money{display:flex;align-items:center;gap:6px;margin:16px 0;height:50px;border-radius:14px;background:#f0f0f0;padding:0 14px;font-size:18px;font-weight:600;box-shadow:0 0 0 1px transparent inset;transition:box-shadow .2s}
+.money:focus-within{box-shadow:0 0 0 1.5px var(--brand2) inset;background:#fff}
+.money input{flex:1;font-weight:600;font-size:18px}
+.money input.txt{font-size:14px;font-weight:500}
+.preview{background:var(--brandBg);border:1px solid var(--brandLine);color:var(--brand);border-radius:14px 14px 5px 14px;padding:10px 12px;font-size:13px;line-height:1.4;margin-bottom:14px}
+.preview small{display:block;color:var(--mute2);font-size:10px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.receipt{margin:16px 0 12px;border-radius:16px;background:linear-gradient(160deg,#16351f,#0d2416);color:#e8fff0;padding:16px;position:relative;overflow:hidden}
+.receipt::after{content:"";position:absolute;inset:auto -20px -50px auto;width:140px;height:140px;border-radius:50%;background:rgba(80,220,130,.12)}
+.receipt .ok{display:flex;align-items:center;gap:8px;font-size:12px;color:#8cf0b0}
+.receipt .amt{font-family:"Bricolage Grotesque",Inter,system-ui,sans-serif;font-size:30px;font-weight:600;margin:6px 0 10px}
+.receipt .r{display:flex;justify-content:space-between;font-size:11px;color:#b9d8c4;padding:3px 0}
+.receipt .r b{font-weight:500;color:#fff}
+.match{display:flex;align-items:center;gap:8px;font-size:12px;color:#1f8a4c;background:#ecf8f0;border-radius:12px;padding:9px 12px;margin-bottom:14px}
+
+/* menu */
+.menu{position:absolute;top:110px;right:16px;z-index:22;width:212px;background:#fff;border-radius:12px;padding:6px;display:grid;gap:4px;box-shadow:0 18px 40px -12px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.04);transform-origin:top right;transform:scale(.85);opacity:0;pointer-events:none;transition:transform .28s var(--spring),opacity .2s}
+.menu.on{transform:none;opacity:1;pointer-events:auto}
+.menu button{display:flex;align-items:center;gap:10px;text-align:left;height:40px;padding:0 12px;border-radius:8px;background:#f0f0f0;font-size:13px;transition:background .15s}
+.menu button:hover{background:#e8e8e8}
+.mscrim{position:absolute;inset:0;z-index:21;display:none}
+.mscrim.on{display:block}
+
+/* toast */
+.toast{position:absolute;left:50%;bottom:30px;z-index:40;width:315px;translate:-50% 0;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 12px;border-radius:16px;background:linear-gradient(180deg,#fff,#efeded);border:1px solid #fdd0be;box-shadow:0 14px 30px -12px rgba(0,0,0,.25);transform:translateY(140%);opacity:0;transition:transform .45s var(--spring),opacity .25s;overflow:hidden}
+.toast.on{transform:none;opacity:1}
+.toast .ck{width:24px;height:24px;border-radius:99px;background:var(--brand2);display:grid;place-items:center;flex:none}
+.toast p{flex:1;font-size:12px;line-height:1.35;color:#222}
+.toast .u{height:28px;padding:0 12px;border-radius:999px;background:#bababa;color:#fff;font-size:11px;font-weight:600;transition:background .2s}
+.toast .u:hover{background:#9d9d9d}
+.toast .bar{position:absolute;left:0;bottom:0;height:2px;background:var(--brand2);width:100%;transform-origin:left}
+.toast.on .bar{animation:tbar var(--d,5s) linear forwards}
+@keyframes tbar{to{transform:scaleX(0)}}
+
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<aside class="side">
+  <div class="k">Sello · main feature</div>
+  <h1>Fix a reply in two taps</h1>
+  <p>Sello answers your Instagram and TikTok DMs. When it gets something wrong, you see exactly where the answer came from, fix the source, and Sello tells the customer for you.</p>
+  <ol>
+    <li><span>Open Chioma's chat and tap <b>Why?</b> under Sello's first reply.</span></li>
+    <li><span>Tap <b>Fix this</b>, pick what's wrong, then say what's right.</span></li>
+    <li><span>Watch Sello correct itself. Hit <b>Undo</b> if you change your mind.</span></li>
+    <li><span>Tap the grey banner to check her payment and confirm the order.</span></li>
+  </ol>
+  <button class="reset" id="reset">Start over</button>
+  <div class="by">Designed and built by <a href="https://dhuni-designs.vercel.app" target="_blank" rel="noopener">Hafsoh Bashar</a></div>
+</aside>
+
+<div class="device" id="device">
+ <div class="screen" id="screen">
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="ic">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#111"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#111"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#111"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#111"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2.6c2.2 0 4.2.8 5.7 2.2l1.1-1.1A9.6 9.6 0 0 0 8 1 9.6 9.6 0 0 0 1.2 3.7l1.1 1.1A8.1 8.1 0 0 1 8 2.6Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1A6.4 6.4 0 0 0 8 4.2c-1.7 0-3.3.6-4.5 1.8l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5L8 11l1.3-1.5c-.3-.3-.8-.5-1.3-.5Z" fill="#111"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="#111" opacity=".4" fill="none"/><rect x="2" y="2" width="20" height="9" rx="2" fill="#111"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="#111" opacity=".5"/></svg>
+  </span></div>
+
+  <!-- INBOX -->
+  <section class="view" id="inbox" aria-label="Inbox">
+    <div class="hd" id="hd">
+      <h2>Inbox</h2>
+      <div class="search" id="search">
+        <div class="field"><input id="q" placeholder="Search names or messages" aria-label="Search"><button class="sbtn" id="sbtn" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div>
+      </div>
+    </div>
+    <div class="tabs" id="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="chats">Chats</button>
+      <button role="tab" aria-selected="false" data-tab="orders">Orders</button>
+      <i class="bar"></i>
+    </div>
+    <div class="pills" id="pills"></div>
+    <div class="list" id="list"></div>
+    <nav class="nav" aria-label="App">
+      <button data-nav aria-label="Home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/></svg></button>
+      <button class="on" aria-label="Inbox" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 13.5 6.5 6h11l2.5 7.5V18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 13.5h4.5l1 2h5l1-2H20"/></svg></button>
+      <button data-nav aria-label="Shop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 9h16l-1 11H5z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/></svg></button>
+      <button data-nav aria-label="Profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5" stroke-linecap="round"/></svg></button>
+    </nav>
+  </section>
+
+  <!-- CHAT -->
+  <section class="view" id="chat" aria-label="Chat">
+    <div class="ch" id="chHead">
+      <button class="ibtn back" id="back" aria-label="Back to inbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button>
+      <img class="av" id="chAv" alt="">
+      <div class="nm"><b id="chName"></b><span><i class="dot"></i><span id="chVia">Via Instagram</span></span></div>
+      <button class="ibtn" id="more" aria-label="Chat options" aria-haspopup="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="#111"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+    </div>
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="foot" id="foot">
+      <div id="handoffSlot"></div>
+      <form class="composer" id="composer" autocomplete="off">
+        <input id="reply" placeholder="Reply as yourself........" aria-label="Reply as yourself">
+        <div class="tools">
+          <button type="button" class="tbtn" aria-label="Attach"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <span class="sp"></span>
+          <button type="button" class="tbtn" aria-label="Voice note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
+          <button class="tbtn send" aria-label="Send"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M3.4 20.4 21 12 3.4 3.6l-.1 6.5L15 12l-11.7 1.9z"/></svg></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <div class="mscrim" id="mscrim"></div>
+  <div class="menu" id="menu" role="menu">
+    <button role="menuitem" data-m="social"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".8" fill="#111"/></svg>Open Social media</button>
+    <button role="menuitem" data-m="order"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linejoin="round"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h4" stroke-linecap="round"/></svg>View Order</button>
+    <button role="menuitem" data-m="pause"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></svg><span id="pauseL">Pause Sello in this chat</span></button>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true"><i class="grab"></i><div id="sheetBody"></div></div>
+
+  <div class="toast" id="toast" role="status"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><p id="toastT"></p><button class="u" id="undo">Undo</button><i class="bar"></i></div>
+  <div class="homebar"></div>
+ </div>
+</div>
+
+<script>
+const IMG={a1:"img/a1.webp",a2:"img/a2.webp",a3:"img/a3.webp",a4:"img/a4.webp",a5:"img/a5.webp",a6:"img/a6.webp",a7:"img/a7.webp",shop:"img/w2.webp",scooter:"img/w3.webp",think:"img/w4.webp"};
+const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const naira=n=>"₦"+Number(n).toLocaleString("en-NG");
+const ICON={
+  check:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  x:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg>',
+  clip:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m20 11.5-8.2 8.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>',
+  dots:'<svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>',
+  ok:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+};
+
+/* ---------------- data ---------------- */
+let S;
+function fresh(){
+  return {
+    shop:{stock42:4, price:25000, fee:2500, bank:"Demo Bank, 0123456789, Closet by Amara", tone:"Friendly"},
+    chats:[
+      {id:"chioma",name:"Chioma Okafor",av:"a1",status:"needs",time:"2 min ago",order:"1055",handoff:"payment",msgs:[
+        {from:"c",text:"How much for the black sneakers?\nDo you have size 42?"},
+        {id:"m1",from:"s",time:"10:19pm",why:"m1",segs:[["stock","Yes, size 42 is in stock."],[""," They’re "],["price","₦25,000"],["",", and "],["delivery","delivery to Lekki is ₦2,500"],["","."]]},
+        {from:"c",text:"Ok I'll take it. Account?"},
+        {id:"m2",from:"s",time:"10:19pm",why:"m2",segs:[["total","Great! Total is ₦27,500."],[""," Please send to "],["bank","Demo Bank,\n0123456789, Closet by Amara"],["","."]]},
+        {from:"c",text:"Sent! Please confirm",file:"receipt.jpg"}]},
+      {id:"zainab",name:"Zainab Musa",av:"a2",status:"replied",time:"12 min ago",order:"1053",msgs:[
+        {from:"c",text:"I’ve paid for the linen shirt 🙏🏾",file:"transfer.png"},{from:"s",time:"10:09pm",text:"Thank you Zainab! Receipt sent. I’ll let you know as soon as it ships."}]},
+      {id:"femi",name:"Femi Adeyemi",av:"a3",status:"needs",time:"12 min ago",order:"1048",handoff:"late",msgs:[
+        {from:"c",text:"Good evening. I ordered on Monday"},{from:"c",text:"My order still hasn’t come"}]},
+      {id:"tunde",name:"Tunde Bakare",av:"a4",status:"replied",time:"18 min ago",order:"1046",msgs:[
+        {from:"c",text:"Any update on my bag?"},{from:"s",time:"10:03pm",text:"Hi Tunde! Your order is on its way and should get to Ikeja by tomorrow afternoon."}]},
+      {id:"amaka",name:"Amaka Nwosu",av:"a5",status:"replied",time:"25 min ago",msgs:[
+        {from:"c",text:"Do you have the wrap dress in blue? Size 12"},{from:"s",time:"9:56pm",text:"Yes, blue is available in size 12. It’s ₦18,000. Want me to hold one for you?"}]},
+      {id:"ibrahim",name:"Ibrahim Bello",av:"a6",status:"needs",time:"32 min ago",order:"1042",handoff:"address",msgs:[
+        {from:"c",text:"Can I change my delivery address?"}]},
+      {id:"adaeze",name:"Adaeze Eze",av:"a7",status:"replied",time:"45 min ago",order:"1039",msgs:[
+        {from:"c",text:"Just paid ✅"},{from:"s",time:"9:36pm",text:"Thanks! Payment confirmed. Your ring will go out first thing tomorrow."}]}
+    ],
+    orders:[
+      {id:"1042",chat:"ibrahim",name:"Ibrahim Bello",price:25000,item:"Tote bag, Black",area:"Yaba",meta:"Details sent 1 hr ago",stage:"unpaid"},
+      {id:"1048",chat:"femi",name:"Femi Adeyemi",price:32000,item:"Leather slides, size 44",area:"Surulere",meta:"Details sent 3 hr ago",stage:"unpaid"},
+      {id:"1050",name:"Kemi Adebayo",price:12500,item:"Silk scarf, Wine",area:"Ajah",meta:"Details sent yesterday",stage:"unpaid"},
+      {id:"1055",chat:"chioma",name:"Chioma Okafor",price:27500,item:"Black sneakers, size 42",area:"Lekki Phase 1",meta:"2 min ago",stage:"confirm"},
+      {id:"1053",chat:"zainab",name:"Zainab Musa",price:15500,item:"Linen shirt, Sand",area:"Surulere",meta:"12 min ago",stage:"confirm"},
+      {id:"1046",chat:"tunde",name:"Tunde Bakare",price:21000,item:"Mini bag, Brown",area:"Ikeja",meta:"Paid today",stage:"send"},
+      {id:"1044",name:"Halima Sani",price:9000,item:"Beaded bracelet",area:"Wuse 2",meta:"Paid today",stage:"send"},
+      {id:"1039",chat:"adaeze",name:"Adaeze Eze",price:18000,item:"Gold ring, size 7",area:"Ikeja",meta:"Paid yesterday",stage:"send"},
+      {id:"1031",name:"Segun Ojo",price:14000,item:"Cap, Navy",area:"Gbagada",meta:"Delivered Mon",stage:"done"},
+      {id:"1027",name:"Bisi Lawal",price:26500,item:"Sneakers, size 39",area:"Yaba",meta:"Delivered Sun",stage:"done"}
+    ],
+    tab:"chats", filter:"all", ofilter:"unpaid", q:"", open:null, paused:{}
+  };
+}
+S=fresh();
+const chat=id=>S.chats.find(c=>c.id===id);
+const order=id=>S.orders.find(o=>o.id===id);
+const msgText=m=>m.text??m.segs.map(s=>s[1]).join("").replace(/\n/g," ");
+
+/* ---------------- inbox ---------------- */
+const pillsEl=$("#pills"), listEl=$("#list");
+let prevCounts={};
+function renderPills(){
+  let items;
+  if(S.tab==="chats"){
+    const n=k=>S.chats.filter(c=>k==="all"||c.status===k).length;
+    items=[["all","All",n("all")],["needs","Needs you",n("needs")],["replied","Replied",n("replied")]];
+  }else{
+    const n=k=>S.orders.filter(o=>o.stage===k).length;
+    items=[["unpaid","Unpaid",n("unpaid")],["confirm","To Confirm",n("confirm")],["send","To Send",n("send")],["done","Done",n("done")]];
+  }
+  const cur=S.tab==="chats"?S.filter:S.ofilter;
+  pillsEl.innerHTML=items.map(([k,l,c])=>`<button aria-pressed="${k===cur}" data-f="${k}">${l} (<span class="n${prevCounts[S.tab+k]!=null&&prevCounts[S.tab+k]!==c?" bump":""}">${c}</span>)</button>`).join("");
+  items.forEach(([k,,c])=>prevCounts[S.tab+k]=c);
+}
+function hl(t){if(!S.q)return esc(t);const i=t.toLowerCase().indexOf(S.q.toLowerCase());return i<0?esc(t):esc(t.slice(0,i))+"<mark>"+esc(t.slice(i,i+S.q.length))+"</mark>"+esc(t.slice(i+S.q.length))}
+function renderList(){
+  renderPills();
+  if(S.tab==="chats"){
+    let cs=S.chats.filter(c=>S.filter==="all"||c.status===S.filter);
+    if(S.q)cs=cs.filter(c=>(c.name+" "+preview(c)).toLowerCase().includes(S.q.toLowerCase()));
+    listEl.innerHTML=cs.length?cs.map((c,i)=>`<button class="card" data-chat="${c.id}" style="animation-delay:${i*30}ms">
+      <div class="top"><span class="badge ${c.status==="replied"?"replied":""}">${c.status==="replied"?"Replied":"Needs you"}</span><span class="time">${c.time}</span></div>
+      <div class="who"><img class="av" src="${IMG[c.av]}" alt=""><div><b>${hl(c.name)}</b><span>${hl(preview(c))}</span></div></div></button>`).join("")
+      :`<div class="empty">${S.q?`No chats match “${esc(S.q)}”.`:"Nothing here. Sello has it covered."}</div>`;
+  }else{
+    let os=S.orders.filter(o=>o.stage===S.ofilter);
+    if(S.q)os=os.filter(o=>(o.name+" "+o.item).toLowerCase().includes(S.q.toLowerCase()));
+    const act={unpaid:"Send a reminder",confirm:"Check payment",send:"Mark as sent"};
+    listEl.innerHTML=os.length?os.map((o,i)=>`<div class="card ord" id="o${o.id}" style="animation-delay:${i*30}ms">
+      <div class="top"><span class="chip">Order #${o.id}</span>${o.chat?`<button class="dots" data-open="${o.chat}" aria-label="Open chat with ${o.name}">${ICON.dots}</button>`:""}</div>
+      <div class="row"><b>${hl(o.name)}</b><strong>${naira(o.price)}</strong></div>
+      <div class="it">${hl(o.item)}</div><div class="mt">${o.area} · ${o.meta}</div>
+      ${o.stage==="done"?`<div class="act done">${ICON.ok} Delivered</div>`:o.reminded?`<div class="act done">${ICON.ok} Reminder sent</div>`:`<button class="act" data-act="${o.id}">${act[o.stage]}</button>`}
+    </div>`).join(""):`<div class="empty">No orders here.</div>`;
+  }
+}
+const preview=c=>{const m=c.msgs[c.msgs.length-1];const t=m.from==="c"?`“${msgText(m)}”`:msgText(m);return m.file?`${t} + ${m.file.split(".")[0]==="receipt"?"receipt":"image"}`:t};
+
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.tab=b.dataset.tab;
+  $("#tabs").classList.toggle("orders",S.tab==="orders");
+  $("#tabs").querySelectorAll("button").forEach(x=>x.setAttribute("aria-selected",x===b));renderList();listEl.scrollTop=0};
+pillsEl.onclick=e=>{const b=e.target.closest("button");if(!b)return;if(S.tab==="chats")S.filter=b.dataset.f;else S.ofilter=b.dataset.f;renderList()};
+listEl.onclick=e=>{
+  const c=e.target.closest("[data-chat]"); if(c) return openChat(c.dataset.chat);
+  const d=e.target.closest("[data-open]"); if(d) return openChat(d.dataset.open);
+  const a=e.target.closest("[data-act]"); if(a) orderAction(a.dataset.act);
+};
+// search
+const search=$("#search"),q=$("#q");
+$("#sbtn").onclick=()=>{const open=!search.classList.contains("open");search.classList.toggle("open",open);$("#hd").classList.toggle("searching",open);
+  if(open)setTimeout(()=>q.focus(),200);else{q.value="";S.q="";renderList()}};
+q.oninput=()=>{S.q=q.value.trim();renderList()};
+q.onkeydown=e=>{if(e.key==="Escape")$("#sbtn").click()};
+document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>toast("Only the Inbox is part of this demo.",{undo:false,d:2200}));
+
+/* ---------------- chat ---------------- */
+const screen=$("#screen"), msgsEl=$("#msgs");
+function openChat(id){
+  S.open=id;const c=chat(id);
+  $("#chAv").src=IMG[c.av];$("#chName").textContent=c.name;
+  msgsEl.innerHTML=c.msgs.map((m,i)=>msgHTML(m,true)).join("");
+  renderFoot();setPaused();
+  screen.classList.add("in-chat");
+  requestAnimationFrame(()=>{msgsEl.style.scrollBehavior="auto";msgsEl.scrollTop=1e6;msgsEl.style.scrollBehavior=""});
+}
+function closeChat(){screen.classList.remove("in-chat");S.open=null;closeMenu();renderList()}
+$("#back").onclick=closeChat;
+function msgHTML(m,still){
+  const st=still?' style="animation:none"':"";
+  if(m.from==="sys")return `<div class="sys"${st}>${esc(m.text)}</div>`;
+  if(m.from==="c")return `<div class="m c"${st}><div class="bub">${esc(m.text)}${m.file?`<span class="att">${ICON.clip}${esc(m.file)}</span>`:""}</div></div>`;
+  if(m.from==="me")return `<div class="m me"${st}><div class="lbl"><small>${m.time||"now"}</small> You</div><div class="bub">${esc(m.text)}</div></div>`;
+  const body=m.segs?m.segs.map(([k,t])=>k?`<span class="seg${m.fixed&&m.fixed===k&&k!=="tone"?" x":""}" data-k="${k}">${esc(t)}</span>`:esc(t)).join(""):esc(m.text);
+  const label=m.fixed?(m.fixed==="tone"?"Tone noted by you":"Corrected by you"):"Sello";
+  return `<div class="m s${m.fixed&&m.fixed!=="tone"?" fixed":""}" data-id="${m.id||""}"${st}><div class="lbl"><small>${m.time}</small> ${m.fixed?`<em>${label}</em>`:label}</div><div class="bub">${body}</div>${m.why&&!m.fixed?`<button class="why" data-why="${m.why}">Why?</button>`:""}</div>`;
+}
+function rerenderMsg(m){const el=msgsEl.querySelector(`[data-id="${m.id}"]`);if(el)el.outerHTML=msgHTML(m,true)}
+function push(m){
+  const c=chat(S.open);c.msgs.push(m);msgsEl.insertAdjacentHTML("beforeend",msgHTML(m));msgsEl.scrollTop=1e6;
+}
+function sello(m,delay=900){
+  return new Promise(r=>{
+    const t=document.createElement("div");t.className="typing";t.innerHTML="<i></i><i></i><i></i>";msgsEl.append(t);msgsEl.scrollTop=1e6;
+    setTimeout(()=>{t.remove();push({from:"s",time:"Sent now",...m});r()},delay);
+  });
+}
+msgsEl.onclick=e=>{const w=e.target.closest("[data-why]");if(w)openWhy(w.dataset.why)};
+
+function renderFoot(){
+  const c=chat(S.open),slot=$("#handoffSlot");
+  const H={payment:["Sello handed this to you: payment to check","Check"],late:["Sello handed this to you: late delivery","Reply"],address:["Sello handed this to you: address change","Reply"]};
+  slot.innerHTML=c.handoff?`<button class="handoff" id="handoff"><span>${H[c.handoff][0]}</span><b class="go">${H[c.handoff][1]} →</b></button>`:"";
+  if(c.handoff)$("#handoff").onclick=()=>c.handoff==="payment"?openPay(c.order):$("#reply").focus();
+}
+function resolveHandoff(){const h=$("#handoff");if(h){h.classList.add("out");setTimeout(()=>{chat(S.open).handoff=null;renderFoot()},350)}else chat(S.open).handoff=null}
+$("#composer").onsubmit=e=>{e.preventDefault();const v=$("#reply").value.trim();if(!v)return;$("#reply").value="";
+  const c=chat(S.open);push({from:"me",text:v,time:"now"});c.status="replied";c.time="Just now";
+  if(c.handoff&&c.handoff!=="payment")resolveHandoff();};
+
+/* menu */
+const menu=$("#menu"),mscrim=$("#mscrim");
+function closeMenu(){menu.classList.remove("on");mscrim.classList.remove("on")}
+$("#more").onclick=()=>{$("#pauseL").textContent=S.paused[S.open]?"Resume Sello in this chat":"Pause Sello in this chat";menu.classList.add("on");mscrim.classList.add("on");menu.querySelector("button").focus({preventScroll:true})};
+mscrim.onclick=closeMenu;
+menu.onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;closeMenu();const c=chat(S.open);
+  if(b.dataset.m==="social")toast(`This opens ${c.name.split(" ")[0]}’s Instagram DM.`,{undo:false,d:2400});
+  if(b.dataset.m==="order"){if(!c.order)return toast("No order in this chat yet.",{undo:false,d:2200});
+    const o=order(c.order);closeChat();S.tab="orders";S.ofilter=o.stage;$("#tabs").classList.add("orders");
+    $("#tabs").querySelectorAll("button").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab==="orders"));renderList();
+    setTimeout(()=>{const el=$("#o"+o.id);if(el){el.scrollIntoView({block:"center",behavior:"smooth"});el.classList.add("flash")}},420)}
+  if(b.dataset.m==="pause"){const p=!S.paused[S.open];S.paused[S.open]=p;setPaused();
+    push({from:"sys",text:p?"You paused Sello. Only you reply here now.":"Sello is back on in this chat."});
+    toast(p?"Sello is paused in this chat.":"Sello is replying again.",{undo:false,d:2200})}
+};
+function setPaused(){const p=!!S.paused[S.open];$("#chHead").classList.toggle("paused",p);$("#chVia").textContent=p?"Via Instagram · Sello paused":"Via Instagram"}
+
+/* ---------------- sheet ---------------- */
+const sheet=$("#sheet"),body=$("#sheetBody"),scrim=$("#scrim");
+let lastFocus;
+function setSheet(html,dir){
+  const h0=sheet.classList.contains("on")?sheet.offsetHeight:null;
+  body.innerHTML=`<div class="step ${dir==="back"?"back":""}">${html}</div>`;
+  if(h0!=null){sheet.style.height="auto";const h1=sheet.offsetHeight;sheet.style.height=h0+"px";sheet.offsetHeight;sheet.style.height=h1+"px";
+    setTimeout(()=>sheet.style.height="",360)}
+}
+function showSheet(html,label){lastFocus=document.activeElement;setSheet(html);sheet.setAttribute("aria-label",label);sheet.style.height="";
+  scrim.classList.add("on");requestAnimationFrame(()=>sheet.classList.add("on"));setTimeout(()=>body.querySelector("button,input")?.focus({preventScroll:true}),300)}
+function hideSheet(){sheet.classList.remove("on");scrim.classList.remove("on");sheet.style.transform="";lastFocus?.focus?.({preventScroll:true})}
+scrim.onclick=hideSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(menu.classList.contains("on"))closeMenu();else if(sheet.classList.contains("on"))hideSheet();else if(S.open)closeChat()}});
+// drag to dismiss
+let dy0=null,dyT=0,dyV=0,dyLast=0;
+sheet.addEventListener("pointerdown",e=>{if(e.target.closest("button,input"))return;dy0=e.clientY;dyLast=e.timeStamp;dyV=0;sheet.classList.add("drag");sheet.setPointerCapture(e.pointerId)});
+sheet.addEventListener("pointermove",e=>{if(dy0==null)return;const d=e.clientY-dy0;dyV=(d-dyT)/Math.max(1,e.timeStamp-dyLast);dyLast=e.timeStamp;dyT=d;
+  sheet.style.transform=`translateY(${d>0?d:d/6}px)`});
+const endDrag=()=>{if(dy0==null)return;sheet.classList.remove("drag");dy0=null;if(dyT>110||dyV>.6)hideSheet();else sheet.style.transform="";dyT=0};
+sheet.addEventListener("pointerup",endDrag);sheet.addEventListener("pointercancel",endDrag);
+
+/* why + fix */
+const WHY={
+  m1:{rows:[{img:"shop",t:"Black sneakers, size 42",s:()=>`From Stock · ${S.shop.stock42} left · ${naira(S.shop.price)}`,view:"stock"},
+            {img:"scooter",t:"Delivery to Lekki",s:()=>`From Delivery fees · ${naira(S.shop.fee)}`,view:"fees"},
+            {img:"think",t:()=>`${S.shop.tone} tone`,s:()=>"From how Sello talks"}],
+      fix:[{k:"stock",t:"Size 42 is in stock",s:()=>`${S.shop.stock42} left`},{k:"price",t:()=>`Price is ${naira(S.shop.price)}`,s:"Stock"},
+           {k:"delivery",t:()=>`Lekki delivery is ${naira(S.shop.fee)}`,s:"Delivery fees"},{k:"tone",t:"The way it was said",s:"Tone"}]},
+  m2:{rows:[{img:"shop",t:"Order total ₦27,500",s:()=>`${naira(S.shop.price)} sneakers + ${naira(S.shop.fee)} delivery`},
+            {img:"shop",t:"Bank details",s:()=>"From Payment settings · Demo Bank",view:"bank"},
+            {img:"think",t:"Friendly tone",s:()=>"From how Sello talks"}],
+      fix:[{k:"total",t:"Total is ₦27,500",s:"Order total"},{k:"bank",t:"The bank details",s:"Payment settings"},{k:"tone",t:"The way it was said",s:"Tone"}]}
+};
+const val=v=>typeof v==="function"?v():v;
+let fixCtx={};
+function whyHTML(id){const w=WHY[id];
+  return `<div class="sh-h"><h3>Why Sello said this</h3><button class="x" data-close aria-label="Close">${ICON.x}</button></div>
+  <p class="sub">Every reply is based on the prompt you gave Sello and on your shop.</p>
+  <div class="src">${w.rows.map(r=>`<div class="srow"><span class="tile"><img src="${IMG[r.img]}" alt=""></span><div class="tx"><b>${val(r.t)}</b><small>${val(r.s)}</small></div>${r.view?`<button class="view-l" data-view="${r.view}">View</button>`:""}</div><div data-detail="${r.view||""}"></div>`).join("")}</div>
+  <div class="btns"><button class="b fix" data-go="fix">Fix this</button><button class="b dark" data-close>All good</button></div>`}
+const DETAIL={
+  stock:()=>`<div class="r"><span>Size 41</span><b>3 left</b></div><div class="r me"><span>Size 42</span><b>${S.shop.stock42?S.shop.stock42+" left":"Sold out"}</b></div><div class="r"><span>Size 43</span><b>6 left</b></div><div class="r"><span>Last updated</span><b>Yesterday, 6:40pm</b></div>`,
+  fees:()=>`<div class="r me"><span>Lekki</span><b>${naira(S.shop.fee)}</b></div><div class="r"><span>Yaba</span><b>₦2,000</b></div><div class="r"><span>Ikeja</span><b>₦3,000</b></div>`,
+  bank:()=>`<div class="r"><span>Bank</span><b>Demo Bank</b></div><div class="r"><span>Account</span><b>0123456789</b></div><div class="r"><span>Name</span><b>Closet by Amara</b></div>`
+};
+function openWhy(id){fixCtx={msg:id};showSheet(whyHTML(id),"Why Sello said this")}
+function fixHTML(){const w=WHY[fixCtx.msg];
+  return `<div class="sh-h"><button class="bk" data-go="why" aria-label="Back">${ICON.back}</button><h3>What should Sello fix?</h3></div>
+  <p class="sub">Pick the part that’s wrong.</p>
+  <div class="opts" role="radiogroup">${w.fix.map(f=>`<button class="opt" role="radio" aria-checked="${fixCtx.k===f.k}" data-k="${f.k}"><span class="radio"><i>${ICON.check}</i></span><span><b>${val(f.t)}</b><small>${val(f.s)}</small></span></button>`).join("")}</div>
+  <button class="b dark" style="width:100%" data-go="right" ${fixCtx.k?"":"disabled"}>Continue</button>`}
+function newText(k,v){const p=S.shop.price,f=S.shop.fee;
+  switch(k){
+    case"stock":return v==="0"?"Sorry Chioma, size 42 just sold out. I have 43 for ₦25,000. Want that instead?":`Quick update, Chioma: we only have ${v} left in size 42, so I’ve held one for you.`;
+    case"price":return `Sorry Chioma, small correction: they’re ${naira(v)}, so your total with delivery is ${naira(+v+f)}.`;
+    case"delivery":return `Sorry Chioma, small correction: delivery to Lekki is ${naira(v)}, so your total is ${naira(p+ +v)}.`;
+    case"total":return `Sorry Chioma, the correct total is ${naira(v)}. Please send that amount instead.`;
+    case"bank":return `Sorry Chioma, please use these details instead: ${v}.`;
+  }}
+function rightHTML(){const k=fixCtx.k;let field,cta="Fix and tell Chioma",title="What’s right?";
+  if(k==="stock"){fixCtx.v??="0";field=`<div class="chips" data-chips>${[["0","Sold out"],["1","1 left"],["2","2 left"],["3","3 left"]].map(([v,l])=>`<button aria-pressed="${fixCtx.v===v}" data-v="${v}">${l}</button>`).join("")}</div>`}
+  else if(k==="tone"){fixCtx.v??="Warmer";cta="Save tone";title="How should Sello sound?";field=`<div class="chips" data-chips>${["Warmer","More formal","Shorter","Playful"].map(v=>`<button aria-pressed="${fixCtx.v===v}" data-v="${v}">${v}</button>`).join("")}</div>`}
+  else if(k==="bank"){fixCtx.v??=S.shop.bank;field=`<label class="money"><input class="txt" id="fv" value="${esc(fixCtx.v)}" aria-label="Correct bank details"></label>`}
+  else{const d={price:S.shop.price,delivery:S.shop.fee,total:S.shop.price+S.shop.fee}[k];fixCtx.v??=String(d);
+    field=`<label class="money">₦<input id="fv" inputmode="numeric" value="${Number(fixCtx.v).toLocaleString("en-NG")}" aria-label="Correct amount"></label>`}
+  const prev=k==="tone"?`Sello will sound ${fixCtx.v.toLowerCase()} in every chat from now on.`:esc(newText(k,fixCtx.v));
+  return `<div class="sh-h"><button class="bk" data-go="fix" aria-label="Back">${ICON.back}</button><h3>${title}</h3></div>
+  <p class="sub">${k==="tone"?"This changes how Sello talks, not this message.":"Sello updates your shop and sends Chioma a short correction."}</p>
+  ${field}
+  <div class="preview"><small>${k==="tone"?"What changes":"Sello will send"}</small><span id="pv">${prev}</span></div>
+  <button class="b dark" style="width:100%" data-go="apply">${cta}</button>`}
+function updatePreview(){const k=fixCtx.k,pv=$("#pv");if(!pv)return;pv.textContent=k==="tone"?`Sello will sound ${fixCtx.v.toLowerCase()} in every chat from now on.`:newText(k,fixCtx.v);
+  const b=body.querySelector('[data-go="apply"]');if(b)b.disabled=k!=="tone"&&k!=="stock"&&k!=="bank"&&!(+fixCtx.v>0)}
+function hlSeg(k){msgsEl.querySelectorAll(".seg.hl").forEach(s=>s.classList.remove("hl"));if(k&&k!=="tone"){const m=msgsEl.querySelector(`[data-id="${fixCtx.msg}"] [data-k="${k}"]`);m&&m.classList.add("hl")}}
+
+body.addEventListener("click",e=>{
+  const t=e.target;
+  if(t.closest("[data-close]"))return hideSheet();
+  const v=t.closest("[data-view]");if(v){const box=body.querySelector(`[data-detail="${v.dataset.view}"]`);const open=!box.innerHTML;
+    const h0=sheet.offsetHeight;box.innerHTML=open?`<div class="detail">${DETAIL[v.dataset.view]()}</div>`:"";v.textContent=open?"Hide":"View";
+    sheet.style.height="auto";const h1=sheet.offsetHeight;sheet.style.height=h0+"px";sheet.offsetHeight;sheet.style.height=h1+"px";setTimeout(()=>sheet.style.height="",360);return}
+  const o=t.closest(".opt");if(o){fixCtx.k=o.dataset.k;fixCtx.v=undefined;body.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-checked",x===o));body.querySelector('[data-go="right"]').disabled=false;hlSeg(fixCtx.k);return}
+  const c=t.closest("[data-chips] button");if(c){fixCtx.v=c.dataset.v;c.parentNode.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===c));updatePreview();return}
+  const g=t.closest("[data-go]");if(!g)return;
+  const go=g.dataset.go;
+  if(go==="why")setSheet(whyHTML(fixCtx.msg),"back");
+  if(go==="fix")setSheet(fixHTML(),body.querySelector(".chips,.money")?"back":"");
+  if(go==="right")setSheet(rightHTML());
+  if(go==="apply")applyFix();
+  if(go==="paid")resolvePay(true);
+  if(go==="notpaid")resolvePay(false);
+});
+body.addEventListener("input",e=>{if(e.target.id!=="fv")return;
+  if(fixCtx.k==="bank"){fixCtx.v=e.target.value}else{const n=e.target.value.replace(/\D/g,"").slice(0,7);fixCtx.v=n;e.target.value=n?Number(n).toLocaleString("en-NG"):""}
+  updatePreview()});
+body.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="fv"){e.preventDefault();body.querySelector('[data-go="apply"]')?.click()}});
+
+let undoFn=null;
+function applyFix(){
+  const {msg,k,v}=fixCtx;const c=chat(S.open);const m=c.msgs.find(x=>x.id===msg);
+  const before={shop:{...S.shop},len:c.msgs.length,status:c.status,time:c.time};
+  hideSheet();hlSeg(null);
+  setTimeout(()=>{
+    m.fixed=k;rerenderMsg(m);
+    if(k==="tone"){S.shop.tone=v;toast(`Got it. Sello will sound ${v.toLowerCase()} from now on.`,{undo:()=>{m.fixed=null;S.shop=before.shop;rerenderMsg(m)}});return}
+    if(k==="stock")S.shop.stock42=+v;if(k==="price")S.shop.price=+v;if(k==="delivery")S.shop.fee=+v;if(k==="bank")S.shop.bank=v;
+    const where={stock:"Stock updated",price:"Price updated",delivery:"Delivery fee updated",total:"Order total updated",bank:"Bank details updated"}[k];
+    sello({id:"fix"+Date.now(),text:newText(k,v)},1100).then(()=>{
+      c.status="replied";c.time="Just now";
+      toast(`Fixed. ${where} and Chioma has been told.`,{undo:()=>{
+        m.fixed=null;S.shop=before.shop;c.msgs.length=before.len;c.status=before.status;c.time=before.time;
+        if(S.open===c.id){msgsEl.innerHTML=c.msgs.map(x=>msgHTML(x,true)).join("")}
+      }});
+    });
+  },380);
+  fixCtx={};
+}
+
+/* payment check */
+let payCtx=null;
+function openPay(oid){const o=order(oid);payCtx=o;
+  showSheet(`<div class="sh-h"><h3>Check ${o.name.split(" ")[0]}’s payment</h3><button class="x" data-close aria-label="Close">${ICON.x}</button></div>
+  <p class="sub">Open your bank app and make sure the money is really there before you confirm.</p>
+  <div class="receipt"><div class="ok">${ICON.ok} Transfer successful</div><div class="amt">${naira(o.price)}</div>
+    <div class="r"><span>To</span><b>Closet by Amara</b></div><div class="r"><span>Bank</span><b>Demo Bank · 0123456789</b></div><div class="r"><span>From</span><b>${o.name.toUpperCase()}</b></div><div class="r"><span>Sent</span><b>Today, 10:21pm</b></div></div>
+  <div class="match">${ICON.ok} Amount matches Order #${o.id}</div>
+  <div class="btns"><button class="b fix" data-go="notpaid">Not received</button><button class="b dark" data-go="paid">Payment received</button></div>`,"Check payment")}
+function resolvePay(ok){
+  const o=payCtx,c=o.chat&&chat(o.chat);hideSheet();
+  const prev={stage:o.stage,len:c?.msgs.length,status:c?.status,handoff:c?.handoff,time:c?.time};
+  const first=o.name.split(" ")[0];
+  const after=()=>{if(c){c.status="replied";c.time="Just now";c.handoff=null}};
+  const undo=()=>{o.stage=prev.stage;if(c){c.msgs.length=prev.len;c.status=prev.status;c.handoff=prev.handoff;c.time=prev.time;if(S.open===c.id){msgsEl.innerHTML=c.msgs.map(x=>msgHTML(x,true)).join("");renderFoot()}}renderList()};
+  if(ok)o.stage="send";
+  const text=ok?`Payment confirmed, thank you ${first}! Your ${o.item.split(",")[0].toLowerCase()} will go out today to ${o.area}.`:`Hi ${first}, we haven’t seen the payment yet. Could you check that the transfer went through?`;
+  if(c&&S.open===c.id){resolveHandoff();setTimeout(()=>sello({text},1000).then(()=>{after();toast(ok?`Order #${o.id} moved to To Send.`:`Sello asked ${first} to check the transfer.`,{undo})}),350)}
+  else{if(c){c.msgs.push({from:"s",time:"Sent now",text});after()}renderList();toast(ok?`Order #${o.id} moved to To Send. ${first} has been told.`:`Sello asked ${first} to check the transfer.`,{undo})}
+}
+function orderAction(id){const o=order(id);
+  if(o.stage==="confirm")return openPay(id);
+  if(o.stage==="unpaid"){o.reminded=true;const c=o.chat&&chat(o.chat);
+    if(c){c.msgs.push({from:"s",time:"Sent now",text:`Hi ${o.name.split(" ")[0]}, just checking in. Your ${o.item.split(",")[0].toLowerCase()} is still held for you. Send ${naira(o.price)} whenever you’re ready.`});c.status="replied";c.time="Just now"}
+    renderList();toast(`Sello sent ${o.name.split(" ")[0]} a friendly reminder.`,{undo:()=>{o.reminded=false;if(c){c.msgs.pop()}renderList()}})}
+  if(o.stage==="send"){o.stage="done";o.meta="Delivered today";renderList();toast(`Order #${o.id} marked as sent.`,{undo:()=>{o.stage="send";o.meta="Paid today";renderList()}})}
+}
+
+/* toast */
+const toastEl=$("#toast");let tTimer;
+function toast(text,{undo=null,d=5000}={}){
+  clearTimeout(tTimer);toastEl.classList.remove("on");void toastEl.offsetWidth;
+  $("#toastT").textContent=text;$("#undo").style.display=undo?"":"none";undoFn=undo;toastEl.style.setProperty("--d",d+"ms");
+  const bar=toastEl.querySelector(".bar");bar.style.animation="none";bar.offsetWidth;bar.style.animation="";
+  requestAnimationFrame(()=>toastEl.classList.add("on"));tTimer=setTimeout(()=>toastEl.classList.remove("on"),d);
+}
+$("#undo").onclick=()=>{const f=undoFn;undoFn=null;toastEl.classList.remove("on");f&&f();setTimeout(()=>toast("Undone. Everything is back how it was.",{undo:false,d:2000}),250)};
+
+/* fit device */
+function fit(){const d=$("#device");if(innerWidth<=520){d.style.setProperty("--s",1);return}
+  const s=Math.min(1,(innerHeight-48)/876,(innerWidth-(innerWidth>900?420:32))/417);d.style.setProperty("--s",s.toFixed(3));
+  d.style.margin=`${(876*(s-1))/2}px ${(417*(s-1))/2}px`;$(".side").style.display=innerWidth>900?"":"none"}
+addEventListener("resize",fit);fit();
+$("#reset").onclick=()=>{S=fresh();prevCounts={};hideSheet();closeMenu();screen.classList.remove("in-chat");$("#tabs").classList.remove("orders");
+  $("#tabs").querySelectorAll("button").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab==="chats"));renderList()};
+renderList();
+</script>
+</body>
+</html>
