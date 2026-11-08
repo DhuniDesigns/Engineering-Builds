@@ -1151,7 +1151,7 @@ const builds = [
   {name:"Websites", meta:"Framer & Claude", tab:"websites"},
   {name:"Apps", meta:"Figma & Claude", tab:"apps"},
   {name:"Playground", meta:"Motion studies", tab:"playground"},
-  {name:"App screenshots", meta:"UI screens", tab:"screens"},
+  {name:"App screenshots", meta:"Coming soon", tab:"screens", soon:true},
   {name:"Brand identity", meta:"Coming soon", tab:"brand", soon:true},
 ];
 /* app screenshots: shown at their own proportions, tap to open full size */
@@ -1159,7 +1159,7 @@ const SCREENS=[
   {name:"Travel and hotels", meta:"Mobile app", img:"ssTravel"},
   {name:"Ride dispatch", meta:"Tablet dashboard", img:"ssRideL"},
   {name:"Ride dispatch", meta:"Dark mode", img:"ssRideD"},
-  {name:"AOT", meta:"Market intelligence dashboard", img:"ssAotD"},
+  {name:"AOT", meta:"Dashboard", img:"ssAotD"},
   {name:"AOT", meta:"Mobile app", img:"ssAotP"},
   {name:"Football AI", meta:"AI chat app", img:"ssFootball"},
   {name:"Task board", meta:"Project dashboard", img:"ssTasks"},
@@ -1218,8 +1218,9 @@ const card = it => { const out=/^https?:/.test(it.href);
   const media = it.vid ? `<video class="cv" src="${VID[it.vid]}" poster="${POSTER[it.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(it.name)} preview"></video>` : it.img ? `<img src="${IMG[it.img]}" alt="${esc(it.name)} preview" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
   return `<a class="card" href="${it.href}"${out?' target="_blank" rel="noopener"':""}><span class="card-media">${media}</span><div class="row"><span class="name">${esc(it.name)}${out?' <span class="arr" aria-hidden="true">↗</span>':""}</span><span class="meta">${esc(it.meta)}</span></div></a>`; };
 function workTab(t){
-  if(t==="playground") return `<div class="col tab-intro"><p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p><div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div></div>${grid(PLAY.map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#work/playground"})))}`;
-  if(t==="screens") return `<div class="shots-grid">${SCREENS.map((x,i)=>`<button class="ss" data-ss="${i}" aria-label="Open ${esc(x.name)}, ${esc(x.meta)}"><img src="${IMG[x.img]}" alt="${esc(x.name)} ${esc(x.meta)}" loading="lazy"><span class="row"><span class="name">${esc(x.name)}</span><span class="meta">${esc(x.meta)}</span></span></button>`).join("")}</div>`;
+  if(t==="playground") return `<div class="col tab-intro"><p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p><div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div></div>${grid([...PLAY,...SCREENS].map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#work/playground"})))}`;
+  if(t==="screens") return `<div class="col"><div class="empty-tab"><b>App screenshots are on the way.</b><span>Full screen sets from my apps will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
+  if(t==="screens-old") return `<div class="shots-grid">${SCREENS.map((x,i)=>`<button class="ss" data-ss="${i}" aria-label="Open ${esc(x.name)}, ${esc(x.meta)}"><img src="${IMG[x.img]}" alt="${esc(x.name)} ${esc(x.meta)}" loading="lazy"><span class="row"><span class="name">${esc(x.name)}</span><span class="meta">${esc(x.meta)}</span></span></button>`).join("")}</div>`;
   if(t==="brand") return `<div class="col"><div class="empty-tab"><b>Brand identity work is on the way.</b><span>Logos, palettes and type systems for my projects will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
   return grid(BUILD_ITEMS[t]||BUILD_ITEMS.apps);
 }
