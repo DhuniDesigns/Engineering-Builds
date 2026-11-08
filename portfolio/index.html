@@ -1154,7 +1154,6 @@ const builds = [
   {name:"Apps", meta:"Figma & Claude", tab:"apps"},
   {name:"Playground", meta:"Motion studies", tab:"playground"},
   {name:"App screenshots", meta:"Coming soon", tab:"screens", soon:true},
-  {name:"Brand identity", meta:"Coming soon", tab:"brand", soon:true},
 ];
 /* app screenshots: shown at their own proportions, tap to open full size */
 const SCREENS=[
@@ -1201,7 +1200,7 @@ const jobs = [
 ];
 const SKILLS=[["Design",["Product design","UX research","Interaction design","Design systems","Tokens and theming","Prototyping","Brand identity"]],
               ["Build",["HTML and CSS","JavaScript","Motion and micro-interactions","AI-assisted workflows"]]];
-const tabs = [["websites","Websites"],["apps","Apps"],["playground","Playground"],["screens","App screenshots"],["brand","Brand identity"]];
+const tabs = [["websites","Websites"],["apps","Apps"],["playground","Playground"],["screens","App screenshots"]]; /* brand identity tab hidden for now */
 const WORK_TABS=tabs.map(t=>t[0]);
 let activeTab = "websites";
 
