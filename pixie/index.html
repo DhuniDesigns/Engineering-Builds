@@ -728,6 +728,8 @@ const kebab=k=>k;
 /* ================= illustrations ================= */
 const SCENES=[['empty','Empty state'],['success','Success'],['error','Error'],['onboard1','Onboarding · set up'],['onboard2','Onboarding · progress'],['hero','Hero']];
 function palette(c){const S=k=>c.scale.find(s=>s.k===k).hex;return{bg:S(50),soft:S(100),a1:S(200),a2:S(300),a:c.lt.primary,a3:S(800),ink:c.lt.text,n:c.neutral[2].hex,w:'#FFFFFF'}}
+/* Drop repeated attributes on a tag (keeps the first, as browsers do). Figma rejects SVGs with duplicates. */
+function cleanSvg(svg){return String(svg).replace(/<([a-zA-Z][\w:-]*)(\s[^<>]*?)?(\/?)>/g,(m,tag,attrs,sl)=>{if(!attrs)return m;const seen=new Set();return'<'+tag+attrs.replace(/\s+([\w:-]+)\s*=\s*("[^"]*"|'[^']*')/g,(x,n)=>{if(seen.has(n))return'';seen.add(n);return x})+sl+'>'})}
 function genIll(scene,style,seed,P){
   const r=rng(hash(scene+style)+seed*7919),R=(a,b)=>a+r()*(b-a),pick=a=>a[Math.floor(r()*a.length)];
   const line=style==='line',soft=style==='soft',rx=soft?22:style==='geo'?3:10;
@@ -766,7 +768,7 @@ function genIll(scene,style,seed,P){
     for(let i=0;i<4;i++)for(let j=0;j<4;j++)g+=`<circle cx="${70+i*16}" cy="${200+j*16}" r="3" fill="${P.a3}"/>`;
     g+=`<path d="M${R(250,270)} 70 A60 60 0 0 1 ${R(330,345)} 130" fill="none" stroke="${P.a3}" stroke-width="${soft?10:6}" stroke-linecap="round"/>`+shape(R(320,340),R(220,240),22,P.a1,R(0,45));
   }
-  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="${scene}">${g}</svg>`
+  return cleanSvg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="${scene}">${g}</svg>`)
 }
 function genIllStyle(b){const t=b.tone/100,era=b.era/100;return t>.55?'soft':era>.6&&t<.4?'geo':'line'}
 
@@ -1120,7 +1122,7 @@ function kitPayload(){const k=S.kit,c=k.colour,o={v:1,name:B.name};
   if(S.incl.colour)o.colour={scale:Object.fromEntries(c.scale.map(s=>[s.k,s.hex])),neutral:Object.fromEntries(c.neutral.map(s=>[s.k,s.hex])),light:Object.fromEntries(TOKENS.map(([a,n])=>[n,c.lt[a]])),dark:Object.fromEntries(TOKENS.map(([a,n])=>[n,c.dk[a]]))};
   if(S.incl.type)o.type={heading:k.type.heading,body:k.type.body,ratio:k.type.ratio,styles:k.type.ramp.map(r=>({name:r.n,family:r.role,size:r.size,lineHeight:r.lh,weight:r.w}))};
   if(S.incl.icons)o.icons={pack:PACKS[k.icons.pack].name,license:PACKS[k.icons.pack].license,author:PACKS[k.icons.pack].by,stroke:k.icons.stroke,corners:k.icons.corners,style:styleLabel(k.icons),svgs:Object.fromEntries(ICON_KEYS.map(n=>[kebab(n),iconSVG(n,k.icons,24,null)]))};
-  if(S.incl.ill)o.illustrations={style:styleName(k.ill.style),svgs:Object.fromEntries([...SCENES.map(([id],i)=>[id,k.ill.svgs[i]]),...S.extra.filter(x=>x.svg).map((x,j)=>['custom-'+(j+1),x.svg])].filter(([,v])=>v))};return o}
+  if(S.incl.ill)o.illustrations={style:styleName(k.ill.style),svgs:Object.fromEntries([...SCENES.map(([id],i)=>[id,k.ill.svgs[i]]),...S.extra.filter(x=>x.svg).map((x,j)=>['custom-'+(j+1),x.svg])].filter(([,v])=>v).map(([id,v])=>[id,cleanSvg(v)]))};return o}
 function kitCode(){return'BKB1.'+btoa(unescape(encodeURIComponent(JSON.stringify(kitPayload()))))}
 function renderSend(){const t=S.kit.type;const cn={colour:`${22+TOKENS.length} variables`,type:`${t.ramp.length} text styles`,icons:`${ICON_KEYS.length} components`,ill:`${SCENES.length+S.extra.filter(x=>x.svg).length} components`};
   const desc={colour:'Scales and tokens, Light and Dark modes',type:'Families, sizes, line heights',icons:'Size and style variants',ill:'Fills bound to colour'};

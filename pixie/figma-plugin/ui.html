@@ -59,6 +59,8 @@ textarea.bad{border-color:var(--danger)}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stat{padding:12px;border-radius:12px;background:var(--bg2)}
 .stat b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.stat small{color:var(--muted)}
+.last{border:0;width:100%;text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform .16s cubic-bezier(.23,1,.32,1)}.last:active{transform:scale(.98)}
+.no-code{font-size:12px}.no-code a{color:var(--ink);font-weight:600;text-underline-offset:2px}
 .notes{margin:0;padding-left:16px;color:var(--muted);font-size:12px;display:flex;flex-direction:column;gap:4px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -67,9 +69,11 @@ textarea.bad{border-color:var(--danger)}
 
   <section class="scr on" id="s1">
     <h2>Paste your kit code</h2>
-    <p>In Pixie, open <b>Send to Figma</b> and copy the kit code.</p>
+    <p>In Pixie, open <b>Send to Figma</b> and copy the kit code. Paste it here and Pixie carries on by itself.</p>
     <textarea id="code" placeholder="BKB1.eyJ2IjoxLCJuYW1lIjoi…" spellcheck="false" aria-label="Kit code"></textarea>
     <div class="err" id="err" role="alert"></div>
+    <button class="kit last" id="last" hidden><div class="dots"><i style="background:var(--pink)"></i></div><div><b id="lName"></b><small id="lSub">Import the last kit again</small></div></button>
+    <p class="no-code">No code yet? <a href="#" id="open">Make a kit in Pixie</a></p>
   </section>
 
   <section class="scr" id="s2">
@@ -98,7 +102,7 @@ textarea.bad{border-color:var(--danger)}
 <script>
 const $=id=>document.getElementById(id);
 const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>';
-let kit=null,opts={colour:true,type:true,icons:true,ill:true,lightDark:'modes',asNew:false},exists=false;
+let kit=null,code='',opts={colour:true,type:true,icons:true,ill:true,lightDark:'modes',asNew:false},exists=false;
 const MODS=[['colour','Colour',k=>k.colour?(Object.keys(k.colour.scale).length+Object.keys(k.colour.neutral).length+Object.keys(k.colour.light).length)+' variables':null],
   ['type','Typography',k=>k.type?k.type.styles.length+' text styles':null],
   ['icons','Icons',k=>k.icons?Object.keys(k.icons.svgs).length+' components':null],
@@ -114,7 +118,7 @@ function show(n){['s1','s2','s3','s4'].forEach(s=>$(s).classList.toggle('on',s==
 function decode(raw){const t=raw.trim().replace(/\s+/g,'');if(!t.startsWith('BKB1.'))throw new Error('fmt');
   const json=decodeURIComponent(escape(atob(t.slice(5))));const k=JSON.parse(json);if(k.v!==1||!k.name)throw new Error('fmt');return k}
 function validate(){const v=$('code').value;const b=$('next');if(!v.trim()){$('err').textContent='';$('code').classList.remove('bad');b.disabled=true;return}
-  try{kit=decode(v);$('err').textContent='';$('code').classList.remove('bad');b.disabled=false}
+  try{kit=decode(v);code=v.trim().replace(/\s+/g,'');$('err').textContent='';$('code').classList.remove('bad');b.disabled=false;return true}
   catch(e){kit=null;b.disabled=true;$('code').classList.add('bad');$('err').textContent='That isn’t a Pixie kit code. Copy it again from Send to Figma.'}}
 function renderChoose(){const c=kit.colour;
   $('kDots').innerHTML=c?[c.scale['100'],c.scale['300'],c.light.primary,c.scale['800'],c.light.text].map(h=>`<i style="background:${h}"></i>`).join(''):'';
@@ -124,17 +128,24 @@ function renderChoose(){const c=kit.colour;
 function syncGo(){const any=MODS.some(([k])=>opts[k]);const g=$('go');if(g)g.disabled=!any}
 function renderSteps(){$('steps').innerHTML=MODS.map(([k,l])=>`<div class="step" id="st-${k}" data-s="${opts[k]?'wait':'skip'}"><span class="st">${CHECK}</span><span><b>${l}</b><small>${opts[k]?'Waiting':'Skipped'}</small></span></div>`).join('')}
 document.addEventListener('input',e=>{if(e.target.id==='code')validate()});
+// A clean paste goes straight to the next step, so there's nothing extra to click.
+document.addEventListener('paste',e=>{if(e.target.id!=='code')return;setTimeout(()=>{if(validate())inspect()},0)});
+function inspect(){parent.postMessage({pluginMessage:{type:'inspect',name:kit.name}},'*')}
 document.addEventListener('click',e=>{
-  if(e.target.closest('#next')&&kit){parent.postMessage({pluginMessage:{type:'inspect',name:kit.name}},'*')}
+  if(e.target.closest('#next')&&kit)inspect();
+  if(e.target.closest('#last')&&lastCode){$('code').value=lastCode;if(validate())inspect()}
+  if(e.target.closest('#open')){e.preventDefault();parent.postMessage({pluginMessage:{type:'open'}},'*')}
   if(e.target.closest('#back')){show(1);validate()}
   const m=e.target.closest('[data-mod]');if(m){opts[m.dataset.mod]=!opts[m.dataset.mod];m.setAttribute('aria-pressed',opts[m.dataset.mod]);syncGo()}
   const ld=e.target.closest('[data-ld]');if(ld){opts.lightDark=ld.dataset.ld;document.querySelectorAll('[data-ld]').forEach(b=>b.setAttribute('aria-pressed',b===ld))}
   const up=e.target.closest('[data-upd]');if(up){opts.asNew=up.dataset.upd==='new';document.querySelectorAll('[data-upd]').forEach(b=>b.setAttribute('aria-pressed',b===up))}
-  if(e.target.closest('#go')){renderSteps();show(3);parent.postMessage({pluginMessage:{type:'import',kit,opts}},'*')}
+  if(e.target.closest('#go')){renderSteps();show(3);parent.postMessage({pluginMessage:{type:'import',kit,opts,code}},'*')}
   const gt=e.target.closest('[data-goto]');if(gt)parent.postMessage({pluginMessage:{type:'goto',id:gt.dataset.goto}},'*');
   if(e.target.closest('#close'))parent.postMessage({pluginMessage:{type:'close'}},'*');
 });
+let lastCode='';
 onmessage=e=>{const m=e.data.pluginMessage;if(!m)return;
+  if(m.type==='booted'&&m.last&&m.last.code){lastCode=m.last.code;$('lName').textContent=m.last.name;$('last').hidden=false}
   if(m.type==='inspected'){exists=m.exists;opts.asNew=false;renderChoose();show(2)}
   if(m.type==='progress'){const el=$('st-'+m.step);if(el){el.dataset.s=m.state;el.querySelector('small').textContent=m.state==='active'?'Creating…':m.detail}}
   if(m.type==='done'){const r=m.result;$('dTitle').textContent=m.name+' is in your file';
@@ -144,4 +155,5 @@ onmessage=e=>{const m=e.data.pluginMessage;if(!m)return;
   if(m.type==='error'){show(2);$('exists').hidden=!exists;const n=$('exists');n.hidden=false;n.querySelector('b').textContent='Import stopped';n.querySelector('p').textContent=m.message+' Nothing after this step was created. Try again, or import fewer modules.'}
 };
 show(1);
+parent.postMessage({pluginMessage:{type:'boot'}},'*');
 </script>
