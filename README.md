@@ -82,6 +82,18 @@ Photos: Unsplash (credited on the page). Rider quotes: shuttlers.co.
 
 ---
 
+## Shuttlers: App Trip-Day Concept
+
+Four interactive phone screens for the Shuttlers app, built to sit alongside the homepage redesign in a pitch to Shuttlers. They keep the app's look (green, Pilot cards, stops, seat numbers) and fix what riders complain about in App Store reviews, using patterns from Uber and Bolt. Not affiliated with Shuttlers.
+
+![Shuttlers app trip-day concept](media/shuttlers-app-concept.jpg)
+
+**01 Live trip:** a freshness pill ("updated 2s ago"), an honest signal-lost state with an estimated time range, and a draggable trip sheet · **02 Arrival alerts:** "2 stops away", "at your stop" and "leaving soon" banners with chime and vibration, a countdown ring, and "please wait" · **03 Pickup:** a street view and landmark for each stop, slide to tell the Pilot you're there, in-app calls and chat with private numbers · **04 Pay and refunds:** pay by card or bank transfer at booking (wallet optional), automatic missed-ride refunds to your bank or wallet, and wallet withdrawal
+
+[Live demo](https://dhunidesigns.github.io/Engineering-Builds/shuttlers-app-concept/) · [Source](shuttlers-app-concept/index.html)
+
+---
+
 ## REA: Website Redesign (concept)
 
 A concept redesign of the Rural Electrification Agency of Nigeria website (rea.gov.ng), built from an audit of the current site. Inspired by Progress, Muncul, Cresta, 1Solar and Solarify, in REA's own green. Not affiliated with REA.
