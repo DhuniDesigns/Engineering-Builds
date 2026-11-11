@@ -32,7 +32,7 @@ Works in Figma Design and FigJam, in light and dark mode.
 
 ## Publishing checklist
 
-- [ ] Get a real plugin ID in Figma (Plugins › Development › New plugin) and replace `sift-moodboard-dev` in `manifest.json`.
+- [x] Plugin ID 1702306244213990609 is in `manifest.json`.
 - [x] Icon: `assets/icon-128.png` (3D sieve: scattered images in, arranged images out), plus a 512px version and an SVG.
 - [ ] Make a 1920 × 1080 cover.
 - [ ] Write the Community listing copy, then submit for review.
