@@ -7,7 +7,7 @@ Designed and built by **Hafsoh Bashar**.
 
 - **Smart tags, offline.** Sift reads every image on the board and tags it by colour (Warm, Cool, Neutral, Mono), shape (Portrait, Landscape, Square) and type (Photo, Typography, UI). Colour is worked out from a small thumbnail of each item, so it runs with no AI service or API key.
 - **Your own tags and categories.** Make categories that fit how you think, like Mood, Client or Project, and add tags inside each one. With images selected, adding a tag tags them too, and the + / ✓ button beside any tag adds it to or removes it from the selection. Tags can be renamed, moved between categories or deleted. Tags live on the layers and categories live in the file, so both are there next time.
-- **Filter and select.** Tick one or more tags to find everything that matches all of them, then select it on the canvas in one click.
+- **Filter and select.** Your categories come first. Colour, Shape and Type sit underneath as dropdowns called Smart filters. Tick tags from any of them to find what matches all of them, then select those items on the canvas in one click.
 - **Arrange.**
   - **Sections:** groups the board into labelled Figma sections by colour, shape, type or any of your categories.
   - **Masonry:** Pinterest-style columns with no gaps.
@@ -33,7 +33,8 @@ Works in Figma Design and FigJam, in light and dark mode.
 ## Publishing checklist
 
 - [ ] Get a real plugin ID in Figma (Plugins › Development › New plugin) and replace `sift-moodboard-dev` in `manifest.json`.
-- [ ] Make a 128 × 128 icon and a 1920 × 1080 cover.
+- [x] Icon: `assets/icon-128.png` (3D sieve: scattered images in, arranged images out), plus a 512px version and an SVG.
+- [ ] Make a 1920 × 1080 cover.
 - [ ] Write the Community listing copy, then submit for review.
 
 © 2026 Hafsoh Bashar
