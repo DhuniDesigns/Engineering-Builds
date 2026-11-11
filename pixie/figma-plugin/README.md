@@ -21,7 +21,7 @@ Importing the same kit again updates it in place instead of duplicating it. The 
 
 1. **Plugins › Manage plugins › Pixie › Publish** in Figma desktop. You need two-factor authentication on your Figma account first.
 2. Images: `assets/icon-128.png` (3D Pixie mascot with colour, type and illustration pieces) and `assets/cover-1920x1080.png`.
-3. In step 4, Figma shows the plugin ID. Put it in `manifest.json` in place of `pixie-brand-kit-dev`, re-import the manifest, then click Publish. Figma reviews new plugins before they go public.
+3. In step 4, Figma shows the plugin ID. Put it in `manifest.json` (now 1702376799826969001), re-import the manifest, then click Publish. Figma reviews new plugins before they go public.
 
 ## Files
 
