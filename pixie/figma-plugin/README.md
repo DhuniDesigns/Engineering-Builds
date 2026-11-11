@@ -19,9 +19,9 @@ Importing the same kit again updates it in place instead of duplicating it. The 
 
 ## Publish to Figma Community
 
-1. In Figma desktop: **Plugins › Development › New plugin…**, pick *Figma design*, and copy the plugin id it gives you into `manifest.json` (replace `pixie-brand-kit-dev`).
-2. Prepare a 128 × 128 icon, a 1920 × 1080 cover, a short tagline and a description.
-3. **Plugins › Development › Pixie › Publish**, add the assets, and submit for review. Figma usually reviews within a week or two.
+1. **Plugins › Manage plugins › Pixie › Publish** in Figma desktop. You need two-factor authentication on your Figma account first.
+2. Images: `assets/icon-128.png` (3D Pixie mascot with colour, type and illustration pieces) and `assets/cover-1920x1080.png`.
+3. In step 4, Figma shows the plugin ID. Put it in `manifest.json` in place of `pixie-brand-kit-dev`, re-import the manifest, then click Publish. Figma reviews new plugins before they go public.
 
 ## Files
 
