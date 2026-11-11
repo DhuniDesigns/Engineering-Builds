@@ -111,12 +111,19 @@ function masonry(nodes, cols, gap, width, ox, oy, parent) {
   });
   return { w: cols * width + (cols - 1) * gap, h: Math.max.apply(null, heights) - gap };
 }
-function grid(nodes, cols, gap, width, ox, oy) {
+function canCrop(n) {
+  // Only image layers that resize cleanly get cropped to the cell; everything else fits inside.
+  return hasImageFill(n) && 'resize' in n && (n.type === 'RECTANGLE' || n.type === 'FRAME' || n.type === 'ELLIPSE' || n.type === 'COMPONENT' || n.type === 'INSTANCE');
+}
+function grid(nodes, cols, gap, width, height, fit, ox, oy) {
   nodes.forEach((n, i) => {
-    fitTo(n, width, width);
+    if (fit === 'fill' && canCrop(n)) {
+      n.resize(width, height);
+      n.fills = n.fills.map(f => (f.type === 'IMAGE' ? Object.assign({}, f, { scaleMode: 'FILL' }) : f));
+    } else fitTo(n, width, height);
     const c = i % cols, r = Math.floor(i / cols);
     n.x = ox + c * (width + gap) + (width - n.width) / 2;
-    n.y = oy + r * (width + gap) + (width - n.height) / 2;
+    n.y = oy + r * (height + gap) + (height - n.height) / 2;
   });
 }
 
@@ -126,15 +133,16 @@ async function arrange(o) {
   // Reading order, so the new layout keeps the board's rough story.
   nodes.sort((a, b) => { const A = absPos(a), B = absPos(b); return Math.abs(A.y - B.y) > 40 ? A.y - B.y : A.x - B.x; });
   const origin = nodes.reduce((m, n) => { const p = absPos(n); return { x: Math.min(m.x, p.x), y: Math.min(m.y, p.y) }; }, { x: Infinity, y: Infinity });
-  lastArrange = { moves: nodes.map(n => ({ id: n.id, parent: n.parent.id, index: n.parent.children.indexOf(n), x: n.x, y: n.y, w: n.width, h: n.height, rescale: n.type === 'GROUP' || n.type === 'TEXT' || n.type === 'BOOLEAN_OPERATION' || n.type === 'VECTOR' })), sections: [] };
+  lastArrange = { moves: nodes.map(n => ({ id: n.id, parent: n.parent.id, index: n.parent.children.indexOf(n), x: n.x, y: n.y, w: n.width, h: n.height, fills: hasImageFill(n) ? JSON.stringify(n.fills) : null, rescale: n.type === 'GROUP' || n.type === 'TEXT' || n.type === 'BOOLEAN_OPERATION' || n.type === 'VECTOR' })), sections: [] };
   const page = figma.currentPage;
   // Lift everything to the page first so coordinates are simple.
   nodes.forEach(n => { if (n.parent !== page) { const p = absPos(n); page.appendChild(n); n.x = p.x; n.y = p.y; } });
   const width = Math.max(40, o.width), gap = Math.max(0, o.gap), cols = Math.max(1, o.columns);
   let summary;
   if (o.layout === 'grid') {
-    grid(nodes, cols, gap, width, origin.x, origin.y);
-    summary = 'Arranged ' + nodes.length + ' items in a grid';
+    const height = Math.max(40, o.height || width);
+    grid(nodes, cols, gap, width, height, o.fit, origin.x, origin.y);
+    summary = 'Arranged ' + nodes.length + ' items in a ' + cols + '-column grid';
   } else if (o.layout === 'masonry') {
     masonry(nodes, cols, gap, width, origin.x, origin.y, null);
     summary = 'Arranged ' + nodes.length + ' items in masonry';
@@ -170,6 +178,7 @@ async function undo() {
     const parent = await figma.getNodeByIdAsync(m.parent);
     if (!n || !parent) continue;
     if (m.rescale) { if (n.width) n.rescale(m.w / n.width); } else if ('resize' in n) n.resize(m.w, m.h);
+    if (m.fills) { try { n.fills = JSON.parse(m.fills); } catch (e) { /* keep current fills */ } }
     parent.insertChild(Math.min(m.index, parent.children.length), n);
     n.x = m.x; n.y = m.y;
   }

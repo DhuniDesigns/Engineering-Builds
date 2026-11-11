@@ -11,8 +11,8 @@ Designed and built by **Hafsoh Bashar**.
 - **Arrange.**
   - **Sections:** groups the board into labelled Figma sections by colour, shape, type or any of your categories.
   - **Masonry:** Pinterest-style columns with no gaps.
-  - **Grid:** even cells at one size.
-  - Sliders control columns, gap and image width.
+  - **Grid:** set the columns, cell width, cell height and gap. Choose **Fill and crop**, where every image becomes exactly that size and photos crop to fill, or **Fit inside**, where images keep their shape and sit centred in the cell.
+  - Drag any slider, or click its number to type an exact value.
 - **Safe to try.** Nothing is deleted. Every arrange can be undone from the toast or with Cmd+Z.
 
 ## Try it
@@ -20,7 +20,7 @@ Designed and built by **Hafsoh Bashar**.
 1. In the Figma desktop app: **Plugins › Development › Import plugin from manifest…** and pick `manifest.json` in this folder.
 2. Open a moodboard and run **Sift**.
 3. Click **Scan this page**, or select some images and click **Use my selection**.
-4. Tick a tag such as **Warm** and click **Select**, or go to **Arrange** and pick a layout.
+4. **Arrange** opens first: pick a layout, set the sizes and click **Arrange**. Use **Tag** to add your own tags and categories, or to filter by colour, shape and type.
 
 Works in Figma Design and FigJam, in light and dark mode.
 
