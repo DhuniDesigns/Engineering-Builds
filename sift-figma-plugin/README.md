@@ -6,10 +6,10 @@ Designed and built by **Hafsoh Bashar**.
 ## What it does
 
 - **Smart tags, offline.** Sift reads every image on the board and tags it by colour (Warm, Cool, Neutral, Mono), shape (Portrait, Landscape, Square) and type (Photo, Typography, UI). Colour is worked out from a small thumbnail of each item, so it runs with no AI service or API key.
-- **Your own tags.** Select images on the canvas, type a tag and press Enter. Tags are saved on the layers themselves, so they stay in the file.
+- **Your own tags and categories.** Make categories that fit how you think, like Mood, Client or Project, and add tags inside each one. With images selected, adding a tag tags them too, and the + / ✓ button beside any tag adds it to or removes it from the selection. Tags can be renamed, moved between categories or deleted. Tags live on the layers and categories live in the file, so both are there next time.
 - **Filter and select.** Tick one or more tags to find everything that matches all of them, then select it on the canvas in one click.
 - **Arrange.**
-  - **Sections:** groups the board into labelled Figma sections by colour, shape, type or your tags.
+  - **Sections:** groups the board into labelled Figma sections by colour, shape, type or any of your categories.
   - **Masonry:** Pinterest-style columns with no gaps.
   - **Grid:** even cells at one size.
   - Sliders control columns, gap and image width.

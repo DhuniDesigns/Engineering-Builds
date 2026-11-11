@@ -87,8 +87,18 @@ function keyFor(n, groupBy, autoById) {
   if (groupBy === 'shape') return shapeOf(n);
   if (groupBy === 'type') return typeOf(n);
   if (groupBy === 'colour') return (autoById[n.id] && autoById[n.id].colour) || 'Unsorted';
-  const t = readTags(n); return t[0] || 'Untagged';
+  const t = readTags(n);
+  if (groupBy.indexOf('cat:') === 0) {
+    const cat = (cats || []).find(c => 'cat:' + c.id === groupBy);
+    if (cat) {
+      const inCat = cat.tags.map(x => x.toLowerCase());
+      const hit = t.find(x => inCat.indexOf(x.toLowerCase()) > -1);
+      return hit || 'No ' + cat.name.toLowerCase();
+    }
+  }
+  return t[0] || 'Untagged';
 }
+let cats = [];
 function masonry(nodes, cols, gap, width, ox, oy, parent) {
   const heights = new Array(cols).fill(0);
   nodes.forEach(n => {
@@ -130,6 +140,7 @@ async function arrange(o) {
     summary = 'Arranged ' + nodes.length + ' items in masonry';
   } else {
     const groups = {};
+    cats = o.cats || [];
     nodes.forEach(n => { const k = keyFor(n, o.groupBy, o.auto || {}); (groups[k] = groups[k] || []).push(n); });
     const order = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
     let x = origin.x;
@@ -187,6 +198,20 @@ figma.ui.onmessage = async msg => {
       });
       post({ type: 'tagsChanged', updates: nodes.map(n => ({ id: n.id, tags: readTags(n) })) });
     }
+    if (msg.type === 'saveCats') figma.root.setPluginData('sift-cats', JSON.stringify(msg.cats));
+    if (msg.type === 'renameTag' || msg.type === 'deleteTag') {
+      // Applies to every layer Sift has scanned on this page.
+      const nodes = await nodesFor(items);
+      const updates = [];
+      nodes.forEach(n => {
+        const t = readTags(n);
+        if (!t.includes(msg.tag || msg.from)) return;
+        const next = msg.type === 'deleteTag' ? t.filter(x => x !== msg.tag) : t.map(x => (x === msg.from ? msg.to : x)).filter((x, i, a) => a.indexOf(x) === i);
+        n.setPluginData(TAGS_KEY, JSON.stringify(next));
+        updates.push({ id: n.id, tags: next });
+      });
+      post({ type: 'tagsChanged', updates });
+    }
     if (msg.type === 'select') {
       const nodes = await nodesFor(msg.ids);
       figma.currentPage.selection = nodes;
@@ -194,7 +219,12 @@ figma.ui.onmessage = async msg => {
     }
     if (msg.type === 'arrange') await arrange(msg);
     if (msg.type === 'undo') await undo();
-    if (msg.type === 'boot') post({ type: 'selection', ids: figma.currentPage.selection.map(n => n.id) });
+    if (msg.type === 'boot') {
+      let saved = [];
+      try { saved = JSON.parse(figma.root.getPluginData('sift-cats') || '[]'); } catch (e) { saved = []; }
+      post({ type: 'cats', cats: saved });
+      post({ type: 'selection', ids: figma.currentPage.selection.map(n => n.id) });
+    }
   } catch (e) {
     post({ type: 'error', message: String((e && e.message) || e) });
   }
