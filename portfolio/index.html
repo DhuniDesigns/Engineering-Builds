@@ -1111,13 +1111,13 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .toc{display:none}
 .cs-sec{scroll-margin-top:96px}
 @media (min-width:1360px){
-  .toc{display:flex;flex-direction:column;gap:2px;position:fixed;top:232px;left:calc(50% - var(--col)/2 - 290px);width:220px;z-index:5}
-  .toc p{font-size:14px;color:var(--muted);margin-bottom:14px}
-  .toc button{display:flex;align-items:baseline;gap:14px;text-align:left;font:inherit;font-size:14.5px;line-height:1.4;color:var(--muted);padding:6px 0;background:none;border:0;cursor:pointer;transition:color .25s}
-  .toc button i{flex:none;width:12px;height:1.5px;border-radius:2px;background:currentColor;transform:translateY(-4px);transition:width .3s var(--ease-out),background-color .25s}
+  .toc{display:flex;flex-direction:column;gap:0;position:fixed;top:232px;left:calc(50% - var(--col)/2 - 260px);width:190px;z-index:5}
+  .toc p{font-size:12px;letter-spacing:.01em;color:var(--muted);margin-bottom:10px}
+  .toc button{display:flex;align-items:baseline;gap:10px;text-align:left;font:inherit;font-size:12.5px;line-height:1.35;color:var(--muted);padding:4px 0;background:none;border:0;cursor:pointer;transition:color .25s}
+  .toc button i{flex:none;width:8px;height:1px;border-radius:2px;background:currentColor;transform:translateY(-3.5px);transition:width .3s var(--ease-out),background-color .25s}
   .toc button:hover{color:var(--text)}
   .toc button.on{color:var(--fg)}
-  .toc button.on i{width:20px}
+  .toc button.on i{width:14px}
 }
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
