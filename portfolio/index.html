@@ -1038,32 +1038,38 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
   input,textarea,[contenteditable]{cursor:text}
 }
 
-/* Selected works: visual cards */
-.sw{margin-top:44px}
-.sw .label{margin-bottom:14px}
-.sw-grid{display:grid;gap:14px}
-.sw-card{display:grid;grid-template-columns:44% 1fr;gap:0;border-radius:22px;overflow:hidden;background:var(--surface);color:inherit;text-decoration:none;transition:transform .35s cubic-bezier(.32,.72,0,1),box-shadow .35s}
-.sw-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(0,0,0,.45)}
-.sw-media{position:relative;min-height:300px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,var(--c1,#ffe9df),var(--c2,#f7d5c6))}
-.sw-phone{height:272px;aspect-ratio:393/852;border-radius:26px;overflow:hidden;background:#f9f9f9;box-shadow:0 0 0 4px #141414,0 22px 40px -14px rgba(0,0,0,.45);transform:rotate(-3deg);transition:transform .5s cubic-bezier(.32,.72,0,1)}
-.sw-card:hover .sw-phone{transform:rotate(0) scale(1.03)}
+/* Selected works: big sliding cards (inspo: davemiye.com) */
+.sw{margin-top:56px}
+.sw .label{margin-bottom:16px}
+.sw-rail{width:100vw;margin-left:calc(50% - 50vw);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;cursor:grab}
+.sw-rail::-webkit-scrollbar{display:none}
+.sw-rail.drag{cursor:grabbing;scroll-snap-type:none}
+.sw-track{display:flex;gap:14px;width:max-content;padding-inline:max(16px,calc(50vw - min(46vw,560px)))}
+.sw-item{flex:none;width:min(92vw,1120px);scroll-snap-align:center;color:inherit;text-decoration:none;display:block}
+.sw-media{position:relative;aspect-ratio:3/2;border-radius:20px;overflow:hidden;background:var(--bgc,#222);isolation:isolate}
+.sw-media .bg{position:absolute;inset:0;z-index:-1}
+.sw-brand{position:absolute;left:50%;top:44%;translate:-50% -50%;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;pointer-events:none}
+.sw-brand img{width:clamp(56px,7vw,92px);height:auto;border-radius:22%;box-shadow:0 12px 30px -10px rgba(0,0,0,.35)}
+.sw-brand b{font-family:"Bricolage Grotesque",var(--sans),sans-serif;font-weight:600;font-size:clamp(40px,6.4vw,84px);letter-spacing:-.03em;line-height:.95;color:var(--ink,#fff)}
+.sw-blurb{position:absolute;left:50%;bottom:6%;translate:-50% 0;width:min(80%,520px);text-align:center;font-size:clamp(12px,1.15vw,14.5px);line-height:1.45;color:var(--ink2,rgba(255,255,255,.8))}
+.sw-phone{position:absolute;right:6%;top:50%;translate:0 -50%;height:84%;aspect-ratio:393/852;border-radius:clamp(18px,2.6vw,34px);overflow:hidden;background:#f9f9f9;box-shadow:0 0 0 clamp(3px,.45vw,6px) #141414,0 30px 60px -20px rgba(0,0,0,.5);rotate:4deg;transition:rotate .6s cubic-bezier(.32,.72,0,1),scale .6s cubic-bezier(.32,.72,0,1)}
+.sw-phone.l{right:auto;left:6%;rotate:-4deg}
+.sw-item:hover .sw-phone{rotate:0deg;scale:1.03}
 .sw-phone video,.sw-phone img{width:100%;height:100%;object-fit:cover;display:block}
-.sw-shot{width:86%;border-radius:12px;overflow:hidden;box-shadow:0 18px 36px -14px rgba(0,0,0,.4);transform:rotate(-2deg);transition:transform .5s cubic-bezier(.32,.72,0,1)}
-.sw-card:hover .sw-shot{transform:rotate(0) scale(1.03)}
+.sw-shot{position:absolute;left:50%;bottom:-6%;translate:-50% 0;width:72%;border-radius:12px 12px 0 0;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.45);transition:translate .6s cubic-bezier(.32,.72,0,1)}
+.sw-item:hover .sw-shot{translate:-50% -3%}
 .sw-shot img{display:block;width:100%}
-.sw-info{padding:22px 22px 20px;display:flex;flex-direction:column;gap:12px}
-.sw-top{display:flex;align-items:center;gap:12px}
-.sw-ic{width:40px;height:40px;border-radius:11px;flex:none}
-.sw-top b{display:block;color:var(--fg);font-weight:500;font-size:16px}
-.sw-top span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
-.sw-info p{color:var(--text);font-size:14px;line-height:1.55;margin:0}
-.sw-tags{display:flex;flex-wrap:wrap;gap:6px}
-.sw-tags span{font-size:11px;color:var(--text);border:1px solid var(--rule,#2a2a2a);border-radius:999px;padding:4px 9px}
-.sw-cta{margin-top:auto;font-size:13px;color:var(--fg)}
-.sw-cta i{font-style:normal;display:inline-block;transition:transform .3s}
-.sw-card:hover .sw-cta i{transform:translateX(4px)}
-@media (max-width:640px){.sw-card{grid-template-columns:1fr}.sw-media{min-height:280px}.sw-phone{height:250px}}
-@media (prefers-reduced-motion:reduce){.sw-card,.sw-phone,.sw-shot{transition:none}}
+.sw-meta{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:16px 6px 0}
+.sw-meta b{display:block;font-weight:500;color:var(--fg);font-size:15px}
+.sw-meta span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+.sw-meta .cta{color:var(--fg);font-size:14px;white-space:nowrap}
+.sw-meta .cta i{font-style:normal;display:inline-block;transition:transform .3s}
+.sw-item:hover .cta i{transform:translateX(4px)}
+.sw-view{position:fixed;left:0;top:0;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:#efeee9;color:#111;display:grid;place-items:center;font-size:13px;font-weight:500;pointer-events:none;z-index:30;scale:0;transition:scale .35s cubic-bezier(.34,1.4,.64,1)}
+.sw-view.on{scale:1}
+@media (hover:none){.sw-view{display:none}}
+@media (max-width:640px){.sw-item{width:86vw}.sw-media{aspect-ratio:4/5}.sw-brand{top:30%}.sw-phone{right:50%;translate:50% 0;top:auto;bottom:-14%;height:66%;rotate:0deg}.sw-blurb{display:none}.sw-shot{width:92%}.sw-track{padding-inline:7vw}}
+@media (prefers-reduced-motion:reduce){.sw-phone,.sw-shot,.sw-view{transition:none}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1115,6 +1121,7 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 <div class="peek" id="peek" aria-hidden="true"></div>
 <div class="pv" id="pv" aria-hidden="true"></div>
 <nav class="dock away" id="dock" aria-label="Social links">
+  <a data-social="about" data-tip="About" aria-label="About"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.2 14.2c.9 1.5 2.2 2.3 3.8 2.3s2.9-.8 3.8-2.3"/></g><circle cx="9" cy="9.8" r="1.25" fill="currentColor"/><circle cx="15" cy="9.8" r="1.25" fill="currentColor"/></svg></a>
   <a data-social="x" data-tip="X (Twitter)" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07l-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg></a>
   <a data-social="linkedin" data-tip="LinkedIn" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M9.429 8.969h3.714v1.85c.535-1.064 1.907-2.02 3.968-2.02c3.951 0 4.889 2.118 4.889 6.004V22h-4v-6.312c0-2.213-.535-3.461-1.897-3.461c-1.889 0-2.674 1.345-2.674 3.46V22h-4zM2.57 21.83h4V8.799h-4zM7.143 4.55a2.53 2.53 0 0 1-.753 1.802a2.57 2.57 0 0 1-1.82.748a2.6 2.6 0 0 1-1.818-.747A2.55 2.55 0 0 1 2 4.55c0-.677.27-1.325.753-1.803A2.58 2.58 0 0 1 4.571 2c.682 0 1.336.269 1.819.747s.753 1.126.753 1.803" clip-rule="evenodd"/></svg></a>
   <a data-social="github" data-tip="GitHub" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><g fill="none"><g clip-path="url(#SVGXv8lpc2Y)"><path fill="currentColor" fill-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12" clip-rule="evenodd"/></g><defs><clipPath id="SVGXv8lpc2Y"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg></a>
@@ -1339,52 +1346,57 @@ const ART={
   "out-and-about":`<div class="pv-art pv-out"><span class="d" style="left:22%;top:30%"></span><span class="d" style="left:58%;top:22%"></span><span class="d" style="left:70%;top:58%"></span><span class="d hot" style="left:38%;top:55%"></span><b>Tonight in Abuja</b></div>`,
 };
 
-const views = {
-home(){
-  return `<div class="col">
-    <p class="crumb label" style="margin-top:80px"><span class="hello" id="hello" aria-label="Hello"><span>Hello</span></span></p>
-    <div class="intro">
+const bio=()=>`    <div class="intro">
       <p>I’m Hafsoh, a product designer and design engineer who designs in Figma and ships in code. I make AI products simpler to use and easier to trust. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a> below.</p>
       <p>Since 2024 I’ve designed and built multiple web and mobile products for teams in the US and Dubai, across fintech, AI, wellness and education, along with the design systems that keep them consistent as they grow.</p>
       <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant that answers Instagram and TikTok sellers’ DMs and shows where every reply came from, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, an AI tool that turns a one-line brand description into a ready-to-use Figma brand kit. The small interactions I build along the way end up in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles at AI companies.</span>${contactLinks}</div>
-    </div>
-    <section class="sw"><p class="label">Selected works</p>
-      <div class="sw-grid">
-        <a class="sw-card" href="#sello" style="--c1:#ffe9df;--c2:#f6cdbb">
-          <div class="sw-media"><div class="sw-phone"><video autoplay muted loop playsinline preload="metadata" poster="vid/sello-card.jpg" aria-label="Sello demo: a seller opens Why?, picks what is wrong and Sello sends a correction"><source src="vid/sello-card.mp4" type="video/mp4"></video></div></div>
-          <div class="sw-info">
-            <div class="sw-top"><img class="sw-ic" src="img/sello-icon.webp" alt=""><div><b>Sello</b><span>AI assistant for Instagram and TikTok sellers</span></div></div>
-            <p>Sello answers sellers’ DMs and shows where every reply came from. If it gets something wrong, the seller fixes it in two taps, and Undo is one tap away.</p>
-            <div class="sw-tags"><span>AI trust</span><span>Designed and built</span><span>Live demo</span></div>
-            <span class="sw-cta">Read case study <i>→</i></span>
-          </div>
-        </a>
-        <a class="sw-card" href="#pixie" style="--c1:#efe6ff;--c2:#dccbff">
-          <div class="sw-media"><div class="sw-shot"><img src="img/pixie.webp" alt="Pixie generating a brand kit" loading="lazy"></div></div>
-          <div class="sw-info">
-            <div class="sw-top"><div><b>Pixie</b><span>AI brand kits for Figma</span></div></div>
-            <p>Type one line about a brand and Pixie builds a ready-to-use Figma kit: colours, fonts, icons and illustrations, all connected as variables.</p>
-            <div class="sw-tags"><span>AI tool</span><span>Web app and Figma plugin</span><span>Live</span></div>
-            <span class="sw-cta">Read case study <i>→</i></span>
-          </div>
-        </a>
-      </div>
-    </section>
-    ${reel()}
+    </div>`;
+const views = {
+home(){
+  return `<div class="col">
+    <p class="crumb label" style="margin-top:80px"><span class="hello" id="hello" aria-label="Hello"><span>Hello</span></span></p>
+${bio()}
+    <section class="sw"><p class="label">Selected works</p></section>
+    <div class="sw-rail" id="swRail"><div class="sw-track">
+      <a class="sw-item" href="#sello">
+        <div class="sw-media" style="--ink:#fff;--ink2:rgba(255,255,255,.85)">
+          <div class="bg" style="background:radial-gradient(120% 90% at 30% 20%,#ff9a6b,transparent 60%),linear-gradient(150deg,#f3642a,#c2410c)"></div>
+          <div class="sw-brand" style="left:34%"><img src="img/sello-icon.webp" alt=""><b>Sello</b></div>
+          <div class="sw-phone"><video autoplay muted loop playsinline preload="metadata" poster="vid/sello-card.jpg" aria-label="Sello demo: a seller opens Why?, picks what is wrong and Sello sends a correction"><source src="vid/sello-card.mp4" type="video/mp4"></video></div>
+          <p class="sw-blurb" style="left:34%">An AI assistant that answers sellers’ DMs and shows where every reply came from. Get it wrong, and the seller fixes it in two taps.</p>
+        </div>
+        <div class="sw-meta"><div><b>Sello</b><span>AI product · Design and build · Live demo</span></div><span class="cta">Read case study <i>→</i></span></div>
+      </a>
+      <a class="sw-item" href="#pixie">
+        <div class="sw-media" style="--ink:#1d1033;--ink2:rgba(29,16,51,.75)">
+          <div class="bg" style="background:radial-gradient(110% 90% at 70% 10%,#f5ecff,transparent 60%),linear-gradient(160deg,#e6d6ff,#b996ff)"></div>
+          <div class="sw-brand" style="top:24%"><b>Pixie</b></div>
+          <div class="sw-shot"><img src="img/pixie.webp" alt="Pixie making a brand kit" loading="lazy"></div>
+        </div>
+        <div class="sw-meta"><div><b>Pixie</b><span>AI tool · Web app and Figma plugin</span></div><span class="cta">Read case study <i>→</i></span></div>
+      </a>
+    </div></div>
     <div class="sections">
       <section class="block"><div class="head"><p class="label">My work</p><a class="u" href="#work">see all</a></div>
         <ul class="list">${builds.map(b=>row(b.name,b.meta,"#work/"+b.tab,b.soon)).join("")}</ul></section>
       <hr class="rule">
       <section class="block"><p class="label">Experience</p>
         <div class="jobs">${jobs.map(j=>`<div class="job"><div class="job-top"><div class="job-line">${coName(j)}<span>${j.when}</span></div><span class="role">${esc(j.role)} <span class="where">· ${esc(j.where)}</span></span></div><p>${esc(j.short)}</p></div>`).join("")}</div></section>
-      <hr class="rule">
+      ${reel()}
+
+    </div>
+  </div>`;
+},
+about(){
+  return `<div class="col">${crumb("About")}
+    ${bio()}
+    <div class="sections">
       <section class="block"><p class="label">Bookshelf</p>
         <div class="shelf-wrap" id="shelf"><div class="shelf-inner"><div class="books" id="books">${shelf()}</div><div class="shelf-board"></div></div></div>
         <div class="row shelf-meta" id="book-meta"><span class="name">${esc(BOOKS[0].status)}</span><span class="meta">${esc(BOOKS[0].title)}</span></div></section>
       <hr class="rule">
       <section class="block"><p class="label">Off the clock</p><div class="collage" id="collage" aria-label="Hobbies: photos, films, music, jewellery and clothes I love"></div></section>
-
     </div>
   </div>`;
 },
@@ -2023,12 +2035,22 @@ const _blSet=blSet; blSet=function(st){ if(st!=="idle"){ blEyes.classList.remove
   setInterval(()=>{ link.href=url(svgWink); setTimeout(()=>link.href=url(svgOpen),450); },4000);
 })();
 
+
+/* Selected works rail: View project cursor + drag to scroll */
+const swView=document.createElement("div"); swView.className="sw-view"; swView.textContent="View project"; swView.setAttribute("aria-hidden","true"); document.body.appendChild(swView);
+document.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; const m=e.target.closest&&e.target.closest(".sw-media");
+  swView.classList.toggle("on",!!m); if(m){ swView.style.translate=e.clientX+"px "+e.clientY+"px"; } });
+document.addEventListener("scroll",()=>swView.classList.remove("on"),{passive:true});
+let swDrag=null;
+document.addEventListener("pointerdown",e=>{ const r=e.target.closest&&e.target.closest("#swRail"); if(!r||e.pointerType!=="mouse") return; swDrag={r,x:e.clientX,l:r.scrollLeft,moved:false}; });
+document.addEventListener("pointermove",e=>{ if(!swDrag) return; const dx=e.clientX-swDrag.x; if(Math.abs(dx)>5){ swDrag.moved=true; swDrag.r.classList.add("drag"); } if(swDrag.moved) swDrag.r.scrollLeft=swDrag.l-dx; });
+document.addEventListener("pointerup",()=>{ if(!swDrag) return; const d=swDrag; swDrag=null; d.r.classList.remove("drag"); if(d.moved){ const stop=ev=>{ev.preventDefault();ev.stopPropagation();}; d.r.addEventListener("click",stop,{capture:true,once:true}); setTimeout(()=>d.r.removeEventListener("click",stop,{capture:true}),50); } });
 /* ---- floating dock: X, LinkedIn, GitHub ---- */
-const SOCIAL = { x:LINKS.x, linkedin:LINKS.linkedin, github:LINKS.github, email:"mailto:"+EMAIL };
+const SOCIAL = { about:"#about", x:LINKS.x, linkedin:LINKS.linkedin, github:LINKS.github, email:"mailto:"+EMAIL };
 const dock=document.getElementById("dock"), dockLinks=[...dock.querySelectorAll("a")];
 dockLinks.forEach(a=>{
   const url=SOCIAL[a.dataset.social];
-  if(url){ a.href=url; if(url.startsWith("mailto:")) a.setAttribute("data-mail",""); else { a.target="_blank"; a.rel="noopener"; } }
+  if(url){ a.href=url; if(url.startsWith("#")){} else if(url.startsWith("mailto:")) a.setAttribute("data-mail",""); else { a.target="_blank"; a.rel="noopener"; } }
   else { a.setAttribute("role","link"); a.tabIndex=0;
     const soon=ev=>{ ev.preventDefault(); toast(a.dataset.tip+" link coming soon"); };
     a.addEventListener("click",soon); a.addEventListener("keydown",ev=>{ if(ev.key==="Enter") soon(ev); }); }
