@@ -671,7 +671,7 @@ a.fr .go{position:absolute;right:12px;bottom:12px;z-index:3;font-size:12px;paddi
 .links.glide{flex-wrap:wrap;row-gap:10px;align-items:center}
 .site-link{align-items:baseline}
 .site-link .fav{align-self:center;display:inline-block}
-.contact .u.ext,.contact .u{white-space:nowrap}
+.contact .u.ext,.contact .u,.contact .hl{white-space:nowrap}
 .site-link{gap:0}.site-link .fav{margin-right:6px}
 
 /* reel labels sit at the bottom, small; the tag swaps to Visit on hover */
@@ -1433,7 +1433,7 @@ resume(){
   return `<div class="col">${crumb("Resume")}
     <h1>Hafsoh Bashar</h1>
     <div class="sub"><span>Product designer and design engineer</span><span>Lagos, Nigeria · UTC+1</span></div>
-    <div class="contact"><span class="links glide"><span><a class="u" href="mailto:${EMAIL}" data-mail>${EMAIL}</a><button class="copy" data-copy-email aria-label="Copy email address">${ICON_COPY}</button></span>${dot}<a class="u ext" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn</a>${dot}<a class="u ext" href="${LINKS.x}" target="_blank" rel="noopener">Twitter</a>${dot}<a class="u ext site-link" href="${LINKS.site}" target="_blank" rel="noopener"><span class="fav">${blobMini()}</span>dhunidesigns.com</a></span>
+    <div class="contact"><span class="links glide"><span><a class="hl" style="--c:#5b9dff" href="mailto:${EMAIL}" data-mail>${EMAIL}</a><button class="copy" data-copy-email aria-label="Copy email address">${ICON_COPY}</button></span>${dot}<a class="hl ext" style="--c:#3ddc84" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn</a>${dot}<a class="hl ext" style="--c:#ff8a3d" href="${LINKS.x}" target="_blank" rel="noopener">Twitter</a>${dot}<a class="hl ext site-link" style="--c:#c084fc" href="${LINKS.site}" target="_blank" rel="noopener"><span class="fav">${blobMini()}</span>dhunidesigns.com</a></span>
       <button class="pill-btn" id="pdf">${ICON_DL}Download pdf</button></div>
     <div class="sections" style="margin-top:40px">
       <section class="block" style="gap:12px"><p class="label">About</p>
