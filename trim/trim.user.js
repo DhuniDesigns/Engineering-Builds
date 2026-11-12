@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trim
 // @description  Shortens your Claude prompt so it uses fewer tokens. You see before and after, then choose.
-// @version      0.1.0
+// @version      0.2.0
 // @author       Hafsoh Bashar
 // @match        https://claude.ai/*
 // @run-at       document-idle
@@ -146,57 +146,105 @@
   root.innerHTML = `
   <style>
     :host{all:initial}
-    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
-    .t{--bg:#fff;--fg:#1f1e1d;--muted:#73726c;--line:rgba(31,30,29,.12);--cut:#b4432f;--accent:#c96442;--chip:#f4f2ee}
-    .t.dark{--bg:#262624;--fg:#f5f4ef;--muted:#a6a39b;--line:rgba(245,244,239,.14);--cut:#f08a72;--accent:#d97757;--chip:#30302e}
-    .pill{position:fixed;pointer-events:auto;display:flex;align-items:center;gap:6px;height:32px;padding:0 12px 0 10px;border-radius:999px;
-      border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:13px;font-weight:500;cursor:pointer;
-      box-shadow:0 2px 10px rgba(0,0,0,.08);opacity:0;transform:translateY(4px) scale(.97);
-      transition:opacity .24s ease-out,transform .32s cubic-bezier(.2,.9,.3,1.2),border-color .2s}
+    *{box-sizing:border-box;margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+      -webkit-font-smoothing:antialiased;letter-spacing:-.006em}
+    .t{--bg:rgba(255,255,255,.88);--solid:#fff;--fg:#17181b;--muted:#6b6f78;--faint:#9a9ea6;--line:rgba(17,18,24,.08);
+      --hover:rgba(17,18,24,.045);--kbd:rgba(17,18,24,.06);--bar:rgba(17,18,24,.025);--hi:rgba(255,255,255,.9);
+      --accent:#5e64e0;--accent-hi:#7378ec;--ok:#16935a;--ok-bg:rgba(22,147,90,.10);--cut:#d6383e;--cut-bg:rgba(214,56,62,.09);
+      --shadow:0 0 0 1px var(--line),0 1px 2px rgba(17,18,24,.04),0 18px 48px -14px rgba(17,18,24,.22)}
+    .t.dark{--bg:rgba(24,24,27,.86);--solid:#18181b;--fg:#f1f1f3;--muted:#8d9099;--faint:#5f626b;--line:rgba(255,255,255,.08);
+      --hover:rgba(255,255,255,.055);--kbd:rgba(255,255,255,.08);--bar:rgba(255,255,255,.025);--hi:rgba(255,255,255,.06);
+      --accent:#6c72f0;--accent-hi:#8288f6;--ok:#4cc38a;--ok-bg:rgba(76,195,138,.12);--cut:#ff6b70;--cut-bg:rgba(255,107,112,.11);
+      --shadow:0 0 0 1px var(--line),0 2px 4px rgba(0,0,0,.2),0 24px 64px -16px rgba(0,0,0,.6)}
+    .glass{background:var(--bg);-webkit-backdrop-filter:blur(24px) saturate(1.7);backdrop-filter:blur(24px) saturate(1.7);
+      box-shadow:var(--shadow),inset 0 1px 0 var(--hi);color:var(--fg)}
+    kbd{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:5px;
+      background:var(--kbd);color:var(--muted);font:500 11px/1 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;letter-spacing:0}
+    .num{font-variant-numeric:tabular-nums}
+    button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+    button:focus-visible{outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+    .btn.go:focus-visible{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 0 1px color-mix(in srgb,var(--accent) 80%,#000),0 0 0 4px color-mix(in srgb,var(--accent) 30%,transparent)}
+
+    /* Pill */
+    .pill{position:fixed;pointer-events:auto;display:flex;align-items:center;gap:8px;height:30px;padding:0 6px 0 10px;border-radius:10px;
+      font-size:12.5px;font-weight:500;opacity:0;transform:translateY(6px) scale(.98);
+      transition:opacity .28s ease-out,transform .4s cubic-bezier(.16,1,.3,1),background .2s}
     .pill.on{opacity:1;transform:none}
-    .pill:hover{border-color:var(--accent)}
-    .pill:active{transform:scale(.96)}
-    .pill:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-    .pill b{color:var(--accent);font-weight:600}
-    .pill svg{width:15px;height:15px;color:var(--accent)}
-    .card{position:fixed;pointer-events:auto;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:16px;
-      box-shadow:0 12px 40px rgba(0,0,0,.18);padding:16px;opacity:0;transform:translateY(8px);
-      transition:opacity .26s ease-out,transform .34s cubic-bezier(.2,.9,.3,1)}
+    .pill:hover{background:var(--solid)}
+    .pill:active{transform:scale(.97)}
+    .pill .ic{width:14px;height:14px;color:var(--accent)}
+    .chip{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:6px;background:var(--ok-bg);color:var(--ok);
+      font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+    .pill .quiet{color:var(--muted);font-weight:450}
+
+    /* Panel */
+    .card{position:fixed;pointer-events:auto;border-radius:14px;overflow:hidden;opacity:0;transform:translateY(8px) scale(.985);
+      transform-origin:50% 100%;transition:opacity .3s ease-out,transform .42s cubic-bezier(.16,1,.3,1)}
     .card.on{opacity:1;transform:none}
-    .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
-    .title{font-size:15px;font-weight:600}
-    .title b{color:var(--accent)}
-    .total{font-size:12px;color:var(--muted)}
-    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .head{display:flex;align-items:center;justify-content:space-between;gap:12px;height:48px;padding:0 16px;border-bottom:1px solid var(--line)}
+    .crumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+    .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;color:#fff;
+      background:linear-gradient(180deg,var(--accent-hi),var(--accent));box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 1px 2px rgba(0,0,0,.2)}
+    .logo svg{width:13px;height:13px}
+    .slash{color:var(--faint)}
+    .crumb .sub{color:var(--muted);font-weight:450}
+    .stat{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
+    .stat b{color:var(--fg);font-weight:500}
+    .meter{height:2px;background:var(--line);position:relative}
+    .meter i{position:absolute;inset:0;background:linear-gradient(90deg,var(--accent),var(--accent-hi));
+      transform-origin:left;animation:fill .9s .12s cubic-bezier(.16,1,.3,1) both}
+    @keyframes fill{from{transform:scaleX(1)}}
+    .cols{display:grid;grid-template-columns:1fr 1fr}
     .card.narrow .cols{grid-template-columns:1fr}
-    .col{background:var(--chip);border-radius:10px;padding:10px 12px;max-height:210px;overflow:auto}
-    .lab{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
-    .txt{font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
-    del{color:var(--cut);text-decoration-thickness:1.5px;opacity:.85}
-    .tip{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.45}
-    .tip b{color:var(--fg);font-weight:600}
-    .row{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-    .btn{height:34px;padding:0 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--fg);transition:transform .15s,background .2s}
+    .col{padding:14px 16px 16px;min-width:0}
+    .col + .col{border-left:1px solid var(--line)}
+    .card.narrow .col + .col{border-left:0;border-top:1px solid var(--line)}
+    .lab{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--muted);font-weight:500}
+    .lab .num{color:var(--faint)}
+    .txt{font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:196px;overflow:auto;scrollbar-width:thin}
+    .col.old .txt{color:var(--muted)}
+    del{color:var(--cut);background:var(--cut-bg);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--cut) 60%,transparent);
+      border-radius:3px;padding:0 2px;margin:0 -1px}
+    .tip{display:flex;gap:10px;align-items:flex-start;margin:0 16px 14px;padding:10px 12px;border-radius:10px;background:var(--bar);
+      box-shadow:inset 0 0 0 1px var(--line);font-size:12.5px;line-height:1.5;color:var(--muted)}
+    .tip svg{flex:none;width:14px;height:14px;margin-top:2px;color:var(--accent)}
+    .tip b{color:var(--fg);font-weight:500}
+    .foot{display:flex;align-items:center;gap:6px;height:48px;padding:0 8px 0 16px;border-top:1px solid var(--line);background:var(--bar)}
+    .total{margin-right:auto;font-size:12px;color:var(--faint)}
+    .btn{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 8px 0 12px;border-radius:8px;font-size:13px;font-weight:500;
+      transition:background .18s,transform .15s}
+    .btn:hover{background:var(--hover)}
     .btn:active{transform:scale(.97)}
-    .btn.go{background:var(--accent);border-color:var(--accent);color:#fff}
-    .keys{font-size:11px;color:var(--muted);margin-right:auto;align-self:center}
-    .toast{position:fixed;pointer-events:auto;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 14px;border-radius:12px;
-      background:var(--fg);color:var(--bg);font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(6px);
-      transition:opacity .24s ease-out,transform .3s cubic-bezier(.2,.9,.3,1)}
-    .toast.on{opacity:1;transform:none}
-    .toast button{background:transparent;border:0;color:var(--bg);font-weight:600;font-size:13px;cursor:pointer;padding:4px 8px;border-radius:8px;text-decoration:underline}
-    @media (prefers-reduced-motion:reduce){.pill,.card,.toast{transition:opacity .15s linear;transform:none!important}}
+    .btn.go{color:#fff;background:linear-gradient(180deg,var(--accent-hi),var(--accent));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 0 1px color-mix(in srgb,var(--accent) 80%,#000),0 2px 6px -2px rgba(0,0,0,.35)}
+    .btn.go:hover{filter:brightness(1.06)}
+    .btn.go kbd{background:rgba(255,255,255,.18);color:rgba(255,255,255,.9)}
+
+    /* Toast, like a HUD */
+    .toast{position:fixed;pointer-events:auto;display:flex;align-items:center;gap:10px;height:40px;padding:0 6px 0 10px;border-radius:12px;
+      font-size:13px;font-weight:500;opacity:0;transform:translate(-50%,8px) scale(.98);
+      transition:opacity .28s ease-out,transform .4s cubic-bezier(.16,1,.3,1)}
+    .toast.on{opacity:1;transform:translate(-50%,0)}
+    .ok{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ok-bg);color:var(--ok)}
+    .ok svg{width:12px;height:12px}
+    .toast .vr{width:1px;height:18px;background:var(--line)}
+    .toast .btn{height:28px;padding:0 6px 0 10px}
+    @media (prefers-reduced-motion:reduce){.pill,.card,.toast{transition:opacity .15s linear}.pill,.card{transform:none!important}
+      .toast{transform:translate(-50%,0)!important}.meter i{animation:none}}
   </style>
   <div class="t">
-    <button class="pill" type="button" hidden aria-label="Trim your prompt">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>
-      <span class="pl">Trim</span>
-    </button>
-    <div class="card" hidden role="dialog" aria-label="Trim preview"></div>
-    <div class="toast" hidden role="status"></div>
+    <button class="pill glass" type="button" hidden aria-label="Trim your prompt"></button>
+    <div class="card glass" hidden role="dialog" aria-label="Trim preview"></div>
+    <div class="toast glass" hidden role="status"></div>
   </div>`;
   document.documentElement.appendChild(host);
 
+
+  const ICON = {
+    scissors: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>',
+    bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  };
   const $ = (s) => root.querySelector(s);
   const wrap = $('.t'), pill = $('.pill'), card = $('.card'), toast = $('.toast');
   const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -249,7 +297,6 @@
     card.classList.toggle('narrow', w < 520);
     toast.style.left = `${box.left + box.width / 2}px`;
     toast.style.bottom = `${innerHeight - box.top + 12}px`;
-    toast.style.translate = '-50% 0';
   }
 
   function compute() {
@@ -264,11 +311,11 @@
     if (!force && words(readEditor(editor)) < 20) { hide(pill); return null; }
     const { saved } = compute();
     if (saved >= 3) {
-      $('.pl').innerHTML = `Trim · save <b>~${saved}</b> tokens`;
-      pill.title = 'Trim (Option+T)';
+      pill.innerHTML = `${ICON.scissors.replace('<svg', '<svg class="ic"')}<span>Trim</span><span class="chip">−${saved} tokens</span><kbd>⌥T</kbd>`;
+      pill.title = 'Trim your prompt (Option+T)';
       place(); show(pill);
     } else if (force) {
-      $('.pl').textContent = 'Already tight';
+      pill.innerHTML = `${ICON.check.replace('<svg', '<svg class="ic"')}<span class="quiet">Already tight</span>`;
       place(); show(pill); setTimeout(() => hide(pill), 1600);
     } else hide(pill);
     return result;
@@ -282,12 +329,18 @@
     const n = A.length, m = B.length, L = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
     for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
       L[i][j] = norm(A[i]) === norm(B[j]) ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
-    let i = 0, j = 0, out = '';
+    let i = 0, j = 0, out = '', cut = '';
+    const flush = () => {
+      if (!cut) return;
+      const lead = cut.match(/^\s*/)[0], trail = cut.match(/\s*$/)[0];
+      out += lead + `<del>${esc(cut.trim())}</del>` + trail; cut = '';
+    };
     while (i < n) {
-      if (j < m && norm(A[i]) === norm(B[j])) { out += esc(A[i]); i++; j++; }
+      if (j < m && norm(A[i]) === norm(B[j])) { flush(); out += esc(A[i]); i++; j++; }
       else if (j < m && L[i][j + 1] >= L[i + 1][j]) j++;
-      else { out += /^\s+$/.test(A[i]) ? A[i] : `<del>${esc(A[i])}</del>`; i++; }
+      else { cut += A[i]; i++; }
     }
+    flush();
     return out;
   }
 
@@ -295,18 +348,25 @@
     if (!editor) return;
     const r = compute();
     if (r.saved < 3) { check(true); return; }
-    const pct = Math.round((r.saved / Math.max(1, tokens(r.before))) * 100);
+    const before = tokens(r.before), after = tokens(r.after);
+    const pct = Math.round((r.saved / Math.max(1, before)) * 100);
+    const total = store.get();
     card.innerHTML = `
-      <div class="head"><div class="title">Save <b>~${r.saved} tokens</b> (${pct}% shorter)</div>
-        <div class="total">${store.get() ? `~${store.get()} saved so far` : ''}</div></div>
-      <div class="cols">
-        <div class="col"><div class="lab"><span>Yours</span><span>~${tokens(r.before)}</span></div><div class="txt">${diff(r.before, r.after)}</div></div>
-        <div class="col"><div class="lab"><span>Trimmed</span><span>~${tokens(r.after)}</span></div><div class="txt">${esc(r.after)}</div></div>
+      <div class="head">
+        <div class="crumb"><span class="logo">${ICON.scissors}</span>Trim<span class="slash">/</span><span class="sub">Preview</span></div>
+        <div class="stat"><span class="num"><b>~${before}</b> → <b>~${after}</b> tokens</span><span class="chip">−${pct}%</span></div>
       </div>
-      ${r.tip ? `<div class="tip"><b>Tip:</b> ${esc(r.tip)}</div>` : ''}
-      <div class="row"><span class="keys">Enter to use · Esc to keep yours</span>
-        <button class="btn" data-a="keep" type="button">Keep mine</button>
-        <button class="btn go" data-a="use" type="button">Use this</button></div>`;
+      <div class="meter"><i style="transform:scaleX(${(after / Math.max(1, before)).toFixed(3)})"></i></div>
+      <div class="cols">
+        <div class="col old"><div class="lab">Yours<span class="num">~${before}</span></div><div class="txt">${diff(r.before, r.after)}</div></div>
+        <div class="col"><div class="lab">Trimmed<span class="num">~${after}</span></div><div class="txt">${esc(r.after)}</div></div>
+      </div>
+      ${r.tip ? `<div class="tip">${ICON.bulb}<span><b>Tip</b> · ${esc(r.tip)}</span></div>` : ''}
+      <div class="foot">
+        <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : 'Runs on your Mac. Nothing leaves it.'}</span>
+        <button class="btn" data-a="keep" type="button">Keep mine <kbd>esc</kbd></button>
+        <button class="btn go" data-a="use" type="button">Use this <kbd>↵</kbd></button>
+      </div>`;
     place(); hide(pill); show(card);
     card.querySelector('[data-a="use"]').focus({ preventScroll: true });
   }
@@ -319,7 +379,7 @@
     writeEditor(editor, result.after);
     store.add(result.saved);
     hide(card);
-    toast.innerHTML = `Trimmed · ~${result.saved} tokens saved <button type="button">Undo</button>`;
+    toast.innerHTML = `<span class="ok">${ICON.check}</span><span>Trimmed <span class="num">~${result.saved}</span> tokens</span><span class="vr"></span><button class="btn" type="button">Undo <kbd>⌘Z</kbd></button>`;
     toast.querySelector('button').onclick = undo;
     place(); show(toast);
     clearTimeout(toastTimer);
