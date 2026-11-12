@@ -1,7 +1,9 @@
 // ==UserScript==
 // @name         Trim
 // @description  Shortens your Claude prompt so it uses fewer tokens. You see before and after, then choose.
-// @version      0.2.0
+// @version      0.2.1
+// @updateURL    https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
+// @downloadURL  https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @author       Hafsoh Bashar
 // @match        https://claude.ai/*
 // @run-at       document-idle
@@ -43,14 +45,14 @@
 
   const RULES = [
     { id: 'greet', re: /^\s*(hi|hello|hey|hiya|good (morning|afternoon|evening))( there)?( claude)?\s*[,!.]*\s*/i, rep: '' },
-    { id: 'wellbeing', re: /\b(i )?hope (you're|you are|you have been|you've been|all is) (doing )?(well|good|great|okay|having a (good|great|nice|lovely) day)\s*[.!,]*\s*/gi, rep: '' },
+    { id: 'wellbeing', re: /\b(i )?hope (you['’]re|you are|you have been|you['’]ve been|all is) (doing )?(well|good|great|okay|having a (good|great|nice|lovely) day)\s*[.!,]*\s*/gi, rep: '' },
     { id: 'sorry', re: /\b(sorry (to bother you|for the long message|if this is a (silly|dumb|stupid) question)|apologies for (the|my) (long )?message)\s*[.!,]*\s*/gi, rep: '' },
     { id: 'closer', re: /\b(please )?let me know if you (have any questions|need (anything else|more (info|information|details|context)))\s*[.!]*\s*/gi, rep: '' },
     { id: 'thanks', re: /\s*\b(thanks|thank you|thx|ty)( so much| a lot| very much| in advance)?( for (your|the) help)?\s*[.!]*\s*$/i, rep: '' },
-    { id: 'ask', re: /\b(i was wondering if you could|i would like you to|i'd like you to|i want you to|i need you to)\s+/gi, rep: '' },
+    { id: 'ask', re: /\b(i was wondering if you could|i would like you to|i['’]d like you to|i want you to|i need you to)\s+/gi, rep: '' },
     { id: 'canyou', re: /(^|[.!?]\s+|\n\s*)(could|can|would|will) you (please |kindly )?(?=\w)/gi, rep: '$1\uE002' },
     { id: 'please', re: /\b(please|kindly)\s+/gi, rep: '' },
-    { id: 'hedge', re: /,?\s*\bif (it's|it is|that's|that is) (not too much trouble|okay|ok|possible|alright|fine)\b,?/gi, rep: '' },
+    { id: 'hedge', re: /,?\s*\bif (it['’]s|it is|that['’]s|that is) (not too much trouble|okay|ok|possible|alright|fine)\b,?/gi, rep: '' },
     { id: 'filler', re: /\b(basically|actually|literally|really|honestly|kind of|sort of|simply)\s+/gi, rep: '' },
     { id: 'just', re: /\bjust\s+(?!(the|a|an|one|this|that|these|those|my|your|his|her|their|our|\d+)\b)/gi, rep: '' },
   ];
@@ -254,7 +256,7 @@
     add(n) { try { localStorage.setItem('trim-saved', String(this.get() + n)); } catch (e) {} },
   };
 
-  let editor = null, result = null, original = '', timer = 0, toastTimer = 0;
+  let editor = null, edWatch = null, result = null, original = '', timer = 0, toastTimer = 0;
 
   function show(el) {
     clearTimeout(el._t); el._want = true; el.hidden = false;
@@ -408,7 +410,11 @@
   }, true);
 
   // Watch for typing, and for claude.ai swapping the page.
+  let lastText = '';
   function onInput() {
+    const now = editor ? readEditor(editor) : '';
+    if (now === lastText) return;
+    lastText = now;
     hide(card);
     hide(pill);
     clearTimeout(timer);
@@ -418,10 +424,19 @@
   function attach() {
     const ed = findEditor();
     if (ed === editor) return;
-    if (editor) editor.removeEventListener('input', onInput);
+    if (editor) { editor.removeEventListener('input', onInput); editor.removeEventListener('paste', onInput); }
+    if (edWatch) edWatch.disconnect();
     editor = ed;
     hide(pill); hide(card);
-    if (editor) { editor.addEventListener('input', onInput); theme(); }
+    if (editor) {
+      editor.addEventListener('input', onInput);
+      editor.addEventListener('paste', onInput);
+      // Pastes and some edits skip the input event, so also watch the text itself.
+      edWatch = new MutationObserver(onInput);
+      edWatch.observe(editor, { childList: true, characterData: true, subtree: true });
+      theme();
+      if (words(readEditor(editor)) >= 20) onInput();
+    }
   }
 
   new MutationObserver(() => attach()).observe(document.body, { childList: true, subtree: true });
