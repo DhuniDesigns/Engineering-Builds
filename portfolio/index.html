@@ -1089,19 +1089,18 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .sw-txt{min-width:0}
 .sw-item .sw-meta b{font-size:16px;font-weight:600;letter-spacing:-.01em}
 .sw-item .sw-meta .sw-txt span{font-size:14px;color:var(--text);margin-top:2px;line-height:1.4}
-.sw-item .cta{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 16px;border-radius:999px;background:var(--fg);color:var(--bg);font-size:14px;font-weight:500;flex:none;
-  transition:transform .2s var(--ease-out),background-color .25s}
-.sw-item .cta svg{width:15px;height:15px;transition:transform .35s var(--spring)}
+.sw-item .cta{flex:none;color:var(--fg);font-size:14px;font-weight:500;white-space:nowrap}
+.sw-item .cta i{transition:transform .35s var(--spring)}
 @media (hover:hover){
   .sw-item:hover .sw-card{transform:translateY(-3px);box-shadow:0 0 0 1px var(--sw-edge),0 2px 4px rgba(0,0,0,.06),0 32px 60px -28px rgba(0,0,0,.45)}
   .sw-item:hover .sw-cover{scale:1.02}
-  .sw-item:hover .cta svg{transform:translateX(3px)}
+  .sw-item:hover .cta i{transform:translateX(4px)}
 }
-.sw-item:active .cta{transform:scale(.97)}
+.sw-item:active .sw-card{transform:scale(.995)}
 .sw-item:focus-visible .sw-card{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #ff5fb2}
 @media (max-width:640px){.sw-item{width:86vw}.sw-item .sw-media{aspect-ratio:16/10}.sw-card{border-radius:24px;padding:8px}.sw-item .sw-media{border-radius:16px}
-  .sw-item .sw-meta{padding:12px 4px 4px 8px;gap:10px}.sw-item .cta{width:40px;height:40px;padding:0;justify-content:center}.sw-item .cta-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.sw-item .cta svg{width:17px;height:17px}.sw-item .sw-meta .sw-txt span{font-size:13px}}
-@media (prefers-reduced-motion:reduce){.sw-card,.sw-item .sw-cover,.sw-item .cta svg{transition:none}}
+  .sw-item .sw-meta{padding:12px 4px 4px 8px;gap:10px}.sw-item .cta{font-size:13px}.sw-item .sw-meta .sw-txt span{font-size:13px}}
+@media (prefers-reduced-motion:reduce){.sw-card,.sw-item .sw-cover,.sw-item .cta i{transition:none}}
 /* My work tabs: tighter around the text */
 .tab{padding:6px 12px;border-radius:10px}
 @media (max-width:640px){.tab{padding:5px 10px}}
@@ -1403,19 +1402,19 @@ ${bio()}
       <a class="sw-item" href="#sello">
         <div class="sw-card">
           <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" alt="Sello homepage: Sell in the DMs, without living in them"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Sello</b><span>AI sales assistant for Instagram and TikTok sellers</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Sello</b><span>AI sales assistant for Instagram and TikTok sellers</span></div><span class="cta">Read case study <i>→</i></span></div>
         </div>
       </a>
       <a class="sw-item" href="#trim">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim preview over the claude.ai message box" loading="lazy"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Trim</b><span>Trims your Claude prompt before you send it</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim brand cover: the Trim wordmark beside the preview panel and pill" loading="lazy"></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Trim</b><span>Trims your Claude prompt before you send it</span></div><span class="cta">Read case study <i>→</i></span></div>
         </div>
       </a>
       <a class="sw-item" href="#pixie">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/pixie-cover.webp" alt="Pixie homepage: Make a brand kit in about a minute" loading="lazy"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Pixie</b><span>A Figma brand kit from one sentence</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="sw-media"><img class="sw-cover" src="img/pixie-card.webp" alt="Pixie brand cover: the pixie wordmark beside the app and Figma plugin" loading="lazy"></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Pixie</b><span>A Figma brand kit from one sentence</span></div><span class="cta">Read case study <i>→</i></span></div>
         </div>
       </a>
     </div></div>
