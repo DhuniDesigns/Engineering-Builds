@@ -1066,12 +1066,12 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .sw-meta .cta{color:var(--fg);font-size:14px;white-space:nowrap}
 .sw-meta .cta i{font-style:normal;display:inline-block;transition:transform .3s}
 .sw-item:hover .cta i{transform:translateX(4px)}
-.sw-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;transition:scale .8s cubic-bezier(.32,.72,0,1)}
-.sw-item:hover .sw-cover{scale:1.03}
+.sw-cover{position:absolute;left:50%;top:50%;translate:-50% -50%;width:84%;height:auto;border-radius:12px;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 30px 60px -24px rgba(0,0,0,.45);transition:scale .8s cubic-bezier(.32,.72,0,1)}
+.sw-item:hover .sw-cover{scale:1.025}
 .sw-view{position:fixed;left:0;top:0;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:#efeee9;color:#111;display:grid;place-items:center;font-size:13px;font-weight:500;pointer-events:none;z-index:30;scale:0;transition:scale .35s cubic-bezier(.34,1.4,.64,1)}
 .sw-view.on{scale:1}
 @media (hover:none){.sw-view{display:none}}
-@media (max-width:640px){.sw-item{width:86vw}.sw-media{aspect-ratio:16/11}.sw-brand{top:30%}.sw-phone{right:50%;translate:50% 0;top:auto;bottom:-14%;height:66%;rotate:0deg}.sw-blurb{display:none}.sw-shot{width:92%}.sw-track{padding-inline:7vw}}
+@media (max-width:640px){.sw-item{width:86vw}.sw-media{aspect-ratio:4/3}.sw-cover{width:90%}.sw-brand{top:30%}.sw-phone{right:50%;translate:50% 0;top:auto;bottom:-14%;height:66%;rotate:0deg}.sw-blurb{display:none}.sw-shot{width:92%}.sw-track{padding-inline:7vw}}
 @media (prefers-reduced-motion:reduce){.sw-phone,.sw-shot,.sw-view{transition:none}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
@@ -1363,11 +1363,11 @@ ${bio()}
     <section class="sw"><p class="label">Selected works</p></section>
     <div class="sw-rail" id="swRail"><div class="sw-track">
       <a class="sw-item" href="#sello">
-        <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" alt="Sello homepage: Sell in the DMs, without living in them"></div>
+        <div class="sw-media" style="background:linear-gradient(160deg,#f6dccd,#e7a27e)"><img class="sw-cover" src="img/sello-cover.webp" alt="Sello homepage: Sell in the DMs, without living in them"></div>
         <div class="sw-meta"><div><b>Sello</b><span>AI product · Design and build · Live demo</span></div><span class="cta">Read case study <i>→</i></span></div>
       </a>
       <a class="sw-item" href="#pixie">
-        <div class="sw-media"><img class="sw-cover" src="img/pixie-cover.webp" alt="Pixie homepage: Make a brand kit in about a minute" loading="lazy"></div>
+        <div class="sw-media" style="background:linear-gradient(160deg,#f1e9ff,#c9b0ff)"><img class="sw-cover" src="img/pixie-cover.webp" alt="Pixie homepage: Make a brand kit in about a minute" loading="lazy"></div>
         <div class="sw-meta"><div><b>Pixie</b><span>AI tool · Web app and Figma plugin</span></div><span class="cta">Read case study <i>→</i></span></div>
       </a>
     </div></div>
