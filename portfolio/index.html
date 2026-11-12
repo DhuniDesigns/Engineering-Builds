@@ -1037,6 +1037,33 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
   a,button,[role="tab"],.card,.tile,.book,.ss,.stk.set,.dock a,label,summary,select{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M5%203.5%2024.5%2015l-8.4%201.8L11.3%2026z%22%20fill%3D%22%23e2489f%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22/%3E%3Ccircle%20cx%3D%2225%22%20cy%3D%2225%22%20r%3D%223.2%22%20fill%3D%22%23ff8fd2%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.4%22/%3E%3C/svg%3E") 5 3,pointer}
   input,textarea,[contenteditable]{cursor:text}
 }
+
+/* Selected works: visual cards */
+.sw{margin-top:44px}
+.sw .label{margin-bottom:14px}
+.sw-grid{display:grid;gap:14px}
+.sw-card{display:grid;grid-template-columns:44% 1fr;gap:0;border-radius:22px;overflow:hidden;background:var(--surface);color:inherit;text-decoration:none;transition:transform .35s cubic-bezier(.32,.72,0,1),box-shadow .35s}
+.sw-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(0,0,0,.45)}
+.sw-media{position:relative;min-height:300px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,var(--c1,#ffe9df),var(--c2,#f7d5c6))}
+.sw-phone{height:272px;aspect-ratio:393/852;border-radius:26px;overflow:hidden;background:#f9f9f9;box-shadow:0 0 0 4px #141414,0 22px 40px -14px rgba(0,0,0,.45);transform:rotate(-3deg);transition:transform .5s cubic-bezier(.32,.72,0,1)}
+.sw-card:hover .sw-phone{transform:rotate(0) scale(1.03)}
+.sw-phone video,.sw-phone img{width:100%;height:100%;object-fit:cover;display:block}
+.sw-shot{width:86%;border-radius:12px;overflow:hidden;box-shadow:0 18px 36px -14px rgba(0,0,0,.4);transform:rotate(-2deg);transition:transform .5s cubic-bezier(.32,.72,0,1)}
+.sw-card:hover .sw-shot{transform:rotate(0) scale(1.03)}
+.sw-shot img{display:block;width:100%}
+.sw-info{padding:22px 22px 20px;display:flex;flex-direction:column;gap:12px}
+.sw-top{display:flex;align-items:center;gap:12px}
+.sw-ic{width:40px;height:40px;border-radius:11px;flex:none}
+.sw-top b{display:block;color:var(--fg);font-weight:500;font-size:16px}
+.sw-top span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.sw-info p{color:var(--text);font-size:14px;line-height:1.55;margin:0}
+.sw-tags{display:flex;flex-wrap:wrap;gap:6px}
+.sw-tags span{font-size:11px;color:var(--text);border:1px solid var(--rule,#2a2a2a);border-radius:999px;padding:4px 9px}
+.sw-cta{margin-top:auto;font-size:13px;color:var(--fg)}
+.sw-cta i{font-style:normal;display:inline-block;transition:transform .3s}
+.sw-card:hover .sw-cta i{transform:translateX(4px)}
+@media (max-width:640px){.sw-card{grid-template-columns:1fr}.sw-media{min-height:280px}.sw-phone{height:250px}}
+@media (prefers-reduced-motion:reduce){.sw-card,.sw-phone,.sw-shot{transition:none}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1322,11 +1349,30 @@ home(){
       <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant that answers Instagram and TikTok sellers’ DMs and shows where every reply came from, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, an AI tool that turns a one-line brand description into a ready-to-use Figma brand kit. The small interactions I build along the way end up in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles at AI companies.</span>${contactLinks}</div>
     </div>
+    <section class="sw"><p class="label">Selected works</p>
+      <div class="sw-grid">
+        <a class="sw-card" href="#sello" style="--c1:#ffe9df;--c2:#f6cdbb">
+          <div class="sw-media"><div class="sw-phone"><video autoplay muted loop playsinline preload="metadata" poster="vid/sello-card.jpg" aria-label="Sello demo: a seller opens Why?, picks what is wrong and Sello sends a correction"><source src="vid/sello-card.mp4" type="video/mp4"></video></div></div>
+          <div class="sw-info">
+            <div class="sw-top"><img class="sw-ic" src="img/sello-icon.webp" alt=""><div><b>Sello</b><span>AI assistant for Instagram and TikTok sellers</span></div></div>
+            <p>Sello answers sellers’ DMs and shows where every reply came from. If it gets something wrong, the seller fixes it in two taps, and Undo is one tap away.</p>
+            <div class="sw-tags"><span>AI trust</span><span>Designed and built</span><span>Live demo</span></div>
+            <span class="sw-cta">Read case study <i>→</i></span>
+          </div>
+        </a>
+        <a class="sw-card" href="#pixie" style="--c1:#efe6ff;--c2:#dccbff">
+          <div class="sw-media"><div class="sw-shot"><img src="img/pixie.webp" alt="Pixie generating a brand kit" loading="lazy"></div></div>
+          <div class="sw-info">
+            <div class="sw-top"><div><b>Pixie</b><span>AI brand kits for Figma</span></div></div>
+            <p>Type one line about a brand and Pixie builds a ready-to-use Figma kit: colours, fonts, icons and illustrations, all connected as variables.</p>
+            <div class="sw-tags"><span>AI tool</span><span>Web app and Figma plugin</span><span>Live</span></div>
+            <span class="sw-cta">Read case study <i>→</i></span>
+          </div>
+        </a>
+      </div>
+    </section>
     ${reel()}
     <div class="sections">
-      <section class="block"><p class="label">Selected works</p>
-        <ul class="list" data-peek>${SELECTED.map(id=>projects.find(p=>p.id===id)).map(p=>row(p.name,p.meta,"#"+p.id)).join("")}</ul></section>
-      <hr class="rule">
       <section class="block"><div class="head"><p class="label">My work</p><a class="u" href="#work">see all</a></div>
         <ul class="list">${builds.map(b=>row(b.name,b.meta,"#work/"+b.tab,b.soon)).join("")}</ul></section>
       <hr class="rule">
