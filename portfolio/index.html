@@ -190,7 +190,7 @@ footer.col{margin-top:120px;display:flex;flex-direction:column;gap:40px}
 .tabs{position:relative}
 .tab{position:relative;z-index:1}
 .tab[aria-selected="true"]{background:transparent}
-.tab-ind{position:absolute;top:0;left:0;height:100%;border-radius:12px;background:var(--surface);z-index:0;
+.tab-ind{position:absolute;top:0;left:0;height:100%;border-radius:10px;background:var(--surface);z-index:0;
   transition:transform .45s var(--spring),width .45s var(--spring)}
 /* icon swap */
 .icon-btn{position:relative}
@@ -1077,6 +1077,34 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 @media (hover:none){.sw-view{display:none}}
 @media (max-width:640px){.sw-item{width:86vw}.sw-media{aspect-ratio:4/3}.sw-cover{width:90%}.sw-brand{top:30%}.sw-phone{right:50%;translate:50% 0;top:auto;bottom:-14%;height:66%;rotate:0deg}.sw-blurb{display:none}.sw-shot{width:92%}.sw-track{padding-inline:7vw}}
 @media (prefers-reduced-motion:reduce){.sw-phone,.sw-shot,.sw-view{transition:none}}
+/* Selected works v2: inset-frame cards (image on top, quiet strip below) */
+:root{--sw-card:#171717;--sw-edge:rgba(255,255,255,.07);--sw-in:rgba(255,255,255,.06)}
+:root[data-mode="light"]{--sw-card:#ffffff;--sw-edge:rgba(0,0,0,.06);--sw-in:rgba(0,0,0,.06)}
+.sw-item{width:min(88vw,1040px);border-radius:28px;outline:none}
+.sw-card{background:var(--sw-card);border-radius:28px;padding:10px;box-shadow:0 0 0 1px var(--sw-edge),0 1px 2px rgba(0,0,0,.05),0 24px 48px -28px rgba(0,0,0,.35);
+  transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out)}
+.sw-item .sw-media{aspect-ratio:16/10;border-radius:18px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--sw-in)}
+.sw-item .sw-cover{position:absolute;inset:0;translate:none;width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;box-shadow:none;transition:scale .9s cubic-bezier(.32,.72,0,1)}
+.sw-item .sw-meta{align-items:center;padding:16px 8px 8px 14px;gap:16px}
+.sw-txt{min-width:0}
+.sw-item .sw-meta b{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.sw-item .sw-meta .sw-txt span{font-size:14px;color:var(--text);margin-top:2px;line-height:1.4}
+.sw-item .cta{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 16px;border-radius:999px;background:var(--fg);color:var(--bg);font-size:14px;font-weight:500;flex:none;
+  transition:transform .2s var(--ease-out),background-color .25s}
+.sw-item .cta svg{width:15px;height:15px;transition:transform .35s var(--spring)}
+@media (hover:hover){
+  .sw-item:hover .sw-card{transform:translateY(-3px);box-shadow:0 0 0 1px var(--sw-edge),0 2px 4px rgba(0,0,0,.06),0 32px 60px -28px rgba(0,0,0,.45)}
+  .sw-item:hover .sw-cover{scale:1.02}
+  .sw-item:hover .cta svg{transform:translateX(3px)}
+}
+.sw-item:active .cta{transform:scale(.97)}
+.sw-item:focus-visible .sw-card{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #ff5fb2}
+@media (max-width:640px){.sw-item{width:86vw}.sw-item .sw-media{aspect-ratio:16/10}.sw-card{border-radius:24px;padding:8px}.sw-item .sw-media{border-radius:16px}
+  .sw-item .sw-meta{padding:12px 4px 4px 8px;gap:10px}.sw-item .cta{width:40px;height:40px;padding:0;justify-content:center}.sw-item .cta-l{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.sw-item .cta svg{width:17px;height:17px}.sw-item .sw-meta .sw-txt span{font-size:13px}}
+@media (prefers-reduced-motion:reduce){.sw-card,.sw-item .sw-cover,.sw-item .cta svg{transition:none}}
+/* My work tabs: tighter around the text */
+.tab{padding:6px 12px;border-radius:10px}
+@media (max-width:640px){.tab{padding:5px 10px}}
 </style>
 <script>try{if(!sessionStorage.getItem("dd-booted")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.setAttribute("data-booting","")}catch(e){}</script>
 
@@ -1192,7 +1220,7 @@ const projects = [
    sections:[["The problem", "Abuja’s nightlife lives across scattered Instagram pages and word of mouth, so ‘what are we doing tonight?’ takes an hour of asking around."], ["What I designed", {"sub": [{"h": "Browse by what you’re in the mood for", "p": "Categories for clubs, bars, food, cafes and outdoors, right under the headline."}, {"h": "Reviews that sound like your friends", "p": "Honest reviews with stickers and memes instead of star ratings alone."}, {"h": "Go out together", "p": "Meetup groups for bar-hopping, and an affordable-drinks finder for nights on a budget."}]}], ["Brand", "Flash photography, polaroids and flyer energy, in a voice that sounds like a friend asking ‘wya?’."], ["How it was built", "I designed the product and brand in Figma; a developer friend built and shipped the site."]]},
 ];
 /* ---- builds: real things, grouped by the Builds page tabs ---- */
-const SELECTED=["sello","pixie","trim"];
+const SELECTED=["sello","trim","pixie"];
 const BUILD_ITEMS={
   websites:[
     {name:"Sello", meta:"Marketing site", img:"sello", href:"https://sello-vert.vercel.app"},
@@ -1373,16 +1401,22 @@ ${bio()}
     <section class="sw"><p class="label">Selected works</p></section>
     <div class="sw-rail" id="swRail"><div class="sw-track">
       <a class="sw-item" href="#sello">
-        <div class="sw-media" style="background:linear-gradient(160deg,#f6dccd,#e7a27e)"><img class="sw-cover" src="img/sello-cover.webp" alt="Sello homepage: Sell in the DMs, without living in them"></div>
-        <div class="sw-meta"><div><b>Sello</b><span>AI product · Design and build · Live demo</span></div><span class="cta">Read case study <i>→</i></span></div>
-      </a>
-      <a class="sw-item" href="#pixie">
-        <div class="sw-media" style="background:linear-gradient(160deg,#f1e9ff,#c9b0ff)"><img class="sw-cover" src="img/pixie-cover.webp" alt="Pixie homepage: Make a brand kit in about a minute" loading="lazy"></div>
-        <div class="sw-meta"><div><b>Pixie</b><span>AI tool · Web app and Figma plugin</span></div><span class="cta">Read case study <i>→</i></span></div>
+        <div class="sw-card">
+          <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" alt="Sello homepage: Sell in the DMs, without living in them"></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Sello</b><span>AI sales assistant for Instagram and TikTok sellers</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </div>
       </a>
       <a class="sw-item" href="#trim">
-        <div class="sw-media" style="background:linear-gradient(160deg,#dfe1ff,#7d83f2)"><img class="sw-cover" src="img/trim-cover.webp" alt="Trim preview over the claude.ai message box: about 87 tokens down to 47" loading="lazy"></div>
-        <div class="sw-meta"><div><b>Trim</b><span>AI tool · Browser extension · Design and build</span></div><span class="cta">Read case study <i>→</i></span></div>
+        <div class="sw-card">
+          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim preview over the claude.ai message box" loading="lazy"></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Trim</b><span>Trims your Claude prompt before you send it</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </div>
+      </a>
+      <a class="sw-item" href="#pixie">
+        <div class="sw-card">
+          <div class="sw-media"><img class="sw-cover" src="img/pixie-cover.webp" alt="Pixie homepage: Make a brand kit in about a minute" loading="lazy"></div>
+          <div class="sw-meta"><div class="sw-txt"><b>Pixie</b><span>A Figma brand kit from one sentence</span></div><span class="cta"><span class="cta-l">Read case study</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8h8.5M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </div>
       </a>
     </div></div>
     <div class="sections">
