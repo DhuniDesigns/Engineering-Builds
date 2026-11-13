@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trim
 // @description  Shortens your Claude prompt so it uses fewer tokens. You see before and after, then choose.
-// @version      0.3.0
+// @version      0.4.0
 // @updateURL    https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @downloadURL  https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @author       Hafsoh Bashar
@@ -40,6 +40,7 @@
     [/\bin the event that\b/gi, 'if'],
     [/\bfor the purpose of\b/gi, 'for'],
     [/\b(is|are) able to\b/gi, 'can'],
+    [/\bhelp me to\b/gi, 'help me'],
     [/\bin spite of the fact that\b/gi, 'although'],
   ];
 
@@ -48,8 +49,8 @@
     { id: 'wellbeing', re: /\b(i )?hope (you['’]re|you are|you have been|you['’]ve been|all is) (doing )?(well|good|great|okay|having a (good|great|nice|lovely) day)\s*[.!,]*\s*/gi, rep: '' },
     { id: 'sorry', re: /\b(sorry (to bother you|for the long message|if this is a (silly|dumb|stupid) question)|apologies for (the|my) (long )?message)\s*[.!,]*\s*/gi, rep: '' },
     { id: 'closer', re: /\b(please )?let me know if you (have any questions|need (anything else|more (info|information|details|context)))\s*[.!]*\s*/gi, rep: '' },
-    { id: 'thanks', re: /\s*\b(thanks|thank you|thx|ty)( so much| a lot| very much| in advance)?( for (your|the) help)?\s*[.!]*\s*$/i, rep: '' },
-    { id: 'ask', re: /\b(i was wondering if you could|i would like you to|i['’]d like you to|i want you to|i need you to)\s+/gi, rep: '' },
+    { id: 'thanks', re: /,?\s*\b(thanks|thank you|thx|ty)(\s+(so much|a lot|very much|in advance|again))*( for (your|the|all your) (help|time))?\s*[.!]*\s*$/i, rep: '' },
+    { id: 'ask', re: /\b(i was (just )?wondering if you could|i would like you to|i['’]d like you to|i want you to|i need you to)(\s+possibly)?\s+/gi, rep: '' },
     { id: 'canyou', re: /(^|[.!?]\s+|\n\s*)(could|can|would|will) you (please |kindly )?(?=\w)/gi, rep: '$1\uE002' },
     { id: 'please', re: /\b(please|kindly)\s+/gi, rep: '' },
     { id: 'hedge', re: /,?\s*\bif (it['’]s|it is|that['’]s|that is) (not too much trouble|okay|ok|possible|alright|fine)\b,?/gi, rep: '' },
@@ -96,6 +97,8 @@
 
     text = text.replace(/(\d+)/g, (m, i) => kept[+i]);
     const top = Object.entries(saved).sort((a, b) => b[1] - a[1])[0];
+    // Never trim a prompt down to nothing (e.g. a message that is only "Thank you").
+    if (text.replace(/[\s.,!?]/g, '').length < 2) return { text: input, tip: null };
     return { text, tip: top ? TIPS[top[0]] : null };
   }
 
@@ -255,10 +258,32 @@
   const wrap = $('.t'), pill = $('.pill'), card = $('.card'), toast = $('.toast');
   const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 
+  // Runs as a userscript (Safari) or a Chrome extension. The extension keeps settings in chrome.storage.
+  const EXT = typeof chrome !== 'undefined' && !!(chrome.storage && chrome.storage.local && chrome.runtime && chrome.runtime.id);
+  const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  const KEY = MAC ? '⌥T' : 'Alt+T', KEYNAME = MAC ? 'Option+T' : 'Alt+T', UNDO = MAC ? '⌘Z' : 'Ctrl+Z';
+  let enabled = true, savedTotal = 0;
   const store = {
-    get() { try { return +localStorage.getItem('trim-saved') || 0; } catch (e) { return 0; } },
-    add(n) { try { localStorage.setItem('trim-saved', String(this.get() + n)); } catch (e) {} },
+    get() {
+      if (EXT) return savedTotal;
+      try { return +localStorage.getItem('trim-saved') || 0; } catch (e) { return 0; }
+    },
+    add(n) {
+      if (EXT) { savedTotal += n; try { chrome.storage.local.set({ saved: savedTotal }); } catch (e) {} return; }
+      try { localStorage.setItem('trim-saved', String(this.get() + n)); } catch (e) {}
+    },
   };
+  if (EXT) {
+    try {
+      chrome.storage.local.get({ enabled: true, saved: 0 }, (v) => { enabled = v.enabled !== false; savedTotal = +v.saved || 0; if (!enabled) sleep(); });
+      chrome.storage.onChanged.addListener((c, area) => {
+        if (area !== 'local') return;
+        if (c.saved) savedTotal = +c.saved.newValue || 0;
+        if (c.enabled) { enabled = c.enabled.newValue !== false; enabled ? check(false) : sleep(); }
+      });
+    } catch (e) {}
+  }
+  function sleep() { [pill, card, toast].forEach(hide); }
 
   let editor = null, edWatch = null, result = null, original = '', timer = 0, toastTimer = 0;
 
@@ -313,7 +338,7 @@
   }
 
   function check(force) {
-    if (!editor) return;
+    if (!editor || !enabled) return;
     const text = readEditor(editor);
     if (!text.trim()) {
       if (force) { flash('Type a prompt first'); return null; }
@@ -323,8 +348,8 @@
     const { saved } = compute();
     if (saved >= 3) {
       pill.classList.remove('mini');
-      pill.innerHTML = `${ICON.scissors.replace('<svg', '<svg class="ic"')}<span>Trim</span><span class="chip">−${saved} tokens</span><kbd>⌥T</kbd>`;
-      pill.title = 'Trim your prompt (Option+T)';
+      pill.innerHTML = `${ICON.scissors.replace('<svg', '<svg class="ic"')}<span>Trim</span><span class="chip">−${saved} tokens</span><kbd>${KEY}</kbd>`;
+      pill.title = `Trim your prompt (${KEYNAME})`;
       place(); show(pill);
     } else if (force) flash('Already tight', true);
     else rest();
@@ -333,17 +358,17 @@
 
   // The resting state: a small scissors button beside send, so Trim is always one tap away.
   function rest() {
-    if (!editor || !readEditor(editor).trim() || !card.hidden) { hide(pill); return; }
+    if (!enabled || !editor || !readEditor(editor).trim() || !card.hidden) { hide(pill); return; }
     pill.classList.add('mini');
     pill.innerHTML = ICON.scissors.replace('<svg', '<svg class="ic"');
-    pill.title = 'Trim your prompt (Option+T)';
+    pill.title = `Trim your prompt (${KEYNAME})`;
     place(); show(pill);
   }
 
   function flash(msg, ok) {
     clearTimeout(pill._f);
     pill.classList.remove('mini');
-    pill.innerHTML = `${ok ? ICON.check.replace('<svg', '<svg class="ic"') : ''}<span class="quiet">${msg}</span><kbd>⌥T</kbd>`;
+    pill.innerHTML = `${ok ? ICON.check.replace('<svg', '<svg class="ic"') : ''}<span class="quiet">${msg}</span><kbd>${KEY}</kbd>`;
     place(); show(pill);
     pill._f = setTimeout(rest, 1800);
   }
@@ -372,7 +397,7 @@
   }
 
   function openCard() {
-    if (!editor) return;
+    if (!editor || !enabled) return;
     const r = compute();
     if (r.saved < 3) { check(true); return; }
     const before = tokens(r.before), after = tokens(r.after);
@@ -390,7 +415,7 @@
       </div>
       ${r.tip ? `<div class="tip">${ICON.bulb}<span><b>Tip</b> · ${esc(r.tip)}</span></div>` : ''}
       <div class="foot">
-        <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : 'Runs on your Mac. Nothing leaves it.'}</span>
+        <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : 'Runs in your browser. Nothing leaves it.'}</span>
         <button class="btn" data-a="keep" type="button">Keep mine <kbd>esc</kbd></button>
         <button class="btn go" data-a="use" type="button">Use this <kbd>↵</kbd></button>
       </div>`;
@@ -406,7 +431,7 @@
     writeEditor(editor, result.after);
     store.add(result.saved);
     hide(card);
-    toast.innerHTML = `<span class="ok">${ICON.check}</span><span>Trimmed <span class="num">~${result.saved}</span> tokens</span><span class="vr"></span><button class="btn" type="button">Undo <kbd>⌘Z</kbd></button><span class="vr"></span><span class="quiet">Again <kbd>⌥T</kbd></span>`;
+    toast.innerHTML = `<span class="ok">${ICON.check}</span><span>Trimmed <span class="num">~${result.saved}</span> tokens</span><span class="vr"></span><button class="btn" type="button">Undo <kbd>${UNDO}</kbd></button><span class="vr"></span><span class="quiet">Again <kbd>${KEY}</kbd></span>`;
     toast.querySelector('button').onclick = undo;
     place(); show(toast);
     clearTimeout(toastTimer);
@@ -429,7 +454,7 @@
   });
 
   window.addEventListener('keydown', (e) => {
-    if (e.altKey && !e.metaKey && !e.ctrlKey && e.code === 'KeyT') {
+    if (enabled && e.altKey && !e.metaKey && !e.ctrlKey && e.code === 'KeyT') {
       e.preventDefault(); e.stopImmediatePropagation();
       if (!card.hidden && card.classList.contains('on')) closeCard(); else if (editor) openCard();
       return;

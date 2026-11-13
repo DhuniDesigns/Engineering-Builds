@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Trim: shorter AI prompts",
+  "short_name": "Trim",
+  "version": "0.4.0",
+  "description": "Cuts filler words from your Claude.ai prompts so they use fewer tokens. You see before and after, then choose.",
+  "author": "Hafsoh Bashar",
+  "homepage_url": "https://github.com/DhuniDesigns/Engineering-Builds/tree/main/trim",
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "action": {
+    "default_title": "Trim",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/16.png", "32": "icons/32.png" }
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

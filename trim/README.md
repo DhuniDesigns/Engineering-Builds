@@ -4,6 +4,17 @@ A small pill that sits just above the send button on claude.ai. When you pause t
 
 Designed and built by **Hafsoh Bashar**.
 
+## Install (Chrome, Edge, Brave, Arc)
+Chrome Web Store listing coming soon. To try it now:
+1. Download [trim-chrome-0.4.0.zip](trim-chrome-0.4.0.zip) and unzip it.
+2. Open `chrome://extensions`, turn on **Developer mode** (top right) and click **Load unpacked**.
+3. Pick the unzipped folder, then go to claude.ai and write a prompt of 20+ words.
+
+Click the Trim icon in the toolbar to switch it on or off and see roughly how many tokens you've saved. Shortcut: Alt+T (Option+T on Mac).
+
+### Building the Chrome version
+`trim.user.js` is the single source. Run `./build-chrome.sh` to copy it into `chrome/content.js`, sync the version into `chrome/manifest.json` and zip it. Store listing copy and images live in `chrome/STORE_LISTING.md` and `chrome/store/`.
+
 ## Install (Safari on Mac)
 1. Get the free **Userscripts** app from the Mac App Store and turn it on in Safari › Settings › Extensions.
 2. Open [trim.user.js](https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js) in Safari, click the Userscripts icon in the toolbar and choose **Install**.

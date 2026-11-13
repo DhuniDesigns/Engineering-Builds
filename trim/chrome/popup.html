@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trim</title>
+<style>
+:root{--bg:#fff;--fg:#17181b;--muted:#6b6f78;--line:rgba(17,18,24,.08);--soft:#f4f4f6;--accent:#5e64e0;--accent-hi:#7378ec;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#18181b;--fg:#f1f1f3;--muted:#8d9099;--line:rgba(255,255,255,.08);--soft:#232327;--accent:#6c72f0;--accent-hi:#8288f6;color-scheme:dark}}
+*{box-sizing:border-box;margin:0}
+body{width:300px;background:var(--bg);color:var(--fg);font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.top{display:flex;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--line)}
+.logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;background:linear-gradient(180deg,var(--accent-hi),var(--accent))}
+.logo svg{width:15px;height:15px}
+.name{font-weight:600;font-size:14px}
+.by{color:var(--muted);font-size:11.5px}
+.sw{margin-left:auto;position:relative;width:34px;height:20px}
+.sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.sw span{position:absolute;inset:0;border-radius:99px;background:var(--line);box-shadow:inset 0 0 0 1px var(--line);transition:background .25s}
+.sw span::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.sw input:checked+span{background:var(--accent)}
+.sw input:checked+span::after{transform:translateX(14px)}
+.sw input:focus-visible+span{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+.body{padding:14px;display:flex;flex-direction:column;gap:12px}
+.stat{background:var(--soft);border-radius:10px;padding:12px}
+.stat b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12px}
+.how{display:flex;flex-direction:column;gap:7px;color:var(--muted)}
+.how div{display:flex;align-items:center;gap:8px}
+kbd{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--fg)}
+.off .stat,.off .how{opacity:.45}
+.foot{padding:10px 14px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;display:flex;justify-content:space-between;gap:8px}
+.foot a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></span>
+  <div><div class="name">Trim</div><div class="by" id="state">On for claude.ai</div></div>
+  <label class="sw" title="Turn Trim on or off"><input type="checkbox" id="on" checked aria-label="Trim on"><span></span></label>
+</div>
+<div class="body" id="body">
+  <div class="stat"><b id="saved">0</b><span>tokens saved so far, roughly</span></div>
+  <div class="how">
+    <div>Pause typing and the pill appears beside send.</div>
+    <div><kbd id="key">Alt+T</kbd> opens the preview any time.</div>
+    <div><kbd>Enter</kbd> uses it, <kbd>Esc</kbd> keeps yours.</div>
+  </div>
+</div>
+<div class="foot"><span>Runs in your browser. Nothing leaves it.</span><span>v<span id="v"></span></span></div>
+<script src="popup.js"></script>
+</body>
+</html>
