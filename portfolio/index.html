@@ -274,6 +274,7 @@ body{padding-block-end:120px}
 .hl{--c:#ff8a3d;color:var(--fg);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;border-radius:5px;padding:1px 3px;margin:0 -3px;
   transition:background-color .25s var(--ease-out),color .25s,text-decoration-color .25s}
 .hl[data-prod="pixie"]{--c:#b48cff}
+.hl[data-prod="trim"]{--c:#7b86ff}
 .hl:hover,.hl:focus-visible{background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);text-decoration-color:transparent}
 :root[data-mode="light"] .hl:hover,:root[data-mode="light"] .hl:focus-visible{color:color-mix(in srgb,var(--c) 70%,#000);background:color-mix(in srgb,var(--c) 18%,transparent)}
 .pv{position:fixed;left:0;top:0;z-index:40;width:300px;pointer-events:none;border-radius:14px;overflow:hidden;background:var(--surface);
@@ -1372,6 +1373,7 @@ const grid = items => `<div class="grid wide">${items.map(card).join("")}</div>`
 const PRODUCTS={
   sello:{name:"Sello", art:`<img class="pv-shot" src="${IMG.sello}" alt="">`},
   pixie:{name:"Pixie", art:`<img class="pv-shot" src="${IMG.pixie}" alt="">`},
+  trim:{name:"Trim", art:`<img class="pv-shot" src="${IMG.trimCover}" alt="">`},
 };
 
 /* ---- bookshelf: first book is the one you're reading. Swap the SAMPLE titles for your own. ---- */
@@ -1433,7 +1435,7 @@ const ART={
 const bio=()=>`    <div class="intro">
       <p>I’m Hafsoh, a product designer and design engineer who designs in Figma and ships in code. I make AI products simpler to use and easier to trust. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a> below.</p>
       <p>Since 2024 I’ve designed and built multiple web and mobile products for teams in the US and Dubai, across fintech, AI, wellness and education, along with the design systems that keep them consistent as they grow.</p>
-      <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant that answers Instagram and TikTok sellers’ DMs and shows where every reply came from, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, an AI tool that turns a one-line brand description into a ready-to-use Figma brand kit. The small interactions I build along the way end up in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
+      <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant that answers Instagram and TikTok sellers’ DMs and shows where every reply came from, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, an AI tool that turns a one-line brand description into a ready-to-use Figma brand kit, and <a class="hl" data-prod="trim" href="#trim">Trim</a>, a browser extension that trims your Claude prompts before you send them, so you use fewer tokens. The small interactions I build along the way end up in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles.</span>${contactLinks}</div>
     </div>`;
 const views = {
