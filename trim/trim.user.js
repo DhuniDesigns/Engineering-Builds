@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trim
 // @description  Shortens your Claude prompt so it uses fewer tokens. You see before and after, then choose.
-// @version      0.2.1
+// @version      0.3.0
 // @updateURL    https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @downloadURL  https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @author       Hafsoh Bashar
@@ -177,6 +177,10 @@
     .pill .ic{width:14px;height:14px;color:var(--accent)}
     .chip{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:6px;background:var(--ok-bg);color:var(--ok);
       font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+    .pill.mini{width:30px;padding:0;justify-content:center;gap:0}
+    .pill.mini .ic{color:var(--muted);transition:color .2s}
+    .pill.mini:hover .ic{color:var(--accent)}
+    .toast .quiet{color:var(--muted);font-size:12px;display:inline-flex;align-items:center;gap:6px;padding-right:4px}
     .pill .quiet{color:var(--muted);font-weight:450}
 
     /* Panel */
@@ -310,17 +314,38 @@
 
   function check(force) {
     if (!editor) return;
-    if (!force && words(readEditor(editor)) < 20) { hide(pill); return null; }
+    const text = readEditor(editor);
+    if (!text.trim()) {
+      if (force) { flash('Type a prompt first'); return null; }
+      hide(pill); return null;
+    }
+    if (!force && words(text) < 20) { rest(); return null; }
     const { saved } = compute();
     if (saved >= 3) {
+      pill.classList.remove('mini');
       pill.innerHTML = `${ICON.scissors.replace('<svg', '<svg class="ic"')}<span>Trim</span><span class="chip">−${saved} tokens</span><kbd>⌥T</kbd>`;
       pill.title = 'Trim your prompt (Option+T)';
       place(); show(pill);
-    } else if (force) {
-      pill.innerHTML = `${ICON.check.replace('<svg', '<svg class="ic"')}<span class="quiet">Already tight</span>`;
-      place(); show(pill); setTimeout(() => hide(pill), 1600);
-    } else hide(pill);
+    } else if (force) flash('Already tight', true);
+    else rest();
     return result;
+  }
+
+  // The resting state: a small scissors button beside send, so Trim is always one tap away.
+  function rest() {
+    if (!editor || !readEditor(editor).trim() || !card.hidden) { hide(pill); return; }
+    pill.classList.add('mini');
+    pill.innerHTML = ICON.scissors.replace('<svg', '<svg class="ic"');
+    pill.title = 'Trim your prompt (Option+T)';
+    place(); show(pill);
+  }
+
+  function flash(msg, ok) {
+    clearTimeout(pill._f);
+    pill.classList.remove('mini');
+    pill.innerHTML = `${ok ? ICON.check.replace('<svg', '<svg class="ic"') : ''}<span class="quiet">${msg}</span><kbd>⌥T</kbd>`;
+    place(); show(pill);
+    pill._f = setTimeout(rest, 1800);
   }
 
   // Word-level diff so the removed words can be struck through.
@@ -373,7 +398,7 @@
     card.querySelector('[data-a="use"]').focus({ preventScroll: true });
   }
 
-  function closeCard() { if (!card.hidden) { hide(card); editor && editor.focus(); } }
+  function closeCard() { if (!card.hidden) { hide(card); editor && editor.focus(); setTimeout(rest, 300); } }
 
   function apply() {
     if (!result || !editor) return;
@@ -381,11 +406,11 @@
     writeEditor(editor, result.after);
     store.add(result.saved);
     hide(card);
-    toast.innerHTML = `<span class="ok">${ICON.check}</span><span>Trimmed <span class="num">~${result.saved}</span> tokens</span><span class="vr"></span><button class="btn" type="button">Undo <kbd>⌘Z</kbd></button>`;
+    toast.innerHTML = `<span class="ok">${ICON.check}</span><span>Trimmed <span class="num">~${result.saved}</span> tokens</span><span class="vr"></span><button class="btn" type="button">Undo <kbd>⌘Z</kbd></button><span class="vr"></span><span class="quiet">Again <kbd>⌥T</kbd></span>`;
     toast.querySelector('button').onclick = undo;
     place(); show(toast);
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => hide(toast), 6000);
+    toastTimer = setTimeout(() => { hide(toast); rest(); }, 6000);
   }
 
   function undo() {
@@ -393,6 +418,7 @@
     writeEditor(editor, original);
     original = '';
     hide(toast);
+    setTimeout(rest, 300);
   }
 
   pill.addEventListener('click', openCard);
@@ -403,7 +429,11 @@
   });
 
   window.addEventListener('keydown', (e) => {
-    if (e.altKey && e.code === 'KeyT') { e.preventDefault(); openCard(); return; }
+    if (e.altKey && !e.metaKey && !e.ctrlKey && e.code === 'KeyT') {
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (!card.hidden && card.classList.contains('on')) closeCard(); else if (editor) openCard();
+      return;
+    }
     if (card.hidden || !card.classList.contains('on')) return;
     if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); closeCard(); }
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.stopImmediatePropagation(); apply(); }
@@ -416,7 +446,7 @@
     if (now === lastText) return;
     lastText = now;
     hide(card);
-    hide(pill);
+    if (!pill.classList.contains('mini')) hide(pill);
     clearTimeout(timer);
     timer = setTimeout(() => check(false), 1000);
   }
@@ -435,7 +465,7 @@
       edWatch = new MutationObserver(onInput);
       edWatch.observe(editor, { childList: true, characterData: true, subtree: true });
       theme();
-      if (words(readEditor(editor)) >= 20) onInput();
+      if (readEditor(editor).trim()) onInput();
     }
   }
 

@@ -9,7 +9,9 @@ Designed and built by **Hafsoh Bashar**.
 2. Open [trim.user.js](https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js) in Safari, click the Userscripts icon in the toolbar and choose **Install**.
 3. Go to claude.ai, write a prompt of 20+ words and pause for a second.
 
-Shortcuts: Option+T opens the preview any time · Enter uses it · Esc keeps yours.
+Shortcuts: Option+T opens the preview any time, even right after a trim · Enter uses it · Esc keeps yours.
+
+When there's text in the box but nothing big to trim, a small scissors button stays next to send. Tap it to bring Trim back.
 
 ## What it cuts
 Greetings, "hope you're well", apologies, "thanks!" sign-offs, "I want you to", "could you please", hedges, filler words (basically, really, actually), long phrases ("in order to" → "to") and sentences said twice. Code, links and quoted text are never changed.
