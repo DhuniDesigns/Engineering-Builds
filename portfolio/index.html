@@ -303,8 +303,8 @@ body{padding-block-end:120px}
 /* a book = spine + cover. Spine is lit like a rounded cloth/paper spine; hover turns the book so its cover faces you */
 .book{--h:180px;--w:32px;--cw:calc(var(--h) * .67);--bg:#3a3a3a;--ink:#f2efe8;--sf:var(--sans);position:relative;flex:none;width:var(--w);height:var(--h);
   padding:0;border:0;background:none;cursor:pointer;transform-style:preserve-3d;
-  transition:width .6s cubic-bezier(.23,1,.32,1),transform .6s cubic-bezier(.23,1,.32,1),opacity .3s}
-.book .spine,.book .cover{position:absolute;bottom:0;height:100%;backface-visibility:hidden;transition:transform .6s cubic-bezier(.23,1,.32,1),opacity .35s}
+  transition:width .7s cubic-bezier(.32,.72,0,1),transform .7s cubic-bezier(.32,.72,0,1),opacity .45s ease}
+.book .spine,.book .cover{position:absolute;bottom:0;height:100%;backface-visibility:hidden;transition:transform .7s cubic-bezier(.32,.72,0,1),opacity .4s ease}
 .book .spine{left:0;width:var(--w);background-color:var(--bg);color:var(--ink);border-radius:1.5px 1.5px 1px 1px;overflow:hidden;transform-origin:right center;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 0 10px;
   background-image:
@@ -332,7 +332,10 @@ body{padding-block-end:120px}
   background:repeating-linear-gradient(90deg,#f3efe6 0 1px,#d8d2c4 1px 2px);box-shadow:-1px 0 0 rgba(0,0,0,.25)}
 .book.lean{transform:rotate(8deg) translateX(9px)}
 .book.cur .spine::after{content:"";position:absolute;top:-1px;left:4px;width:6px;height:26px;background:#e0443a;clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
-.books:has(.book.open) .book:not(.open){opacity:.55}
+.books:has(.book.open) .book:not(.open){opacity:.5}
+@media (hover:hover){.book:not(.open):hover{transform:translateY(-6px)}.book.lean:not(.open):hover{transform:rotate(8deg) translate(9px,-6px)}}
+.book.open .cover{transition-delay:.05s}
+.book:not(.open) .cover{transition-duration:.45s}
 .book.open{width:var(--cw);transform:translateY(-12px);z-index:3}
 .book.open.lean{transform:translateY(-12px)}
 .book.open .spine{transform:rotateY(-90deg)}
@@ -1983,11 +1986,18 @@ function sing(el){
 document.addEventListener("pointerover",e=>{ const el=e.target.closest&&e.target.closest(".sel"); if(el&&!el.contains(e.relatedTarget)) sing(el); });
 
 /* ---- bookshelf: hovering a spine shows its title underneath ---- */
-function bookMeta(i){ const m=document.getElementById("book-meta"); if(!m) return; const b=BOOKS[i];
-  m.querySelector(".name").textContent=b.status; m.querySelector(".meta").textContent=`${b.title} · ${b.author}`; }
+function bookMeta(i){ const m=document.getElementById("book-meta"); if(!m) return; const b=BOOKS[i], txt=`${b.title} · ${b.author}`;
+  if(m.dataset.cur===String(i)) return; m.dataset.cur=i;
+  m.querySelector(".name").textContent=b.status; m.querySelector(".meta").textContent=txt;
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches) m.animate([{opacity:0,transform:"translateY(5px)",filter:"blur(2px)"},{opacity:1,transform:"none",filter:"blur(0)"}],{duration:320,easing:"cubic-bezier(.2,.8,.2,1)"}); }
 function openBook(b){ document.querySelectorAll(".book.open").forEach(x=>{ if(x!==b) x.classList.remove("open"); }); if(b&&!b.classList.contains("open")){ b.classList.add("open"); tone(520,{dur:.09,vol:.02,type:"triangle",to:440}); } }
-document.addEventListener("pointerover",e=>{ const b=e.target.closest&&e.target.closest(".book"); if(b){ bookMeta(+b.dataset.book); openBook(b); } });
-document.addEventListener("pointerout",e=>{ const sh=e.target.closest&&e.target.closest(".books"); if(sh&&!sh.contains(e.relatedTarget)) openBook(null); });
+// hover intent: the first book waits a beat so a passing cursor doesn't flick covers open; once one is open, moving along the shelf swaps instantly
+let bookT=0, bookCloseT=0;
+document.addEventListener("pointerover",e=>{ const b=e.target.closest&&e.target.closest(".book"); if(!b) return; clearTimeout(bookT); clearTimeout(bookCloseT);
+  const go=()=>{ bookMeta(+b.dataset.book); openBook(b); };
+  if(e.pointerType!=="mouse"||document.querySelector(".book.open")) go(); else bookT=setTimeout(go,120); });
+document.addEventListener("pointerout",e=>{ const sh=e.target.closest&&e.target.closest(".books"); if(sh&&!sh.contains(e.relatedTarget)){ clearTimeout(bookT); bookCloseT=setTimeout(()=>openBook(null),160); } });
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest(".book"); if(!b) return; if(b.classList.contains("open")&&e.pointerType!=="mouse"){ openBook(null); } else { bookMeta(+b.dataset.book); openBook(b); } });
 document.addEventListener("focusout",e=>{ if(e.target.matches&&e.target.matches(".book")) e.target.classList.remove("open"); });
 document.addEventListener("pointerout",e=>{ const b=e.target.closest&&e.target.closest(".books"); if(b&&!b.contains(e.relatedTarget)){ const m=document.getElementById("book-meta"); if(m){ m.querySelector(".name").textContent=BOOKS[0].status; m.querySelector(".meta").textContent=BOOKS[0].title; } } });
 document.addEventListener("focusin",e=>{ if(e.target.matches&&e.target.matches(".book")){ bookMeta(+e.target.dataset.book); openBook(e.target); } });
@@ -2063,7 +2073,7 @@ const STICKERS=[
   {id:"figma",kind:"app",w:54,h:54,slot:{x:964,y:332,rot:8},html:()=>ICON_FIGMA},
   {id:"framer",kind:"app framer",w:50,h:50,slot:{x:540,y:350,rot:-6},html:()=>ICON_FRAMER},
 ];
-let stickerLayer=null, stickerEls=[], stkRaf=0, stkQ=[], stkT=0;
+let stickerLayer=null, stickerEls=[], stkRaf=0, stkQ=[], stkT=0, stkStart=0, stkRank=[];
 const clamp=v=>v<0?0:v>1?1:v, smooth=t=>t*t*(3-2*t);
 function mountStickers(){
   unmountStickers(); if(!document.getElementById("collage")) return;
@@ -2071,36 +2081,38 @@ function mountStickers(){
   stickerLayer.innerHTML=STICKERS.map(s=>`<div class="stk" style="width:${s.w}px;height:${s.h}px"><div class="stk-in ${s.kind.split(" ").map((c,j)=>j?c:"stk-"+c).join(" ")}">${typeof s.html==="function"?s.html():s.html}</div></div>`).join("");
   document.body.appendChild(stickerLayer); stickerEls=[...stickerLayer.children]; placeStickers(); initCards();
 }
-function unmountStickers(){ stkQ=[]; if(stickerLayer){ stickerLayer.remove(); stickerLayer=null; stickerEls=[]; } }
+function unmountStickers(){ stkQ=[]; stkStart=0; if(stickerLayer){ stickerLayer.remove(); stickerLayer=null; stickerEls=[]; } }
 function placeStickers(){
   stkRaf=0; const col=document.getElementById("collage"); if(!col||!stickerLayer) return;
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const r=col.getBoundingClientRect(), W=innerWidth, H=innerHeight, sc=r.width/STICKER_W;
-  // the pieces only start flying in once the collage itself is on screen, and land as you scroll it up
-  const topAtEnd=r.top-((document.documentElement.scrollHeight-H)-scrollY);       // collage top when scrolled to the very bottom
-  const endTop=Math.max(H*.12, topAtEnd+24), startTop=Math.max(endTop+H*.45, H*.92);
-  const p=reduce?1:clamp((startTop-r.top)/(startTop-endTop)), n=STICKERS.length, lag=.03;
-  let moving=false; const now=performance.now(), dt=Math.min(.1,(now-(stkT||now))/1000)||1/60; stkT=now; const f=1-Math.exp(-dt/.38);
-  const wide=W>=900 && !reduce;
-  const back=t=>{ const c=1.5; return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2); };   // lands with a small overshoot
+  const r=col.getBoundingClientRect(), W=innerWidth, H=innerHeight, sc=r.width/STICKER_W, now=performance.now();
+  // one calm, choreographed entrance: it starts once the collage is properly on screen and then plays on its own clock,
+  // so it feels the same however fast you scroll. Pieces bloom out from the middle of the board.
+  if(!stkStart && r.top<H*.78 && r.bottom>H*.15) stkStart=now;
+  if(!stkRank.length){ const cx=STICKER_W/2, cy=STICKER_H/2;
+    const order=STICKERS.map((s,i)=>[i,Math.hypot((s.slot.x-cx)/STICKER_W,(s.slot.y-cy)/STICKER_H)]).sort((a,b)=>a[1]-b[1]);
+    order.forEach(([i],k)=>stkRank[i]=k); }
+  const DUR=1250, GAP=55, t=stkStart? now-stkStart : -1;
+  const wide=W>=900;
+  // spring-like settle: fast start, long soft landing with a whisper of overshoot
+  const ease=x=>{ if(x<=0) return 0; if(x>=1) return 1; const c=.9; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
+  let moving=false;
   STICKERS.forEach((s,i)=>{
-    const goal=clamp((p-i*lag)/(1-(n-1)*lag));
-    // each piece glides toward where the scroll says it should be, so a quick scroll still plays out slowly
-    const cur=stkQ[i]??(reduce?1:0), q=reduce?goal:cur+(goal-cur)*f; stkQ[i]=Math.abs(goal-q)<.004?goal:q; if(stkQ[i]!==goal) moving=true;
-    const e=1-back(stkQ[i]);
+    const lt=reduce?1:(t<0?0:Math.min(1,Math.max(0,(t-stkRank[i]*GAP)/DUR)));
+    if(lt<1) moving=true; stkQ[i]=lt;
+    const q=ease(lt), e=1-q;                              // e: 1 = away, 0 = landed
     const tx=r.left+s.slot.x*sc-s.w/2, ty=r.top+s.slot.y*sc-s.h/2;
-    const el=stickerEls[i]; let x,y,rot,k;
-    const dir=i%2?1:-1;
-    if(wide){
-      const left=s.side? s.side==="l" : s.slot.x<STICKER_W/2;
-      const sx=left ? -s.w-60-(i%3)*60 : W+60+(i%3)*60, sy=ty+((i*53)%260-130);
-      x=tx+(sx-tx)*e; y=ty+(sy-ty)*e; rot=s.slot.rot+(left?-38:38)*e; k=sc*(1+.35*Math.max(0,e));
-    } else {
-      x=tx+dir*70*e; y=ty+160*e; rot=s.slot.rot+dir*28*e; k=sc*(1-.45*Math.max(0,e));
-    }
-    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`; el.style.opacity=stkQ[i]<=0?0:Math.min(1,stkQ[i]*4); el.classList.toggle("set",stkQ[i]>=1);
+    const dx=(s.slot.x-STICKER_W/2)/STICKER_W, dir=i%2?1:-1;
+    const travel=wide?1:.6;
+    const x=tx+dx*120*travel*e, y=ty+(70+(i%4)*14)*travel*e;
+    const rot=s.slot.rot+dir*(10+(i%3)*4)*e, k=sc*(1+.06*e);
+    const el=stickerEls[i];
+    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg) scale(${k})`;
+    el.style.opacity=lt<=0?0:Math.min(1,lt/.35);
+    el.style.filter=lt>0&&lt<.5?`blur(${((.5-lt)/.5*3).toFixed(2)}px)`:"";
+    el.classList.toggle("set",lt>=1);
   });
-  if(moving) queueStickers(); else stkT=0;
+  if(moving&&stkStart) queueStickers();
 }
 const queueStickers=()=>{ if(!stkRaf) stkRaf=requestAnimationFrame(placeStickers); };
 addEventListener("scroll",queueStickers,{passive:true}); addEventListener("resize",queueStickers);
