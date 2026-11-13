@@ -1125,6 +1125,10 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .reel.drag{cursor:grabbing}
 .reel.drag a{pointer-events:none}
 .reel-track{animation:none!important;transform:none!important}
+/* Selected works: soft shadow with room to breathe (the rail clips overflow) */
+.sw-rail{padding-top:24px;padding-bottom:64px;margin-top:-24px;margin-bottom:-40px}
+:root[data-mode="light"] .sw-card{box-shadow:0 0 0 1px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.03),0 12px 32px -12px rgba(0,0,0,.10)}
+@media (hover:hover){:root[data-mode="light"] .sw-item:hover .sw-card{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04),0 20px 44px -16px rgba(0,0,0,.14)}}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
