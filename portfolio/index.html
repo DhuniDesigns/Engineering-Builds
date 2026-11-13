@@ -137,7 +137,7 @@ a.row:hover .meta{color:var(--fg)}
 .tool svg{width:32px;height:32px}
 
 /* footer */
-footer.col{margin-top:120px;display:flex;flex-direction:column;gap:40px}
+footer.col{margin-top:120px;display:flex;flex-direction:column;gap:40px;padding-bottom:88px}
 .player{height:64px;border-radius:20px;background:var(--surface);position:relative;overflow:hidden;display:flex;align-items:center;padding-left:57px;padding-right:16px;justify-content:space-between}
 .vinyl{position:absolute;left:-30px;top:50%;width:67px;height:67px;margin-top:-33px;border-radius:50%;
   border:.44px solid rgba(255,255,255,.11);box-shadow:0 .44px .44px #000;
@@ -255,6 +255,7 @@ body{padding-block-end:120px}
   background:color-mix(in srgb,var(--surface) 80%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
   box-shadow:0 0 0 1px var(--rule),0 12px 32px -12px rgba(0,0,0,.55);transition:translate .6s var(--spring),opacity .3s}
 .dock.away{translate:-50% calc(100% + 40px);opacity:0}
+.dock.tuck{translate:-50% calc(100% + 40px);opacity:0;transition:translate .35s cubic-bezier(.23,1,.32,1),opacity .2s ease;pointer-events:none}
 .dock a{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--text);background:var(--bg);cursor:pointer;
   transition:color .2s,scale .35s var(--spring),translate .35s var(--spring)}
 .dock a svg{width:17px;height:17px}
@@ -1051,7 +1052,14 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 
 /* Selected works: big sliding cards (inspo: davemiye.com) */
 .sw{margin-top:56px}
-.sw .label{margin-bottom:16px}
+.sw .label{margin-bottom:0}
+.sw-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sw-nav{display:flex;gap:6px}
+.sw-btn{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--fg);background:var(--surface);border:0;box-shadow:0 0 0 1px var(--rule);cursor:pointer;transition:transform .16s cubic-bezier(.23,1,.32,1),opacity .2s ease,background-color .2s ease}
+.sw-btn:active{transform:scale(.92)}
+.sw-btn:disabled{opacity:.3;cursor:default}
+@media (hover:hover) and (pointer:fine){.sw-btn:not(:disabled):hover{background:color-mix(in srgb,var(--fg) 8%,var(--surface))}}
+@media (hover:none){.sw-nav{display:none}}
 .sw-rail{width:100vw;margin-left:calc(50% - 50vw);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;cursor:grab}
 .sw-rail::-webkit-scrollbar{display:none}
 .sw-rail.drag{cursor:grabbing;scroll-snap-type:none}
@@ -1270,7 +1278,6 @@ const builds = [
   {name:"Websites", meta:"Framer & Claude", tab:"websites"},
   {name:"Apps", meta:"Figma & Claude", tab:"apps"},
   {name:"Playground", meta:"Motion studies", tab:"playground"},
-  {name:"App screenshots", meta:"Coming soon", tab:"screens", soon:true},
 ];
 /* app screenshots: shown at their own proportions, tap to open full size */
 const SCREENS=[
@@ -1318,7 +1325,7 @@ const jobs = [
 ];
 const SKILLS=[["Design",["Product design","UX research","Interaction design","Design systems","Tokens and theming","Prototyping","Brand identity"]],
               ["Build",["HTML and CSS","JavaScript","Motion and micro-interactions","AI-assisted workflows"]]];
-const tabs = [["websites","Websites"],["apps","Apps"],["playground","Playground"],["screens","App screenshots"]]; /* brand identity tab hidden for now */
+const tabs = [["websites","Websites"],["apps","Apps"],["playground","Playground"]]; /* App screenshots tab hidden until it has work */ /* brand identity tab hidden for now */
 const WORK_TABS=tabs.map(t=>t[0]);
 let activeTab = "websites";
 
@@ -1425,7 +1432,7 @@ home(){
   return `<div class="col">
     <p class="crumb label" style="margin-top:80px"><span class="hello" id="hello" aria-label="Hello"><span>Hello</span></span></p>
 ${bio()}
-    <section class="sw"><p class="label">Selected works</p></section>
+    <section class="sw"><div class="sw-head"><p class="label">Selected works</p><div class="sw-nav"><button type="button" class="sw-btn" data-sw="-1" aria-label="Previous project"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6-6 6 6 6"/></svg></button><button type="button" class="sw-btn" data-sw="1" aria-label="Next project"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 6 6 6-6 6"/></svg></button></div></div></section>
     <div class="sw-rail" id="swRail"><div class="sw-track">
       <a class="sw-item" href="#sello">
         <div class="sw-card">
@@ -1696,7 +1703,7 @@ function render(){
   initTabs(); initHello(); hidePeek();
   if(!document.documentElement.hasAttribute("data-booting")) document.querySelectorAll(".sel").forEach((el,k)=>setTimeout(()=>el.classList.add("on"),900+k*260));
   document.title = p ? `${p.name} · Dhuni Designs` : id==="work" ? "My work · Dhuni Designs" : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
-  initStrip(); initReel(); initGlide(); initVideos(); initToc();
+  initStrip(); initReel(); initGlide(); initVideos(); requestAnimationFrame(swSync); initToc();
   mountStickers();
   loadCovers();
 }
@@ -2153,6 +2160,13 @@ const _blSet=blSet; blSet=function(st){ if(st!=="idle"){ blEyes.classList.remove
 })();
 
 
+/* Selected works rail: arrows step one card at a time and dim at the ends */
+function swSync(){ const r=document.getElementById("swRail"); if(!r) return; const max=r.scrollWidth-r.clientWidth-4;
+  document.querySelectorAll(".sw-btn").forEach(b=>b.disabled=(+b.dataset.sw<0? r.scrollLeft<=4 : r.scrollLeft>=max)); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest(".sw-btn"); if(!b) return; const r=document.getElementById("swRail"); if(!r) return;
+  const item=r.querySelector(".sw-item"); const step=item? item.getBoundingClientRect().width+14 : r.clientWidth*.8;
+  r.scrollBy({left:+b.dataset.sw*step,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); });
+document.addEventListener("scroll",e=>{ if(e.target&&e.target.id==="swRail") swSync(); },{capture:true,passive:true});
 /* Selected works rail: View project cursor + drag to scroll */
 const swView=document.createElement("div"); swView.className="sw-view"; swView.textContent="View project"; swView.setAttribute("aria-hidden","true"); document.body.appendChild(swView);
 document.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; const m=e.target.closest&&e.target.closest(".sw-media");
@@ -2177,6 +2191,12 @@ dock.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return;
   dockLinks.forEach(a=>{ const r=a.getBoundingClientRect(), d=Math.abs(e.clientX-(r.left+r.width/2));
     a.classList.toggle("mag",d<22); a.classList.toggle("near",d>=22&&d<64); }); });
 dock.addEventListener("pointerleave",()=>dockLinks.forEach(a=>a.classList.remove("mag","near")));
+/* tuck the dock away while reading downward, bring it back on the way up or at the end of the page */
+let dockY=scrollY;
+addEventListener("scroll",()=>{ const y=scrollY, end=document.documentElement.scrollHeight-innerHeight-140;
+  if(y>dockY+8&&y>240&&y<end) dock.classList.add("tuck"); else if(y<dockY-8||y>=end||y<120) dock.classList.remove("tuck");
+  if(Math.abs(y-dockY)>8) dockY=y; },{passive:true});
+dock.addEventListener("focusin",()=>dock.classList.remove("tuck"));
 function revealDock(){ setTimeout(()=>dock.classList.remove("away"),150); }
 
 /* ---- first load: blueprint boot ----
