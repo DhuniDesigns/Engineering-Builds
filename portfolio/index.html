@@ -255,7 +255,8 @@ body{padding-block-end:120px}
   background:color-mix(in srgb,var(--surface) 80%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
   box-shadow:0 0 0 1px var(--rule),0 12px 32px -12px rgba(0,0,0,.55);transition:translate .6s var(--spring),opacity .3s}
 .dock.away{translate:-50% calc(100% + 40px);opacity:0}
-.dock.tuck{translate:-50% calc(100% + 40px);opacity:0;transition:translate .35s cubic-bezier(.23,1,.32,1),opacity .2s ease;pointer-events:none}
+.dock.tuck{translate:-50% 14px;scale:.94;opacity:0;filter:blur(3px);transition:translate .24s cubic-bezier(.23,1,.32,1),scale .24s cubic-bezier(.23,1,.32,1),opacity .18s ease,filter .24s ease;pointer-events:none}
+.dock{transition:translate .6s var(--spring),opacity .3s,scale .45s var(--spring),filter .3s ease}
 .dock a{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--text);background:var(--bg);cursor:pointer;
   transition:color .2s,scale .35s var(--spring),translate .35s var(--spring)}
 .dock a svg{width:17px;height:17px}
@@ -1435,7 +1436,7 @@ const ART={
 const bio=()=>`    <div class="intro">
       <p>I’m Hafsoh, a product designer and design engineer who designs in Figma and ships in code. I make AI products simpler to use and easier to trust. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a> below.</p>
       <p>Since 2024 I’ve designed and built multiple web and mobile products for teams in the US and Dubai, across fintech, AI, wellness and education, along with the design systems that keep them consistent as they grow.</p>
-      <p>Lately I’ve been building my own: <a class="hl" data-prod="sello" href="https://sello-vert.vercel.app" target="_blank" rel="noopener">Sello</a>, an AI assistant that answers Instagram and TikTok sellers’ DMs and shows where every reply came from, and <a class="hl" data-prod="pixie" href="https://pixie-brand-kits.vercel.app" target="_blank" rel="noopener">Pixie</a>, an AI tool that turns a one-line brand description into a ready-to-use Figma brand kit, and <a class="hl" data-prod="trim" href="#trim">Trim</a>, a browser extension that trims your Claude prompts before you send them, so you use fewer tokens. The small interactions I build along the way end up in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
+      <p>Lately I’ve been building my own AI products: <a class="hl" data-prod="sello" href="#sello">Sello</a>, <a class="hl" data-prod="pixie" href="#pixie">Pixie</a> and <a class="hl" data-prod="trim" href="#trim">Trim</a>. The small interactions I build along the way live in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles.</span>${contactLinks}</div>
     </div>`;
 const views = {
@@ -2205,8 +2206,9 @@ dock.addEventListener("pointerleave",()=>dockLinks.forEach(a=>a.classList.remove
 /* tuck the dock away while reading downward, bring it back on the way up or at the end of the page */
 let dockY=scrollY;
 addEventListener("scroll",()=>{ const y=scrollY, end=document.documentElement.scrollHeight-innerHeight-140;
-  if(y>dockY+8&&y>240&&y<end) dock.classList.add("tuck"); else if(y<dockY-8||y>=end||y<120) dock.classList.remove("tuck");
-  if(Math.abs(y-dockY)>8) dockY=y; },{passive:true});
+  const th=matchMedia("(pointer:coarse)").matches?28:8;
+  if(y>dockY+th&&y>240&&y<end) dock.classList.add("tuck"); else if(y<dockY-th||y>=end||y<120) dock.classList.remove("tuck");
+  if(Math.abs(y-dockY)>th) dockY=y; },{passive:true});
 dock.addEventListener("focusin",()=>dock.classList.remove("tuck"));
 function revealDock(){ setTimeout(()=>dock.classList.remove("away"),150); }
 
