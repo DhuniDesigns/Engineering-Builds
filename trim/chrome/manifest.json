@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Trim: shorter AI prompts",
   "short_name": "Trim",
-  "version": "0.5.0",
-  "description": "Shrinks your Claude.ai prompts so they use fewer tokens. See before and after, then choose. Optional AI rewrite with your own key.",
+  "version": "0.5.1",
+  "description": "Rewrites your Claude.ai prompts shorter so they use fewer tokens. See before and after, then choose.",
   "author": "Hafsoh Bashar",
   "homepage_url": "https://github.com/DhuniDesigns/Engineering-Builds/tree/main/trim",
   "icons": {
@@ -33,15 +33,5 @@
       ],
       "run_at": "document_idle"
     }
-  ],
-  "host_permissions": [
-    "https://api.anthropic.com/*"
-  ],
-  "background": {
-    "service_worker": "bg.js"
-  },
-  "options_ui": {
-    "page": "popup.html",
-    "open_in_tab": true
-  }
+  ]
 }

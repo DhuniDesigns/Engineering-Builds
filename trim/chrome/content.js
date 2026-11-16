@@ -476,44 +476,10 @@
       ${note}
       <div class="foot">
         <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : (aiState === 'done' ? 'Rewritten with your API key.' : 'Runs in your browser. Nothing leaves it.')}</span>
-        ${EXT && aiState !== 'done' ? `<button class="btn ai" data-a="ai" type="button"${aiState === 'loading' ? ' disabled' : ''}>${ICON.spark}${aiState === 'loading' ? 'Rewriting…' : 'AI rewrite'}</button>` : ''}
         <button class="btn" data-a="keep" type="button">Keep mine <kbd>esc</kbd></button>
         <button class="btn go" data-a="use" type="button">Use this <kbd>↵</kbd></button>
       </div>`;
     card.classList.toggle('narrow', card.getBoundingClientRect().width < 520);
-  }
-
-  // Optional AI rewrite (Chrome extension only). The prompt goes to Anthropic with the user's own key,
-  // and only when they click the button.
-  function aiRewrite() {
-    if (!EXT || aiState === 'loading' || !result) return;
-    const snapshot = result, rulesAfter = result.after;
-    aiState = 'loading'; aiNote = null; renderCard();
-    let answered = false;
-    const done = (res) => {
-      if (answered || result !== snapshot || card.hidden) return; answered = true;
-      if (!res || !res.ok) {
-        aiState = 'idle';
-        aiNote = res && res.needKey
-          ? { text: 'Add your Anthropic API key in Trim\'s settings to use AI rewrite.', settings: true }
-          : { text: (res && res.error) || 'The AI rewrite didn\'t come back. Try again.', warn: true, settings: !!(res && res.badKey) };
-        renderCard(); return;
-      }
-      const text = res.text.trim();
-      if (!text || tokens(text) >= tokens(rulesAfter)) {
-        aiState = 'idle'; aiNote = { text: 'The AI version wasn\'t any shorter, so Trim kept its own.', warn: true }; renderCard(); return;
-      }
-      result = { before: snapshot.before, after: text, tip: null, saved: tokens(snapshot.before) - tokens(text) };
-      aiState = 'done'; aiNote = { text: 'Rewritten by ' + (res.model || 'Claude') + '. Check it says what you meant before you send.' };
-      renderCard(); card.querySelector('[data-a="use"]').focus({ preventScroll: true });
-    };
-    try {
-      chrome.runtime.sendMessage({ type: 'trim-rewrite', text: snapshot.before }, (res) => {
-        if (chrome.runtime.lastError) done({ ok: false, error: 'Trim was just updated. Reload the page and try again.' });
-        else done(res);
-      });
-    } catch (e) { done({ ok: false, error: 'Trim was just updated. Reload the page and try again.' }); }
-    setTimeout(() => done({ ok: false, error: 'That took too long. Try again.' }), 30000);
   }
 
   function closeCard() { if (!card.hidden) { hide(card); editor && editor.focus(); setTimeout(rest, 300); } }
@@ -545,8 +511,6 @@
     if (!a) return;
     const act = a.dataset.a;
     if (act === 'use') apply();
-    else if (act === 'ai') aiRewrite();
-    else if (act === 'settings') { try { chrome.runtime.sendMessage({ type: 'trim-options' }); } catch (er) {} }
     else closeCard();
   });
 
