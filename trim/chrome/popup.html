@@ -7,6 +7,7 @@
 :root{--bg:#fff;--fg:#17181b;--muted:#6b6f78;--line:rgba(17,18,24,.08);--soft:#f4f4f6;--accent:#5e64e0;--accent-hi:#7378ec;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#18181b;--fg:#f1f1f3;--muted:#8d9099;--line:rgba(255,255,255,.08);--soft:#232327;--accent:#6c72f0;--accent-hi:#8288f6;color-scheme:dark}}
 *{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
 body{width:300px;background:var(--bg);color:var(--fg);font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 .top{display:flex;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--line)}
 .logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;background:linear-gradient(180deg,var(--accent-hi),var(--accent))}
@@ -28,6 +29,24 @@ body{width:300px;background:var(--bg);color:var(--fg);font:13px/1.45 -apple-syst
 .how div{display:flex;align-items:center;gap:8px}
 kbd{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--fg)}
 .off .stat,.off .how{opacity:.45}
+.ai-sec{padding:12px 14px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.ai-h{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:13px}
+.badge{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);background:var(--soft);border-radius:999px;padding:2px 8px}
+.badge.on{color:#fff;background:var(--accent)}
+.ai-p,.fine{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
+.fine{font-size:11.5px}
+#keyForm{display:flex;gap:6px}
+#apikey{flex:1;min-width:0;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--fg);padding:0 10px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}
+#apikey:focus{border-color:var(--accent)}
+.b{height:32px;padding:0 12px;border-radius:8px;border:0;font:500 12.5px inherit;cursor:pointer;background:var(--soft);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
+.b.go{background:linear-gradient(180deg,var(--accent-hi),var(--accent));color:#fff;box-shadow:none}
+.b:active{transform:scale(.97)}
+.saved{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted)}
+.saved b{color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:500}
+.model{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
+.model select{height:28px;border-radius:7px;border:1px solid var(--line);background:var(--soft);color:var(--fg);font:12px inherit;padding:0 6px}
+.err{color:#d9534f;font-size:11.5px;margin:0}
+@media (min-width:420px){html{background:var(--soft)}body{margin:48px auto;border-radius:14px;box-shadow:0 0 0 1px var(--line),0 20px 50px -24px rgba(0,0,0,.35);overflow:hidden}}
 .foot{padding:10px 14px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;display:flex;justify-content:space-between;gap:8px}
 .foot a{color:var(--muted)}
 </style>
@@ -46,7 +65,16 @@ kbd{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--s
     <div><kbd>Enter</kbd> uses it, <kbd>Esc</kbd> keeps yours.</div>
   </div>
 </div>
-<div class="foot"><span>Runs in your browser. Nothing leaves it.</span><span>v<span id="v"></span></span></div>
+<div class="ai-sec">
+  <div class="ai-h"><span>AI rewrite</span><span class="badge" id="aiState">Off</span></div>
+  <p class="ai-p">Optional. Rewrites prompts even shorter with Claude, using your own Anthropic API key. Trim sends a prompt only when you click <b>AI rewrite</b>.</p>
+  <form id="keyForm" autocomplete="off"><input id="apikey" type="password" placeholder="sk-ant-…" spellcheck="false" aria-label="Anthropic API key"><button class="b go" type="submit">Save</button></form>
+  <p class="err" id="err" hidden></p>
+  <div class="saved" id="savedRow" hidden><span>Key saved · ending <b id="last4"></b></span><button class="b" id="remove" type="button">Remove</button></div>
+  <label class="model">Model <select id="model"><option value="claude-haiku-5-5">Haiku · fastest, cheapest</option><option value="claude-sonnet-5-5">Sonnet · smarter</option></select></label>
+  <p class="fine">Get a key at console.anthropic.com. Each rewrite uses a little of your API credit, billed by Anthropic. Your key stays in this browser.</p>
+</div>
+<div class="foot"><span>Trimming runs in your browser.</span><span>v<span id="v"></span></span></div>
 <script src="popup.js"></script>
 </body>
 </html>

@@ -20,31 +20,73 @@
     phrase: "Short phrases work: \"to\" instead of \"in order to\".",
     closer: "\"Let me know if you have questions\" isn't needed. Claude will ask.",
     dupe: "You said the same thing twice. Once is enough.",
+    preamble: "Skip the warm-up (\"So, I have a question…\"). Start with what you need.",
+    forme: "\"For me\" is implied. Claude knows who it's writing for.",
   };
 
   const PHRASES = [
     [/\bin order to\b/gi, 'to'],
+    [/\bso as to\b/gi, 'to'],
     [/\bdue to the fact that\b/gi, 'because'],
-    [/\bat this point in time\b/gi, 'now'],
+    [/\bowing to the fact that\b/gi, 'because'],
+    [/\bin spite of the fact that\b/gi, 'although'],
+    [/\b(at this point in time|at the present time|at the moment|right now)\b/gi, 'now'],
     [/\bin the event that\b/gi, 'if'],
     [/\bfor the purpose of\b/gi, 'for'],
     [/\b(is|are) able to\b/gi, 'can'],
-    [/\bhelp me to\b/gi, 'help me'],
-    [/\bin spite of the fact that\b/gi, 'although'],
+    [/\b(has|have) the ability to\b/gi, 'can'],
+    [/\bmake sure (that )?/gi, 'ensure '],
+    [/\b(with regards? to|in regards? to)\b/gi, 'about'],
+    [/\ba little bit\b/gi, 'slightly'],
+    [/\b(a large number of|a great number of)\b/gi, 'many'],
+    [/\bthe majority of\b/gi, 'most'],
+    [/\bon a daily basis\b/gi, 'daily'],
+    [/\bon a weekly basis\b/gi, 'weekly'],
+    [/\bin the near future\b/gi, 'soon'],
+    [/\bprior to\b/gi, 'before'],
+    [/\bwhether or not\b/gi, 'whether'],
+    [/\beach and every\b/gi, 'every'],
+    [/\bfirst and foremost\b/gi, 'first'],
+    [/\bso that it is\b/gi, "so it's"],
+    [/\bmore clear\b/gi, 'clearer'],
+    [/\bexplain to me\b/gi, 'explain'],
+    [/\btell me what\b/gi, 'what'],
+    [/\btake a look at\b/gi, 'check'],
+    [/\b(give|provide) me with\b/gi, 'give me'],
+    [/\bin simple terms\b/gi, 'simply'],
+    [/\bwhat the difference is between\b/gi, 'the difference between'],
+    [/\bdoes not seem to be working( properly)?\b/gi, "doesn't work"],
+    [/\bis not working( properly)?\b/gi, "isn't working"],
+  ];
+
+  // Shorter forms that read the same. Applied last.
+  const CONTRACT = [
+    [/\b([Ii]t) is\b/g, "$1's"], [/\b([Tt]hat) is\b/g, "$1's"], [/\b([Tt]here) is\b/g, "$1's"],
+    [/\bI am\b/g, "I'm"], [/\b([Yy]ou) are\b/g, "$1're"], [/\b([Ww]e) are\b/g, "$1're"], [/\b([Tt]hey) are\b/g, "$1're"],
+    [/\b([Dd])o not\b/g, "$1on't"], [/\b([Dd])oes not\b/g, "$1oesn't"], [/\b([Dd])id not\b/g, "$1idn't"],
+    [/\b([Ii])s not\b/g, "$1sn't"], [/\b([Aa])re not\b/g, "$1ren't"], [/\b([Cc])annot\b/g, "$1an't"], [/\b([Ww])ill not\b/g, "$1on't"],
+    [/\bI have\b/g, "I've"], [/\bI would\b/g, "I'd"], [/\bI will\b/g, "I'll"],
   ];
 
   const RULES = [
     { id: 'greet', re: /^\s*(hi|hello|hey|hiya|good (morning|afternoon|evening))( there)?( claude)?\s*[,!.]*\s*/i, rep: '' },
     { id: 'wellbeing', re: /\b(i )?hope (you['’]re|you are|you have been|you['’]ve been|all is) (doing )?(well|good|great|okay|having a (good|great|nice|lovely) day)\s*[.!,]*\s*/gi, rep: '' },
-    { id: 'sorry', re: /\b(sorry (to bother you|for the long message|if this is a (silly|dumb|stupid) question)|apologies for (the|my) (long )?message)\s*[.!,]*\s*/gi, rep: '' },
-    { id: 'closer', re: /\b(please )?let me know if you (have any questions|need (anything else|more (info|information|details|context)))\s*[.!]*\s*/gi, rep: '' },
-    { id: 'thanks', re: /,?\s*\b(thanks|thank you|thx|ty)(\s+(so much|a lot|very much|in advance|again))*( for (your|the|all your) (help|time))?\s*[.!]*\s*$/i, rep: '' },
-    { id: 'ask', re: /\b(i was (just )?wondering if you could|i would like you to|i['’]d like you to|i want you to|i need you to)(\s+possibly)?\s+/gi, rep: '' },
-    { id: 'canyou', re: /(^|[.!?]\s+|\n\s*)(could|can|would|will) you (please |kindly )?(?=\w)/gi, rep: '$1\uE002' },
+    { id: 'sorry', re: /\b(sorry (to bother you|for the long message|if this is a (silly|dumb|stupid|basic) question)|apologies for (the|my) (long )?message)\s*[.!,]*\s*/gi, rep: '' },
+    { id: 'preamble', re: /(^|\n|[.!?]\s+)(so|okay so|ok so|okay|ok|alright|well|um|basically|anyway)\s*,?\s+(?=[a-z])/gi, rep: '$1' },
+    { id: 'preamble', re: /\b(i have a (quick |small |simple )?question( for you)?|quick question|my question is|here is (my|the) (question|request|task))\s*[.:!]*\s*/gi, rep: '' },
+    { id: 'closer', re: /\b(please )?let me know if you (have any questions|need (anything else|any more|more|any|additional) (information|info|details|context)\b|need anything( else)?)\s*[.!]*\s*/gi, rep: '' },
+    { id: 'closer', re: /\b(i hope (this|that) makes sense|any help (would be|is) (much |greatly |really )?appreciated|looking forward to your (reply|response|answer)|thanks for your (help|time)|i(['’]d| would) (really |greatly |truly )?appreciate (it|that|your help)( a lot| so much)?)\s*[.!]*\s*/gi, rep: '' },
+    { id: 'thanks', re: /,?\s*\b(thanks|thank you|thx|ty|cheers)(\s+(so much|a lot|very much|in advance|again))*( for (your|the|all your) (help|time))?\s*[.!]*\s*$/i, rep: '' },
+    { id: 'filler', re: /\b(?<!\b[Aa]n? )(basically|actually|literally|really|honestly|kind of|sort of|simply|very|extremely|quite|truly|totally|definitely|certainly|pretty much|essentially)\s+(?=[\w\uE002])/gi, rep: '' },
+    { id: 'just', re: /\bjust\s+(?!(the|a|an|one|this|that|these|those|my|your|his|her|their|our|\d+)\b)/gi, rep: '' },
+    { id: 'ask', re: /\b(i was (just )?wondering if you could|i was hoping (that )?you could|i would (really |greatly )?appreciate it if you could|it would be (great|nice|awesome|helpful|amazing) if you could|would it be possible (for you )?to|is it possible (for you )?to|do you think you could|i would like you to|i['’]d like you to|i want you to|i need you to)(\s+possibly)?\s+/gi, rep: '' },
+    { id: 'canyou', re: /(^|[.!?]\s+|\n\s*)(could|can|would|will) you (please |kindly |possibly )?(?=\w)/gi, rep: '$1' },
+    { id: 'ask', re: /\b(possibly )?help me (to )?(?=(write|rewrite|create|make|draft|fix|find|explain|summari[sz]e|edit|improve|turn|plan|build|design|generate|translate|review|shorten|come up|understand|figure out|choose|pick|decide|organi[sz]e|format|debug|optimi[sz]e)\b)/gi, rep: '' },
     { id: 'please', re: /\b(please|kindly)\s+/gi, rep: '' },
     { id: 'hedge', re: /,?\s*\bif (it['’]s|it is|that['’]s|that is) (not too much trouble|okay|ok|possible|alright|fine)\b,?/gi, rep: '' },
-    { id: 'filler', re: /\b(basically|actually|literally|really|honestly|kind of|sort of|simply)\s+/gi, rep: '' },
-    { id: 'just', re: /\bjust\s+(?!(the|a|an|one|this|that|these|those|my|your|his|her|their|our|\d+)\b)/gi, rep: '' },
+    { id: 'hedge', re: /,?\s*\b(if (you can|possible|you don['’]t mind|you have time)|when you get a chance)\b,?/gi, rep: '' },
+    { id: 'hedge', re: /\bi (think|feel|believe|guess|suppose) (that |like )?(?=\w)/gi, rep: '' },
+    { id: 'forme', re: /\b(write|make|create|draft|give|generate|explain|summari[sz]e)( [a-z ]{1,40}?)? for me\b/gi, rep: (m) => m.replace(/ for me$/i, '') },
   ];
 
   // Code, links and quotes are never changed.
@@ -58,6 +100,7 @@
 
     for (const r of RULES) { const b = text.length; text = text.replace(r.re, r.rep); note(r.id, b); }
     { const b = text.length; for (const [re, rep] of PHRASES) text = text.replace(re, rep); note('phrase', b); }
+    { const b = text.length; for (const [re, rep] of CONTRACT) text = text.replace(re, rep); note('phrase', b); }
 
     // A question turned into an instruction ends with a full stop.
     text = text.replace(/\uE002([^?.!\n]*)\?/g, '$1.').replace(/\uE002/g, '');
@@ -65,7 +108,7 @@
     // Drop sentences said twice.
     { const b = text.length; const seen = new Set();
       text = text.split('\n').map((line) => line.split(/(?<=[.!?])\s+/).filter((s) => {
-        const k = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const k = s.toLowerCase().replace(/^(also|and|plus|again)[, ]+/, '').replace(/[^a-z0-9]/g, '');
         if (k.length < 20) return true;
         if (seen.has(k)) return false;
         seen.add(k); return true;
@@ -218,6 +261,16 @@
     .btn.go:hover{filter:brightness(1.06)}
     .btn.go kbd{background:rgba(255,255,255,.18);color:rgba(255,255,255,.9)}
 
+    .btn.ai{color:var(--accent);padding:0 12px 0 10px}
+    .btn.ai svg{width:14px;height:14px}
+    .btn.ai[disabled]{opacity:.55;pointer-events:none}
+    .card.narrow .total{display:none}
+    .sk{height:10px;border-radius:5px;margin:9px 0;background:linear-gradient(90deg,var(--line) 0%,var(--hover) 50%,var(--line) 100%);background-size:200% 100%;animation:sk 1.1s linear infinite}
+    @keyframes sk{to{background-position:-200% 0}}
+    .tip .go-settings{margin-left:auto;flex:none;height:26px;padding:0 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--accent);box-shadow:inset 0 0 0 1px var(--line)}
+    .tip .go-settings:hover{background:var(--hover)}
+    .tip.warn svg{color:var(--cut)}
+
     /* Toast, like a HUD */
     .toast{position:fixed;pointer-events:auto;display:flex;align-items:center;gap:10px;height:40px;padding:0 6px 0 10px;border-radius:12px;
       font-size:13px;font-weight:500;opacity:0;transform:translate(-50%,8px) scale(.98);
@@ -241,6 +294,7 @@
   const ICON = {
     scissors: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>',
     bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   };
   const $ = (s) => root.querySelector(s);
@@ -389,27 +443,77 @@
     if (!editor || !enabled) return;
     const r = compute();
     if (r.saved < 3) { check(true); return; }
+    aiState = 'idle'; aiNote = null;
+    renderCard();
+    place(); hide(pill); show(card);
+    card.querySelector('[data-a="use"]').focus({ preventScroll: true });
+  }
+
+  // aiState: idle | loading | done. aiNote: { text, warn, settings }
+  let aiState = 'idle', aiNote = null;
+  function renderCard() {
+    const r = result;
     const before = tokens(r.before), after = tokens(r.after);
-    const pct = Math.round((r.saved / Math.max(1, before)) * 100);
+    const pct = Math.round(((before - after) / Math.max(1, before)) * 100);
     const total = store.get();
+    const label = aiState === 'done' ? 'AI rewrite' : 'Trimmed';
+    const right = aiState === 'loading'
+      ? '<div class="sk" style="width:92%"></div><div class="sk" style="width:78%"></div><div class="sk" style="width:85%"></div><div class="sk" style="width:46%"></div>'
+      : esc(r.after);
+    const note = aiNote
+      ? `<div class="tip${aiNote.warn ? ' warn' : ''}">${aiNote.warn ? ICON.bulb : ICON.spark}<span>${esc(aiNote.text)}</span>${aiNote.settings ? '<button class="go-settings" data-a="settings" type="button">Open settings</button>' : ''}</div>`
+      : (r.tip ? `<div class="tip">${ICON.bulb}<span><b>Tip</b> · ${esc(r.tip)}</span></div>` : '');
     card.innerHTML = `
       <div class="head">
-        <div class="crumb"><span class="logo">${ICON.scissors}</span>Trim<span class="slash">/</span><span class="sub">Preview</span></div>
-        <div class="stat"><span class="num"><b>~${before}</b> → <b>~${after}</b> tokens</span><span class="chip">−${pct}%</span></div>
+        <div class="crumb"><span class="logo">${ICON.scissors}</span>Trim<span class="slash">/</span><span class="sub">${aiState === 'done' ? 'AI rewrite' : 'Preview'}</span></div>
+        <div class="stat"><span class="num"><b>~${before}</b> → <b>~${aiState === 'loading' ? '…' : after}</b> tokens</span><span class="chip">−${aiState === 'loading' ? '…' : pct}%</span></div>
       </div>
       <div class="meter"><i style="transform:scaleX(${(after / Math.max(1, before)).toFixed(3)})"></i></div>
       <div class="cols">
-        <div class="col old"><div class="lab">Yours<span class="num">~${before}</span></div><div class="txt">${diff(r.before, r.after)}</div></div>
-        <div class="col"><div class="lab">Trimmed<span class="num">~${after}</span></div><div class="txt">${esc(r.after)}</div></div>
+        <div class="col old"><div class="lab">Yours<span class="num">~${before}</span></div><div class="txt">${aiState === 'loading' ? esc(r.before) : diff(r.before, r.after)}</div></div>
+        <div class="col"><div class="lab">${label}<span class="num">${aiState === 'loading' ? 'Rewriting…' : '~' + after}</span></div><div class="txt">${right}</div></div>
       </div>
-      ${r.tip ? `<div class="tip">${ICON.bulb}<span><b>Tip</b> · ${esc(r.tip)}</span></div>` : ''}
+      ${note}
       <div class="foot">
-        <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : 'Runs in your browser. Nothing leaves it.'}</span>
+        <span class="total num">${total ? `~${total.toLocaleString()} tokens saved so far` : (aiState === 'done' ? 'Rewritten with your API key.' : 'Runs in your browser. Nothing leaves it.')}</span>
+        ${EXT && aiState !== 'done' ? `<button class="btn ai" data-a="ai" type="button"${aiState === 'loading' ? ' disabled' : ''}>${ICON.spark}${aiState === 'loading' ? 'Rewriting…' : 'AI rewrite'}</button>` : ''}
         <button class="btn" data-a="keep" type="button">Keep mine <kbd>esc</kbd></button>
         <button class="btn go" data-a="use" type="button">Use this <kbd>↵</kbd></button>
       </div>`;
-    place(); hide(pill); show(card);
-    card.querySelector('[data-a="use"]').focus({ preventScroll: true });
+    card.classList.toggle('narrow', card.getBoundingClientRect().width < 520);
+  }
+
+  // Optional AI rewrite (Chrome extension only). The prompt goes to Anthropic with the user's own key,
+  // and only when they click the button.
+  function aiRewrite() {
+    if (!EXT || aiState === 'loading' || !result) return;
+    const snapshot = result, rulesAfter = result.after;
+    aiState = 'loading'; aiNote = null; renderCard();
+    let answered = false;
+    const done = (res) => {
+      if (answered || result !== snapshot || card.hidden) return; answered = true;
+      if (!res || !res.ok) {
+        aiState = 'idle';
+        aiNote = res && res.needKey
+          ? { text: 'Add your Anthropic API key in Trim\'s settings to use AI rewrite.', settings: true }
+          : { text: (res && res.error) || 'The AI rewrite didn\'t come back. Try again.', warn: true, settings: !!(res && res.badKey) };
+        renderCard(); return;
+      }
+      const text = res.text.trim();
+      if (!text || tokens(text) >= tokens(rulesAfter)) {
+        aiState = 'idle'; aiNote = { text: 'The AI version wasn\'t any shorter, so Trim kept its own.', warn: true }; renderCard(); return;
+      }
+      result = { before: snapshot.before, after: text, tip: null, saved: tokens(snapshot.before) - tokens(text) };
+      aiState = 'done'; aiNote = { text: 'Rewritten by ' + (res.model || 'Claude') + '. Check it says what you meant before you send.' };
+      renderCard(); card.querySelector('[data-a="use"]').focus({ preventScroll: true });
+    };
+    try {
+      chrome.runtime.sendMessage({ type: 'trim-rewrite', text: snapshot.before }, (res) => {
+        if (chrome.runtime.lastError) done({ ok: false, error: 'Trim was just updated. Reload the page and try again.' });
+        else done(res);
+      });
+    } catch (e) { done({ ok: false, error: 'Trim was just updated. Reload the page and try again.' }); }
+    setTimeout(() => done({ ok: false, error: 'That took too long. Try again.' }), 30000);
   }
 
   function closeCard() { if (!card.hidden) { hide(card); editor && editor.focus(); setTimeout(rest, 300); } }
@@ -439,7 +543,11 @@
   card.addEventListener('click', (e) => {
     const a = e.target.closest('[data-a]');
     if (!a) return;
-    a.dataset.a === 'use' ? apply() : closeCard();
+    const act = a.dataset.a;
+    if (act === 'use') apply();
+    else if (act === 'ai') aiRewrite();
+    else if (act === 'settings') { try { chrome.runtime.sendMessage({ type: 'trim-options' }); } catch (er) {} }
+    else closeCard();
   });
 
   window.addEventListener('keydown', (e) => {
@@ -450,7 +558,7 @@
     }
     if (card.hidden || !card.classList.contains('on')) return;
     if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); closeCard(); }
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.stopImmediatePropagation(); apply(); }
+    if (e.key === 'Enter' && !e.shiftKey && !e.target.closest?.('button:not([data-a="use"])')) { e.preventDefault(); e.stopImmediatePropagation(); if (aiState !== 'loading') apply(); }
   }, true);
 
   // Watch for typing, and for claude.ai swapping the page.

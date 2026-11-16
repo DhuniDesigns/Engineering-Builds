@@ -18,10 +18,10 @@ a{color:var(--accent)}
 </head>
 <body><main>
 <h1>Trim privacy policy</h1>
-<p class="d">Last updated 13 November 2026 · Trim is made by Hafsoh Bashar</p>
+<p class="d">Last updated 16 November 2026 · Trim is made by Hafsoh Bashar</p>
 
 <h2>The short version</h2>
-<p>Trim reads the prompt you are typing on claude.ai so it can suggest a shorter version. It does this inside your browser. Your prompts are never sent to me or to anyone else, and Trim has no server.</p>
+<p>Trim reads the prompt you are typing on claude.ai so it can suggest a shorter version. The standard trim happens inside your browser. Your prompts are never sent to me, and Trim has no server. If you turn on the optional AI rewrite, the prompt you choose to rewrite is sent to Anthropic, the company that makes Claude, using your own API key, and only when you click <b>AI rewrite</b>.</p>
 
 <h2>What Trim reads</h2>
 <p>Only the text in the message box on claude.ai, and only while the page is open. Trim does not read your past conversations, Claude's replies, or any other website.</p>
@@ -30,14 +30,18 @@ a{color:var(--accent)}
 <ul>
 <li>Whether Trim is switched on or off.</li>
 <li>A running total of roughly how many tokens you have saved.</li>
+<li>If you add one: your Anthropic API key and your chosen model.</li>
 </ul>
-<p>Both are kept in your browser's extension storage on your own computer. They contain no prompt text. Removing Trim deletes them.</p>
+<p>These are kept in your browser's extension storage on your own computer. They contain no prompt text. Removing the key in Trim's settings, or removing Trim, deletes them.</p>
+
+<h2>The optional AI rewrite</h2>
+<p>AI rewrite is off until you add your own Anthropic API key in Trim's settings. When you click <b>AI rewrite</b> in the preview, Trim sends that one prompt and your key directly to Anthropic's API (api.anthropic.com) and shows you the shorter version. Nothing goes through any other server. Anthropic handles that request under its own <a href="https://www.anthropic.com/legal/privacy">privacy policy</a> and terms, and any cost is billed to your Anthropic account. You can remove your key at any time.</p>
 
 <h2>What Trim does not do</h2>
 <ul>
 <li>It does not collect, sell or share personal data.</li>
 <li>It does not use analytics, tracking or advertising.</li>
-<li>It does not make network requests.</li>
+<li>It makes no network requests, except the AI rewrite you choose to run, which goes only to Anthropic.</li>
 <li>It only changes your prompt when you choose "Use this", and you can undo it.</li>
 </ul>
 

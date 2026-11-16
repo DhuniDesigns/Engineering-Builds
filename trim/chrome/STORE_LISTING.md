@@ -3,14 +3,14 @@
 Copy these into the Chrome Web Store developer dashboard. Images are in `store/`.
 
 ## Package
-Upload `trim-chrome-0.4.0.zip` (built with `./build-chrome.sh` from the `trim` folder).
+Upload `trim-chrome-0.5.0.zip` (built with `./build-chrome.sh` from the `trim` folder).
 
 ## Store listing tab
 
 **Name** (from the manifest): Trim: shorter AI prompts
 
 **Summary** (from the manifest, max 132 characters):
-Cuts filler words from your Claude.ai prompts so they use fewer tokens. You see before and after, then choose.
+Shrinks your Claude.ai prompts so they use fewer tokens. See before and after, then choose. Optional AI rewrite with your own key.
 
 **Description:**
 Trim helps you write tighter prompts on claude.ai.
@@ -24,8 +24,15 @@ What Trim removes
 • Sign-offs like "thank you so much in advance"
 • Wordy phrases ("in order to" becomes "to")
 
+• Roundabout asks ("Would it be possible for you to explain to me…" becomes "Explain…")
+• Wordy phrases and long forms ("make sure that it is" becomes "ensure it's")
+• Sentences you said twice
+
 What it never touches
 • Code blocks, links and anything in quotes
+
+Optional AI rewrite
+Add your own Anthropic API key in Trim's settings and an "AI rewrite" button appears in the preview. It asks Claude to rewrite the prompt as short as possible while keeping every instruction, fact and format. Your key stays in your browser, and a prompt is only sent to Anthropic when you click the button.
 
 How to use it
 • Pause typing and the pill appears beside send
@@ -34,7 +41,7 @@ How to use it
 • Undo right after, or tap the scissors to trim again
 
 Private by design
-Trim runs entirely in your browser. It has no server, makes no network requests and never sends your prompts anywhere. Token counts are estimates.
+The standard trim runs entirely in your browser and has no server. The AI rewrite is off unless you add a key, and then it talks only to Anthropic, only when you ask. Token counts are estimates.
 
 Designed and built by Hafsoh Bashar.
 
@@ -55,16 +62,17 @@ Trim is an independent project and is not affiliated with or endorsed by Anthrop
 ## Privacy practices tab
 
 **Single purpose:**
-Trim suggests a shorter version of the prompt you are typing on claude.ai and replaces it only when you choose to.
+Trim suggests a shorter version of the prompt you are typing on claude.ai, on the device or optionally with an AI rewrite, and replaces it only when you choose to.
 
 **Permission justification**
 • storage: Saves whether Trim is on or off and a running total of tokens saved, on the user's own computer.
 • Host access (content script on https://claude.ai/*): Needed to read the prompt in the claude.ai message box, show the Trim pill and preview, and replace the text when the user clicks "Use this".
+• Host access (https://api.anthropic.com/*): Used only by the optional AI rewrite. When the user has added their own Anthropic API key and clicks "AI rewrite", the background worker sends that prompt to Anthropic's Messages API and returns the shorter version. No request is made otherwise.
 
 **Remote code:** No, I am not using remote code.
 
 **Data usage:**
-Tick **Website content**, since Trim reads the text typed into the claude.ai message box. Leave every other category unticked. Then tick all three certifications:
+Tick **Website content** (Trim reads the text typed into the claude.ai message box) and **Authentication information** (the user's own Anthropic API key, stored locally and sent only to Anthropic with an AI rewrite). Leave every other category unticked. Then tick all three certifications:
 • I do not sell or transfer user data to third parties, outside of the approved use cases
 • I do not use or transfer user data for purposes that are unrelated to my item's single purpose
 • I do not use or transfer user data to determine creditworthiness or for lending purposes
@@ -75,3 +83,9 @@ Tick **Website content**, since Trim reads the text typed into the claude.ai mes
 **Visibility:** Public (or Unlisted to test with a few people first)
 **Regions:** All regions
 **Pricing:** Free
+
+## What to change for the 0.5.0 update
+1. Package tab: upload `trim-chrome-0.5.0.zip`.
+2. Store listing tab: replace the summary and description with the ones above.
+3. Privacy tab: replace the single purpose, add the new api.anthropic.com host permission justification, and tick Authentication information.
+4. Submit for review. The new host permission may mean a longer review than last time.

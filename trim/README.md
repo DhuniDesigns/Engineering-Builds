@@ -5,8 +5,8 @@ A small pill that sits just above the send button on claude.ai. When you pause t
 Designed and built by **Hafsoh Bashar**.
 
 ## Install (Chrome, Edge, Brave, Arc)
-Chrome Web Store listing coming soon. To try it now:
-1. Download [trim-chrome-0.4.0.zip](trim-chrome-0.4.0.zip) and unzip it.
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/trim-shorter-ai-prompts/eakihifhclglndhidghmakhegienbmcf). To try the newest version before the store updates:
+1. Download [trim-chrome-0.5.0.zip](trim-chrome-0.5.0.zip) and unzip it.
 2. Open `chrome://extensions`, turn on **Developer mode** (top right) and click **Load unpacked**.
 3. Pick the unzipped folder, then go to claude.ai and write a prompt of 20+ words.
 
@@ -25,13 +25,17 @@ Shortcuts: Option+T opens the preview any time, even right after a trim · Enter
 When there's text in the box but nothing big to trim, a small scissors button stays next to send. Tap it to bring Trim back.
 
 ## What it cuts
-Greetings, "hope you're well", apologies, "thanks!" sign-offs, "I want you to", "could you please", hedges, filler words (basically, really, actually), long phrases ("in order to" → "to") and sentences said twice. Code, links and quoted text are never changed.
+Greetings, "hope you're well", apologies and sign-offs; roundabout asks ("Would it be possible for you to explain to me…" → "Explain…"); hedges ("I think that", "if that's okay"); filler words (basically, really, very); wordy phrases and long forms ("make sure that it is" → "ensure it's"); warm-ups ("So, I have a quick question"); and sentences said twice. Code, links and quoted text are never changed. On five everyday test prompts it saves about 45% of the estimated tokens.
+
+## AI rewrite (optional, Chrome)
+Add your own Anthropic API key in Trim's settings (click the toolbar icon) and an **AI rewrite** button appears in the preview. It asks Claude to rewrite the prompt as short as possible while keeping every instruction, fact and format, and only replaces the trimmed version when the result is shorter. Choose Haiku (fastest, cheapest) or Sonnet. Each rewrite uses a little of your Anthropic API credit.
 
 ## Privacy
-Everything runs in your browser. No account, no server, nothing sent anywhere.
+The standard trim runs in your browser: no account, no server. AI rewrite is off until you add a key; then the prompt you choose to rewrite goes only to Anthropic, and only when you click the button. Your key stays in your browser. [Privacy policy](https://dhuni-designs.vercel.app/trim/privacy.html)
 
 ## How it works
 - A rules engine (plain JavaScript) shortens the text; tokens are estimated at about 4 characters each.
+- The optional AI rewrite runs in the extension's background worker, which calls Anthropic's Messages API with the user's key.
 - The text goes back into claude.ai's ProseMirror editor as a paste, so the editor and send button stay in sync.
 - The UI lives in a shadow root so claude.ai's styles can't break it, and it follows light and dark mode.
 
