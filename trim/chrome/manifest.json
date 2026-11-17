@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Trim: shorter AI prompts",
   "short_name": "Trim",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Rewrites your Claude.ai prompts shorter so they use fewer tokens. See before and after, then choose.",
   "author": "Hafsoh Bashar",
   "homepage_url": "https://github.com/DhuniDesigns/Engineering-Builds/tree/main/trim",

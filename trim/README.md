@@ -6,7 +6,7 @@ Designed and built by **Hafsoh Bashar**.
 
 ## Install (Chrome, Edge, Brave, Arc)
 Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/trim-shorter-ai-prompts/eakihifhclglndhidghmakhegienbmcf). To try the newest version before the store updates:
-1. Download [trim-chrome-0.5.1.zip](trim-chrome-0.5.1.zip) and unzip it.
+1. Download [trim-chrome-0.5.2.zip](trim-chrome-0.5.2.zip) and unzip it.
 2. Open `chrome://extensions`, turn on **Developer mode** (top right) and click **Load unpacked**.
 3. Pick the unzipped folder, then go to claude.ai and write a prompt of 20+ words.
 

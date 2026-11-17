@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trim
 // @description  Shortens your Claude prompt so it uses fewer tokens. You see before and after, then choose.
-// @version      0.5.1
+// @version      0.5.2
 // @updateURL    https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @downloadURL  https://raw.githubusercontent.com/DhuniDesigns/Engineering-Builds/main/trim/trim.user.js
 // @author       Hafsoh Bashar
@@ -86,7 +86,7 @@
     { id: 'preamble', re: /(^|\n|[.!?]\s+)(so|okay so|ok so|okay|ok|alright|well|um|basically|anyway)\s*,?\s+(?=[a-z])/gi, rep: '$1' },
     { id: 'preamble', re: /\b(i have a (quick |small |simple )?question( for you)?|quick question|my question is|here is (my|the) (question|request|task))\s*[.:!]*\s*/gi, rep: '' },
     { id: 'closer', re: /\b(please )?let me know if you (have any questions|need (anything else|any more|more|any|additional) (information|info|details|context)\b|need anything( else)?)\s*[.!]*\s*/gi, rep: '' },
-    { id: 'closer', re: /\b(i hope (this|that) makes sense|any help (would be|is) (much |greatly |really )?appreciated|looking forward to your (reply|response|answer)|thanks for your (help|time)|i(['’]d| would) (really |greatly |truly )?appreciate (it|that|your help)( a lot| so much)?)\s*[.!]*\s*/gi, rep: '' },
+    { id: 'closer', re: /\b(i hope (this|that) makes sense|any help (would be|is) (much |greatly |really )?appreciated|looking forward to your (reply|response|answer)|thanks for your (help|time)|i(['’]d| would) (really |greatly |truly )?appreciate (it|that|your help)(?!\s+if\b)( a lot| so much)?)\s*[.!]*\s*/gi, rep: '' },
     { id: 'thanks', re: /,?\s*\b(thanks|thank you|thx|ty|cheers)(\s+(so much|a lot|very much|in advance|again))*( for (your|the|all your) (help|time))?\s*[.!]*\s*$/i, rep: '' },
     { id: 'filler', re: /\b(?<!\b[Aa]n? )(basically|actually|literally|really|honestly|kind of|sort of|simply|very|extremely|quite|truly|totally|definitely|certainly|pretty much|essentially)\s+(?=[\w\uE002])/gi, rep: '' },
     { id: 'just', re: /\bjust\s+(?!(the|a|an|one|this|that|these|those|my|your|his|her|their|our|\d+)\b)/gi, rep: '' },
