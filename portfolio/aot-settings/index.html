@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AOT · Edit profile flow</title>
+<meta name="description" content="AOT settings: editing personal information, from the Figma design, animated. Designed and built by Hafsoh Bashar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#050505;overflow:hidden}
+body{display:grid;place-items:center;font-family:"DM Sans",system-ui,sans-serif;font-optical-sizing:auto;-webkit-font-smoothing:antialiased;color:#fafafa}
+.fit{width:1440px;height:1024px;transform-origin:center;flex:none}
+.stage{position:relative;width:1440px;height:1024px;background:#000;border-radius:24px;overflow:hidden}
+.abs{position:absolute}
+.hel{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif}
+
+/* sidebar */
+.side{position:absolute;left:0;top:0;width:300px;height:1024px;background:#0c0c0c;border-right:1px solid #1f1f1f}
+.brand{left:20px;top:24px;display:flex;gap:8px;align-items:center}
+.brand b{font:700 18px/normal Helvetica,Arial,sans-serif;letter-spacing:.36px;color:#fafafa}
+.search{left:20px;top:68px;width:260px;display:flex;align-items:center;justify-content:space-between;padding:6px 6px 6px 12px;border-radius:12px;background:#000;box-shadow:inset .5px .5px 0 rgba(178,178,178,.25)}
+.search .q{display:flex;gap:8px;align-items:center;opacity:.4;font-size:14px;font-weight:500;color:#737373}
+.kbd{background:#0c0c0c;border:1px solid #121212;padding:8px;border-radius:8px;font-size:12px;font-weight:500;line-height:normal}
+.menu{left:20px;top:132px;width:260px;display:flex;flex-direction:column;gap:20px}
+.div{height:2px;border-bottom:1px solid #000;box-shadow:0 1.5px 0 #121212;width:100%}
+.sec{display:flex;flex-direction:column;gap:8px}
+.sec>p{font-size:11px;font-weight:600;color:#404040;letter-spacing:.11px}
+.nav{display:flex;align-items:center;gap:12px;height:48px;padding:12px;border-radius:12px;font-size:16px;font-weight:500;letter-spacing:.16px;color:#525252}
+.nav svg,.nav span{opacity:.8}
+.nav.act{position:relative;justify-content:space-between;padding-right:0;background:linear-gradient(90deg,#121212,#1f1f1f 50%,#1f1f1f);color:#fafafa;box-shadow:inset 0 -1px 1px rgba(0,0,0,.5),inset -.5px -.5px 0 rgba(39,39,39,.25),inset .5px .5px 0 rgba(120,120,120,.25)}
+.nav.act .l{display:flex;gap:12px;align-items:center;opacity:.8}
+.nav.act .bar{width:4px;height:24px;border-radius:20px;background:#00cea8;box-shadow:0 0 59px #00cea8,0 0 34px #00cea8,0 0 20px #00cea8,0 0 10px #00cea8,0 0 3px #00cea8}
+.prem{left:20px;top:777px;width:260px;height:227px}
+.prem .card{position:absolute;inset:0 0 auto 0;padding:12px;border-radius:16px;background:#000;display:flex;flex-direction:column;gap:20px;box-shadow:inset -.5px -.5px 0 rgba(59,59,59,.25),inset .5px .5px 0 rgba(123,123,123,.25)}
+.badge{width:50px;height:50px;display:grid;place-items:center;background:#121212;border:1px solid #000;border-radius:12px;box-shadow:inset 0 -2px 1px #000}
+.prem .txt{display:flex;flex-direction:column;gap:20px;padding:4px}
+.prem h4{font:400 18px/normal Helvetica,Arial,sans-serif;color:#fafafa}
+.prem .txt p{font:400 14px/normal Helvetica,Arial,sans-serif;color:#525252;margin-top:10px}
+.btn-up{display:flex;justify-content:center;padding:12px 24px;background:#121212;border:1px solid #1f1f1f;border-radius:12px;box-shadow:2px 4px 8px rgba(0,0,0,.4);font-size:14px;font-weight:500}
+.prem .x{position:absolute;right:12px;top:12px}
+.collapse{left:286px;top:498px;width:28px;height:28px;border-radius:50%;background:#0c0c0c;border:1px solid #1f1f1f;display:grid;place-items:center}
+
+/* main */
+.title{left:328px;top:48px;font:700 24px/30px Helvetica,Arial,sans-serif;color:#e0e0e0}
+.logout{left:1292px;top:42px;width:120px;height:42px;display:flex;gap:8px;align-items:center;justify-content:center;background:#121212;border:1px solid #000;border-radius:12px;box-shadow:inset 0 -2px 1px .5px #000;font-size:14px;font-weight:500}
+.card{position:absolute;background:#0c0c0c;border:1px solid #121212;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.ch{display:flex;flex-direction:column;gap:10px}
+.ch .t{display:flex;align-items:center;justify-content:space-between}
+.ch h3{font-size:18px;font-weight:500;color:#f2f7f6;line-height:normal}
+.row{display:flex;align-items:center;justify-content:space-between;font-size:14px;letter-spacing:-.28px;line-height:normal}
+.lnk{font-style:italic;color:#1f73e6}
+.hr{height:1px;background:#171717;width:100%}
+.av{width:100px;height:100px;border:2px solid #000;border-radius:12px;overflow:hidden;flex:none;box-shadow:16px 35px 11px rgba(26,26,26,.01),10px 22px 10px rgba(26,26,26,.07),6px 13px 8px rgba(26,26,26,.23),2px 6px 6px rgba(26,26,26,.38),1px 1px 3px rgba(26,26,26,.44)}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.pi{display:flex;gap:24px;align-items:center}
+.pi .r{flex:1;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;padding-top:4px}
+.pi .nm{font-size:28px;font-weight:600;color:#f2f7f6;line-height:normal}
+.mut{color:#525252}
+.sm{font-size:14px;line-height:normal}
+.bars{display:flex;gap:2px;height:24px}.bars i{width:2px;border-radius:12px;background:#262626}.bars i.on{background:#00cea8}
+.tog{position:relative;width:38.5px;height:22px;border-radius:11px;background:#121212;box-shadow:inset 0 0 0 1px #1f1f1f}
+.tog b{position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#1f1f1f}
+.tog.on{background:#00b795;box-shadow:none}.tog.on b{left:auto;right:3px;background:#fff}
+
+/* overlay + panel */
+.ov{position:absolute;left:300px;top:0;width:1140px;height:1024px;background:rgba(10,10,10,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;visibility:hidden}
+.panel{left:604px;bottom:40px;width:532px;opacity:0;visibility:hidden}
+.save{width:100px;display:flex;justify-content:center;padding:12px 8px;background:#121212;border:1px solid #000;border-radius:8px;box-shadow:inset 0 -2px 1px .5px #000;font-size:12px;font-weight:500;color:#525252;line-height:normal;transition:color .25s ease,transform .16s ease}
+.save.on{color:#fafafa}
+.save.press{transform:scale(.96)}
+.edit-av{position:relative}
+.edit-av::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.edit-av svg{position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:1}
+.f{height:23px}
+.f .k{width:122px;color:#525252}
+.f .v{color:#fafafa;text-align:right;display:flex;align-items:center;gap:2px;justify-content:flex-end}
+.caret{display:inline-block;width:1px;height:24px;background:#3358e7;opacity:0}
+.caret.blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.st{color:#2e8bff}
+.chev{display:grid;place-items:center;width:24px;height:24px;rotate:90deg;transition:rotate .28s cubic-bezier(.23,1,.32,1)}
+.chev.up{rotate:-90deg}
+.dd{left:934px;top:814px;width:180px;padding:3px;display:flex;flex-direction:column;gap:3px;background:#121212;border-radius:16px;box-shadow:0 6px 13px rgba(0,0,0,.1);opacity:0;visibility:hidden;transform-origin:100% 100%}
+.mi{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:#1f1f1f;font-size:12px;font-weight:500;letter-spacing:-.72px;transition:background-color .15s ease}
+.mi.sel{background:#061d45}
+.mi.hov:not(.sel){background:#2a2a2a}
+.toast{left:742px;top:944px;width:256px;height:40px;border-radius:24px;background:linear-gradient(90deg,#121212,#1f1f1f 50%,#1f1f1f);box-shadow:inset 0 -1px 1px .5px rgba(0,0,0,.5),inset -.5px -.5px 0 rgba(39,39,39,.25),inset .5px .5px 0 rgba(120,120,120,.25);opacity:0;visibility:hidden}
+.toast .c{position:absolute;left:6px;top:6px;width:28px;height:28px;border-radius:50%;background:#00cea8;display:grid;place-items:center}
+.toast span{position:absolute;left:44px;top:calc(50% - 11px);font-size:14px;font-weight:500;line-height:21px;letter-spacing:-.42px;color:#f8f8f8;white-space:nowrap}
+.cursor{position:absolute;left:0;top:0;width:22px;height:22px;z-index:50;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+.ring{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);z-index:49;opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.caret.blink{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<div class="fit" id="fit"><div class="stage" id="stage">
+
+  <aside class="side">
+    <div class="abs brand"><img src="a/logo.png" width="24" height="24" alt=""><b>AOT</b></div>
+    <div class="abs search"><span class="q"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#737373" d="m17.176 15.762l3.652 3.652c.359.41.405 1.01 0 1.414c-.404.405-1.004.359-1.414 0l-3.652-3.652c-1.145.85-2.399 1.459-3.814 1.702C5.871 19.921.72 14.327 2.272 8.355a8.5 8.5 0 0 1 1.979-3.618A8.55 8.55 0 0 1 7.68 2.478c6.112-2.146 12.292 3.095 11.198 9.47c-.243 1.415-.852 2.669-1.702 3.814M9.938 4.025a6.5 6.5 0 0 0-3.844 1.697a6.5 6.5 0 0 0-1.727 2.622c-1.558 4.436 2.021 9.03 6.695 8.631a6.5 6.5 0 0 0 3.844-1.697a6.5 6.5 0 0 0 1.727-2.622c1.558-4.436-2.021-9.03-6.695-8.631"/></svg>Search...</span><span class="kbd">CTRL + K</span></div>
+    <nav class="abs menu">
+      <div class="div"></div>
+      <div class="sec"><p>MAIN MENU</p><div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#525252" d="M12.581 2.686a1 1 0 0 0-1.162 0l-9.5 6.786l1.162 1.627L12 4.73l8.919 6.37l1.162-1.627zm7 10l-7-5a1 1 0 0 0-1.162 0l-7 5a1 1 0 0 0-.42.814V20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6.5a1 1 0 0 0-.418-.814M6 19v-4.985l6-4.286l6 4.286V19z"/></svg><span>Home</span></div><div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#525252" d="m7.5 16.5l7-2l2-7l-7 2zm4.5-3q-.625 0-1.062-.437T10.5 12t.438-1.062T12 10.5t1.063.438T13.5 12t-.437 1.063T12 13.5m0 8.5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.325 0 5.663-2.337T20 12t-2.337-5.663T12 4T6.337 6.338T4 12t2.338 5.663T12 20m0-8"/></svg><span>AOT Intelligence</span></div><div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#525252" fill-rule="evenodd" d="M12 21.474A9.474 9.474 0 0 0 21.474 12a9.474 9.474 0 1 0-18.948 0A9.474 9.474 0 0 0 12 21.474m3.796-16.578q.196.283.37.586c.514.893.92 1.95 1.189 3.116q.554.145 1.045.318c.45.16.87.34 1.243.542a8.08 8.08 0 0 0-3.847-4.562m4.013 9.08c-.414.24-.89.451-1.41.634q-.443.157-.938.29c-.263 1.365-.708 2.599-1.295 3.618a8 8 0 0 1-.37.586a8.07 8.07 0 0 0 4.013-5.129M8.204 19.103a8 8 0 0 1-.37-.586c-.587-1.02-1.032-2.253-1.295-3.618q-.495-.133-.939-.29a8.4 8.4 0 0 1-1.408-.635a8.07 8.07 0 0 0 4.012 5.129M4.357 9.458A9 9 0 0 1 5.6 8.916q.492-.173 1.046-.318c.269-1.166.674-2.223 1.188-3.116q.175-.303.37-.586a8.08 8.08 0 0 0-3.847 4.562m10.578-3.266c.345.599.64 1.3.867 2.08c-.958-.159-2-.258-3.091-.289V4.11c.792.259 1.572.95 2.224 2.082m1.202 3.584a21 21 0 0 0-3.426-.37v4.715a21 21 0 0 0 3.495-.385q.104-.838.105-1.736c0-.774-.061-1.52-.174-2.224M11.29 4.11v3.873c-1.091.03-2.133.13-3.091.288c.227-.779.521-1.48.866-2.08c.652-1.131 1.433-1.822 2.225-2.08m0 5.295a21 21 0 0 0-3.427.371a14.3 14.3 0 0 0-.069 3.96c1.034.21 2.22.348 3.496.385zm-5.216.851q.147-.053.302-.102a15.7 15.7 0 0 0-.05 3.202q-.129-.042-.252-.086c-.745-.263-1.297-.56-1.65-.854c-.356-.297-.43-.521-.43-.653c0-.131.074-.355.43-.653c.353-.294.905-.591 1.65-.854m2.991 7.552c-.417-.723-.76-1.596-.999-2.575c.994.17 2.082.278 3.223.31v4.347c-.791-.259-1.572-.95-2.224-2.082m3.646 2.082v-4.347a23 23 0 0 0 3.223-.31c-.24.979-.582 1.852-1 2.575c-.651 1.132-1.431 1.823-2.223 2.082M17.73 12q0 .69-.057 1.356q.129-.042.252-.086c.745-.263 1.297-.56 1.65-.854c.356-.297.43-.521.43-.653c0-.131-.074-.355-.43-.653c-.353-.294-.905-.591-1.65-.854a10 10 0 0 0-.302-.102q.107.9.108 1.846" clip-rule="evenodd"/></svg><span>Countries</span></div><div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#525252" stroke-linecap="round" stroke-width="1.5"><path d="M2 2H22"/><path d="M9 10.5L10.2929 9.20711C10.6262 8.87377 10.7929 8.70711 11 8.70711C11.2071 8.70711 11.3738 8.87377 11.7071 9.20711L12.2929 9.79289C12.6262 10.1262 12.7929 10.2929 13 10.2929C13.2071 10.2929 13.3738 10.1262 13.7071 9.79289L15 8.5"/><path d="M12 21L12 17"/><path d="M10 22L12 21"/><path d="M14 22L12 21"/><path d="M4 2V10.5C4 13.5641 4 15.0962 5.00421 16.0481C6.00841 17 7.62465 17 10.8571 17H13.1429C16.3753 17 17.9916 17 18.9958 16.0481C20 15.0962 20 13.5641 20 10.5V10.5V10M20 2V6"/></g></svg><span>Market Signals</span></div><div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#525252" d="M18 4H6v14.764l6-3l6 3zM6 2h12a2 2 0 0 1 2 2v18l-8-4l-8 4V4a2 2 0 0 1 2-2m8 4h2v6h-2z"/></svg><span>Watchlist</span></div></div>
+      <div class="div"></div>
+      <div class="sec"><p>MANAGEMENT</p>
+        <div class="nav"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="#525252" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M15 18a3 3 0 1 1-6 0m-2.957 0a2.03 2.03 0 0 1-1.718-.95a2.08 2.08 0 0 1-.142-1.972l.545-1.212A13.5 13.5 0 0 0 5.882 9.23l.031-.473A6.2 6.2 0 0 1 7.83 4.666A6.07 6.07 0 0 1 11.998 3a6.07 6.07 0 0 1 4.168 1.666a6.2 6.2 0 0 1 1.917 4.09l.031.474a13.5 13.5 0 0 0 1.154 4.636l.546 1.211a2.08 2.08 0 0 1-.138 1.976a2.03 2.03 0 0 1-1.723.947z"/></svg><span>Notifications</span></div>
+        <div class="nav act"><span class="l"><svg class="" style="" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M12.132 15.404a3.364 3.364 0 1 0 0-6.728a3.364 3.364 0 0 0 0 6.728"/><path d="M20.983 15.094a9.4 9.4 0 0 1-1.802 3.1l-2.124-.482a7.25 7.25 0 0 1-2.801 1.56l-.574 2.079a9.5 9.5 0 0 1-1.63.149a9 9 0 0 1-2.032-.23l-.609-2.146a7.5 7.5 0 0 1-2.457-1.493l-2.1.54a9.4 9.4 0 0 1-1.837-3.33l1.55-1.722a7.2 7.2 0 0 1 .069-2.652L3.107 8.872a9.4 9.4 0 0 1 2.067-3.353l2.17.54A7.7 7.7 0 0 1 9.319 4.91l.574-2.124a9 9 0 0 1 2.17-.287c.585 0 1.17.054 1.745.16l.551 2.113c.83.269 1.608.68 2.296 1.217l2.182-.563a9.4 9.4 0 0 1 2.043 3.1l-1.48 1.607a7.4 7.4 0 0 1 .068 3.364z"/></g></svg><span>Settings</span></span><span class="bar"></span></div>
+      </div>
+    </nav>
+    <div class="abs prem">
+      <div class="card">
+        <div class="badge"><img src="a/guarantee.png" width="32" height="32" alt=""></div>
+        <div class="txt"><div><h4>Upgrade to Premium!</h4><p>Make faster investment decisions with real market intelligence.</p></div><div class="btn-up">Upgrade now</div></div>
+      </div>
+      <span class="x"><svg class="" style="" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#a3a3a3" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"/></svg></span>
+    </div>
+  </aside>
+  <div class="abs collapse"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></div>
+
+  <h1 class="abs title">Settings</h1>
+  <div class="abs logout"><svg class="" style="" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true"><path fill="#fafafa" d="M124 216a12 12 0 0 1-12 12H48a12 12 0 0 1-12-12V40a12 12 0 0 1 12-12h64a12 12 0 0 1 0 24H60v152h52a12 12 0 0 1 12 12m108.49-96.49l-40-40a12 12 0 0 0-17 17L195 116h-83a12 12 0 0 0 0 24h83l-19.52 19.51a12 12 0 0 0 17 17l40-40a12 12 0 0 0 .01-17"/></svg>Log Out</div>
+
+  <section class="card" style="left:328px;top:108px;width:532px">
+    <div class="ch"><div class="t"><h3>Personal Information</h3><img id="editBtn" src="a/edit.png" width="20" height="20" alt="Edit"></div><div class="div"></div></div>
+    <div class="pi">
+      <div class="av"><img src="a/avatar.png" alt=""></div>
+      <div class="r">
+        <p class="nm" id="cardName">John Fischer</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="row sm" style="letter-spacing:0"><span class="mut" style="width:160px" id="cardRole">Founder</span><span class="mut" style="width:160px;text-align:right">johnfisher@gmail.com</span></div>
+          <div class="row sm" style="letter-spacing:0"><span style="display:flex;gap:4px;align-items:center;width:144px;color:#1f73e6"><svg class="" style="" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#1f73e6" stroke-linecap="round" stroke-width="1.5"><path d="M10 22H14C17.7712 22 19.6569 22 20.8284 20.8284C22 19.6569 22 17.7712 22 14C22 10.2288 22 8.34315 20.8284 7.17157C19.6569 6 17.7712 6 14 6H10C6.22876 6 4.34315 6 3.17157 7.17157C2 8.34315 2 10.2288 2 14C2 17.7712 2 19.6569 3.17157 20.8284C4.34315 22 6.22876 22 10 22Z"/><path d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"/><path d="M12 10.6667C10.8954 10.6667 10 11.4129 10 12.3333C10 13.2538 10.8954 14 12 14C13.1046 14 14 14.7462 14 15.6667C14 16.5871 13.1046 17.3333 12 17.3333M12 10.6667C13.1046 10.6667 14 11.4129 14 12.3333M12 10.6667V10M12 17.3333C10.8954 17.3333 10 16.5871 10 15.6667M12 17.3333V18"/></g></svg><span id="cardStatus">Investor</span></span><span class="mut" style="width:160px;text-align:right">Member since <span style="color:#fafafa">2025</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="left:328px;top:311px;width:532px">
+    <div class="ch"><h3>Privacy &amp; Security</h3><div class="div"></div></div>
+    <div class="row"><span>Password</span><span class="lnk">Change password</span></div>
+  </section>
+
+  <section class="card" style="left:880px;top:104px;width:532px">
+    <div class="ch"><h3>Billing Information</h3><div class="div"></div></div>
+    <div style="display:flex;gap:2px;align-items:flex-start">
+      <div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:28px;font-weight:600;color:#f2f7f6;line-height:normal">$18</p><p class="sm mut">Monthly plan</p></div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;align-self:stretch"><div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p style="font-size:12px;font-weight:500;color:#00cea8">Next Payment: June 14,2026</p></div>
+    </div>
+    <div class="hr"></div>
+    <div class="row"><span>Billing History</span></div>
+    <div class="hr"></div>
+    <div class="row"><span>Upgrade Subscription</span><span class="lnk">Update to yearly plan</span></div>
+  </section>
+
+  <section class="card" style="left:880px;top:349px;width:532px">
+    <div class="ch"><h3>Payment Method</h3><div class="div"></div></div>
+    <div style="position:relative;height:150px">
+      <img src="a/card.png" width="492" height="150" alt="" style="position:absolute;inset:0;border-radius:16px">
+      <span style="position:absolute;left:16px;top:12px;opacity:.7"><svg class="" style="" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffffff" d="M15.273 18.728A6.728 6.728 0 1 1 22 11.999V12a6.735 6.735 0 0 1-6.727 6.728" opacity=".5"/><path fill="#ffffff" d="M8.727 18.728A6.728 6.728 0 1 1 15.455 12a6.735 6.735 0 0 1-6.728 6.728"/></svg></span>
+      <span style="position:absolute;left:20px;top:116px;font-size:14px;font-weight:500;color:#f2f7f6">Mastercard</span>
+    </div>
+    <div class="hr"></div>
+    <div class="row"><span>***************2451</span><span class="lnk">Update payment method</span></div>
+  </section>
+
+  <section class="card" style="left:328px;top:432px;width:536px;padding:16px">
+    <div class="ch"><h3>Alerts</h3><div class="div"></div></div>
+    <div class="row"><span>High-impact signals</span><span class="tog on"><b></b></span></div><div class="hr"></div><div class="row"><span>Low-impact signals</span><span class="tog"><b></b></span></div><div class="hr"></div><div class="row"><span>Medium-impact signals</span><span class="tog"><b></b></span></div><div class="hr"></div><div class="row"><span>New opportunities</span><span class="tog"><b></b></span></div><div class="hr"></div><div class="row"><span>Email notifications</span><span class="tog"><b></b></span></div><div class="hr"></div><div class="row"><span>In-app notifications</span><span class="tog"><b></b></span></div>
+  </section>
+
+  <div class="ov" id="ov"></div>
+
+  <section class="card panel" id="panel" aria-label="Edit personal information">
+    <div class="ch"><div class="t"><h3>Personal Information</h3><span class="save" id="save">Save Details</span></div><div class="div"></div></div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between">
+      <div class="av edit-av"><img src="a/avatar.png" alt=""><svg class="" style="" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12v7a2 2 0 0 1-2 2h-3m5-9c-6.442 0-10.105 1.985-12.055 4.243M21 12v-1.5M3 16v3a2 2 0 0 0 2 2v0h11M3 16V5a2 2 0 0 1 2-2h8M3 16c1.403-.234 3.637-.293 5.945.243M16 21c-1.704-2.768-4.427-4.148-7.055-4.757M8.5 7C8 7 7 7.3 7 8.5S8 10 8.5 10S10 9.7 10 8.5S9 7 8.5 7M19 2v3m0 3V5m0 0h3m-3 0h-3"/></svg></div>
+      <span class="sm mut">Member since <span style="color:#fafafa">2025</span></span>
+    </div>
+    <div class="hr"></div>
+    <div class="row f"><span class="k">Name</span><span class="v" id="nameV"><span id="nameT">John Fischer</span><span class="caret" id="caret"></span></span></div>
+    <div class="hr"></div>
+    <div class="row f"><span class="k">Email</span><span class="v">johnfisher@gmail.com</span></div>
+    <div class="hr"></div>
+    <div class="row f"><span class="k">Role</span><span class="v">Founder</span></div>
+    <div class="hr"></div>
+    <div class="row f"><span class="k">Status</span><span class="v"><span class="st" id="stV">Investor</span><span class="chev" id="chev"><svg class="" style="" width="24" height="24" viewBox="0 0 12 24" aria-hidden="true"><path fill="#ffffff" fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414"/></svg></span></span></div>
+  </section>
+
+  <div class="abs dd" id="dd" role="listbox" aria-label="Status"><div class="mi" data-k="investor"><svg class="" style="" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#2e8bff" stroke-linecap="round" stroke-width="1.5"><path d="M10 22H14C17.7712 22 19.6569 22 20.8284 20.8284C22 19.6569 22 17.7712 22 14C22 10.2288 22 8.34315 20.8284 7.17157C19.6569 6 17.7712 6 14 6H10C6.22876 6 4.34315 6 3.17157 7.17157C2 8.34315 2 10.2288 2 14C2 17.7712 2 19.6569 3.17157 20.8284C4.34315 22 6.22876 22 10 22Z"/><path d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"/><path d="M12 10.6667C10.8954 10.6667 10 11.4129 10 12.3333C10 13.2538 10.8954 14 12 14C13.1046 14 14 14.7462 14 15.6667C14 16.5871 13.1046 17.3333 12 17.3333M12 10.6667C13.1046 10.6667 14 11.4129 14 12.3333M12 10.6667V10M12 17.3333C10.8954 17.3333 10 16.5871 10 15.6667M12 17.3333V18"/></g></svg><span>Investor</span></div><div class="mi" data-k="founder"><svg class="" style="" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#ec4899" stroke-linecap="round" stroke-width="1.5"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 13.8214 21.513 15.5291 20.6622 17M5 4.85857C3.14864 6.67349 2 9.20261 2 12C2 17.5228 6.47715 22 12 22C13.8214 22 15.5291 21.513 17 20.6622"/><path d="M12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19C10.9264 19 9.90926 18.7583 9 18.3264M6.25469 16C5.46381 14.8662 5 13.4872 5 12"/><path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8"/></g></svg><span>Founder</span></div><div class="mi" data-k="analyst"><svg class="" style="" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#f97316" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="M3 22H21"/><path d="M5 19C4.05719 19 3.58579 19 3.29289 18.7071C3 18.4142 3 17.9428 3 17V11C3 10.0572 3 9.58579 3.29289 9.29289C3.58579 9 4.05719 9 5 9C5.94281 9 6.41421 9 6.70711 9.29289C7 9.58579 7 10.0572 7 11V17C7 17.9428 7 18.4142 6.70711 18.7071C6.41421 19 5.94281 19 5 19Z"/><path d="M12 19C11.0572 19 10.5858 19 10.2929 18.7071C10 18.4142 10 17.9428 10 17V7C10 6.05719 10 5.58579 10.2929 5.29289C10.5858 5 11.0572 5 12 5C12.9428 5 13.4142 5 13.7071 5.29289C14 5.58579 14 6.05719 14 7V17C14 17.9428 14 18.4142 13.7071 18.7071C13.4142 19 12.9428 19 12 19Z"/><path d="M19 19C18.0572 19 17.5858 19 17.2929 18.7071C17 18.4142 17 17.9428 17 17V4C17 3.05719 17 2.58579 17.2929 2.29289C17.5858 2 18.0572 2 19 2C19.9428 2 20.4142 2 20.7071 2.29289C21 2.58579 21 3.05719 21 4V17C21 17.9428 21 18.4142 20.7071 18.7071C20.4142 19 19.9428 19 19 19Z"/></g></svg><span>Analyst</span></div></div>
+
+  <div class="abs toast" id="toast" role="status"><span class="c"><svg class="" style="" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#0c0c0c" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"/></svg></span><span>Profile updated successfully</span></div>
+
+  <div class="ring" id="ring"></div>
+  <svg class="cursor" id="cur" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5v17.2l4.4-4.2 2.9 6.6 2.7-1.2-2.9-6.5h6.1z" fill="#fff" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/></svg>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id), stage=$('stage'), fit=$('fit');
+function scale(){const s=Math.min(innerWidth/1440,innerHeight/1024);fit.style.transform=`scale(${s})`}
+addEventListener('resize',scale);scale();
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const EO='cubic-bezier(.23,1,.32,1)', SPRING='cubic-bezier(.34,1.32,.64,1)';
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cur=$('cur'), ring=$('ring'); let cx=1000, cy=760;
+function pt(el,dx=.5,dy=.5){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect(),k=s.width/1440;return [(r.left-s.left+r.width*dx)/k,(r.top-s.top+r.height*dy)/k]}
+async function move(x,y,ms=700){const a=cur.animate([{transform:`translate(${cx}px,${cy}px)`},{transform:`translate(${x}px,${y}px)`}],{duration:reduce?1:ms,easing:'cubic-bezier(.45,0,.2,1)',fill:'forwards'});cx=x;cy=y;await a.finished}
+async function click(){ring.style.left=cx+'px';ring.style.top=cy+'px';ring.animate([{opacity:.9,transform:'scale(.4)'},{opacity:0,transform:'scale(1.3)'}],{duration:420,easing:'ease-out'});await cur.animate([{transform:`translate(${cx}px,${cy}px) scale(1)`},{transform:`translate(${cx}px,${cy}px) scale(.86)`},{transform:`translate(${cx}px,${cy}px) scale(1)`}],{duration:220,easing:'ease-out',fill:'forwards'}).finished}
+function show(el,from,ms=320,ease=EO){el.style.visibility='visible';return el.animate([{opacity:0,...from},{opacity:1,transform:'none',filter:'none'}],{duration:reduce?1:ms,easing:ease,fill:'forwards'}).finished}
+function hide(el,to,ms=220){return el.animate([{opacity:1},{opacity:0,...to}],{duration:reduce?1:ms,easing:'ease-in',fill:'forwards'}).finished.then(()=>el.style.visibility='hidden')}
+const nameT=$('nameT'), caret=$('caret'), save=$('save'), chev=$('chev'), dd=$('dd'), items=[...dd.querySelectorAll('.mi')];
+function reset(){[$('ov'),$('panel'),dd,$('toast')].forEach(e=>{e.getAnimations().forEach(a=>a.cancel());e.style.visibility='hidden'});nameT.textContent='John Fischer';caret.className='caret';save.classList.remove('on','press');chev.classList.remove('up');items.forEach(i=>i.classList.toggle('sel',i.dataset.k==='investor'));items.forEach(i=>i.classList.remove('hov'))}
+async function run(){
+  reset(); cx=1010;cy=780;
+  cur.animate([{opacity:0,transform:`translate(${cx}px,${cy}px)`},{opacity:1,transform:`translate(${cx}px,${cy}px)`}],{duration:300,fill:'forwards'});
+  await sleep(700);
+  let [x,y]=pt($('editBtn')); await move(x,y,900); await click();
+  $('ov').style.visibility='visible'; $('ov').animate([{opacity:0},{opacity:1}],{duration:reduce?1:300,easing:'ease-out',fill:'forwards'});
+  await show($('panel'),{transform:'translateY(36px) scale(.98)'},520,SPRING);
+  await sleep(500);
+  [x,y]=pt(nameT,1,.5); await move(x-6,y,700); await click();
+  caret.classList.add('blink'); save.classList.add('on'); await sleep(450);
+  caret.classList.remove('blink'); caret.style.opacity=1;
+  let s=nameT.textContent; while(s.length>5){s=s.slice(0,-1);nameT.textContent=s;await sleep(70)}
+  caret.style.opacity=''; caret.classList.add('blink'); await sleep(700); caret.classList.remove('blink'); caret.style.opacity=1;
+  for(const ch of 'Fischer'){s+=ch;nameT.textContent=s;await sleep(95)}
+  caret.style.opacity=''; caret.classList.add('blink'); await sleep(500);
+  [x,y]=pt(chev); await move(x,y,650); await click();
+  caret.classList.remove('blink'); chev.classList.add('up');
+  await show(dd,{transform:'translateY(8px) scale(.96)'},240);
+  for(const k of ['founder','analyst','investor']){const it=items.find(i=>i.dataset.k===k);[x,y]=pt(it,.4,.5);await move(x,y,380);items.forEach(i=>i.classList.toggle('hov',i===it));await sleep(420)}
+  await click(); items.forEach(i=>i.classList.remove('hov'));
+  await sleep(120); chev.classList.remove('up'); await hide(dd,{transform:'translateY(6px) scale(.97)'},180);
+  await sleep(250);
+  [x,y]=pt(save); await move(x,y,650); save.classList.add('press'); await click(); save.classList.remove('press');
+  await sleep(120);
+  hide($('panel'),{transform:'translateY(24px) scale(.98)'},240); await sleep(80); await hide($('ov'),{},260);
+  await show($('toast'),{transform:'translateY(16px) scale(.96)'},460,SPRING);
+  await move(1180,880,900);
+  await sleep(1600);
+  await hide($('toast'),{transform:'translateY(10px)'},240);
+  cur.animate([{opacity:1,transform:`translate(${cx}px,${cy}px)`},{opacity:0,transform:`translate(${cx}px,${cy}px)`}],{duration:300,fill:'forwards'});
+  await sleep(1300);
+  run();
+}
+document.fonts.ready.then(()=>setTimeout(run,400));
+</script>
+</body>
+</html>

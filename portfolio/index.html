@@ -1316,6 +1316,7 @@ const SCREENS=[
 ];
 const PG_LIVE="https://dhunidesigns.github.io/Engineering-Playground/", PG_SRC="https://github.com/DhuniDesigns/Engineering-Playground/tree/main/";
 const PLAY=[
+  {name:"AOT edit profile", meta:"Settings flow from Figma", vid:"aotSettings", href:"/aot-settings/"},
   {name:"4AM billing", meta:"Card motion", vid:"billing", href:PG_LIVE+"4am-subscription/"},
   {name:"Guild join", meta:"Spring physics", vid:"guild", href:PG_LIVE+"guild-join/"},
   {name:"LVL UP onboarding", meta:"Pager", vid:"pgLvl", href:PG_LIVE+"lvlup-onboarding/"},
@@ -1629,8 +1630,8 @@ function initGlide(){
   });
 }
 /* ---- interaction reel: recorded micro-interactions and floating builds, drifting slowly across the page ---- */
-const VID={ pgVolume:"vid/pg-slider-volume.mp4", pgTextSize:"vid/pg-slider-text.mp4", pgSpeed:"vid/pg-slider-speed.mp4", billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4", pgLvl:"vid/pg-lvlup.mp4", pgRide:"vid/pg-ride.mp4", pgTravel:"vid/pg-travel.mp4", pgSign:"vid/pg-signature.mp4", pgHero:"vid/pg-video-agency-hero.mp4", pgWeme:"vid/pg-weme.mp4", pgFooter:"vid/pg-apex-footer.mp4", pgPricing:"vid/pg-apex-pricing.mp4", dropdown:"vid/dropdown.mp4", trim:"vid/trim-flow.mp4", selloFlow:"vid/sello-flow.mp4?v=3" };
-const POSTER={ pgVolume:"vid/pg-slider-volume.jpg", pgTextSize:"vid/pg-slider-text.jpg", pgSpeed:"vid/pg-slider-speed.jpg", billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg", pgLvl:"vid/pg-lvlup.jpg", pgRide:"vid/pg-ride.jpg", pgTravel:"vid/pg-travel.jpg", pgSign:"vid/pg-signature.jpg", pgHero:"vid/pg-video-agency-hero.jpg", pgWeme:"vid/pg-weme.jpg", pgFooter:"vid/pg-apex-footer.jpg", pgPricing:"vid/pg-apex-pricing.jpg", dropdown:"vid/dropdown.jpg", trim:"vid/trim-flow.jpg", selloFlow:"vid/sello-flow.jpg?v=3" };
+const VID={ aotSettings:"vid/aot-settings.mp4", pgVolume:"vid/pg-slider-volume.mp4", pgTextSize:"vid/pg-slider-text.mp4", pgSpeed:"vid/pg-slider-speed.mp4", billing:"vid/billing-flow.mp4", download:"vid/download-app.mp4", unlock:"vid/unlock-level.mp4", wallet:"vid/wallet-app.mp4", walletCard:"vid/wallet-card.mp4", guild:"vid/guild-join.mp4", meLive:"vid/me-live.mp4", pgLvl:"vid/pg-lvlup.mp4", pgRide:"vid/pg-ride.mp4", pgTravel:"vid/pg-travel.mp4", pgSign:"vid/pg-signature.mp4", pgHero:"vid/pg-video-agency-hero.mp4", pgWeme:"vid/pg-weme.mp4", pgFooter:"vid/pg-apex-footer.mp4", pgPricing:"vid/pg-apex-pricing.mp4", dropdown:"vid/dropdown.mp4", trim:"vid/trim-flow.mp4", selloFlow:"vid/sello-flow.mp4?v=3" };
+const POSTER={ aotSettings:"vid/aot-settings.jpg", pgVolume:"vid/pg-slider-volume.jpg", pgTextSize:"vid/pg-slider-text.jpg", pgSpeed:"vid/pg-slider-speed.jpg", billing:"vid/billing-flow.jpg", download:"vid/download-app.jpg", unlock:"vid/unlock-level.jpg", wallet:"vid/wallet-app.jpg", walletCard:"vid/wallet-card.jpg", guild:"vid/guild-join.jpg", meLive:"vid/me-live.jpg", pgLvl:"vid/pg-lvlup.jpg", pgRide:"vid/pg-ride.jpg", pgTravel:"vid/pg-travel.jpg", pgSign:"vid/pg-signature.jpg", pgHero:"vid/pg-video-agency-hero.jpg", pgWeme:"vid/pg-weme.jpg", pgFooter:"vid/pg-apex-footer.jpg", pgPricing:"vid/pg-apex-pricing.jpg", dropdown:"vid/dropdown.jpg", trim:"vid/trim-flow.jpg", selloFlow:"vid/sello-flow.jpg?v=3" };
 // Each column is a stack of frames. vid = a recording, img = a static build that floats in its frame.
 // To add your own static images later: {label:"…", tag:"…", src:"img/your-file.webp"}.
 const REEL=[
