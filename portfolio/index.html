@@ -1642,8 +1642,8 @@ const REEL=[
   [{label:"LVL UP onboarding",tag:"Mobile app",vid:"pgLvl",tall:1,k:1.05,bg:"#efeeea",light:1,href:"#lvl-up"}],
   [{label:"Travel waitlist",tag:"Form states",vid:"pgTravel",k:1.7,bg:"#f3f3f1",light:1,contain:1,href:PG_LIVE+"travel-waitlist/"},{label:"Signature pad",tag:"Canvas",vid:"pgSign",k:1.7,bg:"#f3f3f1",light:1,contain:1,href:PG_LIVE+"signature-pad/"}],
   [{label:"Guild join",tag:"Community app",vid:"guild",tall:1,k:1.05,bg:"#fff",light:1}],
-  [{label:"Dropdown",tag:"Select",vid:"dropdown",k:1,bg:"#fff",light:1,contain:1},{label:"Apex pricing",tag:"Plan toggle",vid:"pgPricing",k:1,bg:"#fff",light:1,contain:1,href:PG_LIVE+"apex-pricing/"}],
-  [{label:"Video agency hero",tag:"Card fan",vid:"pgHero",k:1.5,contain:1,bg:"#0d0d14",href:PG_LIVE+"video-agency-hero/"},{label:"WEME",tag:"Playful hero",vid:"pgWeme",k:1.5,contain:1,bg:"#f4f1e6",light:1,href:PG_LIVE+"weme/"}],
+  [{label:"Dropdown",tag:"Select",vid:"dropdown",k:1.7,bg:"#fff",light:1,contain:1},{label:"Playback speed slider",tag:"Catches at 1×",vid:"pgSpeed",k:1.7,bg:"#f9f9f9",light:1,contain:1,href:PG_LIVE+"glass-slider/speed/"}],
+  [{label:"Volume slider",tag:"Glass thumb",vid:"pgVolume",k:1.7,bg:"#f9f9f9",light:1,contain:1,href:PG_LIVE+"glass-slider/volume/"},{label:"Text size slider",tag:"Snap to stops",vid:"pgTextSize",k:1.7,bg:"#f7f9f6",light:1,contain:1,href:PG_LIVE+"glass-slider/text-size/"}],
 ];
 const vtag=(f,cls)=>`<video${cls?` class="${cls}"`:""} src="${VID[f.vid]}" poster="${POSTER[f.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(f.label)} interaction"></video>`;
 function frame(f,n,dup){
