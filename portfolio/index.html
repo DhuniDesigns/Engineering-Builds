@@ -1178,14 +1178,30 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 .stack .fr video.contain{padding:14px 14px 38px}
 .stack + .sections,.stack ~ hr{margin-top:96px}
 @media (max-width:640px){.stack{--sh:min(540px,calc(100svh - 120px));--g:10px;--top:64px;width:calc(100vw - 24px);margin:56px 0 0 calc(50% - 50vw + 12px)}
-  .stack-head{padding-inline:12px}.sheet{border-radius:24px;top:calc(var(--top) + var(--i) * 8px)}.sheet + .sheet{margin-top:14vh}.stack .fr{border-radius:16px}}
+  .stack-head{padding-inline:12px}.sheet{border-radius:24px;top:calc(var(--top) + var(--i) * 8px)}.sheet + .sheet{margin-top:10vh}.stack .fr{border-radius:16px}}
 @media (prefers-reduced-motion:reduce){.sheet{transform:none}.sheet::after{display:none}}
+
+/* selected works: folder card. the frame colour rises into the image as a small tab + panel */
+.sw-item .sw-media{aspect-ratio:16/10}
+.sw-panel{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--sw-card);padding:2px 22px 18px;border-top-right-radius:16px;display:block;
+  transition:transform .5s var(--ease-out)}
+.sw-tab{position:absolute;left:0;bottom:calc(100% - 1px);display:block;background:var(--sw-card);padding:13px 6px 0 22px;border-top-left-radius:16px;
+  font-size:17px;font-weight:600;letter-spacing:-.015em;line-height:1.25;color:var(--fg);white-space:nowrap}
+.sw-tab::after{content:"";position:absolute;left:calc(100% - 1px);bottom:0;width:44px;height:100%;background:inherit;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30' preserveAspectRatio='none'%3E%3Cpath d='M0 0C18 0 22 30 40 30H0Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 30' preserveAspectRatio='none'%3E%3Cpath d='M0 0C18 0 22 30 40 30H0Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%}
+.sw-bio{display:block;font-size:14.5px;line-height:1.4;color:var(--text);max-width:52ch;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (hover:hover) and (pointer:fine){.sw-item:hover .sw-panel{transform:translateY(-2px)}}
+@media (max-width:640px){.sw-item .sw-media{aspect-ratio:auto;padding-bottom:34px}.sw-item .sw-cover{position:relative;inset:auto;display:block;height:auto;aspect-ratio:16/10}.sw-panel{padding:1px 16px 14px;border-top-right-radius:14px}
+  .sw-tab{font-size:15px;padding:11px 4px 0 16px;border-top-left-radius:14px}.sw-tab::after{width:34px}.sw-bio{font-size:13px}}
+@media (prefers-reduced-motion:reduce){.sw-panel{transition:none}}
+/* bento: design screens contained on a soft surface */
+.fr img.fill.contain{object-fit:contain;padding:10px 12px 34px}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
 <header class="col">
   <a href="#home" class="brand" aria-label="Dhuni Designs, home">
-    <span class="avatar"><img src="img/avatar-192.webp?v=2" srcset="img/avatar-96.webp?v=2 1x, img/avatar-192.webp?v=2 2x" width="54" height="54" alt="" decoding="async"></span>
+    <span class="avatar"><img src="img/avatar-192.webp?v=3" srcset="img/avatar-96.webp?v=2 1x, img/avatar-192.webp?v=2 2x" width="54" height="54" alt="" decoding="async"></span>
     <span class="blob" hidden><svg class="bl" viewBox="0 0 120 112" data-state="idle" aria-hidden="true">
       <defs>
         <radialGradient id="blG" gradientUnits="userSpaceOnUse" cx="42" cy="30" r="92"><stop offset="0" stop-color="#ffb0e0"/><stop offset=".38" stop-color="#e95bb8"/><stop offset=".8" stop-color="#c13a95"/><stop offset="1" stop-color="#9c2679"/></radialGradient>
@@ -1251,7 +1267,7 @@ const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const EMAIL = "dhunibash@gmail.com";
 const BIO = "I’m Hafsoh, a product designer who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
-const IMG={ csBffGuided:"img/cs-bff-guided.webp", csBffEditor:"img/cs-bff-editor.webp", csBffLock:"img/cs-bff-lock.webp", csMmAsk:"img/cs-mm-ask.webp", csMmSpaces:"img/cs-mm-spaces.webp", csMmFiles:"img/cs-mm-files.webp", csBffOnboard:"img/cs-bff-onboard.webp", csBffWrite:"img/cs-bff-write.webp?v=2", csBffMonth:"img/cs-bff-month.webp?v=2", csBffPhoenix:"img/cs-bff-phoenix.webp", csBffPlans:"img/cs-bff-plans.webp", csLvlOnboard:"img/cs-lvl-onboard.webp", csLvlLearn:"img/cs-lvl-learn.webp", csLvlTutor:"img/cs-lvl-tutor.webp", csLvlCommunity:"img/cs-lvl-community.webp", csLvlPlans:"img/cs-lvl-plans.webp", cs4amQuests:"img/cs-4am-quests.webp", cs4amLeagues:"img/cs-4am-leagues.webp", cs4amInvite:"img/cs-4am-invite.webp", cs4amPlan:"img/cs-4am-plan.webp", cs4amCoach:"img/cs-4am-coach.webp", cs4amWeb:"img/cs-4am-web.webp", csBffJournal:"img/cs-bff-journal.webp", csBffAi:"img/cs-bff-ai.webp", csLvl:"img/cs-lvl-screens.webp", csMm:"img/cs-mm-detail.webp", mmCover:"img/matchmind-cover.webp", pixieKit:"img/pixie-kit.webp", pixieContrast:"img/pixie-contrast.webp", pixieSend:"img/pixie-send.webp", pixieLock:"img/pixie-lock.webp?v=2", sello:"img/sello.webp", pixie:"img/pixie.webp?v=2", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", beach:"img/beach.webp", food:"img/food.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssFoot1:"img/football-ai-1.webp", ssFoot2:"img/football-ai-2.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp", trim:"img/trim-hero.webp", trimCover:"img/trim-cover.webp", trimV01:"img/trim-v01.webp", trimPill:"img/trim-pill.webp", trimToast:"img/trim-toast.webp", trimInstalled:"img/trim-installed.webp", trimFlowDia:"img/trim-flow-diagram.webp", trimPopup:"img/trim-popup.webp", selloOnboard:"img/sello-onboarding.webp?v=4", selloFix:"img/sello-fix-steps.webp?v=4", selloHome:"img/sello-home.webp?v=4", selloShop:"img/sello-shop.webp?v=4" };
+const IMG={ "th-4am-plan":"img/th/cs-4am-plan.webp?v=3", "th-4am-quests":"img/th/cs-4am-quests.webp?v=3", "th-4am-leagues":"img/th/cs-4am-leagues.webp?v=3", "th-4am-invite":"img/th/cs-4am-invite.webp?v=3", "th-4am-coach":"img/th/cs-4am-coach.webp?v=3", "th-lvl-learn":"img/th/cs-lvl-learn.webp?v=3", "th-lvl-tutor":"img/th/cs-lvl-tutor.webp?v=3", "th-lvl-community":"img/th/cs-lvl-community.webp?v=3", "th-lvl-plans":"img/th/cs-lvl-plans.webp?v=3", "th-lvl-onboard":"img/th/cs-lvl-onboard.webp?v=3", "th-bff-write":"img/th/cs-bff-write.webp?v=3", "th-bff-guided":"img/th/cs-bff-guided.webp?v=3", "th-bff-month":"img/th/cs-bff-month.webp?v=3", "th-bff-phoenix":"img/th/cs-bff-phoenix.webp?v=3", "th-bff-onboard":"img/th/cs-bff-onboard.webp?v=3", "th-bff-plans":"img/th/cs-bff-plans.webp?v=3", "th-mm-ask":"img/th/cs-mm-ask.webp?v=3", "th-mm-spaces":"img/th/cs-mm-spaces.webp?v=3", "th-mm-files":"img/th/cs-mm-files.webp?v=3", csBffGuided:"img/cs-bff-guided.webp", csBffEditor:"img/cs-bff-editor.webp", csBffLock:"img/cs-bff-lock.webp", csMmAsk:"img/cs-mm-ask.webp", csMmSpaces:"img/cs-mm-spaces.webp", csMmFiles:"img/cs-mm-files.webp", csBffOnboard:"img/cs-bff-onboard.webp", csBffWrite:"img/cs-bff-write.webp?v=3", csBffMonth:"img/cs-bff-month.webp?v=3", csBffPhoenix:"img/cs-bff-phoenix.webp", csBffPlans:"img/cs-bff-plans.webp", csLvlOnboard:"img/cs-lvl-onboard.webp", csLvlLearn:"img/cs-lvl-learn.webp", csLvlTutor:"img/cs-lvl-tutor.webp", csLvlCommunity:"img/cs-lvl-community.webp", csLvlPlans:"img/cs-lvl-plans.webp", cs4amQuests:"img/cs-4am-quests.webp", cs4amLeagues:"img/cs-4am-leagues.webp", cs4amInvite:"img/cs-4am-invite.webp", cs4amPlan:"img/cs-4am-plan.webp", cs4amCoach:"img/cs-4am-coach.webp", cs4amWeb:"img/cs-4am-web.webp", csBffJournal:"img/cs-bff-journal.webp", csBffAi:"img/cs-bff-ai.webp", csLvl:"img/cs-lvl-screens.webp", csMm:"img/cs-mm-detail.webp", mmCover:"img/matchmind-cover.webp", pixieKit:"img/pixie-kit.webp", pixieContrast:"img/pixie-contrast.webp", pixieSend:"img/pixie-send.webp", pixieLock:"img/pixie-lock.webp?v=3", sello:"img/sello.webp", pixie:"img/pixie.webp?v=3", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", beach:"img/beach.webp", food:"img/food.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssFoot1:"img/football-ai-1.webp", ssFoot2:"img/football-ai-2.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp", trim:"img/trim-hero.webp", trimCover:"img/trim-cover.webp", trimV01:"img/trim-v01.webp", trimPill:"img/trim-pill.webp", trimToast:"img/trim-toast.webp", trimInstalled:"img/trim-installed.webp", trimFlowDia:"img/trim-flow-diagram.webp", trimPopup:"img/trim-popup.webp", selloOnboard:"img/sello-onboarding.webp?v=4", selloFix:"img/sello-fix-steps.webp?v=4", selloHome:"img/sello-home.webp?v=4", selloShop:"img/sello-shop.webp?v=4" };
 
 /* ---- selected works: each has its own detail page ---- */
 const projects = [
@@ -1465,20 +1481,17 @@ ${bio()}
     <div class="sw-rail" id="swRail"><div class="sw-track">
       <a class="sw-item" href="#trim">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim brand cover: the Trim wordmark beside the preview panel and pill"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Trim</b><span>Trims your Claude prompt before you send it</span></div><span class="cta">Read case study <i>→</i></span></div>
+          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim brand cover: the Trim wordmark beside the preview panel and pill"><div class="sw-panel"><b class="sw-tab">Trim</b><span class="sw-bio">Trims your Claude prompt before you send it</span></div></div>
         </div>
       </a>
       <a class="sw-item" href="#sello">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" loading="lazy" alt="Sello homepage: Sell in the DMs, without living in them"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Sello</b><span>AI sales assistant for Instagram and TikTok sellers</span></div><span class="cta">Read case study <i>→</i></span></div>
+          <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" loading="lazy" alt="Sello homepage: Sell in the DMs, without living in them"><div class="sw-panel"><b class="sw-tab">Sello</b><span class="sw-bio">AI sales assistant for Instagram and TikTok sellers</span></div></div>
         </div>
       </a>
       <a class="sw-item" href="#pixie">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/pixie-card.webp" alt="Pixie brand cover: the pixie wordmark beside the app and Figma plugin" loading="lazy"></div>
-          <div class="sw-meta"><div class="sw-txt"><b>Pixie</b><span>A Figma brand kit from one sentence</span></div><span class="cta">Read case study <i>→</i></span></div>
+          <div class="sw-media"><img class="sw-cover" src="img/pixie-card.webp" alt="Pixie brand cover: the pixie wordmark beside the app and Figma plugin" loading="lazy"><div class="sw-panel"><b class="sw-tab">Pixie</b><span class="sw-bio">A Figma brand kit from one sentence</span></div></div>
         </div>
       </a>
     </div></div>
@@ -1644,21 +1657,30 @@ const POSTER={ aotSettings:"vid/aot-settings.jpg", pgVolume:"vid/pg-slider-volum
 // To add your own static images later: {label:"…", tag:"…", src:"img/your-file.webp"}.
 const REEL=[
   [{label:"Subscription flow",tag:"4AM Club",vid:"billing",tall:1,k:1.18,bg:"#efeeea",light:1,href:"#4am-club"}],
+  [{label:"4AM Club",tag:"Today’s routine",img:"th-4am-plan",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#4am-club"},{label:"4AM Club",tag:"Quests and badges",img:"th-4am-quests",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#4am-club"}],
   [{label:"Download app",tag:"Button",vid:"download",bg:"#fff",light:1},{label:"Unlock level",tag:"Reward",vid:"unlock",bg:"#fff",light:1}],
+  [{label:"LVL UP",tag:"Bingeable lessons",img:"th-lvl-learn",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#lvl-up"},{label:"LVL UP",tag:"AI tutor",img:"th-lvl-tutor",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#lvl-up"}],
   [{label:"Ride dispatch",tag:"Dashboard",vid:"pgRide",k:1.7,bg:"#f3f3f1",light:1,contain:1,href:PG_LIVE+"ride-dashboard/"},{label:"Multi-currency wallet",tag:"Card",vid:"walletCard",k:1.7,bg:"#fff",light:1,contain:1}],
+  [{label:"BFF Journal",tag:"Mood logging",img:"th-bff-write",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#phoenix"},{label:"BFF Journal",tag:"Phoenix companion",img:"th-bff-phoenix",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#phoenix"}],
   [{label:"Wallet",tag:"Fintech app",vid:"wallet",tall:1,k:1.02,phone:1}],
+  [{label:"MatchMind",tag:"Smart answers",img:"th-mm-ask",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#matchmind"},{label:"MatchMind",tag:"Spaces",img:"th-mm-spaces",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#matchmind"}],
   [{label:"LVL UP onboarding",tag:"Mobile app",vid:"pgLvl",tall:1,k:1.05,bg:"#efeeea",light:1,href:"#lvl-up"}],
+  [{label:"4AM Club",tag:"Leagues",img:"th-4am-leagues",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#4am-club"},{label:"4AM Club",tag:"Coach and community",img:"th-4am-coach",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#4am-club"}],
   [{label:"Travel waitlist",tag:"Form states",vid:"pgTravel",k:1.7,bg:"#f3f3f1",light:1,contain:1,href:PG_LIVE+"travel-waitlist/"},{label:"Signature pad",tag:"Canvas",vid:"pgSign",k:1.7,bg:"#f3f3f1",light:1,contain:1,href:PG_LIVE+"signature-pad/"}],
+  [{label:"LVL UP",tag:"Community",img:"th-lvl-community",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#lvl-up"},{label:"LVL UP",tag:"Onboarding",img:"th-lvl-onboard",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#lvl-up"}],
   [{label:"Guild join",tag:"Community app",vid:"guild",tall:1,k:1.05,bg:"#fff",light:1}],
+  [{label:"BFF Journal",tag:"Journal and streaks",img:"th-bff-month",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#phoenix"},{label:"BFF Journal",tag:"Guided journal",img:"th-bff-guided",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#phoenix"}],
   [{label:"Dropdown",tag:"Select",vid:"dropdown",k:1.7,bg:"#fff",light:1,contain:1},{label:"Playback speed slider",tag:"Catches at 1×",vid:"pgSpeed",k:1.7,bg:"#f9f9f9",light:1,contain:1,href:PG_LIVE+"glass-slider/speed/"}],
+  [{label:"4AM Club",tag:"Invite friends",img:"th-4am-invite",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#4am-club"},{label:"MatchMind",tag:"Files",img:"th-mm-files",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#matchmind"}],
   [{label:"Volume slider",tag:"Glass thumb",vid:"pgVolume",k:1.7,bg:"#f9f9f9",light:1,contain:1,href:PG_LIVE+"glass-slider/volume/"},{label:"Text size slider",tag:"Snap to stops",vid:"pgTextSize",k:1.7,bg:"#f7f9f6",light:1,contain:1,href:PG_LIVE+"glass-slider/text-size/"}],
+  [{label:"BFF Journal",tag:"Onboarding",img:"th-bff-onboard",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#phoenix"},{label:"LVL UP",tag:"Plans and settings",img:"th-lvl-plans",fill:1,contain:1,k:1.7,bg:"#f1f0ec",light:1,href:"#lvl-up"}],
 ];
 const vtag=(f,cls)=>`<video${cls?` class="${cls}"`:""} src="${VID[f.vid]}" poster="${POSTER[f.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(f.label)} interaction"></video>`;
 function frame(f,n,dup){
   const out=f.href&&/^https?:/.test(f.href), tag=f.href?"a":"div";
   const attrs=f.href?` href="${f.href}"${out?' target="_blank" rel="noopener"':""}${dup?' tabindex="-1"':""}`:"";
   const media = f.vid ? (f.phone?`<span class="float phone" style="--d:${-n*1.1}s">${vtag(f)}</span>`:vtag(f,f.contain?"fill contain":"fill"))
-              : f.fill ? `<img class="fill" src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" "+esc(f.tag)}" loading="lazy" draggable="false">`
+              : f.fill ? `<img class="fill${f.contain?" contain":""}" src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" "+esc(f.tag)}" loading="lazy" draggable="false">`
               : `<span class="float fshot" style="--d:${-n*1.1}s"><img src="${f.src||IMG[f.img]}" alt="${dup?"":esc(f.label)+" homepage"}" loading="lazy" draggable="false"></span>`;
   return `<${tag} class="fr${f.tall?" tall":""}${f.light?" light":""}"${attrs} style="--k:${f.k||1.36}${f.bg?`;--fb:${f.bg}`:""}">
     ${media}<span class="fr-l"><span>${esc(f.label)}</span><span class="fr-t"><span>${esc(f.tag)}</span>${f.href?`<span class="fr-go">${out?"Visit ↗":"View →"}</span>`:""}</span></span></${tag}>`;
