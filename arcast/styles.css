@@ -673,3 +673,59 @@ input, select { font: inherit; }
   .pcard.drop { opacity: 1 !important; transform: rotate(var(--r)) !important; }
   .sp, .sp__card { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- sticky glass header ---------- */
+.bar { position: fixed; z-index: 30; top: 0; left: 0; right: 0; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 var(--pad); color: var(--paper);
+  background: rgba(12,12,12,0.72); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border-bottom: 1px solid rgba(255,255,255,0.08);
+  transform: translateY(-100%); transition: transform 380ms var(--ease-out); }
+.bar.is-shown { transform: none; }
+.bar__logo img { width: 112px; height: 32px; }
+.bar__links { display: flex; gap: calc(40 * var(--px) + 8px); list-style: none; }
+.bar__links a, .bar__links button { font-size: 15px; }
+.bar__right { display: flex; align-items: center; gap: 12px; }
+.bar__cta { padding: 10px 16px; font-size: 15px; }
+@media (prefers-reduced-transparency: reduce) { .bar { background: #0c0c0c; backdrop-filter: none; } }
+@media (max-width: 1100px) { .bar__links { display: none; } }
+@media (max-width: 760px) { .bar { height: 60px; padding: 0 16px; } .bar__cta { display: none; } }
+
+/* ---------- small global details ---------- */
+::selection { background: rgba(255,140,66,0.28); }
+[id] { scroll-margin-top: 84px; }
+.flow__label { font: inherit; text-align: left; z-index: 1; }
+.flow__label:focus-visible { outline-offset: 6px; }
+.foot__links button { font: inherit; color: var(--ink); text-align: left; padding: 0; transition: color 200ms ease; }
+.foot__links button:hover { color: var(--orange); }
+.about-footer .foot__links button { color: var(--ink); }
+
+/* topic chip in the contact drawer */
+.cd__topic { display: inline-flex; align-items: center; gap: 6px; margin-top: 24px; padding: 8px 8px 8px 14px; border-radius: 999px; background: #fff3ea; color: #8a4513; font-size: 15px; animation: chip-in 420ms var(--ease-out); }
+.cd__topic[hidden] { display: none; }
+.cd__topic b { font-weight: 600; }
+.cd__topic button { width: 26px; height: 26px; border-radius: 50%; font-size: 18px; line-height: 1; color: #8a4513; transition: background-color 200ms ease; }
+.cd__topic button:hover { background: rgba(138,69,19,0.1); }
+@keyframes chip-in { from { opacity: 0; transform: translateY(-4px) scale(0.96); } }
+
+/* success state */
+.cd__done { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 16px; padding: 32px; }
+.cd__done[hidden] { display: none; }
+.cd__done h2 { margin: 8px 0 0; outline: none; }
+.cd__done p { max-width: 460px; font-size: 18px; color: #555; line-height: 1.5; }
+.cd__tick { width: 64px; height: 64px; fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.cd__tick circle { stroke-dasharray: 183; stroke-dashoffset: 183; }
+.cd__tick path { stroke-dasharray: 40; stroke-dashoffset: 40; }
+.cd.is-done .cd__tick circle { stroke-dashoffset: 0; transition: stroke-dashoffset 700ms var(--ease-out); }
+.cd.is-done .cd__tick path { stroke-dashoffset: 0; transition: stroke-dashoffset 420ms var(--ease-out) 520ms; }
+.cd__done > :not(svg) { opacity: 0; transform: translateY(8px); }
+.cd.is-done .cd__done > :not(svg) { opacity: 1; transform: none; transition: opacity 500ms ease, transform 600ms var(--ease-out); }
+.cd.is-done .cd__done > h2 { transition-delay: 180ms; } .cd.is-done .cd__done > p { transition-delay: 260ms; } .cd.is-done .cd__done > a { transition-delay: 340ms; } .cd.is-done .cd__done > button { transition-delay: 400ms; }
+.cd__mail { margin-top: 12px; --ring: #ffede1; }
+.cd__again { font-size: 16px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; padding: 8px 0; }
+
+/* page-to-page fade (supported browsers) */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 220ms ease both vt-out; }
+::view-transition-new(root) { animation: 360ms var(--ease-out) both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } .bar { transition: none; } }
+.cd__bar[hidden], .cd__scroll[hidden] { display: none; }

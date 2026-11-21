@@ -18,6 +18,14 @@
     <li><a href="index.html#community">Blog</a></li>`;
 
   document.body.insertAdjacentHTML('beforeend', `
+  <header class="bar" data-bar aria-label="Site">
+    <a class="bar__logo" href="index.html" aria-label="ARcast home"><img src="assets/logo.svg" alt="ARcast" width="112" height="32"></a>
+    <ul class="nav__links bar__links">${links(false)}</ul>
+    <div class="bar__right">
+      <button class="btn btn-md bar__cta" data-open-contact>Book your studio</button>
+      <button class="nav__burger" aria-label="Open menu"><span></span></button>
+    </div>
+  </header>
   <div class="sp-scrim" data-sp-scrim></div>
   <section class="sp" id="studios-panel" role="dialog" aria-modal="false" aria-label="Our studios" hidden>
     <div class="sp__nav">
@@ -37,7 +45,7 @@
       <div class="sp__grid">
         ${studios.map(([img, name], i) => `<article class="sp__card" style="--i:${i}">
           <img src="assets/${img}" alt="${name}" loading="lazy">
-          <div class="sp__mini"><p>${name}</p><button class="sp__now" data-open-contact>Book now</button></div>
+          <div class="sp__mini"><p>${name}</p><button class="sp__now" data-open-contact="${name}">Book now</button></div>
         </article>`).join('')}
       </div>
     </div>
@@ -49,7 +57,8 @@
       <div class="cd__scroll">
         <button class="cd__back" data-cd-close>Back</button>
         <h2 id="cd-title">Contact Us</h2>
-        <p class="cd__lede">Have questions? Need a custom podcast solution? We’re here to help! Reach out, and Let’s bring your podcast to life!</p>
+        <p class="cd__lede">Have questions? Need a custom podcast solution? We’re here to help. Reach out, and let’s bring your podcast to life!</p>
+        <p class="cd__topic" hidden><span>About:</span> <b></b><button type="button" aria-label="Clear topic">&times;</button></p>
         <form class="cd__form" id="cd-form" novalidate>
           <div class="cd__row">
             <label class="sr-only" for="cd-first">First name</label><input class="cd__field" id="cd-first" name="first" placeholder="First name" autocomplete="given-name" required>
@@ -68,6 +77,13 @@
           <li><img src="assets/mail-dark.svg" alt=""><a href="mailto:hello@arcastdubai.com">hello@arcastdubai.com</a></li>
           <li><img src="assets/phone-dark.svg" alt=""><a href="tel:+9716583657364">+971 6583657364</a></li>
         </ul>
+      </div>
+      <div class="cd__done" hidden>
+        <svg class="cd__tick" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29"/><path d="M20 33l8 8 16-17"/></svg>
+        <h2 tabindex="-1">Your message is ready</h2>
+        <p>This preview isn’t connected to the studio’s inbox yet. Send it from your email app and the ARcast team will get back to you.</p>
+        <a class="btn btn-lg cd__mail" href="mailto:hello@arcastdubai.com">Open in email app</a>
+        <button class="cd__again" data-cd-close>Back to the site</button>
       </div>
       <div class="cd__bar"><button class="btn btn-lg cd__send" type="submit" form="cd-form">Send</button></div>
     </aside>
@@ -114,8 +130,16 @@
 
   /* ---------- Contact drawer (swipe right or tap outside to close) ---------- */
   const cd = $('#contact'), panel = $('.cd__panel', cd);
-  const setContact = (on) => {
+  const topicEl = $('.cd__topic', cd), msg = () => $('#cd-msg');
+  const setTopic = (t) => {
+    topicEl.hidden = !t; $('b', topicEl).textContent = (t || '').replace(/^the /, '');
+    if (t && !msg().value.trim()) msg().value = `Hi ARcast, I’d like to book ${t}. `;
+  };
+  $('button', topicEl).addEventListener('click', () => { if (msg().value.startsWith('Hi ARcast, I’d like to book')) msg().value = ''; setTopic(''); });
+  const showForm = () => { $('.cd__scroll', cd).hidden = false; $('.cd__bar', cd).hidden = false; $('.cd__done', cd).hidden = true; cd.classList.remove('is-done'); };
+  const setContact = (on, topic) => {
     if (on) {
+      showForm(); if (topic !== undefined) setTopic(topic);
       setStudios(false); setMenu(false, true);
       lastFocus = document.activeElement; cd.hidden = false; lock(true);
       requestAnimationFrame(() => requestAnimationFrame(() => cd.classList.add('is-open')));
@@ -127,7 +151,8 @@
     }
   };
   document.addEventListener('click', (e) => {
-    if (e.target.closest('.nav__contact, [data-open-contact]')) { e.preventDefault(); setContact(true); }
+    const t = e.target.closest('.nav__contact, [data-open-contact]');
+    if (t) { e.preventDefault(); setContact(true, t.dataset.openContact || ''); }
     else if (e.target.closest('[data-cd-close]')) setContact(false);
   });
   // Drag the panel to the right; it follows 1:1 and a short flick is enough to dismiss.
@@ -161,7 +186,15 @@
     note.classList.remove('is-in');
     requestAnimationFrame(() => {
       if (bad) { bad.setAttribute('aria-invalid', 'true'); bad.focus(); note.textContent = bad.name === 'email' ? 'Add a valid email address so we can reply.' : 'Add your first name so we know who to reply to.'; }
-      else note.textContent = 'Thanks! This preview isn’t connected yet, so email hello@arcastdubai.com to reach the team.';
+      else {
+        const body = [`${f.message.value.trim()}`, '', `Name: ${f.first.value.trim()} ${f.last.value.trim()}`.trim(), `Email: ${f.email.value.trim()}`, f.phone.value.trim() ? `Phone: ${f.cc.value} ${f.phone.value.trim()}` : ''].filter((x, i) => x || i === 1).join('\n');
+        const subject = topicEl.hidden ? 'Hello from the ARcast website' : `Booking: ${$('b', topicEl).textContent}`;
+        $('.cd__mail', cd).href = `mailto:hello@arcastdubai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        $('.cd__scroll', cd).hidden = true; $('.cd__bar', cd).hidden = true; $('.cd__done', cd).hidden = false;
+        requestAnimationFrame(() => cd.classList.add('is-done'));
+        setTimeout(() => $('.cd__done h2', cd).focus({ preventScroll: true }), 300);
+        return;
+      }
       note.classList.add('is-in');
     });
   });
@@ -190,6 +223,23 @@
     if (e.key !== 'Escape') return;
     if (!cd.hidden) setContact(false); else if (!sp.hidden) setStudios(false); else if (menu.classList.contains('is-open')) setMenu(false);
   });
+  /* ---------- Sticky glass header: appears when you scroll back up ---------- */
+  const bar = $('[data-bar]');
+  const page = location.pathname.endsWith('about.html') ? 'about' : 'home';
+  $$('a', bar).forEach((a) => { if ((page === 'about' && a.getAttribute('href') === 'about.html') || (page === 'home' && a.getAttribute('href') === 'index.html')) a.setAttribute('aria-current', 'page'); });
+  let lastY = scrollY, ticking = false;
+  const onScroll = () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const y = scrollY, past = y > Math.min(innerHeight * 0.9, 900);
+      const show = past && (y < lastY - 2 || bar.matches(':focus-within'));
+      if (y > lastY + 4 || !past) bar.classList.remove('is-shown'); else if (show) bar.classList.add('is-shown');
+      lastY = y; ticking = false;
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+
+  $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
   if (location.hash === '#contact') setContact(true);
   if (location.hash === '#studios-panel') setStudios(true);
 })();

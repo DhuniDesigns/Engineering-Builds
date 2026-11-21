@@ -37,7 +37,7 @@
     s.innerHTML = `<img class="slide__img" src="${A(img)}" alt="${alt}" ${i > 1 ? 'loading="lazy"' : ''} draggable="false">
       <div class="slide__nav"><button class="prev" aria-label="Previous setup"><img src="${A('chev-left.svg')}" alt=""></button><button class="next" aria-label="Next setup"><img src="${A('chev-left.svg')}" alt=""></button></div>
       <div class="dots">${slides.map((_, d) => `<button aria-label="Go to setup ${d + 1}" ${d === i ? 'aria-current="true"' : ''}></button>`).join('')}</div>
-      <div class="setup-card"><p>${name}</p><button class="btn btn-md btn--light" data-open-contact>Book Your Session</button></div>`;
+      <div class="setup-card"><p>${name}</p><button class="btn btn-md btn--light" data-open-contact="${name}">Book Your Session</button></div>`;
     Object.assign(s.style, { position: 'absolute', left: '50%', top: 0 });
     track.appendChild(s);
     return s;
@@ -113,10 +113,10 @@
   const items = addons.map(([img, name, price]) => {
     const el = document.createElement('article');
     el.className = 'flow__item';
-    el.innerHTML = `<div class="flow__media"><img src="${A(img)}" alt="" loading="lazy"><div class="flow__label">${name}<img src="${A('arrow-up-right.svg')}" alt=""></div></div>
+    el.innerHTML = `<div class="flow__media"><img src="${A(img)}" alt="" loading="lazy"><button class="flow__label" data-open-contact="the ${name} add-on" tabindex="-1">${name}<img src="${A('arrow-up-right.svg')}" alt=""></button></div>
       <div class="flow__meta"><span>${name}</span>${price ? `<strong>${price}</strong>` : ''}</div>`;
     flow.insertBefore(el, $('.flow__fade', flow));
-    el.addEventListener('click', () => { const o = el._off; if (o) flowGo(flowActive + o); });
+    el.addEventListener('click', (e) => { const o = el._off; if (o) flowGo(flowActive + o); else if (!e.target.closest('.flow__label')) el.querySelector('.flow__label').click(); });
     return el;
   });
   let flowActive = 2;
@@ -132,7 +132,8 @@
       el.style.setProperty('--h', `calc(${h} * var(--px))`);
       el.style.setProperty('--r', `${r}px`);
       el.classList.toggle('is-center', off === 0);
-      el.style.cursor = off === 0 ? 'default' : 'pointer';
+      el.style.cursor = 'pointer';
+      const lb = el.querySelector('.flow__label'); lb.tabIndex = off === 0 ? 0 : -1;
       el._off = off;
     });
   }
