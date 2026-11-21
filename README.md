@@ -28,6 +28,18 @@ OKLCH palettes with WCAG checks · five icon packs with a recommended pick · pr
 
 ---
 
+## ARcast: Podcast Studio Website
+
+Homepage for ARcast, a podcast studio in Dubai Media City, built from Hafsoh's own Figma design and brought to life with motion.
+
+![ARcast website](media/arcast.jpg)
+
+Hero photo that eases in with rising headline lines · draggable studio carousel with flick-to-advance, dots and gentle autoplay · Studio Plus coverflow that glides add-ons into a framed card · gear labels that pop in one by one · team cards with hover lift · welcome player with a scroll push-in and a breathing ARCAST waveform · offers ticker · location bento with a phone map · four-column community wall drifting in opposite directions (pauses on hover, tap to like) · smooth FAQ accordion · mobile menu · everything stills under reduced motion
+
+[Live demo](https://dhunidesigns.github.io/Engineering-Builds/arcast/) · [Source](arcast/)
+
+---
+
 ## Koffi: Website
 
 A coffee brand landing page about giving great coffee — and yourself — room to breathe. Hand-drawn illustration, a flipping logo mark, and lifted button states throughout.
