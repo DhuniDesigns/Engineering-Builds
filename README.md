@@ -30,13 +30,13 @@ OKLCH palettes with WCAG checks · five icon packs with a recommended pick · pr
 
 ## ARcast: Podcast Studio Website
 
-Homepage for ARcast, a podcast studio in Dubai Media City, built from Hafsoh's own Figma design and brought to life with motion.
+Website for ARcast, a podcast studio in Dubai Media City, built from Hafsoh's own Figma design and brought to life with motion: the homepage, an About page, a Studios menu panel and a Contact drawer.
 
 ![ARcast website](media/arcast.jpg)
 
-Hero photo that eases in with rising headline lines · draggable studio carousel with flick-to-advance, dots and gentle autoplay · Studio Plus coverflow that glides add-ons into a framed card · gear labels that pop in one by one · team cards with hover lift · welcome player with a scroll push-in and a breathing ARCAST waveform · offers ticker · location bento with a phone map · four-column community wall drifting in opposite directions (pauses on hover, tap to like) · smooth FAQ accordion · mobile menu · everything stills under reduced motion
+Hero photo that eases in with rising headline lines · draggable studio carousel with flick-to-advance, dots and gentle autoplay · Studio Plus coverflow that glides add-ons into a framed card · gear labels that pop in one by one · team cards with hover lift · welcome player with a scroll push-in and a breathing ARCAST waveform · offers ticker · location bento with a phone map · four-column community wall drifting in opposite directions (pauses on hover, tap to like) · smooth FAQ accordion · Studios panel that drops from the nav with cards fading in one by one · Contact drawer that slides in over a blurred backdrop (swipe right to close) · About page where the words light up as you read, a founder film that pushes in on scroll and tilted city postcards that drop in and slide · mobile menu · everything stills under reduced motion
 
-[Live demo](https://dhunidesigns.github.io/Engineering-Builds/arcast/) · [Source](arcast/)
+[Live demo](https://dhunidesigns.github.io/Engineering-Builds/arcast/) · [About page](https://dhunidesigns.github.io/Engineering-Builds/arcast/about.html) · [Source](arcast/)
 
 ---
 

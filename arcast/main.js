@@ -37,7 +37,7 @@
     s.innerHTML = `<img class="slide__img" src="${A(img)}" alt="${alt}" ${i > 1 ? 'loading="lazy"' : ''} draggable="false">
       <div class="slide__nav"><button class="prev" aria-label="Previous setup"><img src="${A('chev-left.svg')}" alt=""></button><button class="next" aria-label="Next setup"><img src="${A('chev-left.svg')}" alt=""></button></div>
       <div class="dots">${slides.map((_, d) => `<button aria-label="Go to setup ${d + 1}" ${d === i ? 'aria-current="true"' : ''}></button>`).join('')}</div>
-      <div class="setup-card"><p>${name}</p><a class="btn btn-md btn--light" href="#find">Book Your Session</a></div>`;
+      <div class="setup-card"><p>${name}</p><button class="btn btn-md btn--light" data-open-contact>Book Your Session</button></div>`;
     Object.assign(s.style, { position: 'absolute', left: '50%', top: 0 });
     track.appendChild(s);
     return s;
@@ -292,13 +292,6 @@
     const { width, height } = e.contentRect;
     iphone.style.setProperty('--phone-scale', Math.min(1, width / 494, height / 845).toFixed(3));
   }).observe(phoneCard);
-
-  /* ---------- Mobile menu ---------- */
-  const menu = $('#menu'), burger = $('.nav__burger');
-  const setMenu = (on) => { menu.classList.toggle('is-open', on); burger.setAttribute('aria-expanded', on); document.body.style.overflow = on ? 'hidden' : ''; if (on) $('a', menu).focus(); else burger.focus({ preventScroll: true }); };
-  burger.addEventListener('click', () => setMenu(true));
-  menu.addEventListener('click', (e) => { if (e.target.closest('a, .menu__close') || e.target === menu) setMenu(false); });
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.classList.contains('is-open')) setMenu(false); });
 
   document.addEventListener('visibilitychange', () => document.documentElement.classList.toggle('is-hidden-tab', document.hidden));
 
