@@ -1206,6 +1206,9 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 @media (prefers-reduced-motion:reduce){.sw-item .sw-cover{transition:none}}
 /* bento: design screens contained on a soft surface */
 .fr img.fill.contain{object-fit:contain;padding:10px 12px 34px}
+
+.grid.wide .card .card-media > img.tp{width:100%;max-height:100%;border-radius:0!important;box-shadow:none!important;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(0,0,0,.25))}
+@media (hover:hover){.grid.wide .card:hover .card-media > img.tp{box-shadow:none!important}}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
@@ -1335,6 +1338,25 @@ const builds = [
 ];
 /* app screenshots: shown at their own proportions, tap to open full size */
 const SCREENS=[
+  {name:"4AM Club", meta:"Today’s routine", img:"th-4am-plan", href:"#4am-club", tp:1},
+  {name:"4AM Club", meta:"Coach, community and shop", img:"th-4am-coach", href:"#4am-club", tp:1},
+  {name:"4AM Club", meta:"Quests and badges", img:"th-4am-quests", href:"#4am-club", tp:1},
+  {name:"4AM Club", meta:"Leaderboard and leagues", img:"th-4am-leagues", href:"#4am-club", tp:1},
+  {name:"4AM Club", meta:"Invites and profile", img:"th-4am-invite", href:"#4am-club", tp:1},
+  {name:"LVL UP", meta:"Onboarding", img:"th-lvl-onboard", href:"#lvl-up", tp:1},
+  {name:"LVL UP", meta:"Home, course and explore", img:"th-lvl-learn", href:"#lvl-up", tp:1},
+  {name:"LVL UP", meta:"AI tutor", img:"th-lvl-tutor", href:"#lvl-up", tp:1},
+  {name:"LVL UP", meta:"Community", img:"th-lvl-community", href:"#lvl-up", tp:1},
+  {name:"LVL UP", meta:"Plans and settings", img:"th-lvl-plans", href:"#lvl-up", tp:1},
+  {name:"BFF Journal", meta:"Onboarding", img:"th-bff-onboard", href:"#phoenix", tp:1},
+  {name:"BFF Journal", meta:"Mood logging", img:"th-bff-write", href:"#phoenix", tp:1},
+  {name:"BFF Journal", meta:"Guided journal", img:"th-bff-guided", href:"#phoenix", tp:1},
+  {name:"BFF Journal", meta:"Journal and streaks", img:"th-bff-month", href:"#phoenix", tp:1},
+  {name:"BFF Journal", meta:"Phoenix companion", img:"th-bff-phoenix", href:"#phoenix", tp:1},
+  {name:"BFF Journal", meta:"Plans and profile", img:"th-bff-plans", href:"#phoenix", tp:1},
+  {name:"MatchMind", meta:"Ask and answers", img:"th-mm-ask", href:"#matchmind", tp:1},
+  {name:"MatchMind", meta:"Spaces", img:"th-mm-spaces", href:"#matchmind", tp:1},
+  {name:"MatchMind", meta:"Files", img:"th-mm-files", href:"#matchmind", tp:1},
   {name:"AOT", meta:"Dashboard", img:"ssAotD"},
   {name:"AOT", meta:"Mobile app", img:"ssAotP"},
   {name:"Football AI", meta:"Ask and stats", img:"ssFoot1"},
@@ -1391,10 +1413,10 @@ const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 const coName = j => j.url ? `<a class="co" href="${j.url}" target="_blank" rel="noopener">${esc(j.co)}<span aria-hidden="true">↗</span></a>` : `<span class="fg">${esc(j.co)}</span>`;
 const ext = (href,label) => `<a class="pill-link" href="${href}" target="_blank" rel="noopener">${label}<span aria-hidden="true">↗</span></a>`;
 const card = it => { const out=/^https?:/.test(it.href);
-  const media = it.vid ? `<video class="cv" src="${VID[it.vid]}" poster="${POSTER[it.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(it.name)} preview"></video>` : it.img ? `<img src="${IMG[it.img]}" alt="${esc(it.name)} preview" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
+  const media = it.vid ? `<video class="cv" src="${VID[it.vid]}" poster="${POSTER[it.vid]}" muted loop playsinline preload="metadata" aria-label="${esc(it.name)} preview"></video>` : it.img ? `<img${it.tp?' class="tp"':""} src="${IMG[it.img]}" alt="${esc(it.name)} ${esc(it.meta||"")} screens" loading="lazy">` : (ART[it.art]||`<div class="pv-art pv-play"><b>${esc(it.name)}</b></div>`);
   return `<a class="card" href="${it.href}"${out?' target="_blank" rel="noopener"':""}><span class="card-media">${media}</span><div class="row"><span class="name">${esc(it.name)}${out?' <span class="arr" aria-hidden="true">↗</span>':""}</span><span class="meta">${esc(it.meta)}</span></div></a>`; };
 function workTab(t){
-  if(t==="playground") return `<div class="col tab-intro"><p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p><div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div></div>${grid([...PLAY,...SCREENS].map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,href:x.href||"#work/playground"})))}`;
+  if(t==="playground") return `<div class="col tab-intro"><p class="lede">Interaction and motion studies, each built in plain HTML, CSS and JavaScript. Open any of them to try the live demo.</p><div class="cs-links">${ext("https://github.com/DhuniDesigns/Engineering-Playground","All source on GitHub")}</div></div>${grid([...PLAY,...SCREENS].map(x=>({name:x.name,meta:x.meta,vid:x.vid,img:x.img,tp:x.tp,href:x.href||"#work/playground"})))}`;
   if(t==="screens") return `<div class="col"><div class="empty-tab"><b>App screenshots are on the way.</b><span>Full screen sets from my apps will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
   if(t==="screens-old") return `<div class="shots-grid">${SCREENS.map((x,i)=>`<button class="ss" data-ss="${i}" aria-label="Open ${esc(x.name)}, ${esc(x.meta)}"><img src="${IMG[x.img]}" alt="${esc(x.name)} ${esc(x.meta)}" loading="lazy"><span class="row"><span class="name">${esc(x.name)}</span><span class="meta">${esc(x.meta)}</span></span></button>`).join("")}</div>`;
   if(t==="brand") return `<div class="col"><div class="empty-tab"><b>Brand identity work is on the way.</b><span>Logos, palettes and type systems for my projects will live here soon.</span><a class="u" href="#work/apps">See my apps meanwhile</a></div></div>`;
