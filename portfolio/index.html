@@ -1530,7 +1530,8 @@ work(){
   </div><div id="build-grid">${workTab(activeTab)}</div>`;
 },
 project(p){
-  const order = SELECTED.includes(p.id) ? SELECTED.map(id=>projects.find(x=>x.id===id)) : projects, i = order.indexOf(p), next = order[(i+1)%order.length];
+  const appOrder = BUILD_ITEMS.apps.map(x=>x.href&&x.href.startsWith("#")?projects.find(q=>q.id===x.href.slice(1)):null).filter(Boolean);
+  const order = appOrder.includes(p) ? appOrder : projects, i = order.indexOf(p), next = order[(i+1)%order.length];
   const hero = (p.vid && !p.shot) ? `<video class="cv-hero" src="${VID[p.vid]}" poster="${POSTER[p.vid]}" muted loop playsinline autoplay aria-label="${esc(p.name)} prototype"></video>` : p.shot ? `<img src="${IMG[p.shot]}" alt="${esc(p.name)} preview">` : ART[p.id];
   const links = [p.site&&ext(p.site,p.siteLabel||"Visit website"), p.demo&&ext(p.demo,"Try the demo"), p.github&&ext(p.github,"GitHub")].filter(Boolean).join("");
   const wt = BUILD_ITEMS.websites.some(x=>x.href==="#"+p.id) ? "websites" : "apps";
