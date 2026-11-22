@@ -1265,6 +1265,15 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 body,body *,body *::before,body *::after{font-weight:400!important}
 
 .col p{text-wrap:pretty}
+
+/* selected works v3: slim folder lip on top, name + description below the step with even breathing room */
+.sw-panel{padding:14px 22px 22px;overflow:visible}
+.sw-panel::before{content:"";position:absolute;left:0;bottom:calc(100% - 1px);width:min(40%,360px);height:18px;background:var(--sw-pan);border-top-left-radius:12px}
+.sw-panel::after{content:"";position:absolute;left:calc(min(40%,360px) - 1px);bottom:calc(100% - 1px);width:40px;height:18px;background:var(--sw-pan);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30' preserveAspectRatio='none'%3E%3Cpath d='M0 0C12 0 18 3 26 12C34 22 40 30 60 30H0Z'/%3E%3C/svg%3E");mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30' preserveAspectRatio='none'%3E%3Cpath d='M0 0C12 0 18 3 26 12C34 22 40 30 60 30H0Z'/%3E%3C/svg%3E")}
+.sw-tab{position:static;min-width:0;padding:0;border-radius:0;background:none;white-space:normal}
+.sw-tab::after{display:none}
+.sw-bio{margin-top:6px}
+@media (max-width:640px){.sw-panel{padding:10px 16px 16px}.sw-panel::before{width:52%;height:14px;border-top-left-radius:10px}.sw-panel::after{left:calc(52% - 1px);width:30px;height:14px}.sw-tab{padding:0;min-width:0}.sw-bio{margin-top:4px}.sw-item .sw-media{padding-bottom:58px}}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
