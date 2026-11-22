@@ -74,7 +74,7 @@
     }
 
     /* 4. Magnetic buttons: big calls to action drift a few pixels toward the cursor. */
-    $$('.btn-lg, .nav__cta, .bar__cta, .flow__controls button, .future__controls button').forEach((b) => {
+    $$('.btn-lg, .nav__cta, .bar__cta').forEach((b) => {
       const move = spring2((x, y) => { b.style.translate = `${x}px ${y}px`; }, 0.16, 0.72);
       b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); move((e.clientX - r.left - r.width / 2) * 0.18, (e.clientY - r.top - r.height / 2) * 0.28); });
       b.addEventListener('pointerleave', () => move(0, 0));

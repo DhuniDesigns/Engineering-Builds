@@ -720,8 +720,9 @@ input, select { font: inherit; }
 /* ---------- the mic is the cursor (from the design) ---------- */
 @media (pointer: fine) {
   html { cursor: url("assets/mic-cursor.svg") 8 8, auto; }
-  a, button, select, label[for], [role="button"], .flow__item, .carousel, .cards, .sp__card, summary { cursor: url("assets/mic-cursor-hover.svg") 8 8, pointer; }
-  .carousel.is-dragging, .cards.is-dragging { cursor: url("assets/mic-cursor-hover.svg") 8 8, grabbing; }
+  a, button, select, label[for], [role="button"], summary { cursor: url("assets/mic-cursor-hover.svg") 8 8, pointer; }
+  .flow__item, .carousel, .cards, .sp__card, .slide { cursor: url("assets/mic-cursor.svg") 8 8, grab; }
+  .carousel.is-dragging, .cards.is-dragging { cursor: url("assets/mic-cursor.svg") 8 8, grabbing; }
   input, textarea { cursor: text; }
   button:disabled { cursor: url("assets/mic-cursor.svg") 8 8, default; }
 }
@@ -765,7 +766,7 @@ input, select { font: inherit; }
 /* Studio Plus drag */
 .flow { touch-action: pan-y; user-select: none; }
 .flow__media img { pointer-events: none; -webkit-user-drag: none; }
-@media (pointer: fine) { .flow.is-dragging, .flow.is-dragging * { cursor: url("assets/mic-cursor-hover.svg") 8 8, grabbing !important; } }
+@media (pointer: fine) { .flow.is-dragging, .flow.is-dragging * { cursor: url("assets/mic-cursor.svg") 8 8, grabbing !important; } }
 
 /* Studio Plus — geometry is set per frame from one spring, so no CSS transitions here */
 .flow__item { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; }
@@ -773,3 +774,5 @@ input, select { font: inherit; }
 .flow__shade { position: absolute; inset: 0; background: rgba(0,0,0,0.2); pointer-events: none; }
 .flow__label { position: absolute; left: 32px; bottom: 34px; z-index: 1; display: flex; align-items: center; gap: 5px; color: var(--paper); font-size: max(calc(28 * var(--px)), 20px); font-weight: 500; white-space: nowrap; }
 .flow__meta { position: absolute; left: 0; top: calc(100% + 12px); display: flex; flex-direction: column; gap: 4px; white-space: nowrap; pointer-events: none; }
+
+/* frame 'locks in' when a card lands */

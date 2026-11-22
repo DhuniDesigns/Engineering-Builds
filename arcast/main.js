@@ -126,7 +126,7 @@
     el.addEventListener('click', (e) => {
       if (justDragged) return;
       const d = rel(idx);
-      if (Math.abs(d) > 0.5) settle(Math.round(pos) + Math.round(d));
+      if (Math.abs(d) > 0.5) settle(Math.round(pos) + Math.round(d), 0.42);
       else if (!e.target.closest('.flow__label')) el.querySelector('.flow__label').click();
     });
     return { el, media: el.querySelector('.flow__media'), shade: el.querySelector('.flow__shade'), label: el.querySelector('.flow__label'), meta: el.querySelector('.flow__meta') };
@@ -158,20 +158,26 @@
     });
   }
   // Critically damped spring (no overshoot), response about 0.5s.
-  const OMEGA = 2 * Math.PI / 0.55;
+  let OMEGA = 2 * Math.PI / 0.5;
   let last = 0;
   function flowStep(now) {
     const dt = Math.min(0.032, (now - (last || now)) / 1000); last = now;
     const acc = OMEGA * OMEGA * (target - pos) - 2 * OMEGA * vel;
     vel += acc * dt; pos += vel * dt;
-    if (Math.abs(target - pos) < 0.0005 && Math.abs(vel) < 0.0005) { pos = target; vel = 0; render(); raf = 0; last = 0; return; }
+    if (Math.abs(target - pos) < 0.004 && Math.abs(vel) < 0.05) { pos = target; vel = 0; render(); raf = 0; last = 0; return; }
     render(); raf = requestAnimationFrame(flowStep);
   }
   const kick = () => { if (!raf) { last = 0; raf = requestAnimationFrame(flowStep); } };
-  function settle(t) { target = t; if (reduce) { pos = t; vel = 0; render(); return; } kick(); }
-  $('.flow__controls .prev').addEventListener('click', () => settle(Math.round(target) - 1));
-  $('.flow__controls .next').addEventListener('click', () => settle(Math.round(target) + 1));
-  addEventListener('keydown', (e) => { if (!flow.matches(':hover, :focus-within')) return; if (e.key === 'ArrowLeft') settle(Math.round(target) - 1); if (e.key === 'ArrowRight') settle(Math.round(target) + 1); });
+  function settle(t, response = 0.5) { OMEGA = 2 * Math.PI / response; target = t; if (reduce) { pos = t; vel = 0; render(); return; } kick(); }
+  // Arrows and keys step from the card you can actually see: a second click during the glide
+  // realigns to the next card instead of queueing extra cards behind the motion.
+  const nudge = (dir) => {
+    const base = Math.abs(target - pos) > 0.5 ? Math.round(pos) : Math.round(target);
+    settle(base + dir, 0.4);
+  };
+  $('.flow__controls .prev').addEventListener('click', () => nudge(-1));
+  $('.flow__controls .next').addEventListener('click', () => nudge(1));
+  addEventListener('keydown', (e) => { if (!flow.matches(':hover, :focus-within')) return; if (e.key === 'ArrowLeft') nudge(-1); if (e.key === 'ArrowRight') nudge(1); });
   addEventListener('resize', render);
   render();
 
