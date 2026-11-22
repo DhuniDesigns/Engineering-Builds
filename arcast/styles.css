@@ -128,20 +128,11 @@ input, select { font: inherit; }
 .addons .section__head { max-width: calc(1007 * var(--px) + 2 * var(--pad)); }
 .flow { position: absolute; left: 0; right: 0; top: calc(355 * var(--px)); height: calc(760 * var(--px)); }
 .flow__frame { position: absolute; left: 50%; top: 0; width: calc(600 * var(--px)); height: 100%; transform: translateX(-50%); border: 0.8px solid var(--muted); border-radius: 16px; background: var(--paper); }
-.flow__item { position: absolute; left: 50%; top: 50%; width: var(--w); transform: translate(calc(-50% + var(--x) + var(--dx, 0px)), -50%); display: flex; flex-direction: column; gap: 12px; transition: transform 720ms var(--ease-drawer), width 720ms var(--ease-drawer), opacity 500ms ease; }
-.flow__media { position: relative; width: 100%; height: var(--h); border-radius: var(--r); overflow: hidden; transition: height 720ms var(--ease-drawer), border-radius 720ms var(--ease-drawer); }
 .flow__media img { width: 100%; height: 100%; object-fit: cover; }
-.flow__media::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 500ms ease; }
-.flow__item.is-center .flow__media::after { opacity: 1; }
-.flow__label { position: absolute; left: 32px; bottom: 34px; display: flex; align-items: center; gap: 5px; color: var(--paper); font-size: max(calc(28 * var(--px)), 20px); font-weight: 500; opacity: 0; transform: translateY(10px); transition: opacity 400ms ease, transform 500ms var(--ease-out); }
 .flow__label img { width: 36px; height: 36px; transition: transform 240ms var(--ease-out); }
-.flow__item.is-center .flow__label { opacity: 1; transform: none; transition-delay: 300ms; }
 .flow__item.is-center:hover .flow__label img { transform: translate(3px, -3px); }
-.flow__meta { display: flex; flex-direction: column; gap: 4px; transition: opacity 400ms ease; white-space: nowrap; }
 .flow__meta span { font-size: 16px; font-weight: 500; color: var(--muted); }
 .flow__meta strong { font-size: 24px; font-weight: 600; color: var(--ink); }
-.flow__item.is-center .flow__meta { opacity: 0; position: absolute; }
-.flow__item[data-slot="hidden"] { opacity: 0; pointer-events: none; }
 .flow__fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--paper) 0%, rgba(252,252,252,0) 10%, rgba(252,252,252,0) 90%, var(--paper) 100%); }
 .flow__controls { position: absolute; right: var(--pad); top: calc(1051 * var(--px)); display: flex; gap: 8px; z-index: 2; }
 .flow__controls button { width: 64px; height: 64px; border-radius: 12px; transition: transform 160ms var(--ease-out), background-color 200ms ease; }
@@ -688,7 +679,6 @@ input, select { font: inherit; }
 /* ---------- small global details ---------- */
 ::selection { background: rgba(255,140,66,0.28); }
 [id] { scroll-margin-top: 84px; }
-.flow__label { font: inherit; text-align: left; z-index: 1; }
 .flow__label:focus-visible { outline-offset: 6px; }
 .foot__links button { font: inherit; color: var(--ink); text-align: left; padding: 0; transition: color 200ms ease; }
 .foot__links button:hover { color: var(--orange); }
@@ -774,6 +764,12 @@ input, select { font: inherit; }
 
 /* Studio Plus drag */
 .flow { touch-action: pan-y; user-select: none; }
-.flow.is-dragging .flow__item, .flow.is-dragging .flow__media { transition: none !important; }
 .flow__media img { pointer-events: none; -webkit-user-drag: none; }
 @media (pointer: fine) { .flow.is-dragging, .flow.is-dragging * { cursor: url("assets/mic-cursor-hover.svg") 8 8, grabbing !important; } }
+
+/* Studio Plus — geometry is set per frame from one spring, so no CSS transitions here */
+.flow__item { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; }
+.flow__media { position: relative; width: 100%; overflow: hidden; transform: translateZ(0); }
+.flow__shade { position: absolute; inset: 0; background: rgba(0,0,0,0.2); pointer-events: none; }
+.flow__label { position: absolute; left: 32px; bottom: 34px; z-index: 1; display: flex; align-items: center; gap: 5px; color: var(--paper); font-size: max(calc(28 * var(--px)), 20px); font-weight: 500; white-space: nowrap; }
+.flow__meta { position: absolute; left: 0; top: calc(100% + 12px); display: flex; flex-direction: column; gap: 4px; white-space: nowrap; pointer-events: none; }

@@ -99,7 +99,11 @@
     car.addEventListener('animationend', (e) => { if (e.animationName === 'dotfill' && !dragging) go(active + 1); });
   }
 
-  /* ---------- Studio Plus coverflow ---------- */
+  /* ---------- Studio Plus coverflow ----------
+     One continuous position drives everything. Each card's size, place, corner radius and labels
+     are read from the design's slots by its distance from the centre, so dragging, flicking and
+     clicking all move through the same in-between states with no jumps. A critically damped
+     spring settles the position, and it picks up the speed of a flick. */
   const flow = $('[data-flow]');
   const addons = [
     ['addon-teleprompter.webp', 'Teleprompter', 'AED 50'],
@@ -108,65 +112,99 @@
     ['addon-trailer.webp', 'Podcast Trailer', 'AED 2500'],
     ['addon-branding.webp', 'Podcast Branding', 'AED 7500'],
   ];
-  // Slot geometry from the design, in design pixels.
-  const SLOTS = { '-2': [-920, 220, 300, 5], '-1': [-555, 350, 450, 12], '0': [0, 520, 680, 14], '1': [555, 350, 450, 12], '2': [920, 220, 300, 5] };
-  const items = addons.map(([img, name, price]) => {
+  const N = addons.length;
+  // Design slots by distance from centre: [x, width, height, radius] in design pixels.
+  const K = [[0, 520, 680, 14], [555, 350, 450, 12], [920, 220, 300, 5], [1220, 200, 270, 5]];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const slotAt = (d) => { const i = Math.min(2, Math.floor(d)), t = Math.min(1, d - i); return K[i].map((v, j) => lerp(v, K[i + 1][j], t)); };
+  const items = addons.map(([img, name, price], idx) => {
     const el = document.createElement('article');
     el.className = 'flow__item';
-    el.innerHTML = `<div class="flow__media"><img src="${A(img)}" alt="" loading="lazy"><button class="flow__label" data-open-contact="the ${name} add-on" tabindex="-1">${name}<img src="${A('arrow-up-right.svg')}" alt=""></button></div>
+    el.innerHTML = `<div class="flow__media"><img src="${A(img)}" alt="" loading="lazy" draggable="false"><div class="flow__shade"></div><button class="flow__label" data-open-contact="the ${name} add-on" tabindex="-1">${name}<img src="${A('arrow-up-right.svg')}" alt=""></button></div>
       <div class="flow__meta"><span>${name}</span>${price ? `<strong>${price}</strong>` : ''}</div>`;
     flow.insertBefore(el, $('.flow__fade', flow));
-    el.addEventListener('click', (e) => { const o = el._off; if (o) flowGo(flowActive + o); else if (!e.target.closest('.flow__label')) el.querySelector('.flow__label').click(); });
-    return el;
+    el.addEventListener('click', (e) => {
+      if (justDragged) return;
+      const d = rel(idx);
+      if (Math.abs(d) > 0.5) settle(Math.round(pos) + Math.round(d));
+      else if (!e.target.closest('.flow__label')) el.querySelector('.flow__label').click();
+    });
+    return { el, media: el.querySelector('.flow__media'), shade: el.querySelector('.flow__shade'), label: el.querySelector('.flow__label'), meta: el.querySelector('.flow__meta') };
   });
-  let flowActive = 2;
-  function flowLayout() {
-    items.forEach((el, i) => {
-      let off = ((i - flowActive) % 5 + 5) % 5; if (off > 2) off -= 5;
-      const jumped = el._off !== undefined && Math.abs(off - el._off) > 2;
-      const [x, w, h, r] = SLOTS[off];
-      el.style.transition = jumped ? 'none' : '';
-      el.querySelector('.flow__media').style.transition = jumped ? 'none' : '';
-      el.style.setProperty('--x', `calc(${x} * var(--px))`);
-      el.style.setProperty('--w', `calc(${w} * var(--px))`);
-      el.style.setProperty('--h', `calc(${h} * var(--px))`);
-      el.style.setProperty('--r', `${r}px`);
-      el.classList.toggle('is-center', off === 0);
-      const lb = el.querySelector('.flow__label'); lb.tabIndex = off === 0 ? 0 : -1;
-      el._off = off;
+  const unit = () => (innerWidth <= 760 ? 0.5 : Math.min(1, innerWidth / 1728));
+  let pos = 2, vel = 0, target = 2, raf = 0;
+  const rel = (i) => { let d = ((i - pos) % N + N) % N; if (d > N / 2) d -= N; return d; };
+  function render() {
+    const u = unit();
+    items.forEach((it, i) => {
+      const d = rel(i), a = Math.abs(d), [x, w, h, r] = slotAt(Math.min(a, 2.999));
+      const side = Math.min(1, a);                 // 0 at centre, 1 from the first slot out
+      const fade = a <= 2 ? 1 : Math.max(0, 1 - (a - 2) * 2.2);
+      const y = -35 * side;                         // side cards sit higher to make room for their price
+      it.el.style.transform = `translate3d(${(Math.sign(d) * x * u).toFixed(2)}px, ${(y * u).toFixed(2)}px, 0) translate(-50%, -50%)`;
+      it.el.style.width = `${(w * u).toFixed(2)}px`;
+      it.media.style.height = `${(h * u).toFixed(2)}px`;
+      it.media.style.borderRadius = `${r.toFixed(1)}px`;
+      it.el.style.opacity = fade.toFixed(3);
+      it.el.style.zIndex = String(10 - Math.round(a * 2));
+      it.el.style.pointerEvents = fade < 0.2 ? 'none' : '';
+      const c = Math.max(0, 1 - a * 2.2);           // centre-only details
+      it.shade.style.opacity = c.toFixed(3);
+      it.label.style.opacity = c.toFixed(3);
+      it.label.style.transform = `translateY(${((1 - c) * 10).toFixed(1)}px)`;
+      it.label.tabIndex = c > 0.9 ? 0 : -1;
+      it.meta.style.opacity = Math.max(0, Math.min(1, (a - 0.35) * 2.2)).toFixed(3);
+      it.el.classList.toggle('is-center', a < 0.5);
     });
   }
-  const flowGo = (i) => { flowActive = ((i % 5) + 5) % 5; flowLayout(); };
-  $('.flow__controls .prev').addEventListener('click', () => flowGo(flowActive - 1));
-  $('.flow__controls .next').addEventListener('click', () => flowGo(flowActive + 1));
-  flowLayout();
-  // Drag Studio Plus: items follow the pointer 1:1 (with resistance past one slot),
-  // then a short flick or a third of a slot is enough to move on.
-  let fx = null, fdx = 0, ft = 0, fMoved = false, fPid = 0;
-  const slot = () => (innerWidth <= 760 ? 0.5 : Math.min(1, innerWidth / 1728)) * 555;
+  // Critically damped spring (no overshoot), response about 0.5s.
+  const OMEGA = 2 * Math.PI / 0.55;
+  let last = 0;
+  function flowStep(now) {
+    const dt = Math.min(0.032, (now - (last || now)) / 1000); last = now;
+    const acc = OMEGA * OMEGA * (target - pos) - 2 * OMEGA * vel;
+    vel += acc * dt; pos += vel * dt;
+    if (Math.abs(target - pos) < 0.0005 && Math.abs(vel) < 0.0005) { pos = target; vel = 0; render(); raf = 0; last = 0; return; }
+    render(); raf = requestAnimationFrame(flowStep);
+  }
+  const kick = () => { if (!raf) { last = 0; raf = requestAnimationFrame(flowStep); } };
+  function settle(t) { target = t; if (reduce) { pos = t; vel = 0; render(); return; } kick(); }
+  $('.flow__controls .prev').addEventListener('click', () => settle(Math.round(target) - 1));
+  $('.flow__controls .next').addEventListener('click', () => settle(Math.round(target) + 1));
+  addEventListener('keydown', (e) => { if (!flow.matches(':hover, :focus-within')) return; if (e.key === 'ArrowLeft') settle(Math.round(target) - 1); if (e.key === 'ArrowRight') settle(Math.round(target) + 1); });
+  addEventListener('resize', render);
+  render();
+
+  // Drag: the strip follows the pointer 1:1; on release we project the flick forward and settle on the nearest card.
+  let fx = null, fPos = 0, fPid = 0, fMoved = false, justDragged = false, fHist = [];
+  const slotPx = () => 555 * unit();
   flow.addEventListener('pointerdown', (e) => {
-    if (e.button || e.target.closest('button')) return;
-    fx = e.clientX; fdx = 0; ft = performance.now(); fMoved = false; fPid = e.pointerId;
+    if (e.button || e.target.closest('.flow__label')) return;
+    fx = e.clientX; fPid = e.pointerId; fMoved = false; fHist = [[e.clientX, performance.now()]];
+    cancelAnimationFrame(raf); raf = 0; vel = 0; fPos = pos;
   });
   flow.addEventListener('pointermove', (e) => {
     if (fx === null) return;
-    fdx = e.clientX - fx;
-    if (!fMoved && Math.abs(fdx) > 6) { fMoved = true; flow.classList.add('is-dragging'); try { flow.setPointerCapture(fPid); } catch (_) {} }
-    if (fMoved) { const s = slot(), d = Math.abs(fdx) > s ? Math.sign(fdx) * (s + (Math.abs(fdx) - s) * 0.3) : fdx; flow.style.setProperty('--dx', `${d}px`); }
+    const dx = e.clientX - fx;
+    if (!fMoved && Math.abs(dx) > 6) { fMoved = true; flow.classList.add('is-dragging'); try { flow.setPointerCapture(fPid); } catch (_) {} }
+    if (!fMoved) return;
+    fHist.push([e.clientX, performance.now()]); if (fHist.length > 6) fHist.shift();
+    pos = fPos - dx / slotPx(); target = pos; render();
   });
   const flowEnd = () => {
     if (fx === null) return; fx = null;
-    if (!fMoved) return;
-    const v = fdx / Math.max(1, performance.now() - ft);
-    flow.classList.remove('is-dragging'); flow.style.setProperty('--dx', '0px');
-    if (Math.abs(fdx) > slot() / 3 || Math.abs(v) > 0.45) flowGo(flowActive - Math.sign(fdx));
-    justDragged = true; setTimeout(() => { justDragged = false; }, 50);
+    flow.classList.remove('is-dragging');
+    if (!fMoved) { settle(Math.round(target)); return; }
+    const [x0, t0] = fHist[0], [x1, t1] = fHist[fHist.length - 1];
+    const v = -((x1 - x0) / Math.max(1, t1 - t0)) * 1000 / slotPx();   // cards per second
+    const projected = pos + v * 0.18;
+    let t = Math.round(projected);
+    t = Math.max(Math.round(fPos) - 2, Math.min(Math.round(fPos) + 2, t)); // at most two cards per flick
+    vel = reduce ? 0 : v; settle(t);
+    justDragged = true; setTimeout(() => { justDragged = false; }, 60);
   };
-  let justDragged = false;
-  // swallow the click that follows a drag
-  flow.addEventListener('click', (ev) => { if (justDragged) { ev.stopPropagation(); ev.preventDefault(); } }, true);
   flow.addEventListener('pointerup', flowEnd); flow.addEventListener('pointercancel', flowEnd);
-  addEventListener('keydown', (e) => { if (!flow.matches(':hover, :focus-within')) return; if (e.key === 'ArrowLeft') flowGo(flowActive - 1); if (e.key === 'ArrowRight') flowGo(flowActive + 1); });
+  flow.addEventListener('click', (ev) => { if (justDragged) { ev.stopPropagation(); ev.preventDefault(); } }, true);
 
   /* ---------- Gear tooltips pop in as the section arrives ---------- */
   const gear = $('[data-gear]');
