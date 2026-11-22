@@ -1256,6 +1256,10 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 :root[data-mode="light"] .fr:has(img.fill.contain) img.fill.contain{filter:drop-shadow(0 14px 22px rgba(60,45,20,.14))}
 
 @media (max-width:640px){.contact .links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}.contact .links .dot{display:none}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.sw-st{display:block;margin-top:8px;font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--fg);opacity:.62}
+@media (max-width:640px){.sw-st{font-size:11px;margin-top:6px}.sw-item .sw-media{padding-bottom:52px}}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
@@ -1325,7 +1329,7 @@ const ICON_GH = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ari
 const ICON_VERCEL = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 222" aria-hidden="true"><path d="m128 0l128 221.705H0z"/></svg>`;
 const ICON_COPY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>`;
 const EMAIL = "dhunibash@gmail.com";
-const BIO = "I’m Hafsoh, a product designer who designs in Figma and ships in code.";
+const BIO = "I’m Hafsoh Bashar, a product designer who designs in Figma and ships in code.";
 const LINKS={ site:"https://dhuni-designs.vercel.app" /* switch to https://dhunidesigns.com once the domain is connected */, github:"https://github.com/DhuniDesigns", linkedin:"https://www.linkedin.com/in/hafsoh-bashar/", x:"https://x.com/basharhafsoh", behance:"https://www.behance.net/dhunidesigns" };
 const IMG={ arcast:"img/arcast.webp", "th-4am-plan":"img/th/cs-4am-plan.webp?v=3", "th-4am-quests":"img/th/cs-4am-quests.webp?v=3", "th-4am-leagues":"img/th/cs-4am-leagues.webp?v=3", "th-4am-invite":"img/th/cs-4am-invite.webp?v=3", "th-4am-coach":"img/th/cs-4am-coach.webp?v=3", "th-lvl-learn":"img/th/cs-lvl-learn.webp?v=3", "th-lvl-tutor":"img/th/cs-lvl-tutor.webp?v=3", "th-lvl-community":"img/th/cs-lvl-community.webp?v=3", "th-lvl-plans":"img/th/cs-lvl-plans.webp?v=3", "th-lvl-onboard":"img/th/cs-lvl-onboard.webp?v=3", "th-bff-write":"img/th/cs-bff-write.webp?v=3", "th-bff-guided":"img/th/cs-bff-guided.webp?v=3", "th-bff-month":"img/th/cs-bff-month.webp?v=3", "th-bff-phoenix":"img/th/cs-bff-phoenix.webp?v=3", "th-bff-onboard":"img/th/cs-bff-onboard.webp?v=3", "th-bff-plans":"img/th/cs-bff-plans.webp?v=3", "th-mm-ask":"img/th/cs-mm-ask.webp?v=3", "th-mm-spaces":"img/th/cs-mm-spaces.webp?v=3", "th-mm-files":"img/th/cs-mm-files.webp?v=3", csBffGuided:"img/cs-bff-guided.webp", csBffEditor:"img/cs-bff-editor.webp", csBffLock:"img/cs-bff-lock.webp", csMmAsk:"img/cs-mm-ask.webp", csMmSpaces:"img/cs-mm-spaces.webp", csMmFiles:"img/cs-mm-files.webp", csBffOnboard:"img/cs-bff-onboard.webp", csBffWrite:"img/cs-bff-write.webp?v=3", csBffMonth:"img/cs-bff-month.webp?v=3", csBffPhoenix:"img/cs-bff-phoenix.webp", csBffPlans:"img/cs-bff-plans.webp", csLvlOnboard:"img/cs-lvl-onboard.webp", csLvlLearn:"img/cs-lvl-learn.webp", csLvlTutor:"img/cs-lvl-tutor.webp", csLvlCommunity:"img/cs-lvl-community.webp", csLvlPlans:"img/cs-lvl-plans.webp", cs4amQuests:"img/cs-4am-quests.webp", cs4amLeagues:"img/cs-4am-leagues.webp", cs4amInvite:"img/cs-4am-invite.webp", cs4amPlan:"img/cs-4am-plan.webp", cs4amCoach:"img/cs-4am-coach.webp", cs4amWeb:"img/cs-4am-web.webp", csBffJournal:"img/cs-bff-journal.webp", csBffAi:"img/cs-bff-ai.webp", csLvl:"img/cs-lvl-screens.webp", csMm:"img/cs-mm-detail.webp", mmCover:"img/matchmind-cover.webp", pixieKit:"img/pixie-kit.webp", pixieContrast:"img/pixie-contrast.webp", pixieSend:"img/pixie-send.webp", pixieLock:"img/pixie-lock.webp?v=3", sello:"img/sello.webp", pixie:"img/pixie.webp?v=3", koffi:"img/koffi-website.webp", shut2:"img/shuttlers-v2.webp", rea:"img/rea-redesign.webp", nyta:"img/nyta-agency.webp", beach:"img/beach.webp", food:"img/food.webp", ssTravel:"img/travel-app.webp", ssRideL:"img/ride-light.webp", ssRideD:"img/ride-dark.webp", ssFootball:"img/football-ai.webp", ssFoot1:"img/football-ai-1.webp", ssFoot2:"img/football-ai-2.webp", ssNews:"img/blog-app.webp", ssTasks:"img/tasks-dash.webp", ssAotD:"img/aot-dashboard.webp", ssAotP:"img/aot-phones.webp", ssWallet:"img/wallet-modes.webp", ssHelp:"img/help-menu.webp", ssDelete:"img/delete-modal.webp", outabout:"img/out-and-about.webp", meSelfie:"img/me-selfie.webp", meAvatar:"img/me-avatar.webp", meOrange:"img/me-orange.webp", meKiss:"img/me-kiss.webp", meLaugh:"img/me-laugh.webp", meSmile:"img/me-smile.webp", meOutfit:"img/me-outfit.webp", artGirl:"img/art-girl.webp", artPainting:"img/art-painting.webp", hawkins:"img/film-hawkins.webp", flatlay:"img/flatlay.webp", camera:"img/camera.webp", necklace:"img/jw-necklace.webp", cuff:"img/jw-cuff.webp", tiara:"img/jw-tiara.webp", hero4am:"img/4am-hero.webp", heroPhoenix:"img/phoenix-hero.webp", heroLvl:"img/lvlup-hero.webp", trim:"img/trim-hero.webp", trimCover:"img/trim-cover.webp", trimV01:"img/trim-v01.webp", trimPill:"img/trim-pill.webp", trimToast:"img/trim-toast.webp", trimInstalled:"img/trim-installed.webp", trimFlowDia:"img/trim-flow-diagram.webp", trimPopup:"img/trim-popup.webp", selloOnboard:"img/sello-onboarding.webp?v=4", selloFix:"img/sello-fix-steps.webp?v=4", selloHome:"img/sello-home.webp?v=4", selloShop:"img/sello-shop.webp?v=4" };
 
@@ -1357,7 +1361,7 @@ const projects = [
   {"id": "matchmind", "name": "MatchMind", "meta": "Mobile app", "tagline": "An AI football assistant that helps fans understand the game more deeply through clear insights, stats and tactical analysis. I was the only designer, and it's published.", "role": "Sole designer: product and UI design", "time": "", "platform": "Mobile app", "tools": "Figma", "shot": "mmCover", "heroCap": "MatchMind: a training question, the start screen, and a stats question.", "sections": [["At a glance", ["Role: the only designer.", "Platform: mobile app.", "Status: published."]], ["Football answers are scattered and full of jargon", {"p": "MatchMind is for fans who want to go beyond surface-level commentary and actually understand the game. The answers exist, but they’re spread across stats sites, videos and group chats, and most of them assume you already speak the language of analysts.", "list": ["Making complex football data easy to understand.", "Serving both casual fans and more analytical users.", "Presenting AI insights without overwhelming people.", "Designing a conversational experience that feels intuitive and trustworthy."]}], ["From casual fans to armchair analysts", "Fans anywhere between casual and analytical: someone who wants to know who the best dribbler is this season, and someone who wants to know why their team struggles against a low block. It also helps players working on their own game, with drills and training plans."], ["Ask in your own words", "Ask about football in your own words and get an answer shaped to the question: clear for a casual fan, deep enough for an analyst."], ["Rules for answers fans can trust", {"list": ["Complex data → answers lead with a simple visual (a ranking, a set of drills), with the explanation underneath.", "Casual and analytical fans → plain words first, with the depth there for people who want it.", "Overwhelming AI output → short paragraphs, with the key phrases in bold so you can skim.", "Trust → the question stays at the top of every answer, and answers can be copied, regenerated or shared.", "A blank chat box → suggested topics and an example question to start from."]}], ["Every answer takes the shape of its question", {"p": "A wall of text works for some questions and fails for others, so each answer takes the shape the question needs.\n\nAsk who has the most dribbles in the Premier League and you get a ranked list first (player, club badge and the number, large enough to read at a glance), then a short explanation that adds the nuance a number can’t: one player attempts the most dribbles, another is more efficient, another stands out in the final third. Ask how to get better with your weaker foot and you get drill cards with times (wall passes, 10 minutes; left-foot finishing, 15; a 2v2 weak-foot challenge, 20), then a short plan explaining the order. The answer ends by offering to tailor the plan to your age, height and position.", "media": {"img": "csMmAsk", "cap": "The start screen with suggested topics, a stats question answered with a ranking, and a training question answered with drills."}}], ["Never start from a blank box", {"p": "An empty chat box makes people wonder what they’re allowed to ask. The start screen shows a few football stickers, one line (ask smarter football questions) and topic chips you can tap: most dribbles, player comparison, team stats, what-if questions. The input shows an example question instead of a generic placeholder, and you can type or speak."}], ["Spaces for fans who go deep", {"p": "Fans who go deep come back to the same topics, so conversations can be grouped into Spaces such as Match Prep, Tactical Breakdown or Player Analysis. Creating one takes a name and nothing else. You can add files (a PDF or an image) to a Space, and each Space keeps its own list of recent conversations, so the context stays together.\n\nSpaces and recent conversations live in a sheet that pulls up from the input, so they’re one swipe away without taking over the chat.", "media": {"img": "csMmSpaces", "cap": "Recent Spaces and conversations in the pull-up sheet, naming a new Space, and an empty Space ready for files."}, "sub": [{"h": "Files and history in one place", "p": "A Space shows its files at the top and its conversations below, so returning to a topic means picking up where you left off.", "media": {"img": "csMmFiles", "cap": "Managing a Space’s files, and a Space with its files and recent conversations."}}]}], ["What shipped", {"p": "MatchMind is published, and I was the only designer on it.", "list": ["Question-driven learning designed to keep fans curious and engaged.", "Answers that make tactics and performance stats easier to understand.", "An AI framework ready for live match data and advanced analytics.", "A foundation for future features such as training guidance and match predictions."]}]]}
 ];
 /* ---- builds: real things, grouped by the Builds page tabs ---- */
-const SELECTED=["trim","sello","pixie"];
+const SELECTED=["trim","4am-club","sello","pixie"];
 const BUILD_ITEMS={
   websites:[
     {name:"Sello", meta:"Marketing site", img:"sello", href:"https://sello-vert.vercel.app"},
@@ -1435,7 +1439,7 @@ const jobs = [
   {co:"Malkain Designs", url:"https://www.malkain.com", where:"New Jersey, US · Remote", role:"Product Designer", when:"2026",
    short:"I lead design for client web and mobile products, from first sketch to launch, and prototype them in code so clients test the real thing early.",
    bullets:["Lead design for client web and mobile products from first sketch to launch, owning flows, UI and the final handoff.","Run discovery with clients: stakeholder interviews, competitor audits and journey maps that shape each brief.","Turn designs into working prototypes in code with Claude and Framer, so clients test the real thing early.","Set up design systems, tokens and theming that keep each product consistent as it grows.","Design micro-interactions and motion that make products feel finished, and document them for engineers.","Work side by side with developers through build, reviewing implementation until it matches the design."]},
-  {co:"Alphanext Tech", where:"Dubai, UAE · Remote", role:"Product Designer", when:"2024 – 2026",
+  {co:"Alphanexttech Agency", where:"Dubai, UAE · Remote", role:"Digital Designer", when:"2024 – 2026",
    short:"I led design for multiple web and mobile products across fintech, AI, wellness and education, and built the design systems behind them.",
    bullets:["Led design for multiple web and mobile products across fintech, AI, wellness and education.","Took products from research and wireframes to high-fidelity UI and clickable prototypes.","Built and maintained design systems and component libraries that cut handoff time for engineers.","Planned and ran usability tests, then turned the findings into clear design changes.","Shaped brand identities and marketing sites for new products at launch.","Mentored junior designers, ran design reviews and set up the team’s Figma file standards."]},
   {co:"CrediQ", where:"California, US · Remote", role:"Product Designer, Contract", when:"2024",
@@ -1542,7 +1546,7 @@ const ART={
 };
 
 const bio=()=>`    <div class="intro">
-      <p>I’m Hafsoh, a product designer and design engineer who designs in Figma and ships in code. I make AI products simpler to use and easier to trust. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a> below.</p>
+      <h1 class="sr-only">Hafsoh Bashar, product designer and design engineer</h1><p>I’m Hafsoh Bashar, a product designer and design engineer who designs in Figma and ships in code. I make AI products simpler to use and easier to trust. You can explore <a class="hl" style="--c:#c084fc" href="#work">my work</a> below.</p>
       <p>Since 2024 I’ve designed and built multiple web and mobile products for teams in the US and Dubai, across fintech, AI, wellness and education, along with the design systems that keep them consistent as they grow.</p>
       <p>Lately I’ve been building my own AI products: <a class="hl" data-prod="trim" href="#trim">Trim</a>, <a class="hl" data-prod="sello" href="#sello">Sello</a> and <a class="hl" data-prod="pixie" href="#pixie">Pixie</a>. The small interactions I build along the way live in my <a class="hl" style="--c:#3ddc84" href="#work/playground">playground</a>.</p>
       <div class="open"><span>Open to <span class="roles">${lyric("product design","sel-pd")} and ${lyric("design engineering","sel")}</span> roles.</span>${contactLinks}</div>
@@ -1556,17 +1560,22 @@ ${bio()}
     <div class="sw-rail" id="swRail"><div class="sw-track">
       <a class="sw-item" href="#trim">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim brand cover: the Trim wordmark beside the preview panel and pill"><div class="sw-panel"><b class="sw-tab">Trim</b><span class="sw-bio">Trims your Claude prompt before you send it</span></div></div>
+          <div class="sw-media"><img class="sw-cover" src="img/trim-card.webp" alt="Trim brand cover: the Trim wordmark beside the preview panel and pill"><div class="sw-panel"><b class="sw-tab">Trim</b><span class="sw-bio">Trims your Claude prompt before you send it</span><span class="sw-st">Safari extension · Designed and built</span></div></div>
+        </div>
+      </a>
+      <a class="sw-item" href="#4am-club">
+        <div class="sw-card">
+          <div class="sw-media"><img class="sw-cover" src="img/4am-hero.webp" loading="lazy" alt="4AM Club website and app: the routine builder that kills excuses and builds discipline"><div class="sw-panel"><b class="sw-tab">4AM Club</b><span class="sw-bio">A routine app with an AI coach and a community that keeps you going</span><span class="sw-st">Published · Only designer</span></div></div>
         </div>
       </a>
       <a class="sw-item" href="#sello">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" loading="lazy" alt="Sello homepage: Sell in the DMs, without living in them"><div class="sw-panel"><b class="sw-tab">Sello</b><span class="sw-bio">AI sales assistant for Instagram and TikTok sellers</span></div></div>
+          <div class="sw-media"><img class="sw-cover" src="img/sello-cover.webp" loading="lazy" alt="Sello homepage: Sell in the DMs, without living in them"><div class="sw-panel"><b class="sw-tab">Sello</b><span class="sw-bio">AI sales assistant for Instagram and TikTok sellers</span><span class="sw-st">Web app · Designed and built</span></div></div>
         </div>
       </a>
       <a class="sw-item" href="#pixie">
         <div class="sw-card">
-          <div class="sw-media"><img class="sw-cover" src="img/pixie-card.webp" alt="Pixie brand cover: the pixie wordmark beside the app and Figma plugin" loading="lazy"><div class="sw-panel"><b class="sw-tab">Pixie</b><span class="sw-bio">A Figma brand kit from one sentence</span></div></div>
+          <div class="sw-media"><img class="sw-cover" src="img/pixie-card.webp" alt="Pixie brand cover: the pixie wordmark beside the app and Figma plugin" loading="lazy"><div class="sw-panel"><b class="sw-tab">Pixie</b><span class="sw-bio">A Figma brand kit from one sentence</span><span class="sw-st">Web app and Figma plugin · Designed and built</span></div></div>
         </div>
       </a>
     </div></div>
@@ -1765,7 +1774,7 @@ function frame(f,n,dup){
 const STACK_MQ=matchMedia("(max-width:640px)");
 const colW=col=>col.length===1?0.9:Math.min(1.45,Math.max(...col.map(f=>f.k||1.36)))*0.85;
 function sheets(){
-  const per=STACK_MQ.matches?1:3, groups=[]; for(let i=0;i<REEL.length;i+=per) groups.push(REEL.slice(i,i+per));
+  const per=STACK_MQ.matches?1:3, groups=[]; const HOME_REEL=REEL.slice(0,9); for(let i=0;i<HOME_REEL.length;i+=per) groups.push(HOME_REEL.slice(i,i+per));
   let n=0;
   return groups.map((g,i)=>`<div class="sheet" style="--i:${Math.min(i,3)}">${g.map(col=>`<div class="scol" style="--w:${colW(col).toFixed(2)}">${col.map(f=>frame(f,n++)).join("")}</div>`).join("")}</div>`).join("");
 }
@@ -1826,7 +1835,7 @@ function render(){
     el.classList.add("rise"); el.style.setProperty("--i", Math.min(i++,14)); });
   initTabs(); initHello(); hidePeek();
   if(!document.documentElement.hasAttribute("data-booting")) document.querySelectorAll(".sel").forEach((el,k)=>setTimeout(()=>el.classList.add("on"),900+k*260));
-  document.title = p ? `${p.name} · Dhuni Designs` : id==="work" ? "My work · Dhuni Designs" : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Dhuni Designs");
+  document.title = p ? `${p.name} · Dhuni Designs` : id==="work" ? "My work · Dhuni Designs" : (views[id] && id!=="home" ? `${id[0].toUpperCase()+id.slice(1)} · Dhuni Designs` : "Hafsoh Bashar · Dhuni Designs");
   initStrip(); initReel(); initGlide(); initVideos(); requestAnimationFrame(swSync); initToc();
   mountStickers();
   loadCovers();
@@ -2317,7 +2326,11 @@ dock.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return;
 dock.addEventListener("pointerleave",()=>dockLinks.forEach(a=>a.classList.remove("mag","near")));
 /* tuck the dock away while reading downward, bring it back on the way up or at the end of the page */
 let dockY=scrollY;
+const homeTop=()=>(!location.hash||location.hash==="#"||location.hash==="#home")&&scrollY<Math.min(innerHeight*.55,460);
+const syncHomeDock=()=>{ if(homeTop()) dock.classList.add("tuck"); };
+addEventListener("hashchange",()=>setTimeout(syncHomeDock,60)); setTimeout(syncHomeDock,0);
 addEventListener("scroll",()=>{ const y=scrollY, end=document.documentElement.scrollHeight-innerHeight-140;
+  if(homeTop()){ dock.classList.add("tuck"); dockY=y; return; }
   const th=matchMedia("(pointer:coarse)").matches?28:8;
   if(y>dockY+th&&y>240&&y<end) dock.classList.add("tuck"); else if(y<dockY-th||y>=end||y<120) dock.classList.remove("tuck");
   if(Math.abs(y-dockY)>th) dockY=y; },{passive:true});
