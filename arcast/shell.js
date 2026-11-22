@@ -19,6 +19,7 @@
 
   document.body.insertAdjacentHTML('beforeend', `
   <header class="bar" data-bar aria-label="Site">
+    <span class="bar__progress" aria-hidden="true"></span>
     <a class="bar__logo" href="index.html" aria-label="ARcast home"><img src="assets/logo.svg" alt="ARcast" width="112" height="32"></a>
     <ul class="nav__links bar__links">${links(false)}</ul>
     <div class="bar__right">

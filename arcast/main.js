@@ -92,11 +92,11 @@
   car.addEventListener('pointerup', end); car.addEventListener('pointercancel', end);
   addEventListener('resize', () => layout());
   layout();
-  // Gentle autoplay while visible and untouched.
+  // Autoplay is driven by the active dot filling up (CSS). Hover or focus pauses the fill, and the
+  // slide only advances when the fill finishes, so the timer and the visual can never disagree.
   if (!reduce) {
-    let timer = null, visible = false;
-    const tick = () => { if (visible && !dragging && !car.matches(':hover, :focus-within') && !document.hidden) go(active + 1); };
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; clearInterval(timer); if (visible) timer = setInterval(tick, 5200); }, { threshold: 0.4 }).observe(car);
+    new IntersectionObserver(([e]) => car.classList.toggle('is-auto', e.isIntersecting), { threshold: 0.4 }).observe(car);
+    car.addEventListener('animationend', (e) => { if (e.animationName === 'dotfill' && !dragging) go(active + 1); });
   }
 
   /* ---------- Studio Plus coverflow ---------- */
