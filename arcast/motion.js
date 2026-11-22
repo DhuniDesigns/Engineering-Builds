@@ -90,11 +90,6 @@
     $$('.gear__img').forEach((el) => tilt(el, 14));
     $$('.pcard__img').forEach((el) => tilt(el, 12, true));
 
-    /* 6. A soft light follows the cursor across the location cards and studio cards. */
-    $$('.bento .card, .sp__card, .contact__tiles a, .parking li').forEach((el) => {
-      el.classList.add('glow');
-      el.addEventListener('pointermove', (e) => { const r = el.getBoundingClientRect(); el.style.setProperty('--gx', `${e.clientX - r.left}px`); el.style.setProperty('--gy', `${e.clientY - r.top}px`); });
-    });
   }
 
   /* 7. The offers ticker speeds up with your scroll, then settles back to a calm drift. */

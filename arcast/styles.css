@@ -128,7 +128,7 @@ input, select { font: inherit; }
 .addons .section__head { max-width: calc(1007 * var(--px) + 2 * var(--pad)); }
 .flow { position: absolute; left: 0; right: 0; top: calc(355 * var(--px)); height: calc(760 * var(--px)); }
 .flow__frame { position: absolute; left: 50%; top: 0; width: calc(600 * var(--px)); height: 100%; transform: translateX(-50%); border: 0.8px solid var(--muted); border-radius: 16px; background: var(--paper); }
-.flow__item { position: absolute; left: 50%; top: 50%; width: var(--w); transform: translate(calc(-50% + var(--x)), -50%); display: flex; flex-direction: column; gap: 12px; transition: transform 720ms var(--ease-drawer), width 720ms var(--ease-drawer), opacity 500ms ease; }
+.flow__item { position: absolute; left: 50%; top: 50%; width: var(--w); transform: translate(calc(-50% + var(--x) + var(--dx, 0px)), -50%); display: flex; flex-direction: column; gap: 12px; transition: transform 720ms var(--ease-drawer), width 720ms var(--ease-drawer), opacity 500ms ease; }
 .flow__media { position: relative; width: 100%; height: var(--h); border-radius: var(--r); overflow: hidden; transition: height 720ms var(--ease-drawer), border-radius 720ms var(--ease-drawer); }
 .flow__media img { width: 100%; height: 100%; object-fit: cover; }
 .flow__media::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 500ms ease; }
@@ -750,13 +750,6 @@ input, select { font: inherit; }
 .gear__img.tilt img { transition: none; }
 .pcard__img.tilt { will-change: transform; }
 
-/* cursor light */
-.glow { position: relative; overflow: hidden; }
-.glow::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 400ms ease;
-  background: radial-gradient(260px circle at var(--gx, 50%) var(--gy, 50%), rgba(255,140,66,0.10), transparent 60%); }
-.glow:hover::before { opacity: 1; }
-.sp__card.glow::before { background: radial-gradient(240px circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.18), transparent 60%); }
-
 /* team portraits open like a shutter */
 .shutter img { clip-path: inset(100% 0 0 0); transform: scale(1.18); }
 .shutter-in img { clip-path: inset(0); transform: scale(1); transition: clip-path 900ms var(--ease-out), transform 1200ms var(--ease-out); transition-delay: calc(var(--si) * 90ms); }
@@ -778,3 +771,9 @@ input, select { font: inherit; }
   .shutter img { clip-path: none !important; transform: none !important; }
   .btn::after, .dots button::after { display: none; }
 }
+
+/* Studio Plus drag */
+.flow { touch-action: pan-y; user-select: none; }
+.flow.is-dragging .flow__item, .flow.is-dragging .flow__media { transition: none !important; }
+.flow__media img { pointer-events: none; -webkit-user-drag: none; }
+@media (pointer: fine) { .flow.is-dragging, .flow.is-dragging * { cursor: url("assets/mic-cursor-hover.svg") 8 8, grabbing !important; } }

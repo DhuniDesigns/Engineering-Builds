@@ -140,6 +140,33 @@
   $('.flow__controls .prev').addEventListener('click', () => flowGo(flowActive - 1));
   $('.flow__controls .next').addEventListener('click', () => flowGo(flowActive + 1));
   flowLayout();
+  // Drag Studio Plus: items follow the pointer 1:1 (with resistance past one slot),
+  // then a short flick or a third of a slot is enough to move on.
+  let fx = null, fdx = 0, ft = 0, fMoved = false, fPid = 0;
+  const slot = () => (innerWidth <= 760 ? 0.5 : Math.min(1, innerWidth / 1728)) * 555;
+  flow.addEventListener('pointerdown', (e) => {
+    if (e.button || e.target.closest('button')) return;
+    fx = e.clientX; fdx = 0; ft = performance.now(); fMoved = false; fPid = e.pointerId;
+  });
+  flow.addEventListener('pointermove', (e) => {
+    if (fx === null) return;
+    fdx = e.clientX - fx;
+    if (!fMoved && Math.abs(fdx) > 6) { fMoved = true; flow.classList.add('is-dragging'); try { flow.setPointerCapture(fPid); } catch (_) {} }
+    if (fMoved) { const s = slot(), d = Math.abs(fdx) > s ? Math.sign(fdx) * (s + (Math.abs(fdx) - s) * 0.3) : fdx; flow.style.setProperty('--dx', `${d}px`); }
+  });
+  const flowEnd = () => {
+    if (fx === null) return; fx = null;
+    if (!fMoved) return;
+    const v = fdx / Math.max(1, performance.now() - ft);
+    flow.classList.remove('is-dragging'); flow.style.setProperty('--dx', '0px');
+    if (Math.abs(fdx) > slot() / 3 || Math.abs(v) > 0.45) flowGo(flowActive - Math.sign(fdx));
+    justDragged = true; setTimeout(() => { justDragged = false; }, 50);
+  };
+  let justDragged = false;
+  // swallow the click that follows a drag
+  flow.addEventListener('click', (ev) => { if (justDragged) { ev.stopPropagation(); ev.preventDefault(); } }, true);
+  flow.addEventListener('pointerup', flowEnd); flow.addEventListener('pointercancel', flowEnd);
+  addEventListener('keydown', (e) => { if (!flow.matches(':hover, :focus-within')) return; if (e.key === 'ArrowLeft') flowGo(flowActive - 1); if (e.key === 'ArrowRight') flowGo(flowActive + 1); });
 
   /* ---------- Gear tooltips pop in as the section arrives ---------- */
   const gear = $('[data-gear]');
