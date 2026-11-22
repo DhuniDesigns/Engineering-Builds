@@ -1,23 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="I make AI products simpler to use and easier to trust. Product designer and design engineer in Lagos.">
+<meta name="description" content="I make AI products simpler to use and easier to trust. UI/UX designer, product designer and design engineer.">
 <title>Hafsoh Bashar, product designer and design engineer</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hafsoh Bashar">
 <meta property="og:url" content="https://dhuni-designs.vercel.app/">
 <meta property="og:title" content="Hafsoh Bashar, product designer and design engineer">
-<meta property="og:description" content="I make AI products simpler to use and easier to trust. Product designer and design engineer in Lagos.">
-<meta property="og:image" content="https://dhuni-designs.vercel.app/img/og.png">
+<meta property="og:description" content="I make AI products simpler to use and easier to trust. UI/UX designer, product designer and design engineer.">
+<meta property="og:image" content="https://dhuni-designs.vercel.app/img/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Hafsoh Bashar's illustrated avatar above her name and the line: I make AI products simpler to use and easier to trust.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hafsoh Bashar, product designer and design engineer">
-<meta name="twitter:description" content="I make AI products simpler to use and easier to trust. Product designer and design engineer in Lagos.">
-<meta name="twitter:image" content="https://dhuni-designs.vercel.app/img/og.png">
+<meta name="twitter:description" content="I make AI products simpler to use and easier to trust. UI/UX designer, product designer and design engineer.">
+<meta name="twitter:image" content="https://dhuni-designs.vercel.app/img/og.png?v=2">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,7 +139,7 @@ a.row:hover .meta{color:var(--fg)}
 /* resume */
 .sub{display:flex;justify-content:space-between;gap:16px;margin-top:12px;line-height:22px;flex-wrap:wrap}
 .contact{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap}
-.pill-btn{display:inline-flex;align-items:center;gap:4px;background:var(--surface);color:var(--fg);border-radius:8px;padding:6px 10px;font-size:13px;line-height:normal;transition:transform .2s}
+.pill-btn{text-decoration:none;display:inline-flex;align-items:center;gap:4px;background:var(--surface);color:var(--fg);border-radius:8px;padding:6px 10px;font-size:13px;line-height:normal;transition:transform .2s}
 .pill-btn:hover{transform:translateY(-1px)}
 .pill-btn svg{width:14px;height:14px}
 .skills{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
@@ -1212,6 +1212,50 @@ img.fly{position:fixed;z-index:40;object-fit:cover;object-position:top center;po
 
 .grid.wide .card .card-media > img.tp{width:100%;max-height:100%;border-radius:0!important;box-shadow:none!important;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(0,0,0,.25))}
 @media (hover:hover){.grid.wide .card:hover .card-media > img.tp{box-shadow:none!important}}
+
+/* ===== v40 system pass: one radius scale, calmer depth, light-first ===== */
+:root{--r-xl:24px;--r-lg:18px;--r-md:14px;--r-sm:10px}
+@media (max-width:640px){:root{--r-xl:20px;--r-lg:16px;--r-md:12px;--r-sm:8px}}
+.tile,.shot,.cs-vid:has(video[src*="sello-flow"]),.collage{border-radius:var(--r-xl)}
+.card,.player,.ss,.empty-tab,.fr,.stack .fr,.stack .fr.tall{border-radius:var(--r-lg)}
+.sheet{border-radius:var(--r-xl)}
+/* selected works: crisper folder, balanced text spacing */
+:root{--sw-r:var(--r-xl);--sw-pad:8px}
+@media (max-width:640px){:root{--sw-r:20px;--sw-pad:6px}}
+.sw-card,.sw-item{border-radius:var(--sw-r)}
+.sw-item .sw-media{border-radius:calc(var(--sw-r) - var(--sw-pad))}
+.sw-panel{padding:0 22px 18px;border-top-right-radius:12px}
+.sw-tab{padding:18px 22px 0;border-top-left-radius:12px;font-size:18px;line-height:1.2;letter-spacing:-.022em;-webkit-font-smoothing:antialiased}
+.sw-tab::after{width:46px}
+.sw-bio{margin-top:6px;font-size:15px;line-height:1.35;-webkit-font-smoothing:antialiased}
+@media (max-width:640px){.sw-panel{padding:0 16px 14px;border-top-right-radius:10px}.sw-tab{padding:14px 16px 0;border-top-left-radius:10px;font-size:16px;min-width:58%}.sw-tab::after{width:34px}.sw-bio{font-size:13.5px;margin-top:4px}.sw-item .sw-media{padding-bottom:36px}}
+/* light mode depth: warm, soft, layered; never grey smudges */
+:root[data-mode="light"]{--shadow-soft:0 1px 1px rgba(60,45,20,.04),0 2px 6px rgba(60,45,20,.04),0 12px 28px -14px rgba(60,45,20,.12)}
+:root[data-mode="light"] .card,:root[data-mode="light"] .tile,:root[data-mode="light"] .player,:root[data-mode="light"] .ss,:root[data-mode="light"] .empty-tab{box-shadow:0 0 0 1px rgba(30,25,10,.05),var(--shadow-soft)}
+:root[data-mode="light"] .sheet{box-shadow:0 0 0 1px rgba(30,25,10,.06),0 -14px 36px -26px rgba(60,45,20,.22)}
+:root[data-mode="light"] .sw-card{box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 0 0 1px rgba(30,25,10,.06),0 1px 2px rgba(60,45,20,.05),0 20px 40px -24px rgba(60,45,20,.2)}
+@media (hover:hover) and (pointer:fine){:root[data-mode="light"] .sw-item:hover .sw-card{box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 0 0 1px rgba(30,25,10,.07),0 2px 4px rgba(60,45,20,.06),0 28px 52px -26px rgba(60,45,20,.26)}}
+
+/* alignment: selected works and bento share one width; on phones both sit on the 24px text gutter */
+.stack{width:min(88vw,1040px);margin-left:calc(50% - min(44vw,520px))}
+.stack-head{width:min(var(--col),100%)}
+@media (max-width:640px){
+  .sw-item{width:calc(100vw - 48px)}
+  .sw-track{padding-inline:24px;gap:10px}
+  .stack{width:calc(100vw - 48px);margin-left:calc(50% - 50vw + 24px)}
+  .stack-head{width:100%;padding-inline:0}
+  .sheet{--g:8px}
+}
+
+.sw-track{padding-inline:calc(50vw - min(44vw,520px))}
+@media (max-width:640px){.sw-track{padding-inline:24px}}
+
+/* dark mode: app-screen tiles sit on a dark surface instead of cream, with light labels */
+:root:not([data-mode="light"]) .fr.light:has(img.fill.contain){--fb:#191919;--lc:#7a7a7a;--lc-strong:#e8e8e8}
+:root:not([data-mode="light"]) .fr:has(img.fill.contain) img.fill.contain{filter:drop-shadow(0 14px 24px rgba(0,0,0,.45))}
+:root[data-mode="light"] .fr:has(img.fill.contain) img.fill.contain{filter:drop-shadow(0 14px 22px rgba(60,45,20,.14))}
+
+@media (max-width:640px){.contact .links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}.contact .links .dot{display:none}}
 </style>
 <script>/* boot loader switched off for now; a new loader will plug in here */</script>
 
@@ -1579,7 +1623,7 @@ resume(){
     <h1>Hafsoh Bashar</h1>
     <div class="sub"><span>Product designer and design engineer</span><span>Lagos, Nigeria · UTC+1</span></div>
     <div class="contact"><span class="links"><span><a class="hl" style="--c:#5b9dff" href="mailto:${EMAIL}" data-mail>${EMAIL}</a><button class="copy" data-copy-email aria-label="Copy email address">${ICON_COPY}</button></span>${dot}<a class="hl ext" style="--c:#3ddc84" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn</a>${dot}<a class="hl ext" style="--c:#ff8a3d" href="${LINKS.x}" target="_blank" rel="noopener">Twitter</a>${dot}<a class="hl ext site-link" style="--c:#c084fc" href="${LINKS.site}" target="_blank" rel="noopener"><span class="fav">${blobMini()}</span>dhunidesigns.com</a></span>
-      <button class="pill-btn" id="pdf">${ICON_DL}Download pdf</button></div>
+      <a class="pill-btn" id="pdf" href="/Hafsoh-Bashar-Resume.pdf" download="Hafsoh-Bashar-Resume.pdf">${ICON_DL}Download pdf</a></div>
     <div class="sections" style="margin-top:40px">
       <section class="block" style="gap:12px"><p class="label">About</p>
         <p>I lead the design of user-centred digital products, turning complex problems into clear, intuitive and scalable experiences. My work spans fintech, AI, wellness, education, agri-tech and e-commerce, grounded in research, UX principles and visual design.</p>
@@ -1905,7 +1949,7 @@ document.addEventListener("click", e=>{
     return; }
   const em=e.target.closest("[data-copy-email]"); if(em){ copyEmail(em); return; }
   if(e.target.closest("[data-mail]")){ sfx.click(); try{ navigator.clipboard.writeText(EMAIL).catch(()=>{}); }catch(_){} toast("Opening your mail app · "+EMAIL); return; }
-  if(e.target.closest("#pdf")){ sfx.click(); toast("PDF resume coming soon"); return; }
+  if(e.target.closest("#pdf")){ sfx.click(); toast("Downloading resume"); return; }
   if(e.target.closest("#sound,#theme,#player")) return;
   if(e.target.closest("a,button")) sfx.click();
 });
@@ -1931,7 +1975,7 @@ const root=document.documentElement, themeBtn=document.getElementById("theme");
 function setTheme(light){ root.setAttribute("data-mode", light?"light":"dark"); themeBtn.setAttribute("aria-pressed", light);
   themeBtn.setAttribute("aria-label", light?"Switch to dark mode":"Switch to light mode"); try{localStorage.setItem("dd-theme", light?"light":"dark")}catch(_){} }
 let saved=null; try{saved=localStorage.getItem("dd-theme")}catch(_){}
-setTheme(saved==="light");
+setTheme(saved!=="dark");
 let themeBusy=false;
 themeBtn.addEventListener("click",()=>{
   if(themeBusy) return;
