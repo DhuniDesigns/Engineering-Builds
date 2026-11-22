@@ -132,7 +132,6 @@
       el.style.setProperty('--h', `calc(${h} * var(--px))`);
       el.style.setProperty('--r', `${r}px`);
       el.classList.toggle('is-center', off === 0);
-      el.style.cursor = 'pointer';
       const lb = el.querySelector('.flow__label'); lb.tabIndex = off === 0 ? 0 : -1;
       el._off = off;
     });
