@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="I make AI products simpler to use and easier to trust. UI/UX designer, product designer and design engineer.">
 <title>Hafsoh Bashar, product designer and design engineer</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=4">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=4">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hafsoh Bashar">
 <meta property="og:url" content="https://dhuni-designs.vercel.app/">
@@ -2293,18 +2298,7 @@ addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; ex=e.cli
     const r=bl.getBoundingClientRect(), dx=ex-(r.left+r.width/2), dy=ey-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(1,d/320);
     blEyes.classList.add("follow"); blEyes.style.transform=`translate(${(dx/d*5*k).toFixed(2)}px,${(dy/d*3.5*k).toFixed(2)}px)`; }); },{passive:true});
 const _blSet=blSet; blSet=function(st){ if(st!=="idle"){ blEyes.classList.remove("follow"); blEyes.style.transform=""; } _blSet(st); };
-// favicon: the same blob, winking every few seconds
-(function(){
-  const base=bl.cloneNode(true); base.removeAttribute("class"); base.setAttribute("xmlns","http://www.w3.org/2000/svg");
-  base.querySelector(".bl-dots").remove(); base.querySelector(".bl-zz").remove();
-  const svgOpen=new XMLSerializer().serializeToString(base);
-  const wink=base.cloneNode(true); const le=wink.querySelector(".bl-eye.l"); le.setAttribute("y","54"); le.setAttribute("height","5"); le.setAttribute("rx","2.5");
-  const svgWink=new XMLSerializer().serializeToString(wink);
-  const url=x=>"data:image/svg+xml,"+encodeURIComponent(x);
-  let link=document.querySelector('link[rel="icon"]'); if(!link){ link=document.createElement("link"); link.rel="icon"; link.type="image/svg+xml"; document.head.appendChild(link); }
-  link.href=url(svgOpen);
-  setInterval(()=>{ link.href=url(svgWink); setTimeout(()=>link.href=url(svgOpen),450); },4000);
-})();
+// favicon: the avatar in its frame (static files in the site root)
 
 
 /* Selected works rail: arrows step one card at a time and dim at the ends */
